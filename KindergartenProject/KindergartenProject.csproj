@@ -67,12 +67,116 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="charts-chartjs.html" />
+    <Content Include="css\app.css" />
+    <Content Include="Default.aspx" />
+    <Content Include="fonts\fa-brands-400.svg" />
+    <Content Include="fonts\fa-regular-400.svg" />
+    <Content Include="fonts\fa-solid-900.svg" />
+    <Content Include="forms-basic-inputs.html" />
+    <Content Include="forms-layouts.html" />
+    <Content Include="icons-feather.html" />
+    <Content Include="img\avatars\avatar-2.jpg" />
+    <Content Include="img\avatars\avatar-3.jpg" />
+    <Content Include="img\avatars\avatar-4.jpg" />
+    <Content Include="img\avatars\avatar-5.jpg" />
+    <Content Include="img\avatars\avatar.jpg" />
+    <Content Include="img\avatars\yeliz_ay.jpeg" />
+    <Content Include="img\icons\benim_dunyam.jpeg" />
+    <Content Include="img\icons\icon-48x48.png" />
+    <Content Include="img\photos\unsplash-1.jpg" />
+    <Content Include="img\photos\unsplash-2.jpg" />
+    <Content Include="img\photos\unsplash-3.jpg" />
+    <Content Include="index.html" />
+    <Content Include="js\app.js" />
+    <Content Include="js\app.js.LICENSE.txt" />
+    <Content Include="maps-google.html" />
+    <Content Include="pages-blank.html" />
+    <Content Include="pages-invoice.html" />
+    <Content Include="pages-profile.html" />
+    <Content Include="pages-settings.html" />
+    <Content Include="tables-bootstrap.html" />
+    <Content Include="ui-alerts.html" />
+    <Content Include="ui-buttons.html" />
+    <Content Include="ui-cards.html" />
+    <Content Include="ui-general.html" />
+    <Content Include="ui-grid.html" />
+    <Content Include="ui-modals.html" />
+    <Content Include="ui-typography.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kindergarten.Master.cs">
+      <DependentUpon>kindergarten.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kindergarten.Master.designer.cs">
+      <DependentUpon>kindergarten.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="fonts\fa-brands-400.eot" />
+    <Content Include="fonts\fa-brands-400.ttf" />
+    <Content Include="fonts\fa-brands-400.woff" />
+    <Content Include="fonts\fa-brands-400.woff2" />
+    <Content Include="fonts\fa-regular-400.eot" />
+    <Content Include="fonts\fa-regular-400.ttf" />
+    <Content Include="fonts\fa-regular-400.woff" />
+    <Content Include="fonts\fa-regular-400.woff2" />
+    <Content Include="fonts\fa-solid-900.eot" />
+    <Content Include="fonts\fa-solid-900.ttf" />
+    <Content Include="fonts\fa-solid-900.woff" />
+    <Content Include="fonts\fa-solid-900.woff2" />
+    <Content Include="fonts\Inter-Black.woff" />
+    <Content Include="fonts\Inter-Black.woff2" />
+    <Content Include="fonts\Inter-BlackItalic.woff" />
+    <Content Include="fonts\Inter-BlackItalic.woff2" />
+    <Content Include="fonts\Inter-Bold.woff" />
+    <Content Include="fonts\Inter-Bold.woff2" />
+    <Content Include="fonts\Inter-BoldItalic.woff" />
+    <Content Include="fonts\Inter-BoldItalic.woff2" />
+    <Content Include="fonts\Inter-ExtraBold.woff" />
+    <Content Include="fonts\Inter-ExtraBold.woff2" />
+    <Content Include="fonts\Inter-ExtraBoldItalic.woff" />
+    <Content Include="fonts\Inter-ExtraBoldItalic.woff2" />
+    <Content Include="fonts\Inter-ExtraLight-BETA.woff" />
+    <Content Include="fonts\Inter-ExtraLight-BETA.woff2" />
+    <Content Include="fonts\Inter-ExtraLightItalic-BETA.woff" />
+    <Content Include="fonts\Inter-ExtraLightItalic-BETA.woff2" />
+    <Content Include="fonts\Inter-italic.var.woff2" />
+    <Content Include="fonts\Inter-Italic.woff" />
+    <Content Include="fonts\Inter-Italic.woff2" />
+    <Content Include="fonts\Inter-Light-BETA.woff" />
+    <Content Include="fonts\Inter-Light-BETA.woff2" />
+    <Content Include="fonts\Inter-LightItalic-BETA.woff" />
+    <Content Include="fonts\Inter-LightItalic-BETA.woff2" />
+    <Content Include="fonts\Inter-Medium.woff" />
+    <Content Include="fonts\Inter-Medium.woff2" />
+    <Content Include="fonts\Inter-MediumItalic.woff" />
+    <Content Include="fonts\Inter-MediumItalic.woff2" />
+    <Content Include="fonts\Inter-Regular.woff" />
+    <Content Include="fonts\Inter-Regular.woff2" />
+    <Content Include="fonts\Inter-SemiBold.woff" />
+    <Content Include="fonts\Inter-SemiBold.woff2" />
+    <Content Include="fonts\Inter-SemiBoldItalic.woff" />
+    <Content Include="fonts\Inter-SemiBoldItalic.woff2" />
+    <Content Include="fonts\Inter-Thin-BETA.woff" />
+    <Content Include="fonts\Inter-Thin-BETA.woff2" />
+    <Content Include="fonts\Inter-ThinItalic-BETA.woff" />
+    <Content Include="fonts\Inter-ThinItalic-BETA.woff2" />
+    <Content Include="fonts\Inter-upright.var.woff2" />
+    <Content Include="fonts\Inter.var.woff2" />
+    <Content Include="js\app.js.LICENSE" />
+    <Content Include="js\app.js.map" />
+    <Content Include="kindergarten.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
