@@ -1,33 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Dynamic;
-using System.Text;
+using System.Linq;
+using System.Web;
 
 namespace Business
 {
-    internal class Connection
+    public class Connection
     {
-        private static SqlConnection _conn;
-
-        public static SqlConnection Conn
+        private static SqlConnection connection = null;
+        public SqlConnection Conn
         {
             get
             {
-                if (_conn == null || _conn.State != System.Data.ConnectionState.Open)
-                {
-                    _conn = initalizeConnection();
-                }
-                return _conn;
+                connection = new SqlConnection("Data Source=DESKTOP-U63HM5J; Initial Catalog=dbKinderGarten; Integrated Security=True");
+                connection.Open();
+                return connection;
             }
         }
-
-        private static SqlConnection initalizeConnection()
+        public void CloseConn(SqlConnection Connection)
         {
-            _conn = new SqlConnection("server=DESKTOP-U63HM5J;database=dbNovermber;Integrated Security=True;");
-            _conn.Open();
-            return _conn;
+            if (Connection.State == System.Data.ConnectionState.Open)
+            {
+                Connection.Close();
+            }
         }
     }
 }

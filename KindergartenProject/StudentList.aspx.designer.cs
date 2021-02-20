@@ -11,61 +11,43 @@ namespace KindergartenProject
 {
 
 
-    public partial class Default
+    public partial class StudentList
     {
 
         /// <summary>
-        /// lblStudent control.
+        /// divInformation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStudent;
+        protected global::KindergartenProject.userControl.divInformation divInformation;
 
         /// <summary>
-        /// lblMonthStudent control.
+        /// chcIsActive control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthStudent;
+        protected global::System.Web.UI.WebControls.CheckBox chcIsActive;
 
         /// <summary>
-        /// lblInterview control.
+        /// chcInterview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInterview;
+        protected global::System.Web.UI.WebControls.CheckBox chcInterview;
 
         /// <summary>
-        /// lblMonthInterview control.
+        /// tBodyStudentList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthInterview;
-
-        /// <summary>
-        /// lblPayment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPayment;
-
-        /// <summary>
-        /// lblMonthPayment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthPayment;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tBodyStudentList;
     }
 }

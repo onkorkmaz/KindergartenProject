@@ -7,65 +7,74 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KindergartenProject
+namespace KindergartenProject.userControl
 {
 
 
-    public partial class Default
+    public partial class divInformation
     {
 
         /// <summary>
-        /// lblStudent control.
+        /// Information control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStudent;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Information;
 
         /// <summary>
-        /// lblMonthStudent control.
+        /// divError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthStudent;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divError;
 
         /// <summary>
-        /// lblInterview control.
+        /// lblError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInterview;
+        protected global::System.Web.UI.WebControls.Label lblError;
 
         /// <summary>
-        /// lblMonthInterview control.
+        /// divSuccuess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthInterview;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSuccuess;
 
         /// <summary>
-        /// lblPayment control.
+        /// lblSuccess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPayment;
+        protected global::System.Web.UI.WebControls.Label lblSuccess;
 
         /// <summary>
-        /// lblMonthPayment control.
+        /// lnkNewRecord control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthPayment;
+        protected global::System.Web.UI.WebControls.LinkButton lnkNewRecord;
+
+        /// <summary>
+        /// lnkRecordList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkRecordList;
     }
 }

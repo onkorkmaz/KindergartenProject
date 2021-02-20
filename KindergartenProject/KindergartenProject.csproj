@@ -43,7 +43,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.8.2\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -67,14 +73,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddStudent.aspx" />
     <Content Include="charts-chartjs.html" />
     <Content Include="css\app.css" />
+    <Content Include="customJS\studentList.js" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\fa-brands-400.svg" />
     <Content Include="fonts\fa-regular-400.svg" />
     <Content Include="fonts\fa-solid-900.svg" />
     <Content Include="forms-basic-inputs.html" />
     <Content Include="forms-layouts.html" />
+    <Content Include="Global.asax" />
     <Content Include="icons-feather.html" />
     <Content Include="img\avatars\avatar-2.jpg" />
     <Content Include="img\avatars\avatar-3.jpg" />
@@ -82,19 +91,32 @@
     <Content Include="img\avatars\avatar-5.jpg" />
     <Content Include="img\avatars\avatar.jpg" />
     <Content Include="img\avatars\yeliz_ay.jpeg" />
+    <Content Include="img\icons\active.png" />
     <Content Include="img\icons\benim_dunyam.jpeg" />
-    <Content Include="img\icons\icon-48x48.png" />
+    <Content Include="img\icons\passive.png" />
+    <Content Include="img\icons\Silinenler\active.jpg" />
+    <Content Include="img\icons\Silinenler\passive.jpg" />
+    <Content Include="img\icons\trush1.png" />
+    <Content Include="img\icons\update1.png" />
     <Content Include="img\photos\unsplash-1.jpg" />
     <Content Include="img\photos\unsplash-2.jpg" />
     <Content Include="img\photos\unsplash-3.jpg" />
     <Content Include="index.html" />
     <Content Include="js\app.js" />
     <Content Include="js\app.js.LICENSE.txt" />
+    <Content Include="js\KindergartenCommon.js" />
+    <Content Include="customJS\kinderGartenCommon.js" />
+    <Content Include="KinderGartenWebService.asmx" />
     <Content Include="maps-google.html" />
     <Content Include="pages-blank.html" />
     <Content Include="pages-invoice.html" />
     <Content Include="pages-profile.html" />
     <Content Include="pages-settings.html" />
+    <Content Include="PaymentPlan.aspx" />
+    <Content Include="PaymentType.aspx" />
+    <Content Include="customJS\PaymentType.js" />
+    <Content Include="customJS\Student.js" />
+    <Content Include="StudentList.aspx" />
     <Content Include="tables-bootstrap.html" />
     <Content Include="ui-alerts.html" />
     <Content Include="ui-buttons.html" />
@@ -103,15 +125,26 @@
     <Content Include="ui-grid.html" />
     <Content Include="ui-modals.html" />
     <Content Include="ui-typography.html" />
+    <Content Include="userControl\divInformation.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddStudent.aspx.cs">
+      <DependentUpon>AddStudent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddStudent.aspx.designer.cs">
+      <DependentUpon>AddStudent.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="kindergarten.Master.cs">
       <DependentUpon>kindergarten.Master</DependentUpon>
@@ -120,7 +153,39 @@
     <Compile Include="kindergarten.Master.designer.cs">
       <DependentUpon>kindergarten.Master</DependentUpon>
     </Compile>
+    <Compile Include="KinderGartenWebService.asmx.cs">
+      <DependentUpon>KinderGartenWebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PaymentPlan.aspx.cs">
+      <DependentUpon>PaymentPlan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PaymentPlan.aspx.designer.cs">
+      <DependentUpon>PaymentPlan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentType.aspx.cs">
+      <DependentUpon>PaymentType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PaymentType.aspx.designer.cs">
+      <DependentUpon>PaymentType.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StudentList.aspx.cs">
+      <DependentUpon>StudentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentList.aspx.designer.cs">
+      <DependentUpon>StudentList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="userControl\divInformation.ascx.cs">
+      <DependentUpon>divInformation.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="userControl\divInformation.ascx.designer.cs">
+      <DependentUpon>divInformation.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\fa-brands-400.eot" />
@@ -198,6 +263,9 @@
       <Project>{7aa10436-3890-484a-9d69-dfaed113d33c}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Template\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
