@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Services;
 using Business;
 using Entity;
@@ -20,16 +19,14 @@ namespace KindergartenProject
     // [System.Web.Script.Services.ScriptService]
 
     [ScriptService]
-    public class KinderGartenWebService : System.Web.Services.WebService
+    public class KinderGartenWebService : WebService
     {
-        public static Dictionary<string, string> list = new Dictionary<string, string>();
+        public static Dictionary<string, string> List = new Dictionary<string, string>();
 
         [WebMethod]
-        public DataResultArgs<StudentEntity> GetStudenEntity(string citizenshipNumber)
+        public DataResultArgs<StudentEntity> GetStudentEntity(string citizenshipNumber)
         {
-            DataResultArgs<StudentEntity> resultSet = new DataResultArgs<StudentEntity>();
-            resultSet = new StudentBusiness().Get_Student(citizenshipNumber);
-            return resultSet;
+            return new StudentBusiness().Get_Student(citizenshipNumber);
         }
 
         [WebMethod]
@@ -51,37 +48,28 @@ namespace KindergartenProject
                 if (entity.CitizenshipNumber != null && entity.CitizenshipNumber.Contains(searchValue))
                 {
                     searchList.Add(entity);
-                    continue;
                 }
-
                 else if (entity.FullName != null && GeneralFunctions.ReplaceTurkishChar(entity.FullName.ToLower()).Contains(searchValue))
                 {
                     searchList.Add(entity);
-                    continue;
                 }
-
                 else if (entity.FatherName != null && GeneralFunctions.ReplaceTurkishChar(entity.FatherName.ToLower()).Contains(searchValue))
                 {
                     searchList.Add(entity);
-                    continue;
                 }
 
                 else if (entity.MotherName != null && GeneralFunctions.ReplaceTurkishChar(entity.MotherName.ToLower()).Contains(searchValue))
                 {
                     searchList.Add(entity);
-                    continue;
                 }
-
                 else if (entity.FatherPhoneNumber != null && GeneralFunctions.ReplaceTurkishChar(entity.FatherPhoneNumber.ToLower()).Contains(searchValue))
                 {
                     searchList.Add(entity);
-                    continue;
                 }
 
                 else if (entity.MotherPhoneNumber != null && GeneralFunctions.ReplaceTurkishChar(entity.MotherPhoneNumber.ToLower()).Contains(searchValue))
                 {
                     searchList.Add(entity);
-                    continue;
                 }
             }
             return searchList;
@@ -97,19 +85,18 @@ namespace KindergartenProject
 
         [WebMethod]
 
-        public DataResultArgs<bool> InsertOrUpdatePaymentType(PaymentTypeEntity paymentTypeEntity)
+        public DataResultArgs<bool> InsertOrUpdatePaymentType(string encryptId, PaymentTypeEntity paymentTypeEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
             paymentTypeEntity.Id = 0;
-            if (!string.IsNullOrEmpty(paymentTypeEntity.EncryptId))
+            if (!string.IsNullOrEmpty(encryptId))
             {
-                int id = 0;
-                Int32.TryParse(Cipher.Decrypt(paymentTypeEntity.EncryptId), out id);
+                int.TryParse(Cipher.Decrypt(encryptId), out var id);
                 if (id > 0)
                 {
                     currentProcess = DatabaseProcess.Update;
-                    paymentTypeEntity.Id = id;
                 }
+                paymentTypeEntity.Id = id;
             }
 
             paymentTypeEntity.DatabaseProcess = currentProcess;
@@ -120,19 +107,20 @@ namespace KindergartenProject
         [WebMethod]
         public DataResultArgs<bool> DeletePaymentType(string id)
         {
-            DataResultArgs<bool> result = new DataResultArgs<bool>();
-            result.HasError = true;
-            result.ErrorDescription = "Id bilgisine ulaşılamadı";
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true, ErrorDescription = "Id bilgisine ulaşılamadı."
+            };
 
             if (!string.IsNullOrEmpty(id))
             {
-                int idINT = 0;
-                Int32.TryParse(Cipher.Decrypt(id), out idINT);
-                if (idINT > 0)
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
                 {
-                    PaymentTypeEntity entity = new PaymentTypeEntity();
-                    entity.Id = idINT;
-                    entity.DatabaseProcess = DatabaseProcess.Deleted;
+                    PaymentTypeEntity entity = new PaymentTypeEntity
+                    {
+                        Id = idInt, DatabaseProcess = DatabaseProcess.Deleted
+                    };
 
                     result = new PaymentTypeBusiness().Set_PaymentType(entity);
                 }
@@ -145,21 +133,22 @@ namespace KindergartenProject
         [WebMethod]
         public DataResultArgs<bool> DeleteStudent(string id)
         {
-            DataResultArgs<bool> result = new DataResultArgs<bool>();
-            result.HasError = true;
-            result.ErrorDescription = "Id bilgisine ulaşılamadı";
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true, ErrorDescription = "Id bilgisine ulaşılamadı"
+            };
 
             if (!string.IsNullOrEmpty(id))
             {
-                int idINT = 0;
-                Int32.TryParse(Cipher.Decrypt(id), out idINT);
-                if (idINT > 0)
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
                 {
-                    StudentEntity entity = new StudentEntity();
-                    entity.Id = idINT;
-                    entity.DatabaseProcess = DatabaseProcess.Deleted;
+                    StudentEntity entity = new StudentEntity {Id = idInt, DatabaseProcess = DatabaseProcess.Deleted};
 
-                    result = new StudentBusiness().Set_Student(entity);
+                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness().Set_Student(entity);
+                    result.HasError = resultSet.HasError;
+                    result.MyException = resultSet.MyException;
+                    result.ErrorDescription = resultSet.ErrorDescription;
                 }
             }
 
@@ -170,21 +159,17 @@ namespace KindergartenProject
         [WebMethod]
         public DataResultArgs<PaymentTypeEntity> UpdatePaymentType(string id)
         {
-            DataResultArgs<PaymentTypeEntity> result = new DataResultArgs<PaymentTypeEntity>();
-            result.HasError = true;
-            result.ErrorDescription = "Entity ulaşılamadı...";
+            DataResultArgs<PaymentTypeEntity> result = new DataResultArgs<PaymentTypeEntity>
+            {
+                HasError = true, ErrorDescription = "Entity ulaşılamadı..."
+            };
 
             if (!string.IsNullOrEmpty(id))
             {
-                int idINT = 0;
-                Int32.TryParse(Cipher.Decrypt(id), out idINT);
-                if (idINT > 0)
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
                 {
-                    PaymentTypeEntity entity = new PaymentTypeEntity();
-                    entity.Id = idINT;
-                    entity.DatabaseProcess = DatabaseProcess.Deleted;
-
-                    result.Result = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { Id = idINT }).Result.FirstOrDefault();
+                    result.Result = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { Id = idInt }).Result.FirstOrDefault();
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -203,18 +188,119 @@ namespace KindergartenProject
         [WebMethod]
         public void SetCacheData(string key,string value)
         {
-            if (!list.ContainsKey(key))
-                list.Add(key, "");
+            if (!List.ContainsKey(key))
+                List.Add(key, "");
 
-            list[key] = value;
+            List[key] = value;
         }
 
         [WebMethod]
         public string GetCacheData(string key)
         {
-            if (list.ContainsKey(key))
-                return list[key];
+            if (List.ContainsKey(key))
+                return List[key];
             return "";
+        }
+
+        [WebMethod]
+
+        public string Decrypt(string id)
+        {
+            return Cipher.Decrypt(id);
+        }
+
+        [WebMethod]
+
+        public string Encrypt(string id)
+        {
+            return Cipher.Encrypt(id);
+        }
+
+        [WebMethod]
+
+        public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForPaymentDetail(string decryptStudentId,string year)
+        {
+            StudentListAndPaymentTypeInfo info = new StudentListAndPaymentTypeInfo
+            {
+                PaymentTypeList = GetPaymentAllPaymentType()
+            };
+
+            string id = Cipher.Decrypt(decryptStudentId);
+
+            int idInt = GeneralFunctions.GetData<int>(id);
+
+            if (idInt > 0)
+            {
+                StudentEntity studentEntity = new StudentBusiness().Get_AllStudentWithCache().Result.FirstOrDefault(o => o.Id == idInt);
+                if (studentEntity != null)
+                {
+                    DataResultArgs<List<PaymentEntity>> paymentListResult = new PaymentBusiness().Get_Payment(idInt, year);
+                    if (!paymentListResult.HasError)
+                    {
+                        if (paymentListResult.Result.Any())
+                        {
+                            studentEntity.PaymentList = paymentListResult.Result;
+                        }
+                    }
+
+                    info.StudentList.Add(studentEntity);
+                }
+            }
+            return info;
+        }
+
+
+        [WebMethod]
+        public DataResultArgs<bool> DoPaymentOrUnPayment(string id, string encryptStudentId, string year, string month, string amount,bool isPayment, string paymentType)
+        {
+            PaymentEntity paymentEntity = new PaymentEntity
+            {
+                EncryptStudentId = encryptStudentId,
+                StudentId = GeneralFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
+                Year = GeneralFunctions.GetData<short>(year),
+                Month = GeneralFunctions.GetData<short>(month),
+                Amount = GeneralFunctions.GetData<decimal>(amount),
+                Id = GeneralFunctions.GetData<int>(id)
+            };
+            paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
+            paymentEntity.IsActive = true;
+            paymentEntity.IsDeleted = true;
+            paymentEntity.PaymentDate = DateTime.Now;
+            paymentEntity.IsPayment = isPayment;
+            paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
+
+            return new PaymentBusiness().Set_Payment(paymentEntity);
+
+        }
+
+        [WebMethod]
+
+        public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForPaymentList()
+        {
+            StudentListAndPaymentTypeInfo paymentDetailEntity = new StudentListAndPaymentTypeInfo();
+
+            List<StudentEntity> studentList = GetAllStudent();
+
+            List<PaymentEntity> paymentEntityList = new PaymentBusiness().Get_PaymentForCurrentMonth().Result;
+
+            foreach (PaymentEntity paymentEntity in paymentEntityList)
+            {
+                if (paymentEntity.StudentId != null)
+                {
+                    int studentId = paymentEntity.StudentId.Value;
+
+                    StudentEntity first = studentList.FirstOrDefault(o => o.Id == studentId);
+                    if (first != null)
+                    {
+                        studentList.FirstOrDefault(o => o.Id == studentId).PaymentList.Add(paymentEntity);
+                    }
+                }
+            }
+
+            paymentDetailEntity.StudentList = studentList;
+            paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity(){IsActive = true, IsDeleted = false}).Result;
+
+            return paymentDetailEntity;
         }
     }
 }

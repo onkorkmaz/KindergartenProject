@@ -11,7 +11,7 @@ namespace Entity
         {
             get
             {
-                if (Id.HasValue)
+                if (Id.HasValue && Id > 0)
                 {
                     return Cipher.Encrypt(Id.Value.ToString());
                 }

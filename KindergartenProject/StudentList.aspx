@@ -13,14 +13,37 @@
 
         <div class="col-12 col-xl-12">
             <div class="mb-3 row">
-                           
-                            <div class="col-sm-2">
-                                <asp:CheckBox runat="server" Text="Aktif Öğrenciler" ID="chcIsActive" CssClass="form-check-input" />
-                            </div>
-                            <div class="col-sm-2">
-                                <asp:CheckBox runat="server" Text="Görüşmeler" ID="chcInterview" CssClass="form-check-input" />
-                            </div>
+
+                <div class="col-sm-3">
+                    <div class="alert alert-primary alert-dismissible" role="alert">
+                        <div class="alert-message">
+                            <asp:Label runat="server" ID="lblAllStudent" Style="cursor: pointer;"></asp:Label>
                         </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <div class="alert-message">
+                            <asp:Label runat="server" ID="lblActiveStudent" style="cursor: pointer;"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <div class="alert-message">
+                            <asp:Label runat="server" ID="lblInterview" style="cursor: pointer;"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="alert alert-secondary alert-dismissible" role="alert">
+                        <div class="alert-message">
+                            <asp:Label runat="server" ID="lblPassiveStudent" style="cursor: pointer;"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-12 col-xl-12">
@@ -28,8 +51,8 @@
                 <table class="table mb-0">
                     <thead>
                         <tr>
+                            <th scope="col">&nbsp;</th>
                             <th scope="col">#####</th>
-                            <th scope="col">TCKN</th>
                             <th scope="col">İsim Soyisim</th>
                             <th scope="col">Doğum Tarihi</th>
                             <th scope="col">Baba Bilg.</th>

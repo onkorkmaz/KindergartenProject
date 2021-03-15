@@ -1,17 +1,22 @@
 ﻿function GetStudentEntity(citizenshipNumber)
 {
-    var jsonData = "{ citizenshipNumber: " + JSON.stringify(citizenshipNumber) + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/GetStudenEntity', jsonData, successFunctionGetStudentEntity, errorFunction);
+    if (!IsNullOrEmpty(citizenshipNumber)) {
+        var jsonData = "{ citizenshipNumber: " + JSON.stringify(citizenshipNumber) + " }";
+        CallServiceWithAjax('KinderGartenWebService.asmx/GetStudentEntity',
+            jsonData,
+            successFunctionGetStudentEntity,
+            errorFunction);
+    }
 }
 
 function txtCitizenshipNumber_Change(citizenshipNumber) {
     GetStudentEntity(citizenshipNumber);
 }
 
-function successFunctionGetStudentEntity(obje) {
+function successFunctionGetStudentEntity(result) {
 
-    if (!obje.HasError) {
-        var entity = obje.Result;
+    if (!result.HasError) {
+        var entity = result.Result;
         if (entity != null) {
             alert("Girdiğiniz kimlik numarsaı sistemde mevcuttur");
 
@@ -19,56 +24,46 @@ function successFunctionGetStudentEntity(obje) {
             document.getElementById("txtName").value = entity.Name;
             document.getElementById("txtSurname").value = entity.Surname;
             document.getElementById("txtMiddleName").value = entity.MiddleName;
-
             document.getElementById("txtMotherName").value = entity.MotherName;
             document.getElementById("txtFatherName").value = entity.FatherName;
-
             document.getElementById("txtFatherPhoneNumber").value = entity.FatherPhoneNumber;
             document.getElementById("txtMotherPhoneNumber").value = entity.MotherPhoneNumber;
             document.getElementById("chcIsActive").checked = entity.IsActive;
-
-            var birthDate = null;
-
-            if (entity.Birthdate != null) {
-
-                var date = new Date(Number(entity.Birthdate.replace(/\D/g, '')));
-
-                if (!isNaN(date.getTime())) {
-                    document.getElementById("txtDay").value = date.getDate();
-                    document.getElementById("txtMonth").value = date.getMonth() + 1;
-                    document.getElementById("txtYear").value = "19" + date.getYear();
-                }
-            }
-
+            document.getElementById("txtSpokenPrice").value = entity.SpokenPrice;
+            document.getElementById("txtNotes").value = entity.Notes;
+            document.getElementById("txtBirthday").value = entity.BirthdayWithFormat2;
+            document.getElementById("txtDateOfMeeting").value = entity.DateOfMeetingWithFormat2;
+            document.getElementById("txtEmail").value = entity.Email;
             document.getElementById("btnSubmit").value = "Güncelle";
 
-        }
-        else {
+        } else {
 
             document.getElementById("hdnId").value = "";
             document.getElementById("txtName").value = "";
             document.getElementById("txtSurname").value = "";
             document.getElementById("txtMiddleName").value = "";
-
             document.getElementById("txtMotherName").value = "";
             document.getElementById("txtFatherName").value = "";
-
             document.getElementById("txtFatherPhoneNumber").value = "";
             document.getElementById("txtMotherPhoneNumber").value = "";
             document.getElementById("chcIsActive").checked = true;
-
-            document.getElementById("txtDay").value = "";
-            document.getElementById("txtMonth").value = "";
-            document.getElementById("txtYear").value = "";
-
+            document.getElementById("txtSpokenPrice").value = "";
+            document.getElementById("txtNotes").value = "";
+            document.getElementById("txtBirthday").value = "";
+            document.getElementById("txtDateOfMeeting").value = "";
+            document.getElementById("txtEmail").value = "";
             document.getElementById("btnSubmit").value = "Kaydet";
-
-
         }
     }
     else {
-        alert("Hata var !!! Error : " + obje.ErrorDescription);
+        alert("Hata var !!! Error : " + result.ErrorDescription);
     }
+}
+
+function isEmailAddress(str) {
+
+    var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    return str.match(pattern);
 }
 
 function validate() {
@@ -112,33 +107,14 @@ function validate() {
 
     if (!IsNullOrEmpty(motherName) && IsNullOrEmpty(motherPhoneNumber)) {
         if (IsNullOrEmpty(fatherName) || IsNullOrEmpty(fatherPhoneNumber)) {
-            errormessage += "anne telefon numarası ya da baba ad ve telefon numarası dolu olmalıdır.\n";
+            errorMessage += "Anne telefon numarası ya da baba ad ve telefon numarası dolu olmalıdır.\n";
         }
     }
 
-    var isValidBirthday = false;
-    var day = document.getElementById("txtDay").value;
-    var month = document.getElementById("txtMonth").value;
-    var year = document.getElementById("txtYear").value;
+    var email = document.getElementById("txtEmail").value;
+    if (!IsNullOrEmpty(email) && !isEmailAddress(email)) {
+        errorMessage += "Email bilgisi doğru formatta girilmemiştir.\n";
 
-    if (!IsNullOrEmpty(day))
-        isValidBirthday = true;
-
-    if (!IsNullOrEmpty(month))
-        isValidBirthday = true;
-
-    if (!IsNullOrEmpty(year))
-        isValidBirthday = true;
-
-    if (isValidBirthday) {
-        if (IsNullOrEmpty(day))
-            errorMessage += "Gün boş bırakılamaz.\n";
-
-        if (IsNullOrEmpty(month))
-            errorMessage += "Ay boş bırakılamaz.\n";
-
-        if (IsNullOrEmpty(year))
-            errorMessage += "Yıl boş bırakılamaz.\n";
     }
 
     if (!IsNullOrEmpty(errorMessage)) {

@@ -42,6 +42,15 @@ namespace KindergartenProject.userControl
         protected global::System.Web.UI.WebControls.Label lblError;
 
         /// <summary>
+        /// lnkError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkError;
+
+        /// <summary>
         /// divSuccuess control.
         /// </summary>
         /// <remarks>
@@ -76,5 +85,14 @@ namespace KindergartenProject.userControl
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkRecordList;
+
+        /// <summary>
+        /// lblAnotherInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAnotherInfo;
     }
 }

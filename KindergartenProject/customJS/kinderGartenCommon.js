@@ -8,7 +8,7 @@ function CallServiceWithAjax(url, jsonData, successFunction, errorFunction) {
         async: false,
         success: function (data) {
             successFunction(JSON.parse(JSON.stringify(data.d)));
-
+            return data.d;
         },
         error: function (x, y, z) {
             alert(JSON.stringify(x));
@@ -88,4 +88,76 @@ function GetCacheData(key, value) {
 
 function successGetCacheData(obje) {
     return obje;
+}
+
+function checkDec(el) {
+    var ex = /^[0-9]+\.?[0-9]*$/;
+    if (ex.test(el.value) == false) {
+        el.value = el.value.substring(0, el.value.length - 1);
+    }
+}
+
+function Encrypt(id) {
+    var jsonData = "{ id: " + JSON.stringify(id) + "}";
+     CallServiceWithAjax('KinderGartenWebService.asmx/Encrypt', jsonData, successEncrypt, errorFunction);
+}
+
+function successEncrypt(obje) {
+    return obje;
+}
+
+function Decrypt(id) {
+    var jsonData = "{ id: " + JSON.stringify(id) + "}";
+    CallServiceWithAjax('KinderGartenWebService.asmx/Decrypt', jsonData, successDecrypt, errorFunction);
+}
+
+function successDecrypt(obje) {
+    return obje;
+}
+
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return results[2];
+}
+
+var months = [[7, "Temmuz"], [8, "Ağustos"], [9, "Eylül"], [10, "Ekim"], [11, "Kasım"], [12, "Aralık"], [1, "Ocak"], [2, "Şubat"], [3, "Mart"], [4, "Nisan"], [5, "Mayıs"], [6, "Haziran"]];
+
+
+function GetFilterStudent(studentList, search) {
+
+    var entityList = [];
+    var toSearch = replaceTurkichChar(search.toLocaleLowerCase('tr-TR'));
+
+    for (var i = 0; i < studentList.length; i++) {
+
+        if (studentList[i]["CitizenshipNumber"] != null && replaceTurkichChar(studentList[i]["CitizenshipNumber"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+            entityList.push(studentList[i]);
+        }
+
+        else if (studentList[i]["FullName"] != null && replaceTurkichChar(studentList[i]["FullName"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+            entityList.push(studentList[i]);
+        }
+
+        else if (studentList[i]["FatherName"] != null && replaceTurkichChar(studentList[i]["FatherName"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+            entityList.push(studentList[i]);
+        }
+
+        else if (studentList[i]["MotherName"] != null && replaceTurkichChar(studentList[i]["MotherName"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+            entityList.push(studentList[i]);
+        }
+
+        else if (studentList[i]["FatherPhoneNumber"] != null && replaceTurkichChar(studentList[i]["FatherPhoneNumber"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+            entityList.push(studentList[i]);
+        }
+
+        else if (studentList[i]["MotherPhoneNumber"] != null && replaceTurkichChar(studentList[i]["MotherPhoneNumber"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+            entityList.push(studentList[i]);
+        }
+    }
+
+    return entityList;
 }

@@ -11,79 +11,61 @@ namespace KindergartenProject
 {
 
 
-    public partial class Default
+    public partial class PaymentDetail
     {
 
         /// <summary>
-        /// lblStudent control.
+        /// divInformation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStudent;
+        protected global::KindergartenProject.userControl.divInformation divInformation;
 
         /// <summary>
-        /// lblMonthStudent control.
+        /// hdnId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthStudent;
+        protected global::System.Web.UI.WebControls.HiddenField hdnId;
 
         /// <summary>
-        /// lblInterview control.
+        /// lblStudentInto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInterview;
+        protected global::System.Web.UI.WebControls.Label lblStudentInto;
 
         /// <summary>
-        /// lblMonthInterview control.
+        /// drpYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthInterview;
+        protected global::System.Web.UI.WebControls.DropDownList drpYear;
 
         /// <summary>
-        /// lblPayment control.
+        /// pnlBody control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPayment;
+        protected global::System.Web.UI.WebControls.Panel pnlBody;
 
         /// <summary>
-        /// lblMonthPayment control.
+        /// divMain control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthPayment;
-
-        /// <summary>
-        /// lblBirthdayToday control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBirthdayToday;
-
-        /// <summary>
-        /// lblBirthdayThisMonth control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBirthdayThisMonth;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMain;
     }
 }

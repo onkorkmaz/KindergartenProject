@@ -7,6 +7,8 @@
         </button>
         <div class="alert-message">
             <asp:Label runat="server" ID="lblError"></asp:Label>
+            <asp:LinkButton ID="lnkError" runat="server" OnClick="lnkError_Click"></asp:LinkButton>
+
         </div>
     </div>
 
@@ -17,7 +19,8 @@
         <div class="alert-message">
             <asp:Label runat="server" ID="lblSuccess"></asp:Label>
             <asp:LinkButton ID="lnkNewRecord" runat="server" OnClick="lnkNewRecord_Click">Yeni Kayıt için tıklayınız</asp:LinkButton> &nbsp;
-            <asp:LinkButton ID="lnkRecordList" runat="server" OnClick="lnkRecordList_Click">Liste için tıklayınız</asp:LinkButton>
+            <asp:LinkButton ID="lnkRecordList" runat="server" OnClick="lnkRecordList_Click">Liste için tıklayınız</asp:LinkButton> &nbsp;
+            <asp:Label ID="lblAnotherInfo" runat="server" ></asp:Label>
         </div>
     </div>
 

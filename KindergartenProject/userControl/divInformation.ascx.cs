@@ -11,12 +11,6 @@ namespace KindergartenProject.userControl
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
-            {
-                Information.Visible = false;
-                lblError.Text = "";
-                lblSuccess.Text = "";
-            }
         }
 
         private bool _informationVisible;
@@ -63,6 +57,19 @@ namespace KindergartenProject.userControl
 
         public string NewRecordPage { get; set; }
         public string ListRecordPage { get; set; }
+        public string PaymentDetailPage { get; set; }
+        public string ErrorLink{ get; set; }
+
+        private string _errorLinkText;
+        public string ErrorLinkText
+        {
+            get { return _errorLinkText; }
+            set
+            {
+                _errorLinkText = value;
+                lnkError.Text = _errorLinkText;
+            }
+        }
 
         private void SetSuccessfulText(string text)
         {
@@ -90,6 +97,16 @@ namespace KindergartenProject.userControl
         protected void lnkRecordList_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/" + ListRecordPage + "");
+        }
+
+        protected void lnkError_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/" + ErrorLink + "");
+        }
+
+        public void SetAnotherText(string link)
+        {
+            lblAnotherInfo.Text = link;
         }
     }
 }

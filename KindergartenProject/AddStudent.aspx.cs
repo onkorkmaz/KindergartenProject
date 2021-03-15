@@ -13,10 +13,11 @@ namespace KindergartenProject
     public partial class AddStudent : System.Web.UI.Page
     {
         #region VARIABLES
-        DataResultArgs<List<StudentEntity>> resultSet;
         StudentBusiness business = new StudentBusiness();
         List<StudentEntity> lst;
         #endregion VARIABLES
+
+        public const string paymentDetail = "Ödeme Detayı";
 
         #region PROPERTIES
         private StudentEntity currentRecord;
@@ -32,16 +33,23 @@ namespace KindergartenProject
                 txtMiddleName.Text = currentRecord.MiddleName;
                 txtFatherName.Text = currentRecord.FatherName;
                 txtMotherName.Text = currentRecord.MotherName;
-                if (currentRecord.Birthdate.HasValue)
+                if (currentRecord.Birthday.HasValue)
                 {
-                    txtDay.Text = currentRecord.Birthdate.Value.Day.ToString();
-                    txtMonth.Text = currentRecord.Birthdate.Value.Month.ToString();
-                    txtYear.Text = currentRecord.Birthdate.Value.Year.ToString();
+                    txtBirthday.Text = currentRecord.Birthday.Value.ToString("yyyy-MM-dd");
                 }
                 txtFatherPhoneNumber.Text = currentRecord.FatherPhoneNumber;
                 txtMotherPhoneNumber.Text = currentRecord.MotherPhoneNumber;
                 chcIsActive.Checked = (currentRecord.IsActive.HasValue) ? currentRecord.IsActive.Value : false;
                 drpStudentState.SelectedValue = (currentRecord.IsStudent) ? "0" : "1";
+
+                if (currentRecord.DateOfMeeting.HasValue)
+                {
+                    txtDateOfMeeting.Text = currentRecord.DateOfMeeting.Value.ToString("yyyy-MM-dd");
+                }
+
+                txtNotes.Text = currentRecord.Notes;
+                txtSpokenPrice.Text = currentRecord.SpokenPrice.ToString();
+                txtEmail.Text = currentRecord.Email;
             }
         }
         #endregion PROPERTIES
@@ -52,12 +60,16 @@ namespace KindergartenProject
             divInformation.ListRecordPage = "StudentList.aspx";
             divInformation.NewRecordPage = "AddStudent.aspx";
 
-            setInformationVisible(false);
+            divInformation.InformationVisible = false ;
+
+            var master = this.Master as kindergarten;
+            master.SetActiveMenuAttiributes(MenuList.AddStudenList);
+            master.SetVisibleSearchText(false);
 
             if (!Page.IsPostBack)
             {
-                var master = this.Master as kindergarten;
-                master.SetActiveMenuAttiributes(MenuList.AddStudenList);
+                txtBirthday.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
                 object Id = Request.QueryString["Id"];
 
@@ -77,20 +89,18 @@ namespace KindergartenProject
                         {
                             CurrentRecord = resultSet.Result.First();
                             btnSubmit.Text = ButtonText.Update;
+
+                            lblPaymentDetail.Text = "<a href = \"PaymentDetail.aspx?Id=" + resultSet.Result[0].EncryptId + "\">" + paymentDetail + "</a>";
                         }
                     }
                 }
             }
         }
+
+       
         #endregion CONTRUCTOR && PAGE_LOAD
 
         #region METHODS
-
-
-        private void setInformationVisible(bool visible)
-        {
-            divInformation.InformationVisible = visible;
-        }
 
         private void processToDatabase(DatabaseProcess databaseProcess, string id = null)
         {
@@ -104,15 +114,20 @@ namespace KindergartenProject
             entity.FatherName = txtFatherName.Text;
             entity.MotherName = txtMotherName.Text;
 
-            if (!string.IsNullOrEmpty(txtDay.Text) && !string.IsNullOrEmpty(txtMonth.Text) && !string.IsNullOrEmpty(txtYear.Text))
+            if (!string.IsNullOrEmpty(txtBirthday.Text))
             {
-                entity.Birthdate = new DateTime(GeneralFunctions.GetData<int>(txtYear.Text), GeneralFunctions.GetData<int>(txtMonth.Text), GeneralFunctions.GetData<int>(txtDay.Text));
+                entity.Birthday = GeneralFunctions.GetData<DateTime>(txtBirthday.Text);
             }
             entity.FatherPhoneNumber = txtFatherPhoneNumber.Text;
             entity.MotherPhoneNumber = txtMotherPhoneNumber.Text;
             entity.IsActive = chcIsActive.Checked;
             entity.IsStudent = drpStudentState.SelectedValue == "0";
-            DataResultArgs<bool> resultSet = business.Set_Student(entity);
+            entity.Notes = txtNotes.Text;
+            entity.DateOfMeeting = GeneralFunctions.GetData<DateTime>(txtDateOfMeeting.Text);
+            entity.SpokenPrice = GeneralFunctions.GetData<decimal>(txtSpokenPrice.Text);
+            entity.Email = txtEmail.Text;
+
+            DataResultArgs<StudentEntity> resultSet = business.Set_Student(entity);
             if (resultSet.HasError)
             {
                 divInformation.ErrorText = resultSet.ErrorDescription;
@@ -123,6 +138,7 @@ namespace KindergartenProject
                 divInformation.SuccessfulText = (databaseProcess == DatabaseProcess.Add) ? RecordMessage.Add : RecordMessage.Update;
                 btnSubmit.Text = ButtonText.Submit;
                 pnlBody.Enabled = false;
+                divInformation.SetAnotherText("<a href = \"PaymentDetail.aspx?Id=" + resultSet.Result.EncryptId + "\">" + paymentDetail + "</a>");
 
             }
         }

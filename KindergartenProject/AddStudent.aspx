@@ -1,9 +1,9 @@
-﻿<%@ Page Title="Benim dünyam - Öğrenci Kayıt" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="AddStudent.aspx.cs" Inherits="KindergartenProject.AddStudent" %>
+﻿<%@ Page Title="Benim dünyam - Öğrenci Kayıt" Language="C#" Debug="true" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="AddStudent.aspx.cs" Inherits="KindergartenProject.AddStudent" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="customJS/Student.js"></script>
+    <script src="customJS/student.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">
@@ -39,16 +39,8 @@
                         </div>
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Doğum Tarihi</label>
-
-
-                            <div class="col-sm-2">
-                                <asp:TextBox runat="server" ID="txtDay" CssClass="form-control" placeholder="Gün" MaxLength="2" onkeypress="return isNumber(event)"></asp:TextBox>
-                            </div>
-                            <div class="col-sm-2">
-                                <asp:TextBox runat="server" ID="txtMonth" CssClass="form-control" placeholder="Ay" MaxLength="2" onkeypress="return isNumber(event)"></asp:TextBox>
-                            </div>
-                            <div class="col-sm-2">
-                                <asp:TextBox runat="server" ID="txtYear" CssClass="form-control" placeholder="Yıl" onkeypress="return isNumber(event)" MaxLength="4"></asp:TextBox>
+                            <div class="col-sm-3">
+                                <asp:TextBox ID="txtBirthday" runat="server" TextMode="Date" CssClass="form-control"/>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -72,7 +64,19 @@
 
                             </div>
                         </div>
+                        
                         <div class="mb-3 row">
+
+                            <label class="col-form-label col-sm-2 text-sm-left">Email</label>
+                            <div class="col-sm-2">
+                                <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control"  MaxLength="50" placeholder="Email"></asp:TextBox>
+                            </div>
+
+
+                        </div>
+
+                        <div class="mb-3 row">
+
                             <label class="col-form-label col-sm-2 text-sm-left">Öğrenci Durumu</label>
                             <div class="col-sm-2">
                                 <asp:DropDownList runat="server" ID="drpStudentState" CssClass="form-control">
@@ -89,16 +93,44 @@
                                 <asp:CheckBox runat="server" ID="chcIsActive" CssClass="form-check-input" Checked="true" />
                             </div>
                         </div>
-                        <div class="mb-3 row">
 
-                            <div class="col-sm-1">
-                                <asp:Button runat="server" ID="btnSubmit" CssClass="btn btn-primary " Text="Kaydet" OnClientClick="javascript: return validate()" OnClick="btnSubmit_Click" />
+                        <div class="mb-3 row">
+                            <label class="col-form-label col-sm-2 text-sm-left">Konuşulan Ücret</label>
+                            <div class="col-sm-2">
+                                <asp:TextBox runat="server" ID="txtSpokenPrice" onkeyup="checkDec(this);" CssClass="form-control" placeholder="Ücret"></asp:TextBox>
                             </div>
-                            <div class="col-sm-1">
-                                <asp:Button runat="server" ID="btnCancel" CssClass="btn btn-secondary " Text="İptal" OnClick="btnCancel_Click" />
+                            <label class="col-form-label col-sm-2 text-sm-left">Görüşme Tarihi</label>
+                            <div class="col-sm-2">
+                                <asp:TextBox ID="txtDateOfMeeting" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
                             </div>
                         </div>
-                       
+
+                        <div class="mb-3 row">
+                            <label class="col-form-label col-sm-2 text-sm-left">Notlar</label>
+                            <div class="col-sm-6">
+
+                                <asp:TextBox runat="server" TextMode="MultiLine" ID="txtNotes" CssClass="form-control" placeholder="Notlar"></asp:TextBox>
+
+                            </div>
+                        </div>
+
+
+                        <div class="mb-3 row">
+                            <div class="col-sm-5">
+                                <table cellpadding="4">
+                                    <tr>
+                                        <td>
+                                            <asp:Button runat="server" ID="btnSubmit" CssClass="btn btn-primary " Text="Kaydet" OnClientClick="javascript: return validate()" OnClick="btnSubmit_Click" /></td>
+                                        <td>
+                                            <asp:Button runat="server" ID="btnCancel" CssClass="btn btn-secondary " Text="İptal" OnClick="btnCancel_Click" />
+                                        </td>
+                                        <td>
+                                            <asp:Label runat="server" ID="lblPaymentDetail"></asp:Label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </asp:Panel>
                 </div>
             </div>

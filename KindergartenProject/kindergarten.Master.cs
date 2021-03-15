@@ -15,8 +15,8 @@ namespace KindergartenProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (KinderGartenWebService.list.ContainsKey(ListKey.SearchValue))
-                txtSearchStudent.Text = KinderGartenWebService.list[ListKey.SearchValue];
+            if (KinderGartenWebService.List.ContainsKey(ListKey.SearchValue))
+                txtSearchStudent.Text = KinderGartenWebService.List[ListKey.SearchValue];
         }
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
@@ -58,6 +58,11 @@ namespace KindergartenProject
                 panel.Attributes.Remove("class");
                 panel.Attributes.Add("class", "sidebar-item");
             }
+        }
+
+        public void SetVisibleSearchText(bool isVisible)
+        {
+            txtSearchStudent.Visible = isVisible;
         }
     }
 }

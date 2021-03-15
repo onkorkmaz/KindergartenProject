@@ -16,6 +16,7 @@ namespace KindergartenProject
             {
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.PaymentType);
+                master.SetVisibleSearchText(false);
             }
         }
     }

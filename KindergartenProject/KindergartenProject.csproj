@@ -76,6 +76,9 @@
     <Content Include="AddStudent.aspx" />
     <Content Include="charts-chartjs.html" />
     <Content Include="css\app.css" />
+    <Content Include="customJS\PaymentCommon.js" />
+    <Content Include="customJS\paymentDetail.js" />
+    <Content Include="customJS\paymentList.js" />
     <Content Include="customJS\studentList.js" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\fa-brands-400.svg" />
@@ -92,10 +95,14 @@
     <Content Include="img\avatars\avatar.jpg" />
     <Content Include="img\avatars\yeliz_ay.jpeg" />
     <Content Include="img\icons\active.png" />
+    <Content Include="img\icons\Başlıksız-4.png" />
     <Content Include="img\icons\benim_dunyam.jpeg" />
+    <Content Include="img\icons\interview.png" />
     <Content Include="img\icons\passive.png" />
+    <Content Include="img\icons\paymentPlan.png" />
     <Content Include="img\icons\Silinenler\active.jpg" />
     <Content Include="img\icons\Silinenler\passive.jpg" />
+    <Content Include="img\icons\student.png" />
     <Content Include="img\icons\trush1.png" />
     <Content Include="img\icons\update1.png" />
     <Content Include="img\photos\unsplash-1.jpg" />
@@ -112,10 +119,11 @@
     <Content Include="pages-invoice.html" />
     <Content Include="pages-profile.html" />
     <Content Include="pages-settings.html" />
+    <Content Include="PaymentDetail.aspx" />
     <Content Include="PaymentPlan.aspx" />
     <Content Include="PaymentType.aspx" />
-    <Content Include="customJS\PaymentType.js" />
-    <Content Include="customJS\Student.js" />
+    <Content Include="customJS\paymentType.js" />
+    <Content Include="customJS\student.js" />
     <Content Include="StudentList.aspx" />
     <Content Include="tables-bootstrap.html" />
     <Content Include="ui-alerts.html" />
@@ -156,6 +164,13 @@
     <Compile Include="KinderGartenWebService.asmx.cs">
       <DependentUpon>KinderGartenWebService.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PaymentDetail.aspx.cs">
+      <DependentUpon>PaymentDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PaymentDetail.aspx.designer.cs">
+      <DependentUpon>PaymentDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="PaymentPlan.aspx.cs">
       <DependentUpon>PaymentPlan.aspx</DependentUpon>
