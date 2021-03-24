@@ -54,10 +54,10 @@ function successFunctionCurrentPage(objects) {
         currentStudentList = studentList;
     }
 
-    drawList(currentStudentList, objects.PaymentTypeList);
+    drawList(currentStudentList, objects.PaymentTypeList, objects.Year, objects.Month);
 }
 
-function drawList(studentList, paymentTypeList) {
+function drawList(studentList, paymentTypeList, year,month) {
 
 
     var tbody = "<table class='table mb - 0'><thead><tr><th>##</th><th scope='col'>İsim</th>";
@@ -72,13 +72,12 @@ function drawList(studentList, paymentTypeList) {
     if (studentList != null) {
 
         var date = new Date();
-        var year = 2021;
-        var month = 3;
         for (var i in studentList) {
 
             tbody += "<tr>";
             tbody += "<td>";
-            tbody += "<a href = \"PaymentDetail.aspx?Id=" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"img/icons/paymentPlan2.png\" title='Ödeme detayı...'/></a>";
+            tbody += "<a href = \"PaymentDetail.aspx?Id=" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"img/icons/detail.png\" title='Ödeme detayı...'/></a>";
+            tbody += " <a href = \"SendEmail.aspx?Id=" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"img/icons/email.png\" title='Email Gönder'/></a>";
             tbody += "</td>";
             tbody += "<td>" + studentList[i].FullName + "</td>";
             tbody += drawPaymentDetail(paymentTypeList,year, month, studentList[i]);

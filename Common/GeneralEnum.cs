@@ -19,4 +19,14 @@ namespace Common
         PaymentPlan = 3,
         PaymentType = 4,
     }
+
+    public enum PaymentTypeEnum
+    {
+        None = 0,
+        Okul = 1,
+        Servis = 2,
+        Kirtasiye = 3,
+        Mental = 4,
+        Diger = 17
+    }
 }

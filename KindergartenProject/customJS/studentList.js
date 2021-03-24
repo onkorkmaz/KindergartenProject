@@ -3,12 +3,18 @@
     var searchValue = document.getElementById("txtSearchStudent").value;
 
     if (!IsNullOrEmpty(searchValue)) {
-        txtSearchStudent_Change(searchValue);
+        successFunctionSearchStudent(searchValue);
     }
     else {
         successFunctionSearchStudent(null);
     }
 };
+
+function txtSearchStudent_Change(searchValue) {
+
+    successFunctionSearchStudent(searchValue);
+    SetCacheData("searchValue", searchValue);
+}
 
 function GetStudentList() {
 
@@ -57,9 +63,14 @@ function drawList(entityList) {
             tbody += "<tr>";
             tbody += "<td style='cursor: pointer;' onclick =onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
             tbody += "<td>";
-            tbody += "<a href = \"AddStudent.aspx?Id=" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"img/icons/update.png\"/></a>";
-            tbody += "<a href = \"#\"><img src =\"img/icons/trush1.png\" title =''Sil onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
-            tbody += "<a href = \"PaymentDetail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Ödeme Detayı' src =\"img/icons/paymentPlan2.png\"/></a>";
+            tbody += "<a href = \"AddStudent.aspx?Id=" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"img/icons/update10.png\"/></a> ";       
+            //tbody += "<a href = \"#\"><img src =\"img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+
+            if (entityList[i].IsStudent == true) {
+                tbody += "<a href = \"PaymentDetail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Ödeme detayı' src =\"img/icons/paymentPlan.png\"/></a> ";
+                tbody += "<a href = \"SendEmail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Email gönder' src =\"img/icons/email4.png\"/></a>";
+            }
+            
             tbody += "</td>";
             tbody += "<td>" + entityList[i].FullName + "</td>";
             tbody += "<td>" + entityList[i].BirthdayWithFormat + "</td>";
@@ -67,16 +78,9 @@ function drawList(entityList) {
             tbody += "<td>" + entityList[i].MotherInfo + "</td>";
 
             if (entityList[i].IsStudent)
-                tbody += "<td>&nbsp;<img src='img/icons/student.png' width='20' height ='20' /></td>";
+                tbody += "<td>&nbsp;<img src='img/icons/student3.png' width='20' height ='20' /></td>";
             else
-                tbody += "<td>&nbsp;<img src='img/icons/interview.png' width='23' height ='23' /></td>";
-
-
-            if (entityList[i].IsActive)
-                tbody += "<td><img src='img/icons/active.png' width='20' height ='20' /></td>";
-            else
-                tbody += "<td><img src='img/icons/passive.png' width='23' height ='23' /></td>";
-
+                tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='img/icons/interview.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
 
             tbody += "</tr> ";
 
@@ -93,6 +97,14 @@ function drawList(entityList) {
                         tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + entityList[i].DateOfMeetingWithFormat + "</td></tr>";
                         tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + entityList[i].EmailStr + "</td></tr>";
                         tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + entityList[i].NotesStr + "</td></tr>";
+
+                        if (entityList[i].IsActive)
+                            tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/active.png' width='20' height ='20' /></td></tr>";
+                        else
+                            tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/passive.png' width='20' height ='20' /></td></tr>";
+
+                        tbody += "<tr><td><a href = \"#\"><img src =\"img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+
                     }
                     tbody += "</table>";
                 }
@@ -116,10 +128,18 @@ function onDetailRow(id) {
 
 function deleteCurrentRecord(id) {
 
-    if (confirm('Silme işlemine devam etmek istediğinize emin misiniz?')) {
-
+    if (confirm('Kayıt silinecektir, işleme devam etmek istediğinize emin misiniz?')) {
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
         CallServiceWithAjax('KinderGartenWebService.asmx/DeleteStudent', jsonData, successFunctionDeleteStudent, errorFunction);
+    }
+}
+
+function convertStudent(id) {
+
+    if (confirm('Görüşme olan kaydı öğrenciye çevirmek istediğinize emin misiniz?')) {
+
+        var jsonData = "{ id: " + JSON.stringify(id) + " }";
+        CallServiceWithAjax('KinderGartenWebService.asmx/ConvertStudent', jsonData, successFunctionConvertStudent, errorFunction);
     }
 }
 
@@ -133,6 +153,23 @@ function successFunctionDeleteStudent(obje) {
             successFunctionSearchStudent(null);
 
         callDeleteInformationMessage();
+
+    }
+    else {
+        alert("Hata var !!! Error : " + obje.ErrorDescription);
+    }
+}
+
+function successFunctionConvertStudent(obje) {
+    if (!obje.HasError && obje.Result) {
+        window["studentList"] = null;
+        window["tbody"] = null;
+        if (document.getElementById("txtSearchStudent") != null && !IsNullOrEmpty(document.getElementById("txtSearchStudent").value))
+            successFunctionSearchStudent(document.getElementById("txtSearchStudent").value);
+        else
+            successFunctionSearchStudent(null);
+
+        alert("Görüşme başarılı bir şekilde öğrenciye çevrilmiştir.");
 
     }
     else {

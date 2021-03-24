@@ -154,7 +154,33 @@ namespace KindergartenProject
 
             return result;
         }
-        
+
+        [WebMethod]
+        public DataResultArgs<StudentEntity> ConvertStudent(string id)
+        {
+            DataResultArgs<StudentEntity> result = new DataResultArgs<StudentEntity>
+            {
+                HasError = true,
+                ErrorDescription = "Id bilgisine ulaşılamadı"
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    StudentEntity student = new StudentBusiness().Get_Student(idInt).Result;
+
+                    if (student != null)
+                    {
+                        student.IsStudent = true;
+                        student.DatabaseProcess = DatabaseProcess.Update;
+                        result = new StudentBusiness().Set_Student(student);
+                    }
+                }
+            }
+            return result;
+        }
 
         [WebMethod]
         public DataResultArgs<PaymentTypeEntity> UpdatePaymentType(string id)
@@ -231,7 +257,7 @@ namespace KindergartenProject
 
             if (idInt > 0)
             {
-                StudentEntity studentEntity = new StudentBusiness().Get_AllStudentWithCache().Result.FirstOrDefault(o => o.Id == idInt);
+                StudentEntity studentEntity = new StudentBusiness().Get_Student().Result.FirstOrDefault(o => o.Id == idInt);
                 if (studentEntity != null)
                 {
                     DataResultArgs<List<PaymentEntity>> paymentListResult = new PaymentBusiness().Get_Payment(idInt, year);
@@ -251,7 +277,7 @@ namespace KindergartenProject
 
 
         [WebMethod]
-        public DataResultArgs<bool> DoPaymentOrUnPayment(string id, string encryptStudentId, string year, string month, string amount,bool isPayment, string paymentType)
+        public DataResultArgs<PaymentEntity> DoPaymentOrUnPayment(string id, string encryptStudentId, string year, string month, string amount,bool isPayment, string paymentType)
         {
             PaymentEntity paymentEntity = new PaymentEntity
             {
@@ -269,8 +295,82 @@ namespace KindergartenProject
             paymentEntity.IsPayment = isPayment;
             paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
 
-            return new PaymentBusiness().Set_Payment(paymentEntity);
+            DataResultArgs<string> resultSet = new PaymentBusiness().Set_Payment(paymentEntity);
 
+            paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
+            DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>();
+            returnResultSet.ErrorCode = resultSet.ErrorCode;
+            returnResultSet.ErrorDescription = resultSet.ErrorDescription;
+            returnResultSet.HasError = resultSet.HasError;
+            returnResultSet.Result = paymentEntity;
+
+            return returnResultSet;
+        }
+
+        [WebMethod]
+        public  DataResultArgs<PaymentEntity> SetPayableStatus(string id, string encryptStudentId, string year, string month, string amount, bool isNotPayable, string paymentType)
+        {
+            PaymentEntity paymentEntity = new PaymentEntity
+            {
+                EncryptStudentId = encryptStudentId,
+                StudentId = GeneralFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
+                Year = GeneralFunctions.GetData<short>(year),
+                Month = GeneralFunctions.GetData<short>(month),
+                Amount = GeneralFunctions.GetData<decimal>(amount),
+                Id = GeneralFunctions.GetData<int>(id)
+            };
+            paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
+            paymentEntity.IsActive = true;
+            paymentEntity.IsDeleted = false;
+            paymentEntity.PaymentDate = DateTime.Now;
+            paymentEntity.IsNotPayable = isNotPayable;
+            paymentEntity.IsPayment = false;
+            paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
+
+            DataResultArgs<string> resultSet = new PaymentBusiness().Set_Payment(paymentEntity);
+
+            paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
+            DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>();
+            returnResultSet.ErrorCode = resultSet.ErrorCode;
+            returnResultSet.ErrorDescription = resultSet.ErrorDescription;
+            returnResultSet.HasError = resultSet.HasError;
+            returnResultSet.Result = paymentEntity;
+
+            return returnResultSet;
+        }
+
+        [WebMethod]
+        public DataResultArgs<PaymentEntity> SetPaymentAmount(string id, string encryptStudentId, string year, string month,
+            string currentAmount, string paymentType)
+        {
+            PaymentEntity paymentEntity = new PaymentEntity
+            {
+                EncryptStudentId = encryptStudentId,
+                StudentId = GeneralFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
+                Year = GeneralFunctions.GetData<short>(year),
+                Month = GeneralFunctions.GetData<short>(month),
+                Amount = GeneralFunctions.GetData<decimal>(currentAmount),
+                Id = GeneralFunctions.GetData<int>(id)
+            };
+            paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
+            paymentEntity.IsActive = true;
+            paymentEntity.IsDeleted = false;
+            paymentEntity.PaymentDate = DateTime.Now;
+            paymentEntity.IsPayment = null;
+            paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
+
+            DataResultArgs<string> resultSet = new PaymentBusiness().Set_Payment(paymentEntity);
+
+            paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
+            DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>
+            {
+                ErrorCode = resultSet.ErrorCode,
+                ErrorDescription = resultSet.ErrorDescription,
+                HasError = resultSet.HasError,
+                Result = paymentEntity
+            };
+
+            return returnResultSet;
         }
 
         [WebMethod]
@@ -279,7 +379,8 @@ namespace KindergartenProject
         {
             StudentListAndPaymentTypeInfo paymentDetailEntity = new StudentListAndPaymentTypeInfo();
 
-            List<StudentEntity> studentList = GetAllStudent();
+            List<StudentEntity> studentList =
+                new StudentBusiness().Get_Student().Result.Where(o => o.IsStudent == true).ToList();
 
             List<PaymentEntity> paymentEntityList = new PaymentBusiness().Get_PaymentForCurrentMonth().Result;
 

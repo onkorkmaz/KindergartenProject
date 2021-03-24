@@ -8,6 +8,7 @@ namespace Common
     {
         public static string Add = "Kayıt başarılı bir şekilde eklenmiştir.";
         public static string Update = "Kayıt başarılı bir şekilde güncellenmiştir.";
+        public static string Delete = "Kayıt başarılı bir şekilde silinmiştir.";
 
     }
 

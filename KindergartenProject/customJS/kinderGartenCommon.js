@@ -57,6 +57,13 @@ function callInsertOrUpdateInformationMessage(id) {
     }
 }
 
+function validateDelete() {
+    if (!confirm('Kayıt silinecektir, işleme devam etmek istediğinize emin misiniz?')) {
+        return false;
+    }
+    return true;
+}
+
 function callDeleteInformationMessage() {
     alert("Kayıt başarılı bir şekilde silinmiştir.");
 }
@@ -160,4 +167,13 @@ function GetFilterStudent(studentList, search) {
     }
 
     return entityList;
+}
+
+const PaymentType = {
+
+    "Okul": 1,
+    "Servis": 2,
+    "Kirtasiye": 3,
+    "Mental": 4,
+    "Diger": 5
 }

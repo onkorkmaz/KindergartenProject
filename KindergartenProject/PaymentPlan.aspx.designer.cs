@@ -24,24 +24,6 @@ namespace KindergartenProject
         protected global::KindergartenProject.userControl.divInformation divInformation;
 
         /// <summary>
-        /// lblPaymentStudent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPaymentStudent;
-
-        /// <summary>
-        /// lblUnpaymentStudentList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUnpaymentStudentList;
-
-        /// <summary>
         /// divMain control.
         /// </summary>
         /// <remarks>

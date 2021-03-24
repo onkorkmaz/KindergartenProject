@@ -90,7 +90,10 @@ namespace KindergartenProject
                             CurrentRecord = resultSet.Result.First();
                             btnSubmit.Text = ButtonText.Update;
 
-                            lblPaymentDetail.Text = "<a href = \"PaymentDetail.aspx?Id=" + resultSet.Result[0].EncryptId + "\">" + paymentDetail + "</a>";
+                            if (!currentRecord.IsStudent)
+                            {
+                                btnPaymentDetail.Visible = false;
+                            }
                         }
                     }
                 }
@@ -102,7 +105,7 @@ namespace KindergartenProject
 
         #region METHODS
 
-        private void processToDatabase(DatabaseProcess databaseProcess, string id = null)
+        private void processToDatabase(DatabaseProcess databaseProcess)
         {
             StudentEntity entity = new StudentEntity();
             entity.DatabaseProcess = databaseProcess;
@@ -135,11 +138,18 @@ namespace KindergartenProject
             }
             else
             {
-                divInformation.SuccessfulText = (databaseProcess == DatabaseProcess.Add) ? RecordMessage.Add : RecordMessage.Update;
-                btnSubmit.Text = ButtonText.Submit;
-                pnlBody.Enabled = false;
-                divInformation.SetAnotherText("<a href = \"PaymentDetail.aspx?Id=" + resultSet.Result.EncryptId + "\">" + paymentDetail + "</a>");
-
+                if (databaseProcess == DatabaseProcess.Deleted)
+                {
+                    divInformation.SuccessfulText = RecordMessage.Delete;
+                    pnlBody.Enabled = false;
+                }
+                else
+                {
+                    divInformation.SuccessfulText = (databaseProcess == DatabaseProcess.Add) ? RecordMessage.Add : RecordMessage.Update;
+                    btnSubmit.Text = ButtonText.Submit;
+                    pnlBody.Enabled = false;
+                    divInformation.SetAnotherText("<a href = \"PaymentDetail.aspx?Id=" + resultSet.Result.EncryptId + "\">" + paymentDetail + "</a>");
+                }
             }
         }
         #endregion METHODS
@@ -149,27 +159,34 @@ namespace KindergartenProject
         {
             Button btn = ((Button)sender);
             bool insert = GeneralFunctions.GetData<int>(hdnId.Value) <= 0;
-            processToDatabase((insert) ? DatabaseProcess.Add : DatabaseProcess.Update, (insert) ? RecordMessage.Add : RecordMessage.Update);
-        }
-        protected void btnUpdate_Command(object sender, CommandEventArgs e)
-        {
-            String id = e.CommandArgument.ToString();
-            CurrentRecord = lst.FirstOrDefault(o => o.Id == GeneralFunctions.GetData<Int32>(id));
-            btnSubmit.Text = ButtonText.Update;
-            //setEnabledToControls();
+            processToDatabase((insert) ? DatabaseProcess.Add : DatabaseProcess.Update);
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             Response.Redirect("/AddStudent.aspx");
         }
-        protected void btnDelete_Command(object sender, CommandEventArgs e)
-        {
-            //lblResult.Text = e.CommandArgument.ToString();
-            string id = e.CommandArgument.ToString();
-            //processToDatabase(DatabaseProcess.Delete, RecordMessage.Delete, id);
-        }
+
 
         #endregion EVENTS
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            int id = GeneralFunctions.GetData<int>(hdnId.Value);
+
+            if (id > 0)
+            {
+                processToDatabase(DatabaseProcess.Deleted);
+            }
+        }
+
+        protected void btnPayment_Click(object sender, EventArgs e)
+        {
+            if (currentRecord.Id > 0)
+            {
+                string link = "PaymentDetail.aspx?Id=" + currentRecord.EncryptId;
+                Response.Redirect(link);
+            }
+        }
     }
 }

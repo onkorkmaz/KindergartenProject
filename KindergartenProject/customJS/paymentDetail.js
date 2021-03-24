@@ -14,7 +14,7 @@ function loadData() {
     var encryptStudentId = getParameterByName("Id");
     var year = document.getElementById("drpYear").value;
     var jsonData = "{decryptStudentId: " + JSON.stringify(encryptStudentId) + ", year:" + year + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/GetStudentListAndPaymentInfo', jsonData, successFunctionCurrentPage, errorFunction);
+    CallServiceWithAjax('KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForPaymentDetail', jsonData, successFunctionCurrentPage, errorFunction);
 
 }
 

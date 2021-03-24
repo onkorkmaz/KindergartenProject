@@ -13,12 +13,11 @@ namespace KindergartenProject
 {
     public partial class PaymentDetail : System.Web.UI.Page
     {
-        public string StudentUnFound = "Ödeme detayı için öğrenci seçmelisiniz !!!";
+        private const string studentDoesNotFound = "Ödeme detayı için öğrenci seçmelisiniz !!!";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
-                
                 int year = DateTime.Today.Year;
 
                 for(int i = 0;i<5;i++)
@@ -40,7 +39,7 @@ namespace KindergartenProject
 
             if (Id == null)
             {
-                divInformation.ErrorText = StudentUnFound;
+                divInformation.ErrorText = studentDoesNotFound;
                 divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
                 divInformation.ErrorLink = "PaymentPlan.aspx";
             }
@@ -50,7 +49,7 @@ namespace KindergartenProject
                 int id = GeneralFunctions.GetData<int>(IdDecrypt);
                 if (id <= 0)
                 {
-                    divInformation.ErrorText = StudentUnFound;
+                    divInformation.ErrorText = studentDoesNotFound;
                     divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
                     divInformation.ErrorLink = "PaymentPlan.aspx";
                 }
@@ -58,7 +57,10 @@ namespace KindergartenProject
                 {
                     StudentEntity entity = new StudentBusiness().Get_Student(new SearchEntity() { Id = id }).Result[0];
 
-                    lblStudentInto.Text = entity.FullName.ToUpper() + "&nbsp;&nbsp;&nbsp;" + "<a href = \"AddStudent.aspx?Id=" + entity.EncryptId + "\"><img src =\"img/icons/update1.png\"/>Güncelle</a>";
+                    lblStudentInto.Text = "<a href = \"AddStudent.aspx?Id=" + entity.EncryptId + "\">" +
+                                          entity.FullName.ToUpper() + "</a> &nbsp;&nbsp;&nbsp;";
+                    lblStudentInto.Text += "<a href= 'SendEmail.aspx?Id=" + entity.EncryptId +
+                                           "'><img title='Mail Gönder' src ='img/icons/email.png'/></a>";
 
                     //DataResultArgs<List<PaymentTypeEntity>> resultSet = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
 

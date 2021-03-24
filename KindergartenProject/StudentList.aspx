@@ -58,7 +58,6 @@
                             <th scope="col">Baba Bilg.</th>
                             <th scope="col">Anne Bilg.</th>
                             <th scope="col">Kayıt D.</th>
-                            <th scope="col">Aktif</th>
 
                         </tr>
                     </thead>
