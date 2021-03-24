@@ -2,7 +2,6 @@
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="customJS/studentList.js"></script>
 </asp:Content>

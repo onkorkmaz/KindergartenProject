@@ -74,21 +74,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AddStudent.aspx" />
-    <Content Include="charts-chartjs.html" />
     <Content Include="css\app.css" />
+    <Content Include="css\custom.css" />
     <Content Include="customJS\PaymentCommon.js" />
     <Content Include="customJS\paymentDetail.js" />
     <Content Include="customJS\paymentList.js" />
     <Content Include="customJS\sendEmail.js" />
+    <Content Include="customJS\login.js" />
     <Content Include="customJS\studentList.js" />
     <Content Include="Default.aspx" />
+    <Content Include="Exit.aspx" />
     <Content Include="fonts\fa-brands-400.svg" />
     <Content Include="fonts\fa-regular-400.svg" />
     <Content Include="fonts\fa-solid-900.svg" />
-    <Content Include="forms-basic-inputs.html" />
-    <Content Include="forms-layouts.html" />
     <Content Include="Global.asax" />
-    <Content Include="icons-feather.html" />
     <Content Include="img\avatars\avatar-2.jpg" />
     <Content Include="img\avatars\avatar-3.jpg" />
     <Content Include="img\avatars\avatar-4.jpg" />
@@ -96,7 +95,6 @@
     <Content Include="img\avatars\avatar.jpg" />
     <Content Include="img\avatars\yeliz_ay.jpeg" />
     <Content Include="img\icons\active.png" />
-    <Content Include="img\icons\Başlıksız-4.png" />
     <Content Include="img\icons\benim_dunyam.jpeg" />
     <Content Include="img\icons\benim_dunyam2.png" />
     <Content Include="img\icons\benim_dunyam3.png" />
@@ -139,17 +137,12 @@
     <Content Include="img\photos\unsplash-1.jpg" />
     <Content Include="img\photos\unsplash-2.jpg" />
     <Content Include="img\photos\unsplash-3.jpg" />
-    <Content Include="index.html" />
     <Content Include="js\app.js" />
     <Content Include="js\app.js.LICENSE.txt" />
     <Content Include="js\KindergartenCommon.js" />
     <Content Include="customJS\kinderGartenCommon.js" />
     <Content Include="KinderGartenWebService.asmx" />
-    <Content Include="maps-google.html" />
-    <Content Include="pages-blank.html" />
-    <Content Include="pages-invoice.html" />
-    <Content Include="pages-profile.html" />
-    <Content Include="pages-settings.html" />
+    <Content Include="Login.aspx" />
     <Content Include="PaymentDetail.aspx" />
     <Content Include="PaymentPlan.aspx" />
     <Content Include="PaymentType.aspx" />
@@ -157,14 +150,6 @@
     <Content Include="customJS\student.js" />
     <Content Include="SendEmail.aspx" />
     <Content Include="StudentList.aspx" />
-    <Content Include="tables-bootstrap.html" />
-    <Content Include="ui-alerts.html" />
-    <Content Include="ui-buttons.html" />
-    <Content Include="ui-cards.html" />
-    <Content Include="ui-general.html" />
-    <Content Include="ui-grid.html" />
-    <Content Include="ui-modals.html" />
-    <Content Include="ui-typography.html" />
     <Content Include="userControl\divInformation.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -183,6 +168,13 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Exit.aspx.cs">
+      <DependentUpon>Exit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Exit.aspx.designer.cs">
+      <DependentUpon>Exit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -196,6 +188,13 @@
     <Compile Include="KinderGartenWebService.asmx.cs">
       <DependentUpon>KinderGartenWebService.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="PaymentDetail.aspx.cs">
       <DependentUpon>PaymentDetail.aspx</DependentUpon>

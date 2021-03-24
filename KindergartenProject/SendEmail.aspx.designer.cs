@@ -24,6 +24,15 @@ namespace KindergartenProject
         protected global::KindergartenProject.userControl.divInformation divInformation;
 
         /// <summary>
+        /// hdnSelectedMonth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnSelectedMonth;
+
+        /// <summary>
         /// hdnId control.
         /// </summary>
         /// <remarks>

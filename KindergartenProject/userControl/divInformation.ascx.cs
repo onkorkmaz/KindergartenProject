@@ -108,5 +108,11 @@ namespace KindergartenProject.userControl
         {
             lblAnotherInfo.Text = link;
         }
+
+        public void SetVisibleLink(bool isVisibleList, bool isVisibleNewPage)
+        {
+            lnkRecordList.Visible = isVisibleList;
+            lnkNewRecord.Visible = isVisibleNewPage;
+        }
     }
 }

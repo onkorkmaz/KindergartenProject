@@ -21,7 +21,8 @@ namespace KindergartenProject
         protected void Page_Load(object sender, EventArgs e)
         {
             divInformation.InformationVisible = false;
-            divInformation.ListRecordPage = "PaymentList.aspx";
+            divInformation.ListRecordPage = "PaymentPlan.aspx";
+            divInformation.SetVisibleLink(true, false);
 
             if (this.Master is kindergarten master)
             {
@@ -29,119 +30,142 @@ namespace KindergartenProject
                 master.SetVisibleSearchText(false);
             }
 
-            object Id = Request.QueryString["Id"];
-
-            if (Id == null)
+            if (!Page.IsPostBack)
             {
-                divInformation.ErrorText = studentDoesNotFound;
-                divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-                divInformation.ErrorLink = "PaymentPlan.aspx";
-            }
+                object Id = Request.QueryString["Id"];
 
-            string IdDecrypt = Cipher.Decrypt(Id.ToString());
-            int id = GeneralFunctions.GetData<int>(IdDecrypt);
-            if (id <= 0)
-            {
-                divInformation.ErrorText = studentDoesNotFound;
-                divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-                divInformation.ErrorLink = "PaymentPlan.aspx";
-            }
-            else
-            {
-                int width = 15;
-                int height = 15;
-                StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
-
-                lblStudentInto.Text = "<a href = \"AddStudent.aspx?Id=" + entity.EncryptId + "\">" +
-                                      entity.FullName.ToUpper() +
-                                      "</a> &nbsp;&nbsp;&nbsp;";
-                lblStudentInto.Text += "<a href= 'PaymentDetail.aspx?Id=" + entity.EncryptId +
-                                       "'><img title='Ödeme Detayı' src ='img/icons/paymentPlan.png'/></a>";
-
-
-                txtEmail.Text = entity.Email;
-
-                DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                    new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() {IsActive = true, IsDeleted = false});
-
-                if (resultSet.HasError)
+                if (Id == null)
                 {
-                    divInformation.ErrorText = resultSet.ErrorDescription;
+                    divInformation.ErrorText = studentDoesNotFound;
+                    divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
+                    divInformation.ErrorLink = "PaymentPlan.aspx";
+                }
+
+                string IdDecrypt = Cipher.Decrypt(Id.ToString());
+                int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                if (id <= 0)
+                {
+                    divInformation.ErrorText = studentDoesNotFound;
+                    divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
+                    divInformation.ErrorLink = "PaymentPlan.aspx";
                 }
                 else
                 {
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine(
-                        @"<table class='table mb - 0'><thead><tr><th scope='col'><input type='checkbox' id='chc_All' name='chc_All' year='" +
-                        DateTime.Today.Year.ToString() +
-                        "' onclick =chcAllChange(); /></th> <th scope='col'>Ay</th>");
+                    int width = 15;
+                    int height = 15;
+                    StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
 
-                    List<PaymentTypeEntity> paymentTypeList = resultSet.Result;
+                    lblStudentInto.Text = "<a href = \"AddStudent.aspx?Id=" + entity.EncryptId + "\">" +
+                                          entity.FullName.ToUpper() +
+                                          "</a> &nbsp;&nbsp;&nbsp;";
+                    lblStudentInto.Text += "<a href= 'PaymentDetail.aspx?Id=" + entity.EncryptId +
+                                           "'><img title='Ödeme Detayı' src ='img/icons/paymentPlan.png'/></a>";
 
-                    foreach (PaymentTypeEntity payment in paymentTypeList)
+
+                    txtEmail.Text = entity.Email;
+
+                    DataResultArgs<List<PaymentTypeEntity>> resultSet =
+                        new PaymentTypeBusiness().Get_PaymentType(new SearchEntity()
+                            {IsActive = true, IsDeleted = false});
+
+                    if (resultSet.HasError)
                     {
-                        sb.AppendLine("<th scope='col'>" + payment.Name + "</th>");
+                        divInformation.ErrorText = resultSet.ErrorDescription;
                     }
-
-                    var monthList = GetMonthList();
-
-                    foreach (int  month in monthList.Keys)
+                    else
                     {
-                        var uniqueName = "_" + DateTime.Today.Year.ToString() + "_" + month;
+                        StringBuilder sb = new StringBuilder();
+                        sb.AppendLine(
+                            @"<table class='table mb - 0'><thead><tr><th scope='col'><input type='checkbox' id='chc_All' name='chc_All' year='" +
+                            DateTime.Today.Year.ToString() +
+                            "' onclick =chcAllChange(); /></th> <th scope='col'>Ay</th>");
 
-                        var chcPaymentName = "chc" + uniqueName;
+                        List<PaymentTypeEntity> paymentTypeList = resultSet.Result;
 
-                        sb.AppendLine("<tr>");
-                        sb.AppendLine("<td><input type='checkbox' id='" + chcPaymentName + "' name='" + chcPaymentName +
-                                      "'/></td>");
-                        sb.AppendLine("<td>" + monthList[month] + "</td>");
-
-
-                        foreach(PaymentTypeEntity payment in paymentTypeList)
+                        foreach (PaymentTypeEntity payment in paymentTypeList)
                         {
-                            PaymentEntity paymentEntity = entity.PaymentList.FirstOrDefault(o =>
-                                o.Month == month && o.Year == DateTime.Today.Year && o.PaymentType == payment.Id);
+                            sb.AppendLine("<th scope='col'>" + payment.Name + "</th>");
+                        }
 
-                            if (paymentEntity != null)
+                        var monthList = GetMonthList();
+
+                        foreach (int month in monthList.Keys)
+                        {
+                            var uniqueName = "_" + DateTime.Today.Year.ToString() + "_" + month;
+
+                            var chcPaymentName = "chc" + uniqueName;
+
+                            string isCheck = "";
+                            if (DateTime.Today.Month == month)
                             {
-                                if (paymentEntity.IsNotPayable)
+                                isCheck = "checked='checked'";
+                                hdnSelectedMonth.Value = "" + month + ",'" + monthList[month] + "'";
+                            }
+
+                            sb.AppendLine("<tr>");
+                            sb.AppendLine("<td><input type='checkbox' id='" + chcPaymentName + "' name='" +
+                                          chcPaymentName +
+                                          "' onclick =chcChange(); " + isCheck + " /></td>");
+                            sb.AppendLine("<td>" + monthList[month] + "</td>");
+
+
+                            foreach (PaymentTypeEntity payment in paymentTypeList)
+                            {
+                                PaymentEntity paymentEntity = entity.PaymentList.FirstOrDefault(o =>
+                                    o.Month == month && o.Year == DateTime.Today.Year && o.PaymentType == payment.Id);
+
+                                if (paymentEntity != null)
                                 {
-                                    sb.AppendLine("<td> - </td>");
-                                }
-                                else if (paymentEntity.IsPayment.HasValue)
-                                {
-                                    if (paymentEntity.IsPayment.Value)
+                                    if (paymentEntity.IsNotPayable)
                                     {
-                                        sb.AppendLine("<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" + paymentEntity.AmountDesc +
-                                                      "</td><td><img width='"+width+"' height='"+height+ "' src=\"img/icons/greenSmile2.png\"/></td></tr></table></td>");
+                                        sb.AppendLine("<td> - </td>");
+                                    }
+                                    else if (paymentEntity.IsPayment.HasValue)
+                                    {
+                                        if (paymentEntity.IsPayment.Value)
+                                        {
+                                            sb.AppendLine(
+                                                "<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" +
+                                                paymentEntity.AmountDesc +
+                                                "</td><td><img width='" + width + "' height='" + height +
+                                                "' src=\"img/icons/greenSmile2.png\"/></td></tr></table></td>");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(
+                                                "<td><table cellpadding='4'><tr style='vertical-align: middle' ><td>" +
+                                                paymentEntity.AmountDesc +
+                                                "</td><td><img width='" + width + "' height='" + height +
+                                                "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                        }
                                     }
                                     else
                                     {
-                                        sb.AppendLine("<td><table cellpadding='4'><tr style='vertical-align: middle' ><td>" + paymentEntity.AmountDesc +
-                                                      "</td><td><img width='" + width + "' height='" + height + "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                        sb.AppendLine(
+                                            "<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" +
+                                            paymentEntity.AmountDesc +
+                                            "</td><td><img width='" + width + "' height='" + height +
+                                            "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
                                     }
                                 }
                                 else
                                 {
-                                    sb.AppendLine("<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" + paymentEntity.AmountDesc +
-                                                  "</td><td><img width='" + width + "' height='" + height + "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                    sb.AppendLine("<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" +
+                                                  payment.AmountDesc +
+                                                  "</td><td><img width='" + width + "' height='" + height +
+                                                  "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
                                 }
                             }
-                            else
-                            {
-                                sb.AppendLine("<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" + payment.AmountDesc +
-                                              "</td><td><img width='" + width + "' height='" + height + "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
-                            }
+
+                            sb.AppendLine("</tr>");
                         }
 
-                        sb.AppendLine("</tr>");
+                        sb.AppendLine(@"</tr></thead>");
+
+                        sb.AppendLine("</table>");
+
+                        divMain.InnerHtml = sb.ToString();
                     }
-
-                    sb.AppendLine(@"</tr></thead>");
-
-                    sb.AppendLine("</table>");
-
-                    divMain.InnerHtml = sb.ToString();
                 }
             }
         }
@@ -163,7 +187,6 @@ namespace KindergartenProject
             monthList.Add(12, "Aralık");
             return monthList;
         }
-
 
         protected void btnSendEmail_Click(object sender, EventArgs e)
         {
@@ -190,13 +213,23 @@ namespace KindergartenProject
                 Application wordApp = new Application();
                 string savePathToFiles = Server.MapPath("/PaymentDocument/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName));
 
+                if (string.IsNullOrEmpty(entity.Email) && !string.IsNullOrEmpty(txtEmail.Text))
+                {
+                    entity.Email = txtEmail.Text;
+                    new StudentBusiness().Set_Student(entity);
+                }
+
                 string templatePath = Server.MapPath("/Template");
 
                 if (!Directory.Exists(savePathToFiles))
                     Directory.CreateDirectory(savePathToFiles);
+                else
+                {
+
+                }
 
                 Document document =
-                    wordApp.Documents.Open(templatePath + "/odemePlani.docx", ReadOnly: true, Visible: true);
+                    wordApp.Documents.Open(templatePath + "/odemePlani2.docx", ReadOnly: true, Visible: true);
                 document.Activate();
 
                 FindAndReplace(wordApp, "<fullName>", entity.FullName.ToUpper());
@@ -206,10 +239,44 @@ namespace KindergartenProject
 
                 List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(resultSet.Result, entity.PaymentList);
 
-                foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
+                Dictionary<int,string> selectedMonthList = GetSelectedMonthList();
+
+                foreach (int month in selectedMonthList.Keys)
                 {
-                    FindAndReplace(wordApp, emailPaymentEntity.TemplateName, emailPaymentEntity.AmountDescription);
+                    Row row = document.Tables[1].Rows.Add();
+                    row.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
+                    row.Cells[1].Range.Text = selectedMonthList[month];
+                    foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
+                    {
+                        if (emailPaymentEntity.Month == month)
+                        {
+                            switch ((PaymentTypeEnum)emailPaymentEntity.PaymentTypeId)
+                            {
+                                case PaymentTypeEnum.Okul:
+                                    AddCell(row, emailPaymentEntity,2);
+                                    break;
+                                case PaymentTypeEnum.None:
+                                    break;
+                                case PaymentTypeEnum.Servis:
+                                    AddCell(row, emailPaymentEntity, 3);
+                                    break;
+                                case PaymentTypeEnum.Kirtasiye:
+                                    AddCell(row, emailPaymentEntity, 4);
+                                    break;
+                                case PaymentTypeEnum.Mental:
+                                    AddCell(row, emailPaymentEntity, 5);
+                                    break;
+                                case PaymentTypeEnum.Diger:
+                                    AddCell(row, emailPaymentEntity, 6);
+                                    break;
+                                default:
+                                    break;
+
+                            }
+                        }
+                    }
                 }
+
 
                 string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
                                   "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss") + ".docx";
@@ -221,7 +288,44 @@ namespace KindergartenProject
                 document.SaveAs(fileName);
                 document.Close();
                 GC.Collect();
+                divInformation.SuccessfulText = "Mail gönderim işlemi başarıyla tamamlanmıştır";
+                divInformation.SetVisibleLink(true, false);
+                pnlBody.Enabled = false;
             }
+        }
+
+        private static void AddCell(Row row, EmailPaymentEntity emailPaymentEntity, int index)
+        {
+            row.Cells[index].Range.Text = emailPaymentEntity.AmountDescription;
+            row.Cells[index].Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+            row.Cells[index].Height = 20;
+            if (emailPaymentEntity.IsPayment)
+            {
+                row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorLightGreen;
+            }
+            else if (emailPaymentEntity.AmountDescription.Trim() != CommonConst.EmptyAmount.Trim())
+            {
+                row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorLightYellow;
+            }
+            else
+            {
+                row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+            }
+        }
+
+        private Dictionary<int, string> GetSelectedMonthList()
+        {
+            string[] selectedMonthList = hdnSelectedMonth.Value.Split('_');
+            Dictionary<int, string> list = new Dictionary<int, string>();
+
+            foreach (string monthIdAndName in selectedMonthList)
+            {
+                string[] temp = monthIdAndName.Split(',');
+                if (GeneralFunctions.GetData<int>(temp[0]) > 0)
+                    list.Add(GeneralFunctions.GetData<int>(temp[0]), temp[1].Replace("'", ""));
+            }
+
+            return list;
 
         }
 
@@ -241,22 +345,6 @@ namespace KindergartenProject
                     entity.Month = month;
                     entity.PaymentTypeId = paymentType.Id.Value;
 
-                    if (paymentType.Id == (int) PaymentTypeEnum.Okul)
-                        entity.TemplateName = "<" + GeneralFunctions.ReplaceTurkishChar(monthList[month]) + "Okul>";
-
-                    if (paymentType.Id == (int)PaymentTypeEnum.Servis)
-                        entity.TemplateName = "<" + GeneralFunctions.ReplaceTurkishChar(monthList[month]) + "Srv>";
-
-                    if (paymentType.Id == (int)PaymentTypeEnum.Kirtasiye)
-                        entity.TemplateName = "<" + GeneralFunctions.ReplaceTurkishChar(monthList[month]) + "Krt>";
-
-                    if (paymentType.Id == (int)PaymentTypeEnum.Mental)
-                        entity.TemplateName = "<" + GeneralFunctions.ReplaceTurkishChar(monthList[month]) + "Mnt>";
-
-                    if (paymentType.Id == (int)PaymentTypeEnum.Diger)
-                        entity.TemplateName = "<" + GeneralFunctions.ReplaceTurkishChar(monthList[month]) + "Diger>";
-
-
                     PaymentEntity paymentEntity = paymentList.FirstOrDefault(o =>
                         o.Year == year && o.Month == month && o.PaymentType == paymentType.Id);
 
@@ -268,14 +356,17 @@ namespace KindergartenProject
                         else
                         {
                             entity.AmountDescription = paymentType.AmountDesc ;
-                            entity.Image = "~/img/icons/unPayment2.png";
                         }
+                    }
+                    else if (paymentEntity.Month > DateTime.Today.Month)
+                    {
+                        entity.AmountDescription = CommonConst.EmptyAmount;
                     }
                     else
                     {
                         if (paymentEntity.IsNotPayable)
                         {
-                            entity.AmountDescription = " - ";
+                            entity.AmountDescription = CommonConst.EmptyAmount;
                         }
                         else
                         {
@@ -284,27 +375,23 @@ namespace KindergartenProject
                                 if (paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue &&
                                     paymentEntity.Amount.Value > 0)
                                 {
-                                    entity.AmountDescription = "";
-                                    entity.Image = "~/img/icons/greenSmile2.png";
-
+                                    entity.AmountDescription = "Ödendi";
+                                    entity.IsPayment = true;
                                 }
                                 else if (!paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue &&
                                          paymentEntity.Amount.Value > 0)
                                 {
                                     entity.AmountDescription = paymentEntity.AmountDesc;
-                                    entity.Image = "~/img/icons/unPayment2.png";
                                 }
 
                                 else
                                 {
                                     entity.AmountDescription = paymentType.AmountDesc;
-                                    entity.Image = "~/img/icons/unPayment2.png";
                                 }
                             }
                             else
                             {
                                 entity.AmountDescription = paymentType.AmountDesc;
-                                entity.Image = "~/img/icons/unPayment2.png";
                             }
                         }
                     }

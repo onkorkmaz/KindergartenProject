@@ -4,21 +4,26 @@ using System.Text;
 
 namespace Common
 {
-    public class RecordMessage
+    public static class CommonConst
     {
-        public static string Add = "Kayıt başarılı bir şekilde eklenmiştir.";
-        public static string Update = "Kayıt başarılı bir şekilde güncellenmiştir.";
-        public static string Delete = "Kayıt başarılı bir şekilde silinmiştir.";
-
+        public const string EmptyAmount = " - ";
+        public const string Admin = "Admin";
     }
 
-    public class ButtonText
+    public static class RecordMessage
     {
-        public static string Submit = "Kaydet";
-        public static string Update = "Güncelle";
+        public const string Add = "Kayıt başarılı bir şekilde eklenmiştir.";
+        public const string Update = "Kayıt başarılı bir şekilde güncellenmiştir.";
+        public const string Delete = "Kayıt başarılı bir şekilde silinmiştir.";
     }
 
-    public class ListKey
+    public static class ButtonText
+    {
+        public const string Submit = "Kaydet";
+        public const string Update = "Güncelle";
+    }
+
+    public static class ListKey
     {
         public const string SearchValue = "searchValue";
     }

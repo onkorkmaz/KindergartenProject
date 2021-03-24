@@ -8,7 +8,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">
         <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
-        
+        <asp:HiddenField runat="server" ID="hdnSelectedMonth" Value=""/>
         <div class="col-12 col-xl-12">
             <div class="card">
                 <div class="card-body">

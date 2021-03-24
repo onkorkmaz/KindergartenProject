@@ -11,61 +11,52 @@ namespace KindergartenProject
 {
 
 
-    public partial class Default
+    public partial class Login
     {
 
         /// <summary>
-        /// lblStudent control.
+        /// divInformation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStudent;
+        protected global::KindergartenProject.userControl.divInformation divInformation;
 
         /// <summary>
-        /// lblMonthStudent control.
+        /// pnlBody control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthStudent;
+        protected global::System.Web.UI.WebControls.Panel pnlBody;
 
         /// <summary>
-        /// lblInterview control.
+        /// txtUserName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInterview;
+        protected global::System.Web.UI.WebControls.TextBox txtUserName;
 
         /// <summary>
-        /// lblMonthInterview control.
+        /// txtPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthInterview;
+        protected global::System.Web.UI.WebControls.TextBox txtPassword;
 
         /// <summary>
-        /// lblBirthdayToday control.
+        /// btnLogin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBirthdayToday;
-
-        /// <summary>
-        /// lblBirthdayThisMonth control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBirthdayThisMonth;
+        protected global::System.Web.UI.WebControls.Button btnLogin;
     }
 }

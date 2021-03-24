@@ -19,6 +19,7 @@ function txtSearchStudent_Change(searchValue) {
 function GetStudentList() {
 
     var studentList = window["studentList"];
+
     if (window["studentList"] == null) {
 
         var jsonData = "{}";

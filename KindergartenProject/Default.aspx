@@ -50,7 +50,7 @@
 										</div>
 									</div>
 									<div class="col-sm-6">
-										<div class="card">
+										<%--<div class="card">
 											<div class="card-body">
 												<h5 class="card-title mb-4"><b>Ödemeler</b> : 0</h5>
 												<h1 class="mt-1 mb-3"><asp:Label runat="server" ID="lblPayment"></asp:Label></h1>
@@ -60,7 +60,7 @@
 													<span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i><asp:Label runat="server" ID="lblMonthPayment"></asp:Label></span>
 												</div>
 											</div>
-										</div>
+										</div>--%>
 
 										<div class="card">
 											<div class="card-body">

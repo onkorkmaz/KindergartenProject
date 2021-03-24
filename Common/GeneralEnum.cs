@@ -18,6 +18,7 @@ namespace Common
         AddStudenList = 2,
         PaymentPlan = 3,
         PaymentType = 4,
+        Login = 5,
     }
 
     public enum PaymentTypeEnum

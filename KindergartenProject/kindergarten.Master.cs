@@ -15,8 +15,15 @@ namespace KindergartenProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (SelectedMenuList != MenuList.Login &&  Session[CommonConst.Admin] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+            }
+
             if (KinderGartenWebService.List.ContainsKey(ListKey.SearchValue))
                 txtSearchStudent.Text = KinderGartenWebService.List[ListKey.SearchValue];
+
+            setNavbarVisible(SelectedMenuList != MenuList.Login);
         }
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
@@ -63,6 +70,11 @@ namespace KindergartenProject
         public void SetVisibleSearchText(bool isVisible)
         {
             txtSearchStudent.Visible = isVisible;
+        }
+
+        public void setNavbarVisible(bool isVisible)
+        {
+            sidebar.Visible = isVisible;
         }
     }
 }

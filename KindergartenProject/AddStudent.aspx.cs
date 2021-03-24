@@ -65,6 +65,8 @@ namespace KindergartenProject
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.AddStudenList);
             master.SetVisibleSearchText(false);
+            btnPaymentDetail.Visible = false;
+            btnDelete.Visible = false;
 
             if (!Page.IsPostBack)
             {
@@ -89,11 +91,8 @@ namespace KindergartenProject
                         {
                             CurrentRecord = resultSet.Result.First();
                             btnSubmit.Text = ButtonText.Update;
-
-                            if (!currentRecord.IsStudent)
-                            {
-                                btnPaymentDetail.Visible = false;
-                            }
+                            btnPaymentDetail.Visible = currentRecord.IsStudent;
+                            btnDelete.Visible = true;
                         }
                     }
                 }
@@ -164,7 +163,7 @@ namespace KindergartenProject
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/AddStudent.aspx");
+            Response.Redirect("~/AddStudent.aspx");
         }
 
 
@@ -182,10 +181,18 @@ namespace KindergartenProject
 
         protected void btnPayment_Click(object sender, EventArgs e)
         {
-            if (currentRecord.Id > 0)
+            object Id = Request.QueryString["Id"];
+
+            if (Id != null)
             {
-                string link = "PaymentDetail.aspx?Id=" + currentRecord.EncryptId;
-                Response.Redirect(link);
+                string IdDecrypt = Cipher.Decrypt(Id.ToString());
+
+                int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                if (id > 0)
+                {
+                    string link = "~/PaymentDetail.aspx?Id=" + Cipher.Encrypt(id.ToString());
+                    Response.Redirect(link);
+                }
             }
         }
     }

@@ -27,7 +27,7 @@
     <form id="form1" runat="server">
         <div>
             <div class="wrapper">
-                <nav id="sidebar" class="sidebar">
+                <nav ID="sidebar" class="sidebar" runat="server">
                     <div class="sidebar-content js-simplebar">
                         <a class="sidebar-brand" href="Default.aspx">
                             <span class="align-middle">Yeliz AY</span> &nbsp;&nbsp;&nbsp;
@@ -72,6 +72,11 @@
 
                                 </ul>
                             </li>
+                            <li runat="server" id="liExit">
+                                <a class="sidebar-link" href="Exit.aspx">
+                                    <i class="align-middle" data-feather="user"></i><span class="align-middle">Çıkış</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -88,7 +93,7 @@
                         </div>
 
 
-                        <div class="navbar-collapse collapse">
+                        <%--<div class="navbar-collapse collapse">
                             <ul class="navbar-nav navbar-align">
                                 <li class="nav-item dropdown">
                                     <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-toggle="dropdown">
@@ -144,7 +149,7 @@
 
                                 </li>
                             </ul>
-                        </div>
+                        </div>--%>
                     </nav>
 
                     <main class="content">
