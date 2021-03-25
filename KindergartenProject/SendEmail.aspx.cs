@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.UI;
@@ -10,7 +11,12 @@ using System.Web.UI.WebControls;
 using Business;
 using Common;
 using Entity;
-using Microsoft.Office.Interop.Word;
+using System.Net.Mail;
+using MailMessage = System.Net.Mail.MailMessage;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.Net.Mime;
 
 namespace KindergartenProject
 {
@@ -210,7 +216,6 @@ namespace KindergartenProject
             else
             {
                 StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
-                Application wordApp = new Application();
                 string savePathToFiles = Server.MapPath("/PaymentDocument/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName));
 
                 if (string.IsNullOrEmpty(entity.Email) && !string.IsNullOrEmpty(txtEmail.Text))
@@ -225,14 +230,13 @@ namespace KindergartenProject
                     Directory.CreateDirectory(savePathToFiles);
                 else
                 {
+                    System.IO.DirectoryInfo di = new DirectoryInfo(savePathToFiles);
 
+                    foreach (FileInfo file in di.GetFiles())
+                    {
+                        file.Delete();
+                    }
                 }
-
-                Document document =
-                    wordApp.Documents.Open(templatePath + "/odemePlani2.docx", ReadOnly: true, Visible: true);
-                document.Activate();
-
-                FindAndReplace(wordApp, "<fullName>", entity.FullName.ToUpper());
 
                 DataResultArgs<List<PaymentTypeEntity>> resultSet =
                     new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
@@ -241,77 +245,131 @@ namespace KindergartenProject
 
                 Dictionary<int,string> selectedMonthList = GetSelectedMonthList();
 
-                foreach (int month in selectedMonthList.Keys)
-                {
-                    Row row = document.Tables[1].Rows.Add();
-                    row.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
-                    row.Cells[1].Range.Text = selectedMonthList[month];
-                    foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
-                    {
-                        if (emailPaymentEntity.Month == month)
-                        {
-                            switch ((PaymentTypeEnum)emailPaymentEntity.PaymentTypeId)
-                            {
-                                case PaymentTypeEnum.Okul:
-                                    AddCell(row, emailPaymentEntity,2);
-                                    break;
-                                case PaymentTypeEnum.None:
-                                    break;
-                                case PaymentTypeEnum.Servis:
-                                    AddCell(row, emailPaymentEntity, 3);
-                                    break;
-                                case PaymentTypeEnum.Kirtasiye:
-                                    AddCell(row, emailPaymentEntity, 4);
-                                    break;
-                                case PaymentTypeEnum.Mental:
-                                    AddCell(row, emailPaymentEntity, 5);
-                                    break;
-                                case PaymentTypeEnum.Diger:
-                                    AddCell(row, emailPaymentEntity, 6);
-                                    break;
-                                default:
-                                    break;
 
-                            }
-                        }
-                    }
-                }
+                byte[] byteArray = File.ReadAllBytes(templatePath + "/odemePlani2.docx");
+
+       
+                
+
+                //foreach (int month in selectedMonthList.Keys)
+                //{
+
+                //    foreach (DocumentFormat.OpenXml.Drawing.Table t in body.Descendants<DocumentFormat.OpenXml.Drawing.Table>())
+                //    {
+                //        t.Append(new DocumentFormat.OpenXml.Drawing.TableRow(
+                //            new DocumentFormat.OpenXml.Drawing.TableCell(new Paragraph(new Run(new Text("test"))))));
+                //    }
+
+                //    //foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
+                //    //{
+                //    //    if (emailPaymentEntity.Month == month)
+                //    //    {
+                //    //        switch ((PaymentTypeEnum)emailPaymentEntity.PaymentTypeId)
+                //    //        {
+                //    //            case PaymentTypeEnum.Okul:
+                //    //                AddCell(row, emailPaymentEntity, 2);
+                //    //                break;
+                //    //            case PaymentTypeEnum.None:
+                //    //                break;
+                //    //            case PaymentTypeEnum.Servis:
+                //    //                AddCell(row, emailPaymentEntity, 3);
+                //    //                break;
+                //    //            case PaymentTypeEnum.Kirtasiye:
+                //    //                AddCell(row, emailPaymentEntity, 4);
+                //    //                break;
+                //    //            case PaymentTypeEnum.Mental:
+                //    //                AddCell(row, emailPaymentEntity, 5);
+                //    //                break;
+                //    //            case PaymentTypeEnum.Diger:
+                //    //                AddCell(row, emailPaymentEntity, 6);
+                //    //                break;
+                //    //            default:
+                //    //                break;
+
+                //    //        }
+                //    //    }
+                //    //}
+                //}
 
 
                 string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
                                   "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss") + ".docx";
 
+
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    stream.Write(byteArray, 0, (int)byteArray.Length);
+                    using (WordprocessingDocument wordprocessingDocument = WordprocessingDocument.Open(stream, true))
+                    {
+
+                        //Body bod = wordprocessingDocument.MainDocumentPart.Document.Body;
+                        //foreach (Table t in bod.Descendants<Table>())
+                        //{
+                        //    t.Append(new TableRow(new TableCell(new Paragraph(new Run(new Text("test"))))));
+                        //}
+                    }
+                    // Save the file with the new name
+                    File.WriteAllBytes(fileName, stream.ToArray());
+                }
+                GC.Collect();
+
+                try
+                {
+                    //sendMail(fileName);
+                    divInformation.SuccessfulText = "Mail gönderim işlemi başarıyla tamamlanmıştır";
+                    divInformation.SetVisibleLink(true, false);
+                    pnlBody.Enabled = false;
+                }
+                catch (Exception ex)
+                {
+                    divInformation.ErrorText = ex.Message;
+                }
                 FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate);
                 fs.Flush();
                 fs.Close();
-
-                document.SaveAs(fileName);
-                document.Close();
-                GC.Collect();
-                divInformation.SuccessfulText = "Mail gönderim işlemi başarıyla tamamlanmıştır";
-                divInformation.SetVisibleLink(true, false);
-                pnlBody.Enabled = false;
             }
         }
 
-        private static void AddCell(Row row, EmailPaymentEntity emailPaymentEntity, int index)
+        private void sendMail(string fileName)
         {
-            row.Cells[index].Range.Text = emailPaymentEntity.AmountDescription;
-            row.Cells[index].Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-            row.Cells[index].Height = 20;
-            if (emailPaymentEntity.IsPayment)
-            {
-                row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorLightGreen;
-            }
-            else if (emailPaymentEntity.AmountDescription.Trim() != CommonConst.EmptyAmount.Trim())
-            {
-                row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorLightYellow;
-            }
-            else
-            {
-                row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-            }
+
+            MailMessage message = new MailMessage("korkmazonur44@gmail.com",txtEmail.Text);
+
+            // Create  the file attachment for this e-mail message.
+            Attachment data = new Attachment(fileName, MediaTypeNames.Application.Octet);
+            // Add time stamp information for the file.
+            ContentDisposition disposition = data.ContentDisposition;
+            disposition.CreationDate = System.IO.File.GetCreationTime(fileName);
+            disposition.ModificationDate = System.IO.File.GetLastWriteTime(fileName);
+            disposition.ReadDate = System.IO.File.GetLastAccessTime(fileName);
+            // Add the file attachment to this e-mail message.
+            message.Attachments.Add(data);
+
+            //Send the message.
+            //SmtpClient client = new SmtpClient(server);
+            // Add credentials if the SMTP server requires them.
+            //client.Credentials = CredentialCache.DefaultNetworkCredentials;
+
+
         }
+        //private static void AddCell(Row row, EmailPaymentEntity emailPaymentEntity, int index)
+        //{
+        //    row.Cells[index].Range.Text = emailPaymentEntity.AmountDescription;
+        //    row.Cells[index].Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+        //    row.Cells[index].Height = 20;
+        //    if (emailPaymentEntity.IsPayment)
+        //    {
+        //        row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorLightGreen;
+        //    }
+        //    else if (emailPaymentEntity.AmountDescription.Trim() != CommonConst.EmptyAmount.Trim())
+        //    {
+        //        row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorLightYellow;
+        //    }
+        //    else
+        //    {
+        //        row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+        //    }
+        //}
 
         private Dictionary<int, string> GetSelectedMonthList()
         {

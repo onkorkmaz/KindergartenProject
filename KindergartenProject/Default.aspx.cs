@@ -4,6 +4,7 @@ using System.Web.UI;
 using Entity;
 using Business;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.UI.WebControls;
 using System.Text;
@@ -93,7 +94,7 @@ namespace KindergartenProject
                     sb.Append("<a href = \"AddStudent.aspx?Id=" + student.EncryptId + "\">");
                     sb.Append(student.FullName + " "); sb.AppendLine("</td>");
                     sb.AppendLine("<td>");
-                    sb.Append(student.Birthday.Value.ToString("dd/MM/yyyy"));
+                    sb.Append(GeneralFunctions.ToDateWithCulture(student.Birthday));
                     sb.AppendLine("</a>");
                     sb.AppendLine("</td>");
                     _ = (value.TotalDays == 0) ? sb.Append("<td>(Bugün)</td>") : sb.Append("<td>(" + value.TotalDays + " gün kaldı)</td>");

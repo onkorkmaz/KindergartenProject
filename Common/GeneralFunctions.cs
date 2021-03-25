@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Common
 {
@@ -19,7 +20,15 @@ namespace Common
             }
             else
             {
-                return (T)ChangeType<T>(data, typeof(T));
+                try
+                {
+                    return (T)ChangeType<T>(data, typeof(T));
+                }
+                catch (Exception e)
+                {
+                    return default(T);
+                }
+                
             }
         }
         private static T ChangeType<T>(object value, Type t)
@@ -61,6 +70,17 @@ namespace Common
             text = text.Replace("ç", "c");
             text = text.Replace(" ", "_");
             return text;
+        }
+
+        public static string ToDateWithCulture(DateTime? date)
+        {
+            if (date.HasValue && date.Value > DateTime.MinValue && date.Value < DateTime.MaxValue)
+            {
+                CultureInfo trCulture = new CultureInfo("tr-TR");
+                return "" + date.Value.Day.ToString().PadLeft(2,'0') + "/" + date.Value.Month.ToString().PadLeft(2, '0') + "/" + date.Value.Year;
+            }
+
+            return "";
         }
 
     }

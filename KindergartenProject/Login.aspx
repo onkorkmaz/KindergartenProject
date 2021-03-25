@@ -8,9 +8,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">
-        <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
         <div class="col-12 col-xl-12">
             <div class="customCenter">
+                <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
                 <div class="card">
                     <div class="card-body">
                         <asp:Panel runat="server" ID="pnlBody">

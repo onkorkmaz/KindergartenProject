@@ -9,7 +9,7 @@
     <div class="row">
 
         <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
-
+        <asp:Label runat="server" ID="lblTimer"></asp:Label>
         <div class="col-12 col-xl-12">
             <div class="mb-3 row">
 
