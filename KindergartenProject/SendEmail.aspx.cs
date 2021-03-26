@@ -13,10 +13,8 @@ using Common;
 using Entity;
 using System.Net.Mail;
 using MailMessage = System.Net.Mail.MailMessage;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 using System.Net.Mime;
+using DocumentFormat.OpenXml.Packaging;
 
 namespace KindergartenProject
 {
@@ -299,14 +297,11 @@ namespace KindergartenProject
                 using (MemoryStream stream = new MemoryStream())
                 {
                     stream.Write(byteArray, 0, (int)byteArray.Length);
-                    using (WordprocessingDocument wordprocessingDocument = WordprocessingDocument.Open(stream, true))
+                    using (WordprocessingDocument doc = WordprocessingDocument.Open(stream, true))
                     {
 
-                        //Body bod = wordprocessingDocument.MainDocumentPart.Document.Body;
-                        //foreach (Table t in bod.Descendants<Table>())
-                        //{
-                        //    t.Append(new TableRow(new TableCell(new Paragraph(new Run(new Text("test"))))));
-                        //}
+                        //Table table =
+                        //    doc.MainDocumentPart.Document.Body.Elements<Table>().First();
                     }
                     // Save the file with the new name
                     File.WriteAllBytes(fileName, stream.ToArray());

@@ -195,11 +195,12 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result.Result = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { Id = idInt }).Result.FirstOrDefault();
+                    result = new PaymentTypeBusiness().Get_PaymentTypeWithId(GeneralFunctions.GetData<int>(id));
                     if (result.Result != null)
                         result.HasError = false;
                 }
             }
+
             return result;
         }
 
