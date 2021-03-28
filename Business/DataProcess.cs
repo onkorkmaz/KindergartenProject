@@ -36,9 +36,7 @@ namespace Business
 
         internal static void ControlAdminAuthorization(bool isProcess = false)
         {
-            if (CurrentContex.Contex == null)
-                throw new Exception("CurrentContex is null");
-            else if (isProcess)
+            if (isProcess)
             {
                 if(CurrentContex.Contex.AdminTypeEnum != AdminTypeEnum.SuperAdmin)
                 {

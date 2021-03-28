@@ -149,6 +149,7 @@ namespace KindergartenProject
                     result.HasError = resultSet.HasError;
                     result.MyException = resultSet.MyException;
                     result.ErrorDescription = resultSet.ErrorDescription;
+                    result.Result = !resultSet.HasError;
                 }
             }
 

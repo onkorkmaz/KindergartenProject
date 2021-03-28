@@ -243,69 +243,70 @@ namespace KindergartenProject
 
                 Dictionary<int,string> selectedMonthList = GetSelectedMonthList();
 
-
                 byte[] byteArray = File.ReadAllBytes(templatePath + "/odemePlani2.docx");
 
-       
                 
-
-                //foreach (int month in selectedMonthList.Keys)
-                //{
-
-                //    foreach (DocumentFormat.OpenXml.Drawing.Table t in body.Descendants<DocumentFormat.OpenXml.Drawing.Table>())
-                //    {
-                //        t.Append(new DocumentFormat.OpenXml.Drawing.TableRow(
-                //            new DocumentFormat.OpenXml.Drawing.TableCell(new Paragraph(new Run(new Text("test"))))));
-                //    }
-
-                //    //foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
-                //    //{
-                //    //    if (emailPaymentEntity.Month == month)
-                //    //    {
-                //    //        switch ((PaymentTypeEnum)emailPaymentEntity.PaymentTypeId)
-                //    //        {
-                //    //            case PaymentTypeEnum.Okul:
-                //    //                AddCell(row, emailPaymentEntity, 2);
-                //    //                break;
-                //    //            case PaymentTypeEnum.None:
-                //    //                break;
-                //    //            case PaymentTypeEnum.Servis:
-                //    //                AddCell(row, emailPaymentEntity, 3);
-                //    //                break;
-                //    //            case PaymentTypeEnum.Kirtasiye:
-                //    //                AddCell(row, emailPaymentEntity, 4);
-                //    //                break;
-                //    //            case PaymentTypeEnum.Mental:
-                //    //                AddCell(row, emailPaymentEntity, 5);
-                //    //                break;
-                //    //            case PaymentTypeEnum.Diger:
-                //    //                AddCell(row, emailPaymentEntity, 6);
-                //    //                break;
-                //    //            default:
-                //    //                break;
-
-                //    //        }
-                //    //    }
-                //    //}
-                //}
-
-
                 string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
                                   "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss") + ".docx";
 
 
                 using (MemoryStream stream = new MemoryStream())
                 {
-                    stream.Write(byteArray, 0, (int)byteArray.Length);
+                    stream.Write(byteArray, 0, (int) byteArray.Length);
                     using (WordprocessingDocument doc = WordprocessingDocument.Open(stream, true))
                     {
 
-                        //Table table =
-                        //    doc.MainDocumentPart.Document.Body.Elements<Table>().First();
+                        setFullName(doc, entity.FullName);
+
+
+                        DocumentFormat.OpenXml.Wordprocessing.Table table = doc.MainDocumentPart.Document.Body
+                            .Elements<DocumentFormat.OpenXml.Wordprocessing.Table>().First();
+
+
+                        foreach (int month in selectedMonthList.Keys)
+                        {
+                            DocumentFormat.OpenXml.Wordprocessing.TableRow tr =
+                                new DocumentFormat.OpenXml.Wordprocessing.TableRow();
+                            AddCell(tr, selectedMonthList[month]);
+
+                            foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
+                            {
+                                if (emailPaymentEntity.Month == month)
+                                {
+                                    switch ((PaymentTypeEnum) emailPaymentEntity.PaymentTypeId)
+                                    {
+                                        case PaymentTypeEnum.Okul:
+                                            AddCell(tr, emailPaymentEntity.AmountDescription);
+                                            break;
+                                        case PaymentTypeEnum.None:
+                                            break;
+                                        case PaymentTypeEnum.Servis:
+                                            AddCell(tr, emailPaymentEntity.AmountDescription);
+                                            break;
+                                        case PaymentTypeEnum.Kirtasiye:
+                                            AddCell(tr, emailPaymentEntity.AmountDescription);
+                                            break;
+                                        case PaymentTypeEnum.Mental:
+                                            AddCell(tr, emailPaymentEntity.AmountDescription);
+                                            break;
+                                        case PaymentTypeEnum.Diger:
+                                            AddCell(tr, emailPaymentEntity.AmountDescription);
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
+                                }
+                            }
+
+                            table.Append(tr);
+                        }
                     }
+
                     // Save the file with the new name
                     File.WriteAllBytes(fileName, stream.ToArray());
                 }
+
                 GC.Collect();
 
                 try
@@ -323,6 +324,35 @@ namespace KindergartenProject
                 fs.Flush();
                 fs.Close();
             }
+        }
+
+        private void setFullName(WordprocessingDocument doc, string fullName)
+        {
+            var body = doc.MainDocumentPart.Document.Body;
+            var paras = body.Elements<DocumentFormat.OpenXml.Wordprocessing.Paragraph>();
+
+            foreach (var para in paras)
+            {
+                foreach (var run in para.Elements<DocumentFormat.OpenXml.Wordprocessing.Run>())
+                {
+                    foreach (var text in run.Elements<DocumentFormat.OpenXml.Wordprocessing.Text>())
+                    {
+                        if (text.Text.Contains("fullName"))
+                        {
+                            text.Text = text.Text.Replace("fullName", fullName);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void AddCell(DocumentFormat.OpenXml.Wordprocessing.TableRow tr, string text)
+        {
+            DocumentFormat.OpenXml.Wordprocessing.TableCell tc = new DocumentFormat.OpenXml.Wordprocessing.TableCell(
+                new DocumentFormat.OpenXml.Wordprocessing.Paragraph(
+                    new DocumentFormat.OpenXml.Wordprocessing.Run(
+                        new DocumentFormat.OpenXml.Wordprocessing.Text(text))));
+            tr.Append(tc);
         }
 
         private void sendMail(string fileName)

@@ -303,6 +303,8 @@
     <None Include="packages.config" />
     <Content Include="PaymentDocument\ALMINA_TURAN\ALMINA_TURAN_odemePlani_20210321121614.docx" />
     <Content Include="PaymentDocument\ATILLA_YASIR_YIGIT\ATILLA_YASIR_YIGIT_odemePlani_20210321122114.docx" />
+    <Content Include="Template\odemePlani.docx" />
+    <Content Include="Template\odemePlani2.docx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -355,7 +357,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PaymentDocument\ALAS_KOCANOGLU\" />
-    <Folder Include="Template\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
