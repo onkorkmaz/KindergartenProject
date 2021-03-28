@@ -38,6 +38,7 @@ namespace KindergartenProject
                 else
                 {
                     Session[CommonConst.Admin] = resultSet.Result;
+                    CurrentContex.Contex = resultSet.Result;
                     Response.Redirect("~/Default.aspx");
                 }
             }

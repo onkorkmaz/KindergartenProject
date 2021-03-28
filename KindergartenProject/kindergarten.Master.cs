@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using Entity;
 
 namespace KindergartenProject
 {
@@ -18,6 +19,11 @@ namespace KindergartenProject
             if (SelectedMenuList != MenuList.Login &&  Session[CommonConst.Admin] == null)
             {
                 Response.Redirect("~/Login.aspx");
+            }
+            else
+            {
+                if (CurrentContex.Contex == null)
+                    CurrentContex.Contex = Session[CommonConst.Admin] as AdminEntity;
             }
 
             if (KinderGartenWebService.List.ContainsKey(ListKey.SearchValue))

@@ -30,4 +30,11 @@ namespace Common
         Mental = 4,
         Diger = 17
     }
+
+    public enum AdminTypeEnum
+    {
+        None = 0,
+        SuperAdmin = 1,
+        Visitor = 2
+    }
 }

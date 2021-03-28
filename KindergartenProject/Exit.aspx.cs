@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using  Common;
+using Entity;
 
 namespace KindergartenProject
 {
@@ -14,6 +15,7 @@ namespace KindergartenProject
         {
             if (Session[CommonConst.Admin] != null)
             {
+                CurrentContex.Contex = null;
                 Session[CommonConst.Admin] = null;
                 Session.Abandon();
                 Response.Redirect("Login.aspx");
