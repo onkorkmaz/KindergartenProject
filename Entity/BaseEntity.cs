@@ -11,15 +11,15 @@ namespace Entity
         {
             get
             {
-                if (Id.HasValue && Id > 0)
+                if ( Id > 0)
                 {
-                    return Cipher.Encrypt(Id.Value.ToString());
+                    return Cipher.Encrypt(Id.ToString());
                 }
                 return "";
             }
         }
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted{ get; set; }
         public DateTime AddedOn { get; set; }

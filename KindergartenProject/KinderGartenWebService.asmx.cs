@@ -170,13 +170,14 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    StudentEntity student = new StudentBusiness().Get_Student(idInt).Result;
+                    StudentEntity studentEntity = new StudentBusiness().Get_Student(idInt).Result;
 
-                    if (student != null)
+                    if (studentEntity != null)
                     {
-                        student.IsStudent = true;
-                        student.DatabaseProcess = DatabaseProcess.Update;
-                        result = new StudentBusiness().Set_Student(student);
+                        studentEntity.IsStudent = true;
+                        studentEntity.DatabaseProcess = DatabaseProcess.Update;
+                        studentEntity.IsAddAfterPaymentUnPayment = true;
+                        result = new StudentBusiness().Set_Student(studentEntity);
                     }
                 }
             }

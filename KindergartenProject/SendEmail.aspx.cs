@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Business;
+﻿using Business;
 using Common;
 using Entity;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net.Mail;
-using MailMessage = System.Net.Mail.MailMessage;
-using System.Net.Mime;
+using System.Text;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace KindergartenProject
@@ -222,8 +215,6 @@ namespace KindergartenProject
                     new StudentBusiness().Set_Student(entity);
                 }
 
-                string templatePath = Server.MapPath("/Template");
-
                 if (!Directory.Exists(savePathToFiles))
                     Directory.CreateDirectory(savePathToFiles);
                 else
@@ -243,75 +234,16 @@ namespace KindergartenProject
 
                 Dictionary<int,string> selectedMonthList = GetSelectedMonthList();
 
-                byte[] byteArray = File.ReadAllBytes(templatePath + "/odemePlani2.docx");
 
-                
                 string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
-                                  "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss") + ".docx";
+                                  "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_";
 
 
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    stream.Write(byteArray, 0, (int) byteArray.Length);
-                    using (WordprocessingDocument doc = WordprocessingDocument.Open(stream, true))
-                    {
-
-                        setFullName(doc, entity.FullName);
-
-
-                        DocumentFormat.OpenXml.Wordprocessing.Table table = doc.MainDocumentPart.Document.Body
-                            .Elements<DocumentFormat.OpenXml.Wordprocessing.Table>().First();
-
-
-                        foreach (int month in selectedMonthList.Keys)
-                        {
-                            DocumentFormat.OpenXml.Wordprocessing.TableRow tr =
-                                new DocumentFormat.OpenXml.Wordprocessing.TableRow();
-                            AddCell(tr, selectedMonthList[month]);
-
-                            foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
-                            {
-                                if (emailPaymentEntity.Month == month)
-                                {
-                                    switch ((PaymentTypeEnum) emailPaymentEntity.PaymentTypeId)
-                                    {
-                                        case PaymentTypeEnum.Okul:
-                                            AddCell(tr, emailPaymentEntity.AmountDescription);
-                                            break;
-                                        case PaymentTypeEnum.None:
-                                            break;
-                                        case PaymentTypeEnum.Servis:
-                                            AddCell(tr, emailPaymentEntity.AmountDescription);
-                                            break;
-                                        case PaymentTypeEnum.Kirtasiye:
-                                            AddCell(tr, emailPaymentEntity.AmountDescription);
-                                            break;
-                                        case PaymentTypeEnum.Mental:
-                                            AddCell(tr, emailPaymentEntity.AmountDescription);
-                                            break;
-                                        case PaymentTypeEnum.Diger:
-                                            AddCell(tr, emailPaymentEntity.AmountDescription);
-                                            break;
-                                        default:
-                                            break;
-
-                                    }
-                                }
-                            }
-
-                            table.Append(tr);
-                        }
-                    }
-
-                    // Save the file with the new name
-                    File.WriteAllBytes(fileName, stream.ToArray());
-                }
-
-                GC.Collect();
+                InitializeDocumentAndSave(entity, selectedMonthList, emailPaymentList, fileName);
 
                 try
                 {
-                    //sendMail(fileName);
+                    sendMail(fileName);
                     divInformation.SuccessfulText = "Mail gönderim işlemi başarıyla tamamlanmıştır";
                     divInformation.SetVisibleLink(true, false);
                     pnlBody.Enabled = false;
@@ -320,9 +252,78 @@ namespace KindergartenProject
                 {
                     divInformation.ErrorText = ex.Message;
                 }
-                FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate);
+            }
+        }
+
+        private void InitializeDocumentAndSave( StudentEntity entity, Dictionary<int, string> selectedMonthList,
+            List<EmailPaymentEntity> emailPaymentList, string fileName)
+        {
+            string templatePath = Server.MapPath("/Template");
+
+            byte[] byteArray = File.ReadAllBytes(templatePath + "/odemePlani2.docx");
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                stream.Write(byteArray, 0, (int) byteArray.Length);
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(stream, true))
+                {
+                    setFullName(doc, entity.FullName);
+
+
+                    DocumentFormat.OpenXml.Wordprocessing.Table table = doc.MainDocumentPart.Document.Body
+                        .Elements<DocumentFormat.OpenXml.Wordprocessing.Table>().First();
+
+
+                    foreach (int month in selectedMonthList.Keys)
+                    {
+                        DocumentFormat.OpenXml.Wordprocessing.TableRow tr =
+                            new DocumentFormat.OpenXml.Wordprocessing.TableRow();
+                        AddCell(tr, selectedMonthList[month]);
+
+                        foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
+                        {
+                            if (emailPaymentEntity.Month == month)
+                            {
+                                switch ((PaymentTypeEnum) emailPaymentEntity.PaymentTypeId)
+                                {
+                                    case PaymentTypeEnum.Okul:
+                                        AddCell(tr, emailPaymentEntity.AmountDescription);
+                                        break;
+                                    case PaymentTypeEnum.None:
+                                        break;
+                                    case PaymentTypeEnum.Servis:
+                                        AddCell(tr, emailPaymentEntity.AmountDescription);
+                                        break;
+                                    case PaymentTypeEnum.Kirtasiye:
+                                        AddCell(tr, emailPaymentEntity.AmountDescription);
+                                        break;
+                                    case PaymentTypeEnum.Mental:
+                                        AddCell(tr, emailPaymentEntity.AmountDescription);
+                                        break;
+                                    case PaymentTypeEnum.Diger:
+                                        AddCell(tr, emailPaymentEntity.AmountDescription);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+
+                        table.Append(tr);
+                    }
+                }
+
+                // Save the file with the new name
+                File.WriteAllBytes(fileName+".docx" , stream.ToArray());
+                FileStream fs = new FileStream(fileName + ".docx", FileMode.OpenOrCreate, FileAccess.Read);
                 fs.Flush();
                 fs.Close();
+                GC.Collect();
+
+
+
+
+
             }
         }
 
@@ -357,44 +358,31 @@ namespace KindergartenProject
 
         private void sendMail(string fileName)
         {
-
-            MailMessage message = new MailMessage("korkmazonur44@gmail.com",txtEmail.Text);
-
-            // Create  the file attachment for this e-mail message.
-            Attachment data = new Attachment(fileName, MediaTypeNames.Application.Octet);
-            // Add time stamp information for the file.
-            ContentDisposition disposition = data.ContentDisposition;
-            disposition.CreationDate = System.IO.File.GetCreationTime(fileName);
-            disposition.ModificationDate = System.IO.File.GetLastWriteTime(fileName);
-            disposition.ReadDate = System.IO.File.GetLastAccessTime(fileName);
-            // Add the file attachment to this e-mail message.
-            message.Attachments.Add(data);
-
-            //Send the message.
-            //SmtpClient client = new SmtpClient(server);
-            // Add credentials if the SMTP server requires them.
-            //client.Credentials = CredentialCache.DefaultNetworkCredentials;
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("korkmazonur44@gmail.com");
+                mail.To.Add("korkmazonur44@gmail.com");
+                mail.Subject = "Benim Dünyam Anaokulu Ödeme Tablosu Mart - Nisan";
+                mail.Body =
+                    "Sayın velimiz; <br/> Onur KORKMAZ' a ait güncel ödeme tablosu ektedir.<br/> Mart ayına iat borcunuz bulunmamaktadır.";
 
 
+                mail.IsBodyHtml = true;
+
+                System.Net.Mail.Attachment attachment;
+                attachment = new System.Net.Mail.Attachment(fileName + ".pdf");
+                mail.Attachments.Add(attachment);
+
+                using (SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    SmtpServer.UseDefaultCredentials = false; //Need to overwrite this
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("benimdunyamanaokullari@gmail.com", "Yelay123");
+                    SmtpServer.EnableSsl = true;
+                    SmtpServer.Send(mail);
+                }
+            }
         }
-        //private static void AddCell(Row row, EmailPaymentEntity emailPaymentEntity, int index)
-        //{
-        //    row.Cells[index].Range.Text = emailPaymentEntity.AmountDescription;
-        //    row.Cells[index].Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-        //    row.Cells[index].Height = 20;
-        //    if (emailPaymentEntity.IsPayment)
-        //    {
-        //        row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorLightGreen;
-        //    }
-        //    else if (emailPaymentEntity.AmountDescription.Trim() != CommonConst.EmptyAmount.Trim())
-        //    {
-        //        row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorLightYellow;
-        //    }
-        //    else
-        //    {
-        //        row.Cells[index].Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-        //    }
-        //}
+
 
         private Dictionary<int, string> GetSelectedMonthList()
         {
@@ -426,7 +414,7 @@ namespace KindergartenProject
                     EmailPaymentEntity entity = new EmailPaymentEntity();
                     entity.Year = year;
                     entity.Month = month;
-                    entity.PaymentTypeId = paymentType.Id.Value;
+                    entity.PaymentTypeId = paymentType.Id;
 
                     PaymentEntity paymentEntity = paymentList.FirstOrDefault(o =>
                         o.Year == year && o.Month == month && o.PaymentType == paymentType.Id);
@@ -486,28 +474,5 @@ namespace KindergartenProject
 
         }
 
-        private void FindAndReplace(Microsoft.Office.Interop.Word.Application doc, object findText, object replaceWithText)
-        {
-            //options
-            object matchCase = false;
-            object matchWholeWord = true;
-            object matchWildCards = false;
-            object matchSoundsLike = false;
-            object matchAllWordForms = false;
-            object forward = true;
-            object format = false;
-            object matchKashida = false;
-            object matchDiacritics = false;
-            object matchAlefHamza = false;
-            object matchControl = false;
-            object read_only = false;
-            object visible = true;
-            object replace = 2;
-            object wrap = 1;
-            //execute find and replace
-            doc.Selection.Find.Execute(ref findText, ref matchCase, ref matchWholeWord,
-                ref matchWildCards, ref matchSoundsLike, ref matchAllWordForms, ref forward, ref wrap, ref format, ref replaceWithText, ref replace,
-                ref matchKashida, ref matchDiacritics, ref matchAlefHamza, ref matchControl);
-        }
     }
 }

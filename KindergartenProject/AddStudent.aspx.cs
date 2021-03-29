@@ -42,6 +42,8 @@ namespace KindergartenProject
                 chcIsActive.Checked = (currentRecord.IsActive.HasValue) ? currentRecord.IsActive.Value : false;
                 drpStudentState.SelectedValue = (currentRecord.IsStudent) ? "0" : "1";
 
+                hdnStudentState.Value = (currentRecord.IsStudent) ? "0" : "1";
+
                 if (currentRecord.DateOfMeeting.HasValue)
                 {
                     txtDateOfMeeting.Text = currentRecord.DateOfMeeting.Value.ToString("yyyy-MM-dd");
@@ -129,6 +131,15 @@ namespace KindergartenProject
             entity.SpokenPrice = GeneralFunctions.GetData<decimal>(txtSpokenPrice.Text);
             entity.Email = txtEmail.Text;
 
+
+            if (entity.DatabaseProcess == DatabaseProcess.Add)
+                entity.IsAddAfterPaymentUnPayment = true;
+
+            if (hdnStudentState.Value == "1" && entity.IsStudent)
+            {
+                entity.IsAddAfterPaymentUnPayment = true;
+            }
+
             DataResultArgs<StudentEntity> resultSet = business.Set_Student(entity);
             if (resultSet.HasError)
             {
@@ -147,7 +158,15 @@ namespace KindergartenProject
                     divInformation.SuccessfulText = (databaseProcess == DatabaseProcess.Add) ? RecordMessage.Add : RecordMessage.Update;
                     btnSubmit.Text = ButtonText.Submit;
                     pnlBody.Enabled = false;
-                    divInformation.SetAnotherText("<a href = \"PaymentDetail.aspx?Id=" + resultSet.Result.EncryptId + "\">" + paymentDetail + "</a>");
+
+                    if (entity.IsStudent)
+                    {
+                        divInformation.SetAnotherText("<a href = \"PaymentDetail.aspx?Id=" + resultSet.Result.EncryptId + "\">" + paymentDetail + "</a>");
+                    }
+                    else
+                    {
+                        btnPaymentDetail.Visible = false;
+                    }
                 }
             }
         }

@@ -40,7 +40,7 @@
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Doğum Tarihi</label>
                             <div class="col-sm-3">
-                                <asp:TextBox ID="txtBirthday" runat="server" TextMode="Date" CssClass="form-control"/>
+                                <asp:TextBox ID="txtBirthday" runat="server" TextMode="Date" CssClass="form-control" />
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -64,12 +64,12 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="mb-3 row">
 
                             <label class="col-form-label col-sm-2 text-sm-left">Email</label>
                             <div class="col-sm-3">
-                                <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control"  MaxLength="50" placeholder="Email"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" MaxLength="50" placeholder="Email"></asp:TextBox>
                             </div>
 
 
@@ -85,7 +85,7 @@
                                 </asp:DropDownList>
                             </div>
 
-
+                            <asp:HiddenField runat="server" ID="hdnStudentState" />
                         </div>
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>
@@ -99,7 +99,7 @@
                             <div class="col-sm-2">
                                 <asp:TextBox runat="server" ID="txtSpokenPrice" onkeyup="checkDec(this);" CssClass="form-control" placeholder="Ücret"></asp:TextBox>
                             </div>
-                           
+
                         </div>
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Görüşme Tarihi</label>
