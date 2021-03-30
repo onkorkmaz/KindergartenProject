@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace KindergartenProject
 {
@@ -191,55 +192,30 @@ namespace KindergartenProject
 
             if (Id == null)
             {
-                divInformation.ErrorText = studentDoesNotFound;
-                divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-                divInformation.ErrorLink = "PaymentPlan.aspx";
+                ThrowError();
+                return;
             }
 
             string IdDecrypt = Cipher.Decrypt(Id.ToString());
             int id = GeneralFunctions.GetData<int>(IdDecrypt);
             if (id <= 0)
             {
-                divInformation.ErrorText = studentDoesNotFound;
-                divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-                divInformation.ErrorLink = "PaymentPlan.aspx";
+                ThrowError();
+                return;
             }
             else
             {
                 StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
                 string savePathToFiles = Server.MapPath("/PaymentDocument/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName));
 
-                if (string.IsNullOrEmpty(entity.Email) && !string.IsNullOrEmpty(txtEmail.Text))
-                {
-                    entity.Email = txtEmail.Text;
-                    new StudentBusiness().Set_Student(entity);
-                }
-
-                if (!Directory.Exists(savePathToFiles))
-                    Directory.CreateDirectory(savePathToFiles);
-                else
-                {
-                    System.IO.DirectoryInfo di = new DirectoryInfo(savePathToFiles);
-
-                    foreach (FileInfo file in di.GetFiles())
-                    {
-                        file.Delete();
-                    }
-                }
-
-                DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                    new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
-
-                List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(resultSet.Result, entity.PaymentList);
-
-                Dictionary<int,string> selectedMonthList = GetSelectedMonthList();
+                UpdateStudentEmailAndDeleteFolder(entity, savePathToFiles);
 
 
                 string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
                                   "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_";
 
 
-                InitializeDocumentAndSave(entity, selectedMonthList, emailPaymentList, fileName);
+                InitializeDocumentAndSave(entity, fileName);
 
                 try
                 {
@@ -255,9 +231,44 @@ namespace KindergartenProject
             }
         }
 
-        private void InitializeDocumentAndSave( StudentEntity entity, Dictionary<int, string> selectedMonthList,
-            List<EmailPaymentEntity> emailPaymentList, string fileName)
+        private void ThrowError()
         {
+            divInformation.ErrorText = studentDoesNotFound;
+            divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
+            divInformation.ErrorLink = "PaymentPlan.aspx";
+            return;
+        }
+
+        private void UpdateStudentEmailAndDeleteFolder(StudentEntity entity, string savePathToFiles)
+        {
+            if (string.IsNullOrEmpty(entity.Email) && !string.IsNullOrEmpty(txtEmail.Text))
+            {
+                entity.Email = txtEmail.Text;
+                new StudentBusiness().Set_Student(entity);
+            }
+
+            if (!Directory.Exists(savePathToFiles))
+                Directory.CreateDirectory(savePathToFiles);
+            else
+            {
+                System.IO.DirectoryInfo di = new DirectoryInfo(savePathToFiles);
+
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
+        }
+
+        private void InitializeDocumentAndSave( StudentEntity entity,  string fileName)
+        {
+            DataResultArgs<List<PaymentTypeEntity>> resultSet =
+                new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
+
+            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(resultSet.Result, entity.PaymentList);
+
+            Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
+
             string templatePath = Server.MapPath("/Template");
 
             byte[] byteArray = File.ReadAllBytes(templatePath + "/odemePlani2.docx");
@@ -269,48 +280,9 @@ namespace KindergartenProject
                 {
                     setFullName(doc, entity.FullName);
 
+                    DocumentFormat.OpenXml.Wordprocessing.Table table = doc.MainDocumentPart.Document.Body.Elements<DocumentFormat.OpenXml.Wordprocessing.Table>().First();
 
-                    DocumentFormat.OpenXml.Wordprocessing.Table table = doc.MainDocumentPart.Document.Body
-                        .Elements<DocumentFormat.OpenXml.Wordprocessing.Table>().First();
-
-
-                    foreach (int month in selectedMonthList.Keys)
-                    {
-                        DocumentFormat.OpenXml.Wordprocessing.TableRow tr =
-                            new DocumentFormat.OpenXml.Wordprocessing.TableRow();
-                        AddCell(tr, selectedMonthList[month]);
-
-                        foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
-                        {
-                            if (emailPaymentEntity.Month == month)
-                            {
-                                switch ((PaymentTypeEnum) emailPaymentEntity.PaymentTypeId)
-                                {
-                                    case PaymentTypeEnum.Okul:
-                                        AddCell(tr, emailPaymentEntity.AmountDescription);
-                                        break;
-                                    case PaymentTypeEnum.None:
-                                        break;
-                                    case PaymentTypeEnum.Servis:
-                                        AddCell(tr, emailPaymentEntity.AmountDescription);
-                                        break;
-                                    case PaymentTypeEnum.Kirtasiye:
-                                        AddCell(tr, emailPaymentEntity.AmountDescription);
-                                        break;
-                                    case PaymentTypeEnum.Mental:
-                                        AddCell(tr, emailPaymentEntity.AmountDescription);
-                                        break;
-                                    case PaymentTypeEnum.Diger:
-                                        AddCell(tr, emailPaymentEntity.AmountDescription);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        }
-
-                        table.Append(tr);
-                    }
+                    AddWordCell(selectedMonthList, emailPaymentList, table);
                 }
 
                 // Save the file with the new name
@@ -320,10 +292,58 @@ namespace KindergartenProject
                 fs.Close();
                 GC.Collect();
 
+            }
+        }
 
+        //public void ConvertTopdf(string path, string filename)
+        //{
+        //    SautinSoft.UseOffice u = new SautinSoft.UseOffice();
+        //    if (u.InitWord() == 0)
+        //    {
+        //        //convert Word (RTF, DOC, DOCX to PDF)
+        //        u.ConvertFile(path, @"I:\karthik\pdf\pdf\" + filename, SautinSoft.UseOffice.eDirection.DOC_to_PDF);
+        //    }
+        //    u.CloseOffice();
+        //}
 
+        private void AddWordCell(Dictionary<int, string> selectedMonthList, List<EmailPaymentEntity> emailPaymentList, Table table)
+        {
+            foreach (int month in selectedMonthList.Keys)
+            {
+                DocumentFormat.OpenXml.Wordprocessing.TableRow tr =
+                    new DocumentFormat.OpenXml.Wordprocessing.TableRow();
+                AddCell(tr, selectedMonthList[month]);
 
+                foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
+                {
+                    if (emailPaymentEntity.Month == month)
+                    {
+                        switch ((PaymentTypeEnum) emailPaymentEntity.PaymentTypeId)
+                        {
+                            case PaymentTypeEnum.Okul:
+                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                break;
+                            case PaymentTypeEnum.None:
+                                break;
+                            case PaymentTypeEnum.Servis:
+                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                break;
+                            case PaymentTypeEnum.Kirtasiye:
+                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                break;
+                            case PaymentTypeEnum.Mental:
+                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                break;
+                            case PaymentTypeEnum.Diger:
+                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
 
+                table.Append(tr);
             }
         }
 
