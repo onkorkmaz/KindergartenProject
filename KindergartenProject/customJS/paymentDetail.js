@@ -45,7 +45,7 @@ function successFunctionCurrentPage(obje) {
 
                 tbody += "<tr>";
                 tbody += "<td>" + months[j][1] + "</td>";
-                tbody += drawPaymentDetail(paymentTypeList, year, months[j][0], obje.StudentList[k]);
+                tbody += drawPaymentDetail(paymentTypeList, year, months[j][0], obje.StudentList[k], 0);
                 tbody += "</tr>";
             }
         }

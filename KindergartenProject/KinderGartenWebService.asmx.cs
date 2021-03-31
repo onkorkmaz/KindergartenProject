@@ -377,6 +377,45 @@ namespace KindergartenProject
         }
 
         [WebMethod]
+        public  DataResultArgs<PaymentEntity> SetAnotherPaymentAmount(string id, string encryptStudentId, string year, string month,
+            string currentAmount, string paymentType)
+        {
+            PaymentEntity paymentEntity = new PaymentEntity
+            {
+                EncryptStudentId = encryptStudentId,
+                StudentId = GeneralFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
+                Year = GeneralFunctions.GetData<short>(year),
+                Month = GeneralFunctions.GetData<short>(month),
+                Amount = GeneralFunctions.GetData<decimal>(currentAmount),
+                Id = GeneralFunctions.GetData<int>(id),
+                IsChangeAmountPaymentNotOK = true
+            };
+            paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
+            paymentEntity.IsActive = true;
+            paymentEntity.IsDeleted = false;
+            paymentEntity.PaymentDate = DateTime.Now;
+            paymentEntity.IsPayment = null;
+            paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
+
+            DataResultArgs<string> resultSet = new PaymentBusiness().Set_Payment(paymentEntity);
+
+            paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
+
+            PaymentEntity dbPaymentEntity = new PaymentBusiness().Get_PaymentWidthId(paymentEntity.Id);
+            dbPaymentEntity.EncryptStudentId = encryptStudentId;
+
+            DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>
+            {
+                ErrorCode = resultSet.ErrorCode,
+                ErrorDescription = resultSet.ErrorDescription,
+                HasError = resultSet.HasError,
+                Result = dbPaymentEntity
+            };
+
+            return returnResultSet;
+        }
+
+        [WebMethod]
 
         public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForPaymentList()
         {

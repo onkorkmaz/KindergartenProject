@@ -11,3 +11,13 @@ kullanıcı 	: onkork
 şifre 		: ONkor123
 
 *********** benimdunyam ftp giriş bilgileri***************
+
+
+***********SQL SERVER ***********
+
+178.210.171.41,13000
+
+onkor
+ONkor123
+
+***********SQL SERVER ***********

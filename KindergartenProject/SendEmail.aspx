@@ -15,6 +15,7 @@
                     <asp:HiddenField runat="server" ID="hdnId" />
                     <div class="mb-2 row">
                         <label class="col-form-label col-sm-2 text-sm-left">Öğrenci Bilgileri :</label>
+                        <asp:HiddenField runat="server" ID="hdnStudentName"/>
                         <div class="col-sm-6">
                             <label class="col-form-label col-sm-12 text-sm-left"><asp:Label runat="server" ID="lblStudentInto"></asp:Label></label>
                             <hr />

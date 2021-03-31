@@ -80,7 +80,7 @@ function drawList(studentList, paymentTypeList, year,month) {
             tbody += " <a href = \"SendEmail.aspx?Id=" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"img/icons/email.png\" title='Email Gönder'/></a>";
             tbody += "</td>";
             tbody += "<td>" + studentList[i].FullName + "</td>";
-            tbody += drawPaymentDetail(paymentTypeList,year, month, studentList[i]);
+            tbody += drawPaymentDetail(paymentTypeList, year, month, studentList[i], 1);
             tbody += "</tr>";
         }
 

@@ -65,13 +65,13 @@ function successFunctionDoPaymentOrUnPayment(result) {
     }
 }
 
-function textAmount_Change(id, encryptStudentId, studentId, year, month, paymentType, amount) {
+function textAmount_Change(id, encryptStudentId, studentId, year, month, paymentType, amount,isListScreen) {
 
     var uniqueName = "_" + studentId + "_" + year + "_" + month + "_" + paymentType;
     var txtAmountName = "txt" + uniqueName;
 
     var currentAmount = document.getElementById(txtAmountName).value
-
+    
     if (currentAmount != amount) {
         var jsonData = "{id: " + JSON.stringify(id) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ", currentAmount :" + JSON.stringify(currentAmount) + " ,paymentType:" + JSON.stringify(paymentType) + "}";
 
@@ -80,6 +80,30 @@ function textAmount_Change(id, encryptStudentId, studentId, year, month, payment
 }
 
 function successFunctionSetPaymentAmount(obje) {
+    successFunctionPaymentAmountCommon(obje, 0);
+}
+
+function successFunctionSetAnotherPaymentAmount(obje) {
+
+    successFunctionPaymentAmountCommon(obje, 1);
+
+    if (!obje.HasError) {
+        var result = obje.Result;
+        var uniqueName = "_" + result.StudentId + "_" + result.Year + "_" + result.Month + "_" + result.PaymentType;
+        var txtAmountName = "txt" + uniqueName;
+
+        if ((IsNullOrEmpty(result.IsPayment) || result.IsPayment == 0) && (IsNullOrEmpty(result.IsNotPayable) || result.IsNotPayable == 0)) {
+
+            var isListScreen = document.getElementById(txtAmountName).getAttribute("isListScreen");
+            document.getElementById(txtAmountName).setAttribute("onchange", "textAmount_Change(" + result.Id + ", '" + result.EncryptStudentId + "', " + result.StudentId + ", " + result.Year +
+                "," + result.Month + "," + result.PaymentType + "," + result.Amount + "," + isListScreen + ")");
+            document.getElementById(txtAmountName).value = result.Amount;
+        }
+
+    }
+}
+
+function successFunctionPaymentAmountCommon(obje, isSetAnotherAmount) {
     if (obje.HasError) {
         alert("Hata var !!!" + obje.ErrorDescription);
     }
@@ -87,10 +111,32 @@ function successFunctionSetPaymentAmount(obje) {
         var result = obje.Result;
         var uniqueName = "_" + result.StudentId + "_" + result.Year + "_" + result.Month + "_" + result.PaymentType;
         var txtAmountName = "txt" + uniqueName;
+        var isListScreen = document.getElementById(txtAmountName).getAttribute("islistscreen");
+
 
         document.getElementById(txtAmountName).setAttribute("onchange", "textAmount_Change(" + result.Id + ", '" + result.EncryptStudentId + "', " + result.StudentId + ", " + result.Year +
-            "," + result.Month + "," + result.PaymentType + "," + result.Amount + ")");
+            "," + result.Month + "," + result.PaymentType + "," + result.Amount + "," + isListScreen + ")");
 
+
+        if (isListScreen == 0 && isSetAnotherAmount == 0) {
+            if (!confirm('Diğer aylara ait ödenmemiş kayıtları da ' + result.Amount + ' TL olarak güncellemek ister misiniz?')) {
+                return;
+            }
+            for (var i = 1; i <= 12; i++) {
+                if (i != result.Month) {
+
+                    var nextUniqueName = "_" + result.StudentId + "_" + result.Year + "_" + i + "_" + result.PaymentType;
+                    var nextAmountName = "txt" + uniqueName;
+
+                    var nextObje = document.getElementById(nextAmountName);
+                    var encryptStudentId = nextObje.getAttribute('encryptStudentId');
+
+                    var jsonData = "{id: " + JSON.stringify(0) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(result.Year) + ",month:" + JSON.stringify(i) + ", currentAmount :" + JSON.stringify(result.Amount) + " ,paymentType:" + JSON.stringify(result.PaymentType) + "}";
+
+                    CallServiceWithAjax('KinderGartenWebService.asmx/SetAnotherPaymentAmount', jsonData, successFunctionSetAnotherPaymentAmount, errorFunction);
+                }
+            }
+        }
     }
 }
 
@@ -159,7 +205,7 @@ function successFunctionSetPayableStatus(result) {
     }
 }
 
-function drawPaymentDetail(paymentTypeList, year, month, studentEntity) {
+function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScreen) {
 
     var tbody = "";
 
@@ -241,9 +287,9 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity) {
         tbody += "<td><input " + paymentOkInputStyle + " " + notPayableCheckboxChecked+" type='checkbox' id='" + chcPaymentName + "' name='" +
             chcPaymentName + "' onclick =setPayableStatus(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year + "," + month + "," + paymentTypeList[i].Id + "," + amount + ") /></td>";
 
-        tbody += "<td><input " + paymentOkInputStyle + " " + notPayableInputTextStyle + " size='3' CssClass='form - control' id='" +
+        tbody += "<td><input encryptstudentid='" + studentEntity.EncryptId + "' islistscreen='" + isListScreen + "' " + paymentOkInputStyle + " " + notPayableInputTextStyle + " size='3' CssClass='form - control' id='" +
             txtAmountName + "' name='" + txtAmountName + "' type='text' value='" + displayAmount + "' onkeypress='return isNumber(event)' onchange =textAmount_Change(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year +
-            "," + month + "," + paymentTypeList[i].Id + "," + amount + ") /></td>";
+            "," + month + "," + paymentTypeList[i].Id + "," + amount + "," + isListScreen + ") /></td>";
 
         tbody += "<td " + tdPaymentStyle+" id='" + tdPaymentName +
             "' onclick =doPaymentOrUnPayment(" + id + ",'" + studentEntity.EncryptId + "'," + year +

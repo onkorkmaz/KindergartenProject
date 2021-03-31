@@ -9,6 +9,7 @@ using System.Net.Mail;
 using System.Text;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using WordToPDF;
 
 namespace KindergartenProject
 {
@@ -59,6 +60,8 @@ namespace KindergartenProject
                     lblStudentInto.Text += "<a href= 'PaymentDetail.aspx?Id=" + entity.EncryptId +
                                            "'><img title='Ödeme Detayı' src ='img/icons/paymentPlan.png'/></a>";
 
+
+                    hdnStudentName.Value = entity.FullName;
 
                     txtEmail.Text = entity.Email;
 
@@ -212,7 +215,7 @@ namespace KindergartenProject
 
 
                 string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
-                                  "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_";
+                                  "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss");
 
 
                 InitializeDocumentAndSave(entity, fileName);
@@ -378,16 +381,37 @@ namespace KindergartenProject
 
         private void sendMail(string fileName)
         {
+            Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
+
+            string monthName = "";
+
+            foreach (int key in selectedMonthList.Keys)
+            {
+                if (string.IsNullOrEmpty(monthName))
+                    monthName = selectedMonthList[key];
+                else
+                {
+                    monthName += " - " + selectedMonthList[key];
+                }
+            }
+
+
             using (MailMessage mail = new MailMessage())
             {
-                mail.From = new MailAddress("korkmazonur44@gmail.com");
-                mail.To.Add("korkmazonur44@gmail.com");
-                mail.Subject = "Benim Dünyam Anaokulu Ödeme Tablosu Mart - Nisan";
+                mail.From = new MailAddress("benimdunyamanaokullari@gmail.com");
+                mail.To.Add(txtEmail.Text.Trim());
+                mail.Subject = "Benim Dünyam Anaokulu Ödeme Tablosu " + monthName;
                 mail.Body =
-                    "Sayın velimiz; <br/> Onur KORKMAZ' a ait güncel ödeme tablosu ektedir.<br/> Mart ayına iat borcunuz bulunmamaktadır.";
+                    "Sayın velimiz; <br/> Öğrencimiz " + hdnStudentName.Value +
+                    " ait güncel ödeme tablosu ektedir.";
 
 
                 mail.IsBodyHtml = true;
+
+                WordToPDF.Word2Pdf pdf = new Word2Pdf();
+                pdf.InputLocation = fileName + ".docx";
+                pdf.OutputLocation = fileName + ".pdf";
+                pdf.Word2PdfCOnversion();
 
                 System.Net.Mail.Attachment attachment;
                 attachment = new System.Net.Mail.Attachment(fileName + ".pdf");
