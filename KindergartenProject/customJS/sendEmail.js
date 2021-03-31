@@ -1,5 +1,16 @@
-﻿
+﻿window.onload = function () {
+};
+
+
 function validate() {
+
+    document.getElementById("btnSendEmail").onclick = function () {
+        //disable
+        this.disabled = true;
+
+        //do some validation stuff
+    }
+
     var errorMessage = "";
 
     var obje = document.getElementById("txtEmail").value;
@@ -17,6 +28,10 @@ function validate() {
         return false;
     }
 
+    document.getElementById("btnSendEmail").style.display = "none";
+    document.getElementById("btnSendEmailCopy").style.display = "";
+
+    
     return true;
 }
 

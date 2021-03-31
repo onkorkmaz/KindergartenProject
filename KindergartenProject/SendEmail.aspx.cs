@@ -31,6 +31,8 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
+                btnSendEmailCopy.Attributes.Add("Style", "display:none;");
+
                 object Id = Request.QueryString["Id"];
 
                 if (Id == null)
@@ -193,6 +195,7 @@ namespace KindergartenProject
         {
             try
             {
+                btnSendEmail.Enabled = false;
                 object Id = Request.QueryString["Id"];
 
                 if (Id == null)
@@ -234,6 +237,7 @@ namespace KindergartenProject
                     {
                         divInformation.ErrorText =
                             ex.Message + " - " + ex.InnerException + " - " + ex.StackTrace;
+                        btnSendEmail.Enabled = true;
                     }
                 }
             }
@@ -241,6 +245,7 @@ namespace KindergartenProject
             {
                 divInformation.ErrorText =
                     exception.Message + " - " + exception.InnerException + " - " + exception.StackTrace;
+                btnSendEmail.Enabled = true;
             }
         }
 

@@ -28,6 +28,8 @@
                         </div>
                         <div class="col-sm-2">
                             <asp:Button runat="server" ID="btnSendEmail" CssClass="btn btn-primary " Text="Mail Gönder"  OnClientClick="javascript: return validate()" OnClick="btnSendEmail_Click" />
+                            <asp:Button runat="server" ID="btnSendEmailCopy" Enabled="False" CssClass="btn btn-primary " Text="Gönderiliyor..."  OnClientClick="return false;"/>
+
                         </div>
                     </div>
                 </div>
