@@ -8,8 +8,8 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-using WordToPDF;
+using Table = DocumentFormat.OpenXml.Wordprocessing.Table;
+using SautinSoft.Document;
 
 namespace KindergartenProject
 {
@@ -191,46 +191,56 @@ namespace KindergartenProject
 
         protected void btnSendEmail_Click(object sender, EventArgs e)
         {
-            object Id = Request.QueryString["Id"];
-
-            if (Id == null)
+            try
             {
-                ThrowError();
-                return;
-            }
+                object Id = Request.QueryString["Id"];
 
-            string IdDecrypt = Cipher.Decrypt(Id.ToString());
-            int id = GeneralFunctions.GetData<int>(IdDecrypt);
-            if (id <= 0)
-            {
-                ThrowError();
-                return;
-            }
-            else
-            {
-                StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
-                string savePathToFiles = Server.MapPath("/PaymentDocument/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName));
-
-                UpdateStudentEmailAndDeleteFolder(entity, savePathToFiles);
-
-
-                string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
-                                  "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss");
-
-
-                InitializeDocumentAndSave(entity, fileName);
-
-                try
+                if (Id == null)
                 {
-                    sendMail(fileName);
-                    divInformation.SuccessfulText = "Mail gönderim işlemi başarıyla tamamlanmıştır";
-                    divInformation.SetVisibleLink(true, false);
-                    pnlBody.Enabled = false;
+                    ThrowError();
+                    return;
                 }
-                catch (Exception ex)
+
+                string IdDecrypt = Cipher.Decrypt(Id.ToString());
+                int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                if (id <= 0)
                 {
-                    divInformation.ErrorText = ex.Message;
+                    ThrowError();
+                    return;
                 }
+                else
+                {
+                    StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
+                    string savePathToFiles =
+                        Server.MapPath("/PaymentDocument/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName));
+
+                    UpdateStudentEmailAndDeleteFolder(entity, savePathToFiles);
+
+
+                    string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
+                                      "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss");
+
+
+                    InitializeDocumentAndSave(entity, fileName);
+
+                    try
+                    {
+                        sendMail(fileName, entity);
+                        divInformation.SuccessfulText = "Mail gönderim işlemi başarıyla tamamlanmıştır";
+                        divInformation.SetVisibleLink(true, false);
+                        pnlBody.Enabled = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        divInformation.ErrorText =
+                            ex.Message + " - " + ex.InnerException + " - " + ex.StackTrace;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                divInformation.ErrorText =
+                    exception.Message + " - " + exception.InnerException + " - " + exception.StackTrace;
             }
         }
 
@@ -379,8 +389,11 @@ namespace KindergartenProject
             tr.Append(tc);
         }
 
-        private void sendMail(string fileName)
+        private void sendMail(string fileName,StudentEntity entity)
         {
+            string word = fileName + ".docx";
+            string pdf = fileName + ".pdf";
+
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
             string monthName = "";
@@ -395,23 +408,20 @@ namespace KindergartenProject
                 }
             }
 
-
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress("benimdunyamanaokullari@gmail.com");
                 mail.To.Add(txtEmail.Text.Trim());
                 mail.Subject = "Benim Dünyam Anaokulu Ödeme Tablosu " + monthName;
                 mail.Body =
-                    "Sayın velimiz; <br/> Öğrencimiz " + hdnStudentName.Value +
+                    "Sayın Velimiz; <br/> Öğrencimiz " + hdnStudentName.Value +
                     " ait güncel ödeme tablosu ektedir.";
 
 
-                mail.IsBodyHtml = true;
+                DocumentCore dc = DocumentCore.Load(word);
+                dc.Save(pdf);
 
-                WordToPDF.Word2Pdf pdf = new Word2Pdf();
-                pdf.InputLocation = fileName + ".docx";
-                pdf.OutputLocation = fileName + ".pdf";
-                pdf.Word2PdfCOnversion();
+                mail.IsBodyHtml = true;
 
                 System.Net.Mail.Attachment attachment;
                 attachment = new System.Net.Mail.Attachment(fileName + ".pdf");
