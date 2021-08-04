@@ -20,7 +20,7 @@ namespace KindergartenProject
             {
                 int year = DateTime.Today.Year;
 
-                for(int i = 0;i<5;i++)
+                for(int i = -1;i<5;i++)
                 {
                     drpYear.Items.Add(new ListItem((year + i).ToString(), (year + i).ToString()));
                 }

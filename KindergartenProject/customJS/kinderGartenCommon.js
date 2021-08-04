@@ -74,7 +74,7 @@ function replaceTurkichChar(text) {
     text = text.replace("ğ", "g");
     text = text.replace("ö", "o");
     text = text.replace("ü", "u");
-    text = text.replace("ş", "s");
+    text = text.replace("ş", "s");  
     text = text.replace("ç", "c");
     return text;
 

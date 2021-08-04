@@ -39,7 +39,7 @@ namespace KindergartenProject
             SetMenuAttiributes(menuAddStudent, selectedMenuList == MenuList.AddStudenList);
             SetMenuAttiributes(menuPaymentPlan, selectedMenuList == MenuList.PaymentPlan);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.PaymentType, menuPaymentType);
-
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ClassList, classList);
         }
 
         private void SetMenuAttiributes(HtmlGenericControl panel, bool isActiveMenu, HtmlGenericControl subMenuId)

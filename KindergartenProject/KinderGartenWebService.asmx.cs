@@ -445,5 +445,88 @@ namespace KindergartenProject
 
             return paymentDetailEntity;
         }
+
+
+        [WebMethod]
+
+        public StudentEntity GetStudentEntityWithFullName(string fullName)
+        {
+            return new StudentBusiness().Get_StudentWithFullName(fullName);
+        }
+
+
+        [WebMethod]
+        public DataResultArgs<List<ClassEntity>> GetClassList()
+        {
+            return new ClassBusiness().Get_Class(new SearchEntity() { IsDeleted = false });
+        }
+
+        [WebMethod]
+        
+        public DataResultArgs<bool> InsertOrUpdateClass(string encryptId, ClassEntity classEntity)
+        {
+            DatabaseProcess currentProcess = DatabaseProcess.Add;
+            classEntity.Id = 0;
+            if (!string.IsNullOrEmpty(encryptId))
+            {
+                int.TryParse(Cipher.Decrypt(encryptId), out var id);
+                if (id > 0)
+                {
+                    currentProcess = DatabaseProcess.Update;
+                }
+                classEntity.Id = id;
+            }
+
+            classEntity.DatabaseProcess = currentProcess;
+
+            return new ClassBusiness().Set_Class(classEntity);
+        }
+
+        [WebMethod]
+
+        public DataResultArgs<bool> DeleteClass(string id)
+        {
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true,
+                ErrorDescription = "Id bilgisine ulaşılamadı"
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    ClassEntity entity = new ClassEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
+                    result = new ClassBusiness().Set_Class(entity);
+                }
+            }
+
+            return result;
+        }
+
+        [WebMethod]
+        public DataResultArgs<ClassEntity> UpdateClass(string id)
+        {
+            DataResultArgs<ClassEntity> result = new DataResultArgs<ClassEntity>
+            {
+                HasError = true,
+                ErrorDescription = "Entity ulaşılamadı..."
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    result = new ClassBusiness().Get_ClassWithId(GeneralFunctions.GetData<int>(id));
+                    if (result.Result != null)
+                        result.HasError = false;
+                }
+            }
+
+            return result;
+        }
+
     }
 }

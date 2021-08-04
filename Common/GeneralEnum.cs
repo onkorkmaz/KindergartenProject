@@ -19,6 +19,7 @@ namespace Common
         PaymentPlan = 3,
         PaymentType = 4,
         Login = 5,
+        ClassList = 6,
     }
 
     public enum PaymentTypeEnum

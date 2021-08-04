@@ -67,8 +67,11 @@
                                 </a>
                                 <ul id="ui" data-parent="#sidebar" runat="server">
                                     <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="PaymentType.aspx">Ödeme Tipleri</a></li>
+                                    <li class="sidebar-item" id="classList" runat="server"><a class="sidebar-link" href="ClassList.aspx">Sınıflar</a></li>
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Kullanıcı Yönetimi</a></li>
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>
+                                    
+
 
                                 </ul>
                             </li>

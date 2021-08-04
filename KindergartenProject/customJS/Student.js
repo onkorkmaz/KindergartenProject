@@ -13,45 +13,93 @@ function txtCitizenshipNumber_Change(citizenshipNumber) {
     GetStudentEntity(citizenshipNumber);
 }
 
+function fullName_Change() {
+    var name = document.getElementById("txtName").value;
+    var surname = document.getElementById("txtSurname").value;
+    var middleName = document.getElementById("txtMiddleName").value;
+
+    if (!IsNullOrEmpty(name) && !IsNullOrEmpty(surname)) {
+
+        var fullName = replaceTurkichChar(name.toLocaleLowerCase('tr-TR'));
+
+        if (!IsNullOrEmpty(middleName))
+            fullName += " " + replaceTurkichChar(middleName.toLocaleLowerCase('tr-TR'));
+
+        fullName += " " + replaceTurkichChar(surname.toLocaleLowerCase('tr-TR'));
+
+        IsUserNameExist(fullName);
+
+    }
+
+}
+
+function IsUserNameExist(fullName) {
+
+    if (!IsNullOrEmpty(fullName)) {
+        var jsonData = "{ fullName: " + JSON.stringify(fullName) + " }";
+        CallServiceWithAjax('KinderGartenWebService.asmx/GetStudentEntityWithFullName',
+            jsonData,
+            successFunctionGetStudentFullNameEntity,
+            errorFunction);
+    }
+
+}
+
+function successFunctionGetStudentFullNameEntity(result) {
+    if (result != null) {
+        alert("Girdiğiniz öğrenci sistemde mevcuttur");
+
+        setStudent(result);
+
+    }
+    else {
+        document.getElementById("btnSubmit").value = "Kaydet";
+    }
+}
+
+function setStudent(entity) {
+    document.getElementById("hdnId").value = entity.Id;
+    document.getElementById("txtName").value = entity.Name;
+    document.getElementById("txtSurname").value = entity.Surname;
+    document.getElementById("txtMiddleName").value = entity.MiddleName;
+    document.getElementById("txtMotherName").value = entity.MotherName;
+    document.getElementById("txtFatherName").value = entity.FatherName;
+    document.getElementById("txtFatherPhoneNumber").value = entity.FatherPhoneNumber;
+    document.getElementById("txtMotherPhoneNumber").value = entity.MotherPhoneNumber;
+    document.getElementById("chcIsActive").checked = entity.IsActive;
+    document.getElementById("txtSpokenPrice").value = entity.SpokenPrice;
+    document.getElementById("txtNotes").value = entity.Notes;
+    document.getElementById("txtBirthday").value = entity.BirthdayWithFormat2;
+    document.getElementById("txtDateOfMeeting").value = entity.DateOfMeetingWithFormat2;
+    document.getElementById("txtEmail").value = entity.Email;
+    document.getElementById("btnSubmit").value = "Güncelle";
+}
+
 function successFunctionGetStudentEntity(result) {
 
     if (!result.HasError) {
         var entity = result.Result;
         if (entity != null) {
-            alert("Girdiğiniz kimlik numarsaı sistemde mevcuttur");
+            alert("Girdiğiniz kimlik numarası sistemde mevcuttur");
 
-            document.getElementById("hdnId").value = entity.Id;
-            document.getElementById("txtName").value = entity.Name;
-            document.getElementById("txtSurname").value = entity.Surname;
-            document.getElementById("txtMiddleName").value = entity.MiddleName;
-            document.getElementById("txtMotherName").value = entity.MotherName;
-            document.getElementById("txtFatherName").value = entity.FatherName;
-            document.getElementById("txtFatherPhoneNumber").value = entity.FatherPhoneNumber;
-            document.getElementById("txtMotherPhoneNumber").value = entity.MotherPhoneNumber;
-            document.getElementById("chcIsActive").checked = entity.IsActive;
-            document.getElementById("txtSpokenPrice").value = entity.SpokenPrice;
-            document.getElementById("txtNotes").value = entity.Notes;
-            document.getElementById("txtBirthday").value = entity.BirthdayWithFormat2;
-            document.getElementById("txtDateOfMeeting").value = entity.DateOfMeetingWithFormat2;
-            document.getElementById("txtEmail").value = entity.Email;
-            document.getElementById("btnSubmit").value = "Güncelle";
+            setStudent(entity);
 
         } else {
 
-            document.getElementById("hdnId").value = "";
-            document.getElementById("txtName").value = "";
-            document.getElementById("txtSurname").value = "";
-            document.getElementById("txtMiddleName").value = "";
-            document.getElementById("txtMotherName").value = "";
-            document.getElementById("txtFatherName").value = "";
-            document.getElementById("txtFatherPhoneNumber").value = "";
-            document.getElementById("txtMotherPhoneNumber").value = "";
-            document.getElementById("chcIsActive").checked = true;
-            document.getElementById("txtSpokenPrice").value = "";
-            document.getElementById("txtNotes").value = "";
-            document.getElementById("txtBirthday").value = "";
-            document.getElementById("txtDateOfMeeting").value = "";
-            document.getElementById("txtEmail").value = "";
+            //document.getElementById("hdnId").value = "";
+            //document.getElementById("txtName").value = "";
+            //document.getElementById("txtSurname").value = "";
+            //document.getElementById("txtMiddleName").value = "";
+            //document.getElementById("txtMotherName").value = "";
+            //document.getElementById("txtFatherName").value = "";
+            //document.getElementById("txtFatherPhoneNumber").value = "";
+            //document.getElementById("txtMotherPhoneNumber").value = "";
+            //document.getElementById("chcIsActive").checked = true;
+            //document.getElementById("txtSpokenPrice").value = "";
+            //document.getElementById("txtNotes").value = "";
+            //document.getElementById("txtBirthday").value = "";
+            //document.getElementById("txtDateOfMeeting").value = "";
+            //document.getElementById("txtEmail").value = "";
             document.getElementById("btnSubmit").value = "Kaydet";
         }
     }

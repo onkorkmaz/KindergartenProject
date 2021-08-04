@@ -223,8 +223,12 @@ namespace KindergartenProject
                     string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
                                       "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss");
 
+                    DataResultArgs<List<PaymentTypeEntity>> resultSet =
+                        new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
 
-                    InitializeDocumentAndSave(entity, fileName);
+                    InitializeDocumentAndSave(entity, fileName, resultSet.Result);
+
+                    //string body = drawTable(entity, resultSet.Result);
 
                     try
                     {
@@ -248,6 +252,48 @@ namespace KindergartenProject
                 btnSendEmail.Enabled = true;
             }
         }
+
+        //private string drawTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
+        //{
+        //    List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.PaymentList);
+
+        //    Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
+
+
+        //    StringBuilder sb = new StringBuilder();
+
+        //    sb.AppendLine("<table>");
+
+        //    foreach (int month in selectedMonthList.Keys)
+        //    {
+        //        sb.AppendLine("<tr>");
+        //        sb.AppendLine("<td>" + selectedMonthList[month] + "</td>");
+
+        //        foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
+        //        {
+        //            if (emailPaymentEntity.Month == month)
+        //            {
+        //                switch ((PaymentTypeEnum)emailPaymentEntity.PaymentTypeId)
+        //                {
+        //                    case PaymentTypeEnum.Okul:
+        //                    case PaymentTypeEnum.Servis:
+        //                    case PaymentTypeEnum.Kirtasiye:
+        //                    case PaymentTypeEnum.Mental:
+        //                    case PaymentTypeEnum.Diger:
+        //                        sb.AppendLine("<td>" + emailPaymentEntity.AmountDescription + "</td>");
+        //                        break;
+        //                    case PaymentTypeEnum.None:
+        //                        break;
+        //                    default:
+        //                        break;
+        //                }
+        //            }
+        //        }
+
+        //        sb.AppendLine("</tr>");
+        //    }
+
+        //}
 
         private void ThrowError()
         {
@@ -278,12 +324,9 @@ namespace KindergartenProject
             }
         }
 
-        private void InitializeDocumentAndSave( StudentEntity entity,  string fileName)
+        private void InitializeDocumentAndSave( StudentEntity entity,  string fileName, List<PaymentTypeEntity> paymentTypeEntityList)
         {
-            DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
-
-            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(resultSet.Result, entity.PaymentList);
+            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.PaymentList);
 
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
@@ -423,6 +466,7 @@ namespace KindergartenProject
                     " ait güncel ödeme tablosu ektedir.";
 
 
+                DocumentCore.Serial = "bla bla";
                 DocumentCore dc = DocumentCore.Load(word);
                 dc.Save(pdf);
 

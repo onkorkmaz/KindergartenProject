@@ -72,7 +72,7 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
-                txtBirthday.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                //txtBirthday.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
                 object Id = Request.QueryString["Id"];
