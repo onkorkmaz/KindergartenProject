@@ -34,12 +34,35 @@ namespace KindergartenProject
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
         {
+
+            clearMenuActiveStyle(menuPanel);
+            clearMenuActiveStyle(menuStudenList);
+            clearMenuActiveStyle(menuAddStudent);
+            clearMenuActiveStyle(menuPaymentPlan);
+            clearMenuActiveStyle(menuSettings);
+
+            clearSubMenuStyle();
+
+
             SetMenuAttiributes(menuPanel, selectedMenuList == MenuList.Panel);
             SetMenuAttiributes(menuStudenList, selectedMenuList == MenuList.StudentList);
             SetMenuAttiributes(menuAddStudent, selectedMenuList == MenuList.AddStudenList);
             SetMenuAttiributes(menuPaymentPlan, selectedMenuList == MenuList.PaymentPlan);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.PaymentType, menuPaymentType);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ClassList, classList);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.Workers, workers);
+
+        }
+
+        private void clearSubMenuStyle()
+        {
+            ui.Attributes.Remove("class");
+            ui.Attributes.Add("class", "sidebar-dropdown list-unstyled collapse");
+        }
+        private void clearMenuActiveStyle(HtmlGenericControl panel)
+        {
+            panel.Attributes.Remove("class");
+            panel.Attributes.Add("class", "sidebar-item");
         }
 
         private void SetMenuAttiributes(HtmlGenericControl panel, bool isActiveMenu, HtmlGenericControl subMenuId)
@@ -49,12 +72,6 @@ namespace KindergartenProject
                 ui.Attributes.Remove("class");
                 ui.Attributes.Add("class", "sidebar-dropdown list-unstyled collapse show");
             }
-            else
-            {
-                ui.Attributes.Remove("class");
-                ui.Attributes.Add("class", "sidebar-dropdown list-unstyled collapse");
-            }
-
             SetMenuAttiributes(panel, isActiveMenu);
             SetMenuAttiributes(subMenuId, isActiveMenu);
         }
@@ -65,12 +82,7 @@ namespace KindergartenProject
             {
                 panel.Attributes.Remove("class");
                 panel.Attributes.Add("class", "sidebar-item active");
-            }
-            else
-            {
-                panel.Attributes.Remove("class");
-                panel.Attributes.Add("class", "sidebar-item");
-            }
+            }       
         }
 
         public void SetVisibleSearchText(bool isVisible)

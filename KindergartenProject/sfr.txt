@@ -1,14 +1,14 @@
 ***********email şifresi ***************
 info@benimdunyamogrencitakip.com
-BenDunyam123
+BenDunyam***
 ***********email şifresi ***************
 
 
 *********** benimdunyam ftp giriş bilgileri***************
 
 ftp 		: ftp.benimdunyamogrencitakip.com
-kullanıcı 	: onkork
-şifre 		: ONkor123
+kullanıcı 	: onko**
+şifre 		: ONko****
 
 *********** benimdunyam ftp giriş bilgileri***************
 
@@ -17,7 +17,7 @@ kullanıcı 	: onkork
 
 178.210.171.41,13000
 
-onkor
-ONkor123
+onko*
+ONko****
 
 ***********SQL SERVER ***********

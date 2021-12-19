@@ -150,6 +150,33 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.HiddenField hdnStudentState;
 
         /// <summary>
+        /// drpClassList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpClassList;
+
+        /// <summary>
+        /// lblMaxStudentCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMaxStudentCount;
+
+        /// <summary>
+        /// hdnCurrentClassId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnCurrentClassId;
+
+        /// <summary>
         /// chcIsActive control.
         /// </summary>
         /// <remarks>

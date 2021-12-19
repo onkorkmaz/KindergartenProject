@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class ClassList
+    public partial class ClassList3
     {
 
         /// <summary>
@@ -42,13 +42,13 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.HiddenField hdnId;
 
         /// <summary>
-        /// txtName control.
+        /// txtClassName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtName;
+        protected global::System.Web.UI.WebControls.TextBox txtClassName;
 
         /// <summary>
         /// txtDescription control.
@@ -60,7 +60,25 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
-        /// txtWarningOfStudentCount  control.
+        /// drpMainTeacher control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpMainTeacher;
+
+        /// <summary>
+        /// drpHelperTeacher control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpHelperTeacher;
+
+        /// <summary>
+        /// txtWarningOfStudentCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.

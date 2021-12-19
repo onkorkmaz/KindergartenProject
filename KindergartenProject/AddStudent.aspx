@@ -79,7 +79,7 @@
 
                             <label class="col-form-label col-sm-2 text-sm-left">Öğrenci Durumu</label>
                             <div class="col-sm-2">
-                                <asp:DropDownList runat="server" ID="drpStudentState" CssClass="form-control">
+                                <asp:DropDownList runat="server" ID="drpStudentState" onchange="OnStudentStateChanged(this.value);" CssClass="form-control">
                                     <asp:ListItem Text="Kayıt" Selected="True" Value="0"></asp:ListItem>
                                     <asp:ListItem Text="Görüşme" Value="1"></asp:ListItem>
                                 </asp:DropDownList>
@@ -87,6 +87,23 @@
 
                             <asp:HiddenField runat="server" ID="hdnStudentState" />
                         </div>
+
+                        <div class="mb-3 row" id="divClassList">
+
+                            <label class="col-form-label col-sm-2 text-sm-left">Sınıf</label>
+                            <div class="col-sm-2">
+                                <asp:DropDownList runat="server" ID="drpClassList" onchange="OnClassListChanged(this.value);" CssClass="form-control">
+                                </asp:DropDownList>
+
+                            </div>
+                            <div class="col-sm-2">
+                                <asp:Label ID="lblMaxStudentCount" ForeColor="red" runat="server" Text=""></asp:Label>
+                            </div>
+
+                            <asp:HiddenField runat="server" ID="hdnCurrentClassId" />
+                        </div>
+
+
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>
                             <div class="col-sm-6">

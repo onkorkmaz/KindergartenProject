@@ -54,6 +54,18 @@ namespace Common
             return errorMessage;
         }
 
+        public static bool IsSameStrings(string text1, string text2)
+        {
+            if(!string.IsNullOrEmpty(text1) && !string.IsNullOrEmpty(text2))
+            {
+                string val1 = ReplaceTurkishChar(text1.Trim().ToLower());
+                string val2 = ReplaceTurkishChar(text2.Trim().ToLower());
+                return val1 == val2;
+            }
+
+            return false;
+        }
+
         public static string ReplaceTurkishChar(string text)
         {
             text = text.Replace("İ", "I");

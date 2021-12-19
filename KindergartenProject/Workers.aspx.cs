@@ -8,14 +8,14 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class ClassList : System.Web.UI.Page
+    public partial class Workers : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
-                master.SetActiveMenuAttiributes(MenuList.ClassList);
+                master.SetActiveMenuAttiributes(MenuList.Workers);
                 master.SetVisibleSearchText(false);
             }
         }

@@ -114,6 +114,15 @@ function isEmailAddress(str) {
     return str.match(pattern);
 }
 
+function checkEmail(str) {
+    var email = str;
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (!filter.test(email)) {
+        return false;
+    }
+    return true;
+}   
+
 function validate() {
     var errorMessage = "";
 
@@ -160,7 +169,7 @@ function validate() {
     }
 
     var email = document.getElementById("txtEmail").value;
-    if (!IsNullOrEmpty(email) && !isEmailAddress(email)) {
+    if (!IsNullOrEmpty(email) && !checkEmail(email)) {
         errorMessage += "Email bilgisi doğru formatta girilmemiştir.\n";
 
     }
@@ -172,5 +181,42 @@ function validate() {
 
     window["studentList"] = null;
     return true;
+}
+
+function OnStudentStateChanged(value) {
+
+    if (value == 0) {
+        document.getElementById("divClassList").style.display = "";
+
+        if (!IsNullOrEmpty(document.getElementById("hdnCurrentClassId").value)) {
+            document.getElementById("drpClassList").value = document.getElementById("hdnCurrentClassId").value;
+
+        }
+    }
+    else {
+        document.getElementById("divClassList").style.display = "none";
+        document.getElementById("drpClassList").value = -1;
+        document.getElementById("lblMaxStudentCount").value = "";
+    }
+}
+
+function OnClassListChanged(value) {
+
+    if (!IsNullOrEmpty(value)) {
+        var jsonData = "{ classId: " + JSON.stringify(value) + " }";
+        CallServiceWithAjax('KinderGartenWebService.asmx/CalculateRecordedStudentCount',
+            jsonData,
+            successFunctionCalculateRecordedStudentCount,
+            errorFunction);
+    }
+}
+
+function successFunctionCalculateRecordedStudentCount(result) {
+
+    document.getElementById("lblMaxStudentCount").innerHTML = "";
+
+    if (!IsNullOrEmpty(result)) {
+        document.getElementById("lblMaxStudentCount").innerHTML = result;
+    }
 }
 

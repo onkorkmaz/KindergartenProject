@@ -64,12 +64,12 @@ function drawList(entityList) {
             tbody += "<tr>";
             tbody += "<td style='cursor: pointer;' onclick =onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
             tbody += "<td>";
-            tbody += "<a href = \"AddStudent.aspx?Id=" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"img/icons/update10.png\"/></a> ";       
+            tbody += "<a href = \"AddStudent.aspx?Id=" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"img/icons/update1.png\"/></a> &nbsp; ";       
             //tbody += "<a href = \"#\"><img src =\"img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
 
             if (entityList[i].IsStudent == true) {
-                tbody += "<a href = \"PaymentDetail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Ödeme detayı' src =\"img/icons/paymentPlan.png\"/></a> ";
-                tbody += "<a href = \"SendEmail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Email gönder' src =\"img/icons/email4.png\"/></a>";
+                tbody += "<a href = \"PaymentDetail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Ödeme detayı' src =\"img/icons/paymentPlan.png\"/></a> &nbsp; ";
+                tbody += "<a href = \"SendEmail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Email gönder' src =\"img/icons/email4.png\"/></a> &nbsp; ";
             }
             
             tbody += "</td>";
@@ -78,11 +78,15 @@ function drawList(entityList) {
             tbody += "<td>" + entityList[i].FatherInfo + "</td>";
             tbody += "<td>" + entityList[i].MotherInfo + "</td>";
 
-            if (entityList[i].IsStudent)
-                tbody += "<td>&nbsp;<img src='img/icons/student3.png' width='20' height ='20' /></td>";
-            else
-                tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='img/icons/interview.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
-
+            if (entityList[i].IsActive) {
+                if (entityList[i].IsStudent)
+                    tbody += "<td>&nbsp;<img src='img/icons/student3.png' width='20' height ='20' /></td>";
+                else
+                    tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='img/icons/interview.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
+            }
+            else {
+                tbody += "<td>&nbsp;</td>";
+            }
             tbody += "</tr> ";
 
             tbody += "<tr style='display: none;' id='tr" + entityList[i].EncryptId + "' >";
@@ -95,6 +99,11 @@ function drawList(entityList) {
                         tbody += "<tr><td width='150'><b>TCKN</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].CitizenshipNumberStr + "</td></tr>";
 
                         tbody += "<tr><td width='150'><b>Konuşulan ücret</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].SpokenPriceStr + "</td></tr>";
+                        tbody += "<tr><td width='150'><b>Sınıf</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].ClassName + "</td></tr>";
+
+                        tbody += "<tr><td width='150'><b>Ana Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].MainTeacher + "</td></tr>";
+                        tbody += "<tr><td width='150'><b>Yardımcı Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].HelperTeacher + "</td></tr>";
+
                         tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + entityList[i].DateOfMeetingWithFormat + "</td></tr>";
                         tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + entityList[i].EmailStr + "</td></tr>";
                         tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + entityList[i].NotesStr + "</td></tr>";

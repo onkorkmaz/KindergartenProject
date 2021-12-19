@@ -52,6 +52,12 @@ namespace KindergartenProject
                 txtNotes.Text = currentRecord.Notes;
                 txtSpokenPrice.Text = currentRecord.SpokenPrice.ToString();
                 txtEmail.Text = currentRecord.Email;
+
+                if (currentRecord.ClassId > 0)
+                {
+                    drpClassList.SelectedValue = currentRecord.ClassId.ToString();
+                    hdnCurrentClassId.Value = currentRecord.ClassId.ToString();
+                }
             }
         }
         #endregion PROPERTIES
@@ -62,7 +68,7 @@ namespace KindergartenProject
             divInformation.ListRecordPage = "StudentList.aspx";
             divInformation.NewRecordPage = "AddStudent.aspx";
 
-            divInformation.InformationVisible = false ;
+            divInformation.InformationVisible = false;
 
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.AddStudenList);
@@ -74,6 +80,33 @@ namespace KindergartenProject
             {
                 //txtBirthday.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
+
+                DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness().Get_Class(new SearchEntity() { IsActive = true });
+                if (resultSetClassList.HasError)
+                {
+                    divInformation.ErrorText = resultSetClassList.ErrorDescription;
+                    return;
+                }
+                else
+                {
+                    List<ClassEntity> classList = resultSetClassList.Result;
+                    List<ClassEntity> list = new List<ClassEntity>();
+
+                    list.Add(new ClassEntity() { Id = -1 });
+                    if (resultSetClassList.Result != null)
+                    {
+
+                        foreach (ClassEntity entity in classList)
+                        {
+                            list.Add(entity);
+                        }
+                    }
+
+                    drpClassList.DataSource = list;
+                    drpClassList.DataValueField = "Id";
+                    drpClassList.DataTextField = "ClassAndMainTeacherName";
+                    drpClassList.DataBind();
+                }
 
                 object Id = Request.QueryString["Id"];
 
@@ -98,10 +131,16 @@ namespace KindergartenProject
                         }
                     }
                 }
+
+                int classId = GeneralFunctions.GetData<int>(drpClassList.SelectedValue);
+                if (classId > 0)
+                {
+                    lblMaxStudentCount.Text = new KinderGartenWebService().CalculateRecordedStudentCount(classId.ToString());
+                }
             }
         }
 
-       
+
         #endregion CONTRUCTOR && PAGE_LOAD
 
         #region METHODS
@@ -130,7 +169,7 @@ namespace KindergartenProject
             entity.DateOfMeeting = GeneralFunctions.GetData<DateTime>(txtDateOfMeeting.Text);
             entity.SpokenPrice = GeneralFunctions.GetData<decimal>(txtSpokenPrice.Text);
             entity.Email = txtEmail.Text;
-
+            entity.ClassId = GeneralFunctions.GetData<int>(drpClassList.SelectedValue);
 
             if (entity.DatabaseProcess == DatabaseProcess.Add)
                 entity.IsAddAfterPaymentUnPayment = true;

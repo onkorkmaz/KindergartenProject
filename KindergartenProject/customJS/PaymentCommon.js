@@ -231,6 +231,10 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
         var notPayableInputTextStyle = "";
         var notPayableCheckboxChecked = "";
 
+        if (displayAmount == 0) {
+            tdPaymentStyle = "style ='display:none;'";
+            tdUnPaymentStyle = "style ='display:none;'";
+        }
 
         var imgDisplay = "";
 
@@ -247,6 +251,14 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
                 tdPaymentStyle = "";
                 isPayment = true;
                 paymentOkInputStyle = " disabled='disabled';";
+            }
+            else if (paymentEntity.Amount > 0) {
+                tdPaymentStyle = "style ='display:none;'";
+                tdUnPaymentStyle = "";
+            }
+            else if (paymentEntity.Amount == 0) {
+                tdPaymentStyle = "style ='display:none;'";
+                tdUnPaymentStyle = "style ='display:none;'";
             }
 
             if (isNotPayable == true) {
@@ -276,7 +288,7 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
         document.getElementById(txtPayment).setAttribute("disabled", "disabled");
         */
         var imgUnPayment =
-            "<img style='cursor: pointer; " + imgDisplay+"' id = '" + imgUnPaymentName + "' width='18' height='18' title='Ödeme Yapmak için tıklayınız' src=\"img/icons/unPayment2.png\"/>";
+            "<img style='cursor: pointer; " + imgDisplay+"' id = '" + imgUnPaymentName + "' width='25' height='25' title='Ödeme Yapmak için tıklayınız' src=\"img/icons/unPayment2.png\"/>";
         var imgPayment =
             "<img style='cursor: pointer; " + imgDisplay +"'  id= '" + imgPaymentName + "' title = 'Ödemeyi Silmek için tıklayınız' src=\"img/icons/greenSmile2.png\"/>";
 
@@ -284,8 +296,8 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
 
         tbody += "<td style='display:none;'><input type='hidden' value='" + isPayment + "' id = '" + hdnPaymentStatus + "'/></td>";
 
-        tbody += "<td><input " + paymentOkInputStyle + " " + notPayableCheckboxChecked+" type='checkbox' id='" + chcPaymentName + "' name='" +
-            chcPaymentName + "' onclick =setPayableStatus(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year + "," + month + "," + paymentTypeList[i].Id + "," + amount + ") /></td>";
+        //tbody += "<td><input " + paymentOkInputStyle + " " + notPayableCheckboxChecked+" type='checkbox' id='" + chcPaymentName + "' name='" +
+        //    chcPaymentName + "' onclick =setPayableStatus(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year + "," + month + "," + paymentTypeList[i].Id + "," + amount + ") /></td>";
 
         tbody += "<td><input encryptstudentid='" + studentEntity.EncryptId + "' islistscreen='" + isListScreen + "' " + paymentOkInputStyle + " " + notPayableInputTextStyle + " size='3' CssClass='form - control' id='" +
             txtAmountName + "' name='" + txtAmountName + "' type='text' value='" + displayAmount + "' onkeypress='return isNumber(event)' onchange =textAmount_Change(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year +
