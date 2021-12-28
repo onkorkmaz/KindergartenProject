@@ -115,6 +115,7 @@
     <Content Include="img\icons\greenSmile.png" />
     <Content Include="img\icons\greenSmile2.png" />
     <Content Include="img\icons\interview.png" />
+    <Content Include="img\icons\no.png" />
     <Content Include="img\icons\passive.png" />
     <Content Include="img\icons\paymentOk.png" />
     <Content Include="img\icons\paymentPlan.png" />
@@ -130,8 +131,13 @@
     <Content Include="img\icons\student2.png" />
     <Content Include="img\icons\student3.png" />
     <Content Include="img\icons\trush1.png" />
-    <Content Include="img\icons\unPayment.png" />
+    <Content Include="img\icons\unPayment1232.png" />
     <Content Include="img\icons\unPayment2.png" />
+    <Content Include="img\icons\unPayment22222.png" />
+    <Content Include="img\icons\unPayment223456,.png" />
+    <Content Include="img\icons\unPayment234567.png" />
+    <Content Include="img\icons\unPayment256.png" />
+    <Content Include="img\icons\unPayment289.png" />
     <Content Include="img\icons\update.png" />
     <Content Include="img\icons\update1.png" />
     <Content Include="img\icons\update10.png" />
