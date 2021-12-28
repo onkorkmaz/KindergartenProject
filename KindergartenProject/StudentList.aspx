@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim dünyama - Öğrenci Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="StudentList.aspx.cs" Inherits="KindergartenProject.StudentList" %>
+﻿<%@ Page Title="Benim Dünyam - Öğrenci Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="StudentList.aspx.cs" Inherits="KindergartenProject.StudentList" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 
@@ -44,6 +44,17 @@
                 </div>
             </div>
         </div>
+
+        <asp:HiddenField runat="server" ID="hdnId" />
+                <div class="mb-3 row">
+                    <label class="col-form-label col-sm-2 text-sm-left">Sınıf Adı</label>
+                    <div class="col-sm-2">
+                        <asp:DropDownList runat="server" ID="drpClassList" onchange="onClassNameChanged();" CssClass="form-control" ></asp:DropDownList>
+                    </div>
+                </div>
+            <hr />
+
+
 
         <div class="col-12 col-xl-12">
             <div class="table-responsive">

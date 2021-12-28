@@ -69,6 +69,24 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.Label lblPassiveStudent;
 
         /// <summary>
+        /// hdnId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnId;
+
+        /// <summary>
+        /// drpClassList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpClassList;
+
+        /// <summary>
         /// tBodyStudentList control.
         /// </summary>
         /// <remarks>

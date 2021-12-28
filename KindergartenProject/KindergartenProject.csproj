@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AddStudent.aspx" />
-    <Content Include="ClassList3.aspx" />
+    <Content Include="ClassList.aspx" />
     <Content Include="css\app.css" />
     <Content Include="css\custom.css" />
     <Content Include="customJS\PaymentCommon.js" />
@@ -178,12 +178,12 @@
     <Compile Include="AddStudent.aspx.designer.cs">
       <DependentUpon>AddStudent.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ClassList3.aspx.cs">
-      <DependentUpon>ClassList3.aspx</DependentUpon>
+    <Compile Include="ClassList.aspx.cs">
+      <DependentUpon>ClassList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ClassList3.aspx.designer.cs">
-      <DependentUpon>ClassList3.aspx</DependentUpon>
+    <Compile Include="ClassList.aspx.designer.cs">
+      <DependentUpon>ClassList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

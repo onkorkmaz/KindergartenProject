@@ -31,6 +31,15 @@ function GetStudentList() {
 
 }
 
+function onClassNameChanged() {
+
+    if (document.getElementById("txtSearchStudent") != null && !IsNullOrEmpty(document.getElementById("txtSearchStudent").value))
+        successFunctionSearchStudent(document.getElementById("txtSearchStudent").value);
+    else
+        successFunctionSearchStudent(null);
+}
+
+
 function successFunctionCurrentPage(obje) {
 
     var entityList = obje;
@@ -50,15 +59,40 @@ function successFunctionSearchStudent(search) {
     else {
         entityList = objects;
     }
-    drawList(entityList);
 
+    if (document.getElementById("drpClassList") != null && !IsNullOrEmpty(document.getElementById("drpClassList").value)) {
+        if (document.getElementById("drpClassList").value > 0) {
+
+            var newEntityList = [];
+
+            for (var i = 0; i < entityList.length; i++) {
+
+                if (entityList[i]["ClassId"] == document.getElementById("drpClassList").value) {
+                    newEntityList.push(entityList[i]);
+                }
+            }
+            drawList(newEntityList);
+        }
+        else {
+            drawList(entityList);
+        }
+    }
+    else {
+        drawList(entityList);
+    }
 }
 
 function drawList(entityList) {
 
-    if (entityList != null) {
+    var tbody = "";
 
-        var tbody = "";
+    if (entityList == null || entityList.length <= 0) {
+        window["tbody"] = tbody;
+        document.getElementById("tBodyStudentList").innerHTML = tbody;
+        return;
+    }
+
+    if (entityList != null) {
         for (var i in entityList) {
 
             tbody += "<tr>";
@@ -188,12 +222,17 @@ function successFunctionConvertStudent(obje) {
 }
 
 function allStudent() {
+
+    document.getElementById("drpClassList").value = "-1";
     var objects = GetStudentList();
 
     drawList(objects, true);
 }
 
 function activeStudent() {
+
+    document.getElementById("drpClassList").value = "-1";
+
     var objects = GetStudentList();
     var entityList = [];
 
@@ -207,6 +246,8 @@ function activeStudent() {
 }
 
 function interviewStudent() {
+
+    document.getElementById("drpClassList").value = "-1";
     var objects = GetStudentList();
     var entityList = [];
 
@@ -220,6 +261,8 @@ function interviewStudent() {
 }
 
 function passiveStudent() {
+
+    document.getElementById("drpClassList").value = "-1";
     var objects = GetStudentList();
     var entityList = [];
 

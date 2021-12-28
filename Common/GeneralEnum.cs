@@ -20,7 +20,7 @@ namespace Common
         PaymentType = 4,
         Login = 5,
         ClassList = 6,
-        Workers = 7,
+        Workers = 7
 
     }
 

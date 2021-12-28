@@ -11,11 +11,11 @@
     <meta name="author" content="OnurKORKMAZ">
     <meta name="keywords" content="Benim-dünyam anaokulları - şerfi ali anaokulları - Benim Dünyam Anaokulu öğrenci takip programı">
 
-    <link rel="shortcut icon" href="img/icons/benim_dunyam.jpeg" />
+    <link rel="shortcut icon" href="/img/icons/benim_dunyam.jpeg" />
 
     <title>Yeliz Ay - Benim Dünyam Anaokulu öğrenci takip programı</title>
 
-    <link href="css/app.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
 
     <script src="/customJS/kinderGartenCommon.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -44,6 +44,7 @@
                                 </a>
                             </li>
 
+
                             <li runat="server" id="menuStudenList">
                                 <a class="sidebar-link" href="/ogrenci-listesi">
                                     <i class="align-middle" data-feather="user"></i><span class="align-middle">Öğrenci Listesi</span>
@@ -55,7 +56,6 @@
                                     <i class="align-middle" data-feather="credit-card"></i><span class="align-middle">Öğrenci Kayıt</span>
                                 </a>
                             </li>
-
                             <li runat="server" id="menuPaymentPlan">
                                 <a class="sidebar-link" href="/odeme-plani">
                                     <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ödeme Planları</span>
@@ -183,7 +183,7 @@
         </div>
     </form>
 
-    <script src="js/app.js"></script>
+    <script src="/js/app.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

@@ -7,7 +7,7 @@ using System.Web.UI;
 
 namespace KindergartenProject
 {
-    public partial class ClassList3 : System.Web.UI.Page
+    public partial class ClassList : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

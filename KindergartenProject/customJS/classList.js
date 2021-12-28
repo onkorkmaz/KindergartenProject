@@ -3,8 +3,6 @@
     loadData();
 };
 
-
-
 function loadData() {
 
     var jsonData = "{  }";

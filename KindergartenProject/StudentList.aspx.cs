@@ -30,9 +30,41 @@ namespace KindergartenProject
             divInformation.NewRecordPage = "/ogrenci-ekle";
 
             setDefaultValues();
+            loadClass();
 
             //loadData();
 
+        }
+
+        private void loadClass()
+        {
+            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness().Get_ClassForStudent();
+
+            if (resultSet.HasError)
+            {
+                divInformation.ErrorText = resultSet.ErrorDescription;
+                return;
+            }
+            else
+            {
+                List<ClassEntity> classList = resultSet.Result;
+                List<ClassEntity> list = new List<ClassEntity>();
+
+                list.Add(new ClassEntity() { Id = -1 });
+                if (resultSet.Result != null)
+                {
+
+                    foreach (ClassEntity entity in classList)
+                    {
+                        list.Add(entity);
+                    }
+                }
+
+                drpClassList.DataSource = list;
+                drpClassList.DataValueField = "Id";
+                drpClassList.DataTextField = "ClassAndMainTeacherName";
+                drpClassList.DataBind();
+            }
         }
 
         private void loadData()

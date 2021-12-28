@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class ClassList3
+    public partial class ClassList
     {
 
         /// <summary>
