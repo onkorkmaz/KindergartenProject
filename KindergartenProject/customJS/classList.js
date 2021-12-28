@@ -54,8 +54,8 @@ function successFunctionGetClassList(obje) {
 
                 tbody += "<tr>";
                 tbody += "<td>";
-                tbody += "<a href = \"#\"></img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-                tbody += "<a href = \"#\"></img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+                tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
+                tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
                 tbody += "</td>";
 
                 tbody += "<td>" + entityList[i].Name + "</td>";

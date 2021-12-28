@@ -76,7 +76,7 @@ function drawList(studentList, paymentTypeList, year,month) {
 
             tbody += "<tr>";
             tbody += "<td>";
-            tbody += "<a href = \"/odeme-plani-detay/" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"/img/icons/detail.png\" title='Ödeme detayı...'/></a>";
+            tbody += "<a href = \"/odeme-plani-detay/" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"/img/icons/paymentPlan.png\" title='Ödeme detayı...'/></a>";
             tbody += " <a href = \"/email-gonder/" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"/img/icons/email.png\" title='Email Gönder'/></a>";
             tbody += "</td>";
             tbody += "<td>" + studentList[i].FullName + "</td>";
