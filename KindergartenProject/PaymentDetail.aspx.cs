@@ -28,73 +28,42 @@ namespace KindergartenProject
             }
 
             divInformation.InformationVisible = false;
-            divInformation.ListRecordPage = "PaymentList.aspx";
+            divInformation.ListRecordPage = "/odeme-plani";
 
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.PaymentPlan);
             master.SetVisibleSearchText(false);
 
-            
-            object Id = Request.QueryString["Id"];
+
+            object Id = Page.RouteData.Values["student_id"];
+
 
             if (Id == null)
             {
                 divInformation.ErrorText = studentDoesNotFound;
                 divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-                divInformation.ErrorLink = "PaymentPlan.aspx";
+                divInformation.ErrorLink = "/odeme-plani";
             }
             else
             {
                 string IdDecrypt = Cipher.Decrypt(Id.ToString());
+                hdnId.Value = IdDecrypt;
                 int id = GeneralFunctions.GetData<int>(IdDecrypt);
                 if (id <= 0)
                 {
                     divInformation.ErrorText = studentDoesNotFound;
                     divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-                    divInformation.ErrorLink = "PaymentPlan.aspx";
+                    divInformation.ErrorLink = "/odeme-plani";
                 }
                 else
                 {
                     StudentEntity entity = new StudentBusiness().Get_Student(new SearchEntity() { Id = id }).Result[0];
 
-                    lblStudentInto.Text = "<a href = \"AddStudent.aspx?Id=" + entity.EncryptId + "\">" +
+                    lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.EncryptId + "\">" +
                                           entity.FullName.ToUpper() + "</a> &nbsp;&nbsp;&nbsp;";
-                    lblStudentInto.Text += "<a href= 'SendEmail.aspx?Id=" + entity.EncryptId +
+                    lblStudentInto.Text += "<a href= '/email-gonder/" + entity.EncryptId +
                                            "'><img title='Mail Gönder' src ='img/icons/email.png'/></a>";
 
-                    //DataResultArgs<List<PaymentTypeEntity>> resultSet = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
-
-                    //if (resultSet.HasError)
-                    //{
-                    //    divInformation.ErrorText = resultSet.ErrorDescription;
-                    //}
-                    //else
-                    //{
-                    //    StringBuilder sb = new StringBuilder();
-                    //    sb.AppendLine(@"<table class='table mb - 0'><thead><tr>");
-
-                    //    sb.AppendLine("<th scope='col'>Ay</th>");
-                    //    /*
-                    //     * <th scope="col">&nbsp;</th>
-                    //        <th scope="col">#####</th>
-                    //        <th scope="col">Ay</th>
-                    //        <th scope="col">Doğum Tarihi</th>
-                    //        <th scope="col">Baba Bilg.</th>
-                    //        <th scope="col">Anne Bilg.</th>
-                    //        <th scope="col">Kayıt D.</th>
-                    //        <th scope="col">Aktif</th>
-                    //     */
-                    //    List<PaymentTypeEntity> list = resultSet.Result;
-                    //    foreach (PaymentTypeEntity entity in list)
-                    //    {
-                    //        sb.AppendLine("<th scope='col'>"+entity.Name+"</th>");
-                    //    }
-                    //    sb.AppendLine("<th scope='col'>Ödeme Durumu</th>");
-
-                    //    sb.AppendLine(@"</tr></thead></table>");
-
-                    //    divMain.InnerHtml = sb.ToString();
-                    //}
                 }
             }
         }

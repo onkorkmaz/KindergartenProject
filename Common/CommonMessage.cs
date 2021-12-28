@@ -8,6 +8,7 @@ namespace Common
     {
         public const string EmptyAmount = " - ";
         public const string Admin = "Admin";
+        public const string Url = "https://benimdunyamogrencitakip.com";
     }
 
     public static class RecordMessage

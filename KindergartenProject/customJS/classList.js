@@ -8,7 +8,7 @@
 function loadData() {
 
     var jsonData = "{  }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/GetClassList', jsonData, successFunctionGetClassList, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetClassList', jsonData, successFunctionGetClassList, errorFunction);
 
 }
 
@@ -18,7 +18,7 @@ function txtClass_Change(value) {
 
     if (!IsNullOrEmpty(className)) {
         var jsonData = "{ className: " + JSON.stringify(className) + "  }";
-        CallServiceWithAjax('KinderGartenWebService.asmx/ControlClassName', jsonData, successFunctionControlClassName, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/ControlClassName', jsonData, successFunctionControlClassName, errorFunction);
     }
 
 }
@@ -54,8 +54,8 @@ function successFunctionGetClassList(obje) {
 
                 tbody += "<tr>";
                 tbody += "<td>";
-                tbody += "<a href = \"#\"><img src =\"img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-                tbody += "<a href = \"#\"><img src =\"img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+                tbody += "<a href = \"#\"></img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
+                tbody += "<a href = \"#\"></img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
                 tbody += "</td>";
 
                 tbody += "<td>" + entityList[i].Name + "</td>";
@@ -63,20 +63,20 @@ function successFunctionGetClassList(obje) {
                 tbody += "<td>" + entityList[i].WarningOfStudentCount + "</td>";
                 tbody += "<td>" + entityList[i].MainTeacher;
                 if (!entityList[i].IsActiveMainTeacher) {
-                    tbody += "&nbsp; <img src='img/icons/passive.png' width='15' height='15' />";
+                    tbody += "&nbsp; <img src='/img/icons/passive.png' width='15' height='15' />";
                 }
                 tbody +="</td>";
                 tbody += "<td>" + entityList[i].HelperTeacher;
                 if (!entityList[i].IsActiveHelperTeacer) {
-                    tbody += "&nbsp; <img src='img/icons/passive.png' width='15' height='15' />";
+                    tbody += "&nbsp; <img src='/img/icons/passive.png' width='15' height='15' />";
                 }
 
                 tbody += "</td>";
 
                 if (entityList[i].IsActive)
-                    tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
+                    tbody += "<td><img src='/img/icons/active.png' width='25' height ='25' /></td>";
                 else
-                    tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
+                    tbody += "<td><img src='/img/icons/passive.png' width='20' height ='20' /></td>";
 
                 tbody += "<td>" + convertToJavaScriptDate(entityList[i].UpdatedOn) + "</td>";
                 tbody += "</tr> ";
@@ -118,7 +118,7 @@ function validateAndSave()
 
 
     var jsonData = "{ encryptId:" + JSON.stringify(id) + ", classEntity: " + JSON.stringify(classEntity) + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/InsertOrUpdateClass', jsonData, successFunctionInsertOrUpdateClass, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateClass', jsonData, successFunctionInsertOrUpdateClass, errorFunction);
 
     return false;
 
@@ -163,7 +163,7 @@ function deleteCurrentRecord(id) {
     if (confirm('Silme işlemine devam etmek istediğinize emin misiniz?')) {
 
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
-        CallServiceWithAjax('KinderGartenWebService.asmx/DeleteClass', jsonData, successFunctionDeleteClass, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteClass', jsonData, successFunctionDeleteClass, errorFunction);
     }
 
 }
@@ -185,7 +185,7 @@ function updateCurrentRecord(id) {
 
     document.getElementById("hdnId").value = id;
     var jsonData = "{ id: " + JSON.stringify(id) + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/UpdateClass', jsonData, successFunctionUpdateClass, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdateClass', jsonData, successFunctionUpdateClass, errorFunction);
 
 }
 

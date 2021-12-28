@@ -65,8 +65,8 @@ namespace KindergartenProject
         #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
-            divInformation.ListRecordPage = "StudentList.aspx";
-            divInformation.NewRecordPage = "AddStudent.aspx";
+            divInformation.ListRecordPage = "ogrenci-listesi";
+            divInformation.NewRecordPage = "ogrenci-ekle";
 
             divInformation.InformationVisible = false;
 
@@ -108,7 +108,7 @@ namespace KindergartenProject
                     drpClassList.DataBind();
                 }
 
-                object Id = Request.QueryString["Id"];
+                object Id = Page.RouteData.Values["student_id"];
 
                 if (Id != null)
                 {
@@ -200,7 +200,7 @@ namespace KindergartenProject
 
                     if (entity.IsStudent)
                     {
-                        divInformation.SetAnotherText("<a href = \"PaymentDetail.aspx?Id=" + resultSet.Result.EncryptId + "\">" + paymentDetail + "</a>");
+                        divInformation.SetAnotherText("<a href = \"/odeme-plani-detay/" + resultSet.Result.EncryptId + "\">" + paymentDetail + "</a>");
                     }
                     else
                     {
@@ -221,7 +221,7 @@ namespace KindergartenProject
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/AddStudent.aspx");
+            Response.Redirect("ogrenci-ekle");
         }
 
 
@@ -239,7 +239,7 @@ namespace KindergartenProject
 
         protected void btnPayment_Click(object sender, EventArgs e)
         {
-            object Id = Request.QueryString["Id"];
+            object Id = Page.RouteData.Values["student_id"];
 
             if (Id != null)
             {
@@ -248,7 +248,7 @@ namespace KindergartenProject
                 int id = GeneralFunctions.GetData<int>(IdDecrypt);
                 if (id > 0)
                 {
-                    string link = "~/PaymentDetail.aspx?Id=" + Cipher.Encrypt(id.ToString());
+                    string link = "~/odeme-plani-detay/" + Cipher.Encrypt(id.ToString());
                     Response.Redirect(link);
                 }
             }

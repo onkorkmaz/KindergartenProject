@@ -28,7 +28,7 @@ function loadData() {
 function GetStudentListAndPaymentTypeInfoForPaymentList() {
 
     var jsonData = "{}";
-    CallServiceWithAjax('KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForPaymentList',
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForPaymentList',
         jsonData,
         successFunctionCurrentPage,
         errorFunction);
@@ -76,8 +76,8 @@ function drawList(studentList, paymentTypeList, year,month) {
 
             tbody += "<tr>";
             tbody += "<td>";
-            tbody += "<a href = \"PaymentDetail.aspx?Id=" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"img/icons/detail.png\" title='Ödeme detayı...'/></a>";
-            tbody += " <a href = \"SendEmail.aspx?Id=" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"img/icons/email.png\" title='Email Gönder'/></a>";
+            tbody += "<a href = \"/odeme-plani-detay/" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"/img/icons/detail.png\" title='Ödeme detayı...'/></a>";
+            tbody += " <a href = \"/email-gonder/" + studentList[i].EncryptId + "\" style='cursor: pointer;'><img src =\"/img/icons/email.png\" title='Email Gönder'/></a>";
             tbody += "</td>";
             tbody += "<td>" + studentList[i].FullName + "</td>";
             tbody += drawPaymentDetail(paymentTypeList, year, month, studentList[i], 1);

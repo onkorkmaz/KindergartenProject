@@ -6,7 +6,7 @@
 function loadData() {
 
     var jsonData = "{  }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/GetPaymentAllPaymentType', jsonData, successFunctionGetPaymentAllPaymentType, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetPaymentAllPaymentType', jsonData, successFunctionGetPaymentAllPaymentType, errorFunction);
 
 }
 
@@ -20,8 +20,8 @@ function successFunctionGetPaymentAllPaymentType(obje) {
 
             tbody += "<tr>";
             tbody += "<td>";
-            tbody += "<a href = \"#\"><img src =\"img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-            //tbody += "<a href = \"#\"><img src =\"img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+            tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
+            //tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
             tbody += "</td>";
 
             tbody += "<td>" + entityList[i].Name + "</td>";
@@ -57,7 +57,7 @@ function validateAndSave()
     paymentTypeEntity["IsActive"] = isActive;
 
     var jsonData = "{ encryptId:" + JSON.stringify(id)+", paymentTypeEntity: " + JSON.stringify(paymentTypeEntity) + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/InsertOrUpdatePaymentType', jsonData, successFunctionInsertOrUpdatePaymentType, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdatePaymentType', jsonData, successFunctionInsertOrUpdatePaymentType, errorFunction);
 
     return false;
 
@@ -103,7 +103,7 @@ function deleteCurrentRecord(id) {
     if (confirm('Silme işlemine devam etmek istediğinize emin misiniz?')) {
 
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
-        CallServiceWithAjax('KinderGartenWebService.asmx/DeletePaymentType', jsonData, successFunctionDeletePaymentType, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/DeletePaymentType', jsonData, successFunctionDeletePaymentType, errorFunction);
     }
 
 }
@@ -129,7 +129,7 @@ function updateCurrentRecord(id) {
 
     document.getElementById("hdnId").value = id;
     var jsonData = "{ id: " + JSON.stringify(id) + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/UpdatePaymentType', jsonData, successFunctionUpdatePaymentType, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdatePaymentType', jsonData, successFunctionUpdatePaymentType, errorFunction);
 
 }
 

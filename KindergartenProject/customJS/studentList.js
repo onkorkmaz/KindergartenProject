@@ -23,7 +23,7 @@ function GetStudentList() {
     if (window["studentList"] == null) {
 
         var jsonData = "{}";
-        CallServiceWithAjax('KinderGartenWebService.asmx/GetAllStudent', jsonData, successFunctionCurrentPage, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllStudent', jsonData, successFunctionCurrentPage, errorFunction);
         studentList = window["studentList"];
     }
 
@@ -64,12 +64,12 @@ function drawList(entityList) {
             tbody += "<tr>";
             tbody += "<td style='cursor: pointer;' onclick =onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
             tbody += "<td>";
-            tbody += "<a href = \"AddStudent.aspx?Id=" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"img/icons/update1.png\"/></a> &nbsp; ";       
-            //tbody += "<a href = \"#\"><img src =\"img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+            tbody += "<a href = \"/ogrenci-guncelle/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/update1.png\"/></a> &nbsp; ";       
+            //tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
 
             if (entityList[i].IsStudent == true) {
-                tbody += "<a href = \"PaymentDetail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Ödeme detayı' src =\"img/icons/paymentPlan.png\"/></a> &nbsp; ";
-                tbody += "<a href = \"SendEmail.aspx?Id=" + entityList[i].EncryptId + "\"><img title = 'Email gönder' src =\"img/icons/email4.png\"/></a> &nbsp; ";
+                tbody += "<a href = \"/odeme-plani-detay/" + entityList[i].EncryptId + "\"><img title = 'Ödeme detayı' src =\"/img/icons/paymentPlan.png\"/></a> &nbsp; ";
+                tbody += "<a href = \"/email-gonder/" + entityList[i].EncryptId + "\"><img title = 'Email gönder' src =\"/img/icons/email4.png\"/></a> &nbsp; ";
             }
             
             tbody += "</td>";
@@ -82,7 +82,7 @@ function drawList(entityList) {
                 if (entityList[i].IsStudent)
                     tbody += "<td>&nbsp;<img src='img/icons/student3.png' width='20' height ='20' /></td>";
                 else
-                    tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='img/icons/interview.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
+                    tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='/img/icons/interview.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
             }
             else {
                 tbody += "<td>&nbsp;</td>";
@@ -113,7 +113,7 @@ function drawList(entityList) {
                         else
                             tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/passive.png' width='20' height ='20' /></td></tr>";
 
-                        tbody += "<tr><td><a href = \"#\"><img src =\"img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+                        tbody += "<tr><td><a href = \"#\"><img src =\"/img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 
                     }
                     tbody += "</table>";
@@ -140,7 +140,7 @@ function deleteCurrentRecord(id) {
 
     if (confirm('Kayıt silinecektir, işleme devam etmek istediğinize emin misiniz?')) {
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
-        CallServiceWithAjax('KinderGartenWebService.asmx/DeleteStudent', jsonData, successFunctionDeleteStudent, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteStudent', jsonData, successFunctionDeleteStudent, errorFunction);
     }
 }
 
@@ -149,7 +149,7 @@ function convertStudent(id) {
     if (confirm('Görüşme olan kaydı öğrenciye çevirmek istediğinize emin misiniz?')) {
 
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
-        CallServiceWithAjax('KinderGartenWebService.asmx/ConvertStudent', jsonData, successFunctionConvertStudent, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/ConvertStudent', jsonData, successFunctionConvertStudent, errorFunction);
     }
 }
 

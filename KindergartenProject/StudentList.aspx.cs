@@ -26,8 +26,8 @@ namespace KindergartenProject
                 lblPassiveStudent.Attributes.Add("onclick", "passiveStudent();");
             }
 
-            divInformation.ListRecordPage = "StudentList.aspx";
-            divInformation.NewRecordPage = "AddStudent.aspx";
+            divInformation.ListRecordPage = "/ogrenci-listesi";
+            divInformation.NewRecordPage = "/ogrenci-ekle";
 
             setDefaultValues();
 
@@ -68,16 +68,16 @@ namespace KindergartenProject
                 sb.AppendLine( "<td style='cursor: pointer;' onclick =onDetailRow(\"" + entityList[i].EncryptId +
                          "\") >+</td>");
                 sb.AppendLine( "<td>");
-                sb.AppendLine( "<a href = \"AddStudent.aspx?Id=" + entityList[i].EncryptId +
-                         "\"><img title='Güncelle' src =\"img/icons/update10.png\"/></a> ");
+                sb.AppendLine("<a href = \"/ogrenci-guncelle/" + entityList[i].EncryptId +
+                         "\"><img title='Güncelle' src =\"/img/icons/update10.png\"/></a> ");
                 //sb.AppendLine( "<a href = \"#\"><img src =\"img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
 
                 if (entityList[i].IsStudent == true)
                 {
-                    sb.AppendLine( "<a href = \"PaymentDetail.aspx?Id=" + entityList[i].EncryptId +
-                             "\"><img title = 'Ödeme detayı' src =\"img/icons/paymentPlan.png\"/></a> ");
-                    sb.AppendLine( "<a href = \"SendEmail.aspx?Id=" + entityList[i].EncryptId +
-                             "\"><img title = 'Email gönder' src =\"img/icons/email4.png\"/></a>");
+                    sb.AppendLine("<a href = \"/odeme-plani-detay/" + entityList[i].EncryptId +
+                             "\"><img title = 'Ödeme detayı' src =\"/img/icons/paymentPlan.png\"/></a> ");
+                    sb.AppendLine("<a href = \"/SendEmail.aspx?Id=" + entityList[i].EncryptId +
+                             "\"><img title = 'Email gönder' src =\"/img/icons/email4.png\"/></a>");
                 }
 
                 sb.AppendLine( "</td>");
@@ -125,7 +125,7 @@ namespace KindergartenProject
                                     "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/passive.png' width='20' height ='20' /></td></tr>");
 
                             sb.AppendLine(
-                                "<tr><td><a href = \"#\"><img src =\"img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" +
+                                "<tr><td><a href = \"#\"><img src =\"/img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" +
                                 entityList[i].EncryptId + "\")' /></a></td><td>&nbsp;</td><td>&nbsp;</td></tr>");
 
                         }

@@ -19,6 +19,15 @@ namespace KindergartenProject
 
             master.SetActiveMenuAttiributes(MenuList.Login);
             master.SetVisibleSearchText(false);
+
+            string machineName = Environment.MachineName;
+            if(machineName == "DESKTOP-U63HM5J")
+            {
+                txtUserName.Text = "yeliz";
+                txtPassword.Text = "1";
+                btnLogin_Click(null, null);
+            }
+
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -39,7 +48,7 @@ namespace KindergartenProject
                 {
                     Session[CommonConst.Admin] = resultSet.Result;
                     CurrentContex.Contex = resultSet.Result;
-                    Response.Redirect("~/Default.aspx");
+                    Response.Redirect("benim-dunyam-anaokulu");
                 }
             }
         }

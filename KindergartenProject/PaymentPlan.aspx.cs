@@ -17,8 +17,8 @@ namespace KindergartenProject
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.PaymentPlan);
 
-            divInformation.ListRecordPage = "StudentList.aspx";
-            divInformation.NewRecordPage = "AddStudent.aspx";
+            divInformation.ListRecordPage = "/ogrenci-listesi";
+            divInformation.NewRecordPage = "/ogrenci-ekle";
         }
     }
 }

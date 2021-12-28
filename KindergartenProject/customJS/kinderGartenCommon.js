@@ -82,7 +82,7 @@ function replaceTurkichChar(text) {
 
 function SetCacheData(key, value) {
     var jsonData = "{ key: " + JSON.stringify(key) + " , value: " + JSON.stringify(value) + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/SetCacheData', jsonData, successSetCacheData, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/SetCacheData', jsonData, successSetCacheData, errorFunction);
 }
 
 function successSetCacheData() {
@@ -90,7 +90,7 @@ function successSetCacheData() {
 
 function GetCacheData(key, value) {
     var jsonData = "{ key: " + JSON.stringify(key) + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/GetCacheData', jsonData, successGetCacheData, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetCacheData', jsonData, successGetCacheData, errorFunction);
 }
 
 function successGetCacheData(obje) {
@@ -106,7 +106,7 @@ function checkDec(el) {
 
 function Encrypt(id) {
     var jsonData = "{ id: " + JSON.stringify(id) + "}";
-     CallServiceWithAjax('KinderGartenWebService.asmx/Encrypt', jsonData, successEncrypt, errorFunction);
+     CallServiceWithAjax('/KinderGartenWebService.asmx/Encrypt', jsonData, successEncrypt, errorFunction);
 }
 
 function successEncrypt(obje) {
@@ -115,7 +115,7 @@ function successEncrypt(obje) {
 
 function Decrypt(id) {
     var jsonData = "{ id: " + JSON.stringify(id) + "}";
-    CallServiceWithAjax('KinderGartenWebService.asmx/Decrypt', jsonData, successDecrypt, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Decrypt', jsonData, successDecrypt, errorFunction);
 }
 
 function successDecrypt(obje) {

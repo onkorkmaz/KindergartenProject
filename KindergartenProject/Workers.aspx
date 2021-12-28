@@ -5,7 +5,7 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-     <script src="customJS/workers.js"></script>
+     <script src="/customJS/workers.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />

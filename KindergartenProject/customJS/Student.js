@@ -2,7 +2,7 @@
 {
     if (!IsNullOrEmpty(citizenshipNumber)) {
         var jsonData = "{ citizenshipNumber: " + JSON.stringify(citizenshipNumber) + " }";
-        CallServiceWithAjax('KinderGartenWebService.asmx/GetStudentEntity',
+        CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentEntity',
             jsonData,
             successFunctionGetStudentEntity,
             errorFunction);
@@ -37,7 +37,7 @@ function IsUserNameExist(fullName) {
 
     if (!IsNullOrEmpty(fullName)) {
         var jsonData = "{ fullName: " + JSON.stringify(fullName) + " }";
-        CallServiceWithAjax('KinderGartenWebService.asmx/GetStudentEntityWithFullName',
+        CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentEntityWithFullName',
             jsonData,
             successFunctionGetStudentFullNameEntity,
             errorFunction);
@@ -204,7 +204,7 @@ function OnClassListChanged(value) {
 
     if (!IsNullOrEmpty(value)) {
         var jsonData = "{ classId: " + JSON.stringify(value) + " }";
-        CallServiceWithAjax('KinderGartenWebService.asmx/CalculateRecordedStudentCount',
+        CallServiceWithAjax('/KinderGartenWebService.asmx/CalculateRecordedStudentCount',
             jsonData,
             successFunctionCalculateRecordedStudentCount,
             errorFunction);

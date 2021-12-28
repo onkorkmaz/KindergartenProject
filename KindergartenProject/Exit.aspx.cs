@@ -18,7 +18,7 @@ namespace KindergartenProject
                 CurrentContex.Contex = null;
                 Session[CommonConst.Admin] = null;
                 Session.Abandon();
-                Response.Redirect("Login.aspx");
+                Response.Redirect("uye-giris");
             }
         }
     }

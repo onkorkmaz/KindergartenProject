@@ -1,6 +1,6 @@
 ﻿window.onload = function () {
 
-    var encyrptId = getParameterByName("Id");
+    var encyrptId = document.getElementById("hdnId").value;
     if (!IsNullOrEmpty(encyrptId)) {
         document.getElementById("hdnId").value = encyrptId;
         loadData();
@@ -8,14 +8,17 @@
 };
 
 
-
-
 function loadData() {
-    var encryptStudentId = getParameterByName("Id");
-    var year = document.getElementById("drpYear").value;
-    var jsonData = "{decryptStudentId: " + JSON.stringify(encryptStudentId) + ", year:" + year + " }";
-    CallServiceWithAjax('KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForPaymentDetail', jsonData, successFunctionCurrentPage, errorFunction);
+    var encryptStudentId = document.getElementById("hdnId").value;
+    if (!IsNullOrEmpty(encryptStudentId)) {
+        var year = document.getElementById("drpYear").value;
+        var jsonData = "{decryptStudentId:" + JSON.stringify(encryptStudentId) + ", year:" + year + " }";
+        var jsonData2 = "{ }";
 
+
+
+        CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForPaymentDetail', jsonData, successFunctionCurrentPage, errorFunction);
+    }
 }
 
 function drpYear_Changed() {
@@ -55,9 +58,6 @@ function successFunctionCurrentPage(obje) {
         document.getElementById("divMain").innerHTML = tbody;
     }
 }
-
-
-
 
 
 

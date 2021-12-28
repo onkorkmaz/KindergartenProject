@@ -6,7 +6,7 @@ BenDunyam***
 
 *********** benimdunyam ftp giriş bilgileri***************
 
-ftp 		: ftp.benimdunyamogrencitakip.com
+ftp 		: ftp.benimdunyamogrencitakip.com // 178.210.171.41
 kullanıcı 	: onko**
 şifre 		: ONko****
 

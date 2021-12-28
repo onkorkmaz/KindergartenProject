@@ -17,7 +17,7 @@
 
     <link href="css/app.css" rel="stylesheet">
 
-    <script src="customJS/kinderGartenCommon.js"></script>
+    <script src="/customJS/kinderGartenCommon.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
@@ -29,9 +29,9 @@
             <div class="wrapper">
                 <nav ID="sidebar" class="sidebar" runat="server">
                     <div class="sidebar-content js-simplebar">
-                        <a class="sidebar-brand" href="Default.aspx">
+                        <a class="sidebar-brand" href="/benim-dunyam-anaokulu">
                             <span class="align-middle">Yeliz AY</span> &nbsp;&nbsp;&nbsp;
-					<img src="img/avatars/yeliz_ay.jpeg" class="avatar img-fluid rounded mr-1" alt="Yeliz AY" />
+					<img src="/img/avatars/yeliz_ay.jpeg" class="avatar img-fluid rounded mr-1" alt="Yeliz AY" />
                         </a>
 
                         <ul class="sidebar-nav">
@@ -39,25 +39,25 @@
                             </li>
 
                             <li runat="server" id="menuPanel">
-                                <a class="sidebar-link" href="Default.aspx">
+                                <a class="sidebar-link" href="/benim-dunyam-anaokulu">
                                     <i class="align-middle" data-feather="sliders"></i><span class="align-middle">Panel</span>
                                 </a>
                             </li>
 
                             <li runat="server" id="menuStudenList">
-                                <a class="sidebar-link" href="StudentList.aspx">
+                                <a class="sidebar-link" href="/ogrenci-listesi">
                                     <i class="align-middle" data-feather="user"></i><span class="align-middle">Öğrenci Listesi</span>
                                 </a>
                             </li>
 
                             <li runat="server" id="menuAddStudent">
-                                <a class="sidebar-link" href="AddStudent.aspx">
+                                <a class="sidebar-link" href="/ogrenci-ekle">
                                     <i class="align-middle" data-feather="credit-card"></i><span class="align-middle">Öğrenci Kayıt</span>
                                 </a>
                             </li>
 
                             <li runat="server" id="menuPaymentPlan">
-                                <a class="sidebar-link" href="PaymentPlan.aspx">
+                                <a class="sidebar-link" href="/odeme-plani">
                                     <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ödeme Planları</span>
                                 </a>
                             </li>
@@ -66,9 +66,9 @@
                                     <i class="align-middle" data-feather="briefcase"></i><span class="align-middle">Ayarlar</span>
                                 </a>
                                 <ul id="ui" data-parent="#sidebar" runat="server">
-                                    <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="PaymentType.aspx">Ödeme Tipleri</a></li>
-                                    <li class="sidebar-item" id="classList" runat="server"><a class="sidebar-link" href="ClassList3.aspx">Sınıflar</a></li>
-                                    <li class="sidebar-item" id="workers" runat="server"><a class="sidebar-link" href="Workers.aspx">Çalışan Yönetimi</a></li>
+                                    <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="/odeme-tipleri">Ödeme Tipleri</a></li>
+                                    <li class="sidebar-item" id="classList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
+                                    <li class="sidebar-item" id="workers" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>
                                     
 
@@ -76,7 +76,7 @@
                                 </ul>
                             </li>
                             <li runat="server" id="liExit">
-                                <a class="sidebar-link" href="Exit.aspx">
+                                <a class="sidebar-link" href="/cikis">
                                     <i class="align-middle" data-feather="user"></i><span class="align-middle">Çıkış</span>
                                 </a>
                             </li>
@@ -165,7 +165,7 @@
                             <div class="row text-muted">
                                 <div class="col-6 text-left">
                                     <p class="mb-0">
-                                        <a href="index.html" class="text-muted"><strong>Benim Dünyam Anaokulu...</strong></a> &copy;
+                                        <a href="/benim-dunyam-anaokulu" class="text-muted"><strong>Benim Dünyam Anaokulu...</strong></a> &copy;
                                     </p>
                                 </div>
                                 <div class="col-6 text-right">

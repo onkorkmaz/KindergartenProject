@@ -20,7 +20,7 @@ namespace KindergartenProject
         protected void Page_Load(object sender, EventArgs e)
         {
             divInformation.InformationVisible = false;
-            divInformation.ListRecordPage = "PaymentPlan.aspx";
+            divInformation.ListRecordPage = "/odeme-plani";
             divInformation.SetVisibleLink(true, false);
 
             if (this.Master is kindergarten master)
@@ -33,13 +33,13 @@ namespace KindergartenProject
             {
                 btnSendEmailCopy.Attributes.Add("Style", "display:none;");
 
-                object Id = Request.QueryString["Id"];
+                object Id = Page.RouteData.Values["student_id"];
 
                 if (Id == null)
                 {
                     divInformation.ErrorText = studentDoesNotFound;
                     divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-                    divInformation.ErrorLink = "PaymentPlan.aspx";
+                    divInformation.ErrorLink = "~/odeme-plani";
                 }
 
                 string IdDecrypt = Cipher.Decrypt(Id.ToString());
@@ -48,7 +48,7 @@ namespace KindergartenProject
                 {
                     divInformation.ErrorText = studentDoesNotFound;
                     divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-                    divInformation.ErrorLink = "PaymentPlan.aspx";
+                    divInformation.ErrorLink = "~/odeme-plani";
                 }
                 else
                 {
@@ -56,10 +56,10 @@ namespace KindergartenProject
                     int height = 15;
                     StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
 
-                    lblStudentInto.Text = "<a href = \"AddStudent.aspx?Id=" + entity.EncryptId + "\">" +
+                    lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.EncryptId + "\">" +
                                           entity.FullName.ToUpper() +
                                           "</a> &nbsp;&nbsp;&nbsp;";
-                    lblStudentInto.Text += "<a href= 'PaymentDetail.aspx?Id=" + entity.EncryptId +
+                    lblStudentInto.Text += "<a href= '/odeme-plani-detay/" + entity.EncryptId +
                                            "'><img title='Ödeme Detayı' src ='img/icons/paymentPlan.png'/></a>";
 
 
@@ -119,11 +119,7 @@ namespace KindergartenProject
 
                                 if (paymentEntity != null)
                                 {
-                                    if (paymentEntity.IsNotPayable)
-                                    {
-                                        sb.AppendLine("<td> - </td>");
-                                    }
-                                    else if (paymentEntity.IsPayment.HasValue)
+                                    if (paymentEntity.IsPayment.HasValue)
                                     {
                                         if (paymentEntity.IsPayment.Value)
                                         {
@@ -196,7 +192,7 @@ namespace KindergartenProject
             try
             {
                 btnSendEmail.Enabled = false;
-                object Id = Request.QueryString["Id"];
+                object Id = Page.RouteData.Values["student_id"];
 
                 if (Id == null)
                 {
@@ -299,7 +295,7 @@ namespace KindergartenProject
         {
             divInformation.ErrorText = studentDoesNotFound;
             divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
-            divInformation.ErrorLink = "PaymentPlan.aspx";
+            divInformation.ErrorLink = "~/odeme-plani";
             return;
         }
 
@@ -529,7 +525,7 @@ namespace KindergartenProject
                             entity.AmountDescription = " - ";
                         else
                         {
-                            entity.AmountDescription = paymentType.AmountDesc ;
+                            entity.AmountDescription = paymentType.AmountDesc;
                         }
                     }
                     else if (paymentEntity.Month > DateTime.Today.Month)
@@ -538,36 +534,30 @@ namespace KindergartenProject
                     }
                     else
                     {
-                        if (paymentEntity.IsNotPayable)
+                        if (paymentEntity.IsPayment.HasValue)
                         {
-                            entity.AmountDescription = CommonConst.EmptyAmount;
-                        }
-                        else
-                        {
-                            if (paymentEntity.IsPayment.HasValue)
+                            if (paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue &&
+                                paymentEntity.Amount.Value > 0)
                             {
-                                if (paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue &&
-                                    paymentEntity.Amount.Value > 0)
-                                {
-                                    entity.AmountDescription = "Ödendi";
-                                    entity.IsPayment = true;
-                                }
-                                else if (!paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue &&
-                                         paymentEntity.Amount.Value > 0)
-                                {
-                                    entity.AmountDescription = paymentEntity.AmountDesc;
-                                }
-
-                                else
-                                {
-                                    entity.AmountDescription = paymentType.AmountDesc;
-                                }
+                                entity.AmountDescription = "Ödendi";
+                                entity.IsPayment = true;
                             }
+                            else if (!paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue &&
+                                     paymentEntity.Amount.Value > 0)
+                            {
+                                entity.AmountDescription = paymentEntity.AmountDesc;
+                            }
+
                             else
                             {
                                 entity.AmountDescription = paymentType.AmountDesc;
                             }
                         }
+                        else
+                        {
+                            entity.AmountDescription = paymentType.AmountDesc;
+                        }
+
                     }
                     emailPaymentList.Add(entity);
                 }

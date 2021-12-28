@@ -23,7 +23,7 @@ function doPaymentOrUnPayment(id,encryptStudentId,year, month, txtAmountName, is
     }
     else {
         var jsonData = "{id: " + JSON.stringify(id) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ", amount :" + JSON.stringify(amount) + " ,isPayment:" + JSON.stringify(isPayment) + ",paymentType:" + JSON.stringify(paymentType) + "}";
-        CallServiceWithAjax('KinderGartenWebService.asmx/DoPaymentOrUnPayment', jsonData, successFunctionDoPaymentOrUnPayment, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/DoPaymentOrUnPayment', jsonData, successFunctionDoPaymentOrUnPayment, errorFunction);
     }
 }
 
@@ -48,7 +48,7 @@ function successFunctionDoPaymentOrUnPayment(result) {
             document.getElementById(tdPaymentName).removeAttribute("style");
             document.getElementById(tdUnPaymentName).style.display = "none";
             document.getElementById(hdnPaymentStatus).value = true;
-            document.getElementById(chcPayment).setAttribute("disabled", "disabled");
+            //document.getElementById(chcPayment).setAttribute("disabled", "disabled");
             document.getElementById(txtPayment).setAttribute("disabled", "disabled");
 
         }
@@ -56,7 +56,7 @@ function successFunctionDoPaymentOrUnPayment(result) {
             document.getElementById(tdUnPaymentName).removeAttribute("style");
             document.getElementById(tdPaymentName).style.display = "none";
             document.getElementById(hdnPaymentStatus).value = false;
-            document.getElementById(chcPayment).removeAttribute("disabled");
+            //document.getElementById(chcPayment).removeAttribute("disabled");
             document.getElementById(txtPayment).removeAttribute("disabled");
         }
     }
@@ -75,7 +75,7 @@ function textAmount_Change(id, encryptStudentId, studentId, year, month, payment
     if (currentAmount != amount) {
         var jsonData = "{id: " + JSON.stringify(id) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ", currentAmount :" + JSON.stringify(currentAmount) + " ,paymentType:" + JSON.stringify(paymentType) + "}";
 
-        CallServiceWithAjax('KinderGartenWebService.asmx/SetPaymentAmount', jsonData, successFunctionSetPaymentAmount, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/SetPaymentAmount', jsonData, successFunctionSetPaymentAmount, errorFunction);
     }
 }
 
@@ -92,14 +92,13 @@ function successFunctionSetAnotherPaymentAmount(obje) {
         var uniqueName = "_" + result.StudentId + "_" + result.Year + "_" + result.Month + "_" + result.PaymentType;
         var txtAmountName = "txt" + uniqueName;
 
-        if ((IsNullOrEmpty(result.IsPayment) || result.IsPayment == 0) && (IsNullOrEmpty(result.IsNotPayable) || result.IsNotPayable == 0)) {
+        if (IsNullOrEmpty(result.IsPayment) || result.IsPayment == 0) {
 
             var isListScreen = document.getElementById(txtAmountName).getAttribute("isListScreen");
             document.getElementById(txtAmountName).setAttribute("onchange", "textAmount_Change(" + result.Id + ", '" + result.EncryptStudentId + "', " + result.StudentId + ", " + result.Year +
                 "," + result.Month + "," + result.PaymentType + "," + result.Amount + "," + isListScreen + ")");
             document.getElementById(txtAmountName).value = result.Amount;
         }
-
     }
 }
 
@@ -118,6 +117,27 @@ function successFunctionPaymentAmountCommon(obje, isSetAnotherAmount) {
             "," + result.Month + "," + result.PaymentType + "," + result.Amount + "," + isListScreen + ")");
 
 
+        if (result.Amount == 0) {
+            var imgUnPaymentName = "imgUnPaymentName" + uniqueName;
+            document.getElementById(imgUnPaymentName).style.display = 'none';
+
+            var tdUnPaymentName = "tdUnPaymentName" + uniqueName;
+            document.getElementById(tdUnPaymentName).style.pointerEvents = '';
+            document.getElementById(tdUnPaymentName).style.display = 'none';
+
+        }
+
+
+        if (result.Amount > 0) {
+
+            var tdUnPaymentName = "tdUnPaymentName" + uniqueName;
+            document.getElementById(tdUnPaymentName).style.pointerEvents = 'auto';
+            var imgUnPaymentName = "imgUnPaymentName" + uniqueName;
+            document.getElementById(imgUnPaymentName).style.display = '';
+            document.getElementById(tdUnPaymentName).style.display = '';
+
+        }
+
         if (isListScreen == 0 && isSetAnotherAmount == 0) {
             if (!confirm('Diğer aylara ait ödenmemiş kayıtları da ' + result.Amount + ' TL olarak güncellemek ister misiniz?')) {
                 return;
@@ -133,75 +153,10 @@ function successFunctionPaymentAmountCommon(obje, isSetAnotherAmount) {
 
                     var jsonData = "{id: " + JSON.stringify(0) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(result.Year) + ",month:" + JSON.stringify(i) + ", currentAmount :" + JSON.stringify(result.Amount) + " ,paymentType:" + JSON.stringify(result.PaymentType) + "}";
 
-                    CallServiceWithAjax('KinderGartenWebService.asmx/SetAnotherPaymentAmount', jsonData, successFunctionSetAnotherPaymentAmount, errorFunction);
+                    CallServiceWithAjax('/KinderGartenWebService.asmx/SetAnotherPaymentAmount', jsonData, successFunctionSetAnotherPaymentAmount, errorFunction);
                 }
             }
         }
-    }
-}
-
-function setPayableStatus(id, encryptStudentId,studentId, year, month, paymentType, amount) {
-
-    var uniqueName = "_" + studentId + "_" + year + "_" + month + "_" + paymentType;
-
-    var hdnPaymentStatus = "hdnPaymentStatus" + uniqueName;
-    var chcPaymentName = "chc" + uniqueName;
-    var chc = document.getElementById(chcPaymentName);
-    var hdnPayment = document.getElementById(hdnPaymentStatus);
-
-    if (hdnPayment.value == "true") {
-        alert("İlk önce kaydı ödenmemiş yapmanız gerekmektedir.");
-        chc.checked = false;
-    }
-    else {
-
-        var isNotPayable = chc.checked;
-
-        var jsonData = "{id: " + JSON.stringify(id) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ", amount :" + JSON.stringify(amount) + " ,isNotPayable:" + JSON.stringify(isNotPayable) + ",paymentType:" + JSON.stringify(paymentType) + "}";
-
-        CallServiceWithAjax('KinderGartenWebService.asmx/SetPayableStatus', jsonData, successFunctionSetPayableStatus, errorFunction);
-    }
-}
-
-function successFunctionSetPayableStatus(result) {
-
-    if (!result.HasError) {
-        var paymentEntity = result.Result;
-        var uniqueName = "_" + paymentEntity.StudentId + "_" + paymentEntity.Year + "_" + paymentEntity.Month + "_" + paymentEntity.PaymentType;
-
-        var tdPaymentName = "tdPaymentName" + uniqueName;
-        var tdUnPaymentName = "tdUnPaymentName" + uniqueName;
-        var imgPaymentName = "imgPaymentName" + uniqueName;
-        var imgUnPaymentName = "imgUnPaymentName" + uniqueName;
-        var txtAmountName = "txt" + uniqueName;
-        var chcPaymentName = "chc" + uniqueName;
-
-        var isNotPayable = document.getElementById(chcPaymentName).checked;
-        if (isNotPayable) {
-            document.getElementById(txtAmountName).value = "";
-            document.getElementById(txtAmountName).setAttribute("disabled", "disabled");
-            document.getElementById(tdPaymentName).style.pointerEvents = 'none';
-            document.getElementById(tdUnPaymentName).style.pointerEvents = 'none';
-
-            document.getElementById(imgPaymentName).style.display = 'none';
-            document.getElementById(imgUnPaymentName).style.display = 'none';
-
-
-            //document.getElementById(tdImageName).style.display = 'none';
-        } else {
-            document.getElementById(txtAmountName).value = paymentEntity.Amount;
-            document.getElementById(txtAmountName).removeAttribute("disabled");
-            document.getElementById(tdPaymentName).style.pointerEvents = 'auto';
-            document.getElementById(tdUnPaymentName).style.pointerEvents = 'auto';
-            //document.getElementById(tdImageName).removeAttribute("style");
-
-            document.getElementById(imgPaymentName).style.display = '';
-            document.getElementById(imgUnPaymentName).style.display = '';
-
-        }
-    }
-    else {
-        alert("Hata var !!!" + result.ErrorDescription);
     }
 }
 
@@ -214,7 +169,6 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
         var displayAmount = paymentTypeList[i].Amount;
         var amount = paymentTypeList[i].Amount;
         var id = 0;
-        var isNotPayable = false;
         var isPayment = false;
         var uniqueName = "_" + studentEntity.Id + "_" + year + "_" + month + "_" + paymentTypeList[i].Id;
 
@@ -241,7 +195,6 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
         var paymentEntity = findPaymentEntity(studentEntity.PaymentList, month, paymentTypeList[i].Id);
         if (paymentEntity != null) {
             id = paymentEntity.Id;
-            isNotPayable = paymentEntity.IsNotPayable;
 
             amount = paymentEntity.Amount;
             displayAmount = paymentEntity.Amount;
@@ -259,16 +212,6 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
             else if (paymentEntity.Amount == 0) {
                 tdPaymentStyle = "style ='display:none;'";
                 tdUnPaymentStyle = "style ='display:none;'";
-            }
-
-            if (isNotPayable == true) {
-                displayAmount = "";
-                notPayableInputTextStyle = " disabled='disabled';";
-                notPayableCheckboxChecked = " checked='checked;'";
-                //document.getElementById(tdPaymentName).style.pointerEvents = 'none';
-                //document.getElementById(tdUnPaymentName).style.pointerEvents = 'none';
-                imgDisplay = "display:none;";
-
             }
         }
         else {
@@ -288,16 +231,13 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
         document.getElementById(txtPayment).setAttribute("disabled", "disabled");
         */
         var imgUnPayment =
-            "<img style='cursor: pointer; " + imgDisplay+"' id = '" + imgUnPaymentName + "' width='25' height='25' title='Ödeme Yapmak için tıklayınız' src=\"img/icons/unPayment2.png\"/>";
+            "<img style='cursor: pointer; " + imgDisplay + "' id = '" + imgUnPaymentName + "' width='20' height='20' title='Ödeme Yapmak için tıklayınız' src=\"/img/icons/unPayment2.png\"/>";
         var imgPayment =
-            "<img style='cursor: pointer; " + imgDisplay +"'  id= '" + imgPaymentName + "' title = 'Ödemeyi Silmek için tıklayınız' src=\"img/icons/greenSmile2.png\"/>";
+            "<img style='cursor: pointer; " + imgDisplay +"'  id= '" + imgPaymentName + "' title = 'Ödemeyi Silmek için tıklayınız' src=\"/img/icons/greenSmile2.png\"/>";
 
         tbody += "<td><table cellpadding='4'><tr>";
 
         tbody += "<td style='display:none;'><input type='hidden' value='" + isPayment + "' id = '" + hdnPaymentStatus + "'/></td>";
-
-        //tbody += "<td><input " + paymentOkInputStyle + " " + notPayableCheckboxChecked+" type='checkbox' id='" + chcPaymentName + "' name='" +
-        //    chcPaymentName + "' onclick =setPayableStatus(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year + "," + month + "," + paymentTypeList[i].Id + "," + amount + ") /></td>";
 
         tbody += "<td><input encryptstudentid='" + studentEntity.EncryptId + "' islistscreen='" + isListScreen + "' " + paymentOkInputStyle + " " + notPayableInputTextStyle + " size='3' CssClass='form - control' id='" +
             txtAmountName + "' name='" + txtAmountName + "' type='text' value='" + displayAmount + "' onkeypress='return isNumber(event)' onchange =textAmount_Change(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year +
