@@ -6,7 +6,7 @@
         successFunctionSearchStudent(searchValue);
     }
     else {
-        successFunctionSearchStudent(null);
+        successFunctionSearchStudent(null, true);
     }
 };
 
@@ -33,10 +33,17 @@ function GetStudentList() {
 
 function onClassNameChanged() {
 
-    if (document.getElementById("txtSearchStudent") != null && !IsNullOrEmpty(document.getElementById("txtSearchStudent").value))
+    if (document.getElementById("txtSearchStudent") != null && !IsNullOrEmpty(document.getElementById("txtSearchStudent").value)) {
         successFunctionSearchStudent(document.getElementById("txtSearchStudent").value);
-    else
-        successFunctionSearchStudent(null);
+    }
+    else {
+        if (document.getElementById("drpClassList").value > 0) {
+            successFunctionSearchStudent(null);
+        }
+        else {
+            activeStudent();
+        }
+    }
 }
 
 
@@ -48,12 +55,54 @@ function successFunctionCurrentPage(obje) {
     }
 }
 
-function successFunctionSearchStudent(search) {
+function setDefaultValues(studentList) {
+
+    var allObje = document.getElementById("lblAllStudent");
+    var activeObje = document.getElementById("lblActiveStudent");
+    var interviewObje = document.getElementById("lblInterview");
+    var passiveObje = document.getElementById("lblPassiveStudent");
+
+    setLabel(studentList.length, allObje, "Toplam");
+
+    var activeCount = 0;
+    var passiveCount = 0;
+    var interviewCount = 0;
+
+
+    for (var i = 0; i < studentList.length; i++) {
+
+        if (studentList[i].IsActive && studentList[i].IsStudent) {
+            activeCount++;
+        }
+        else if (!studentList[i].IsStudent)
+        {
+            interviewCount++;
+        }
+        else if (studentList[i].IsStudent && !studentList[i].IsActive) {
+            passiveCount++;
+        }
+    }
+
+    setLabel(activeCount, activeObje, "Aktif");
+    setLabel(interviewCount, interviewObje, "Görüşme");
+    setLabel(passiveCount, passiveObje, "Pasif");
+
+}
+
+function setLabel(listCount, obje, text) {
+    obje.innerHTML = "<div style='cursor: pointer;'>" + text + "&nbsp;Öğrenci Sayısı : " + listCount +"</div>";
+}
+
+function successFunctionSearchStudent(search,isLoadedFirst) {
 
     var objects = GetStudentList();
-    var entityList = [];
+    setDefaultValues(objects);
 
-    if (!IsNullOrEmpty(search)) {
+    if (isLoadedFirst || (search != null && search.trim() == '')) {
+        activeStudent();
+        return;
+    }
+    else if (!IsNullOrEmpty(search)) {
         entityList = GetFilterStudent(studentList, search);
     }
     else {
@@ -119,7 +168,7 @@ function drawList(entityList) {
                     tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='/img/icons/interview.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
             }
             else {
-                tbody += "<td>&nbsp;</td>";
+                tbody += "<td>&nbsp;<img src='img/icons/passive.png' width='20' height ='20' /></td>";
             }
             tbody += "</tr> ";
 
@@ -147,7 +196,9 @@ function drawList(entityList) {
                         else
                             tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/passive.png' width='20' height ='20' /></td></tr>";
 
-                        tbody += "<tr><td><a href = \"#\"><img src =\"/img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+                        tbody += "<tr><td><input type='submit' value='Sil' id='btnDelete' class='btn btn-danger' onclick='return deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+
+                       
 
                     }
                     tbody += "</table>";
@@ -176,6 +227,8 @@ function deleteCurrentRecord(id) {
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
         CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteStudent', jsonData, successFunctionDeleteStudent, errorFunction);
     }
+    else
+        return false;
 }
 
 function convertStudent(id) {
@@ -227,9 +280,13 @@ function allStudent() {
     var objects = GetStudentList();
 
     drawList(objects, true);
+    setMenuBold(1);
 }
 
 function activeStudent() {
+
+    var text = document.getElementById("lblActiveStudent").innerHTML;
+
 
     document.getElementById("drpClassList").value = "-1";
 
@@ -243,6 +300,8 @@ function activeStudent() {
     }
 
     drawList(entityList);
+    setMenuBold(2);
+
 }
 
 function interviewStudent() {
@@ -258,6 +317,8 @@ function interviewStudent() {
     }
 
     drawList(entityList);
+    setMenuBold(3);
+
 }
 
 function passiveStudent() {
@@ -273,4 +334,53 @@ function passiveStudent() {
         }
     }
     drawList(entityList);
+    setMenuBold(4);
+
+}
+
+function setMenuBold(menuId) {
+
+    var allObje = document.getElementById("lblAllStudent");
+    var activeObje = document.getElementById("lblActiveStudent");
+    var interviewObje = document.getElementById("lblInterview");
+    var passiveObje = document.getElementById("lblPassiveStudent");
+
+    removeBold(allObje);
+    removeBold(activeObje);
+    removeBold(interviewObje);
+    removeBold(passiveObje);
+
+    if (menuId == 1) {
+        addBold(allObje);
+    }
+    else if (menuId == 2) {
+        addBold(activeObje);
+    }
+    else if (menuId == 3) {
+        addBold(interviewObje);
+    }
+    else if (menuId == 4) {
+        addBold(passiveObje);
+    }
+
+}
+
+
+function removeBold(obje) {
+    var html = obje.innerHTML;
+    html = html.replace(/<b>/g, "");
+    html = html.replace(/<\/b>/g, "");
+    html = html.replace(/<h4>/g, "");
+    html = html.replace(/<\/h4>/g, "");
+    html = html.replace(/<u>/g, "");
+    html = html.replace(/<\/u>/g, "");
+
+    obje.innerHTML = html;
+
+}
+
+function addBold(obje) {
+    var html = obje.innerHTML;
+    html = "<div style='cursor: pointer;'><b><h4><u>" + html + "</u></h4></b></div>";
+    obje.innerHTML = html;
 }

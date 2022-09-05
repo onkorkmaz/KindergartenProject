@@ -24,7 +24,7 @@ namespace KindergartenProject
             routes.EnableFriendlyUrls(settings);
 
             routes.MapPageRoute("uye-giris", "uye-giris", "~/login.aspx");
-            routes.MapPageRoute("benim-dunyam-anaokulu", "benim-dunyam-anaokulu", "~/Default.aspx");
+            routes.MapPageRoute("benim-dunyam-montessori-okullari", "benim-dunyam-montessori-okullari", "~/Default.aspx");
             routes.MapPageRoute("ogrenci-listesi", "ogrenci-listesi", "~/StudentList.aspx");
             routes.MapPageRoute("sinif-ogreci-listesi", "sinif-ogreci-listesi", "~/ClassAndStudentList.aspx");
 

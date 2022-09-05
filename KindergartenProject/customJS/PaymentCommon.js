@@ -142,16 +142,42 @@ function successFunctionPaymentAmountCommon(obje, isSetAnotherAmount) {
             if (!confirm('Diğer aylara ait ödenmemiş kayıtları da ' + result.Amount + ' TL olarak güncellemek ister misiniz?')) {
                 return;
             }
-            for (var i = 1; i <= 12; i++) {
-                if (i != result.Month) {
 
-                    var nextUniqueName = "_" + result.StudentId + "_" + result.Year + "_" + i + "_" + result.PaymentType;
-                    var nextAmountName = "txt" + uniqueName;
+            var year = 0;
+            var nextYear = 0;
+            if (result.Month >= 9) {
+                year = result.Year;
+                nextYear = result.Year + 1;
+            }
+            else {
+                year = result.Year - 1;
+                nextYear = result.Year;
+            }
+            
+
+            var paymentYear = [[0, 9, year], [1, 10, year], [2, 11, year], [3, 12, year], [4, 1, nextYear], [5, 2, nextYear], [6, 3, nextYear], [7, 4, nextYear], [8, 5, nextYear], [9, 6, nextYear], [10, 7, nextYear], [11, 8, nextYear]];
+
+            var index = 0;
+
+            for (var n = 0; n < 12; n++)
+            {
+                if (paymentYear[n][1] == result.Month) {
+                    index = paymentYear[n][0];
+                    break;
+                }
+            }
+
+
+            for (var i = index; i < 12; i++) {
+                if (paymentYear[i][1] != result.Month) {
+                    
+                    var nextUniqueName = "_" + result.StudentId + "_" + paymentYear[i][2] + "_" + paymentYear[i][1] + "_" + result.PaymentType;
+                    var nextAmountName = "txt" + nextUniqueName;
 
                     var nextObje = document.getElementById(nextAmountName);
                     var encryptStudentId = nextObje.getAttribute('encryptStudentId');
 
-                    var jsonData = "{id: " + JSON.stringify(0) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(result.Year) + ",month:" + JSON.stringify(i) + ", currentAmount :" + JSON.stringify(result.Amount) + " ,paymentType:" + JSON.stringify(result.PaymentType) + "}";
+                    var jsonData = "{id: " + JSON.stringify(0) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(paymentYear[i][2]) + ",month:" + JSON.stringify(paymentYear[i][1]) + ", currentAmount :" + JSON.stringify(result.Amount) + " ,paymentType:" + JSON.stringify(result.PaymentType) + "}";
 
                     CallServiceWithAjax('/KinderGartenWebService.asmx/SetAnotherPaymentAmount', jsonData, successFunctionSetAnotherPaymentAmount, errorFunction);
                 }

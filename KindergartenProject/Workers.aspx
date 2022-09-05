@@ -51,6 +51,12 @@
                     </div>
                 </div>
                
+                <div class="mb-3 row">
+                    <label class="col-form-label col-sm-2 text-sm-left">Öğretmen mi?</label>
+                    <div class="col-sm-10">
+                        <asp:CheckBox runat="server" ID="chcIsTeacher" CssClass="form-check-input" />
+                    </div>
+                </div>
 
                 <div class="mb-3 row">
                     <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>
@@ -81,6 +87,7 @@
                             <th scope="col">Yönetici</th>
                             <th scope="col">Ücret</th>
                             <th scope="col">Tel</th>
+                            <th scope="col">Öğretmen</th>
                             <th scope="col">Aktif</th>
                             <th scope="col">Güncellenme Tarihi</th>
                         </tr>

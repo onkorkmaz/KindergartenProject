@@ -7,13 +7,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Benim Dünyam Anaokulu öğrenci takip programı ">
+    <meta name="description" content="Benim Dünyam Montessori Okulları öğrenci takip programı ">
     <meta name="author" content="OnurKORKMAZ">
-    <meta name="keywords" content="Benim-dünyam anaokulları - şerfi ali anaokulları - Benim Dünyam Anaokulu öğrenci takip programı">
+    <meta name="keywords" content="Benim-dünyam anaokulları - Benim dünyam montessori okulları - şerfi ali anaokulları - Benim Dünyam Anaokulu öğrenci takip programı">
 
     <link rel="shortcut icon" href="/img/icons/benim_dunyam.jpeg" />
 
-    <title>Yeliz Ay - Benim Dünyam Anaokulu öğrenci takip programı</title>
+    <title>Yeliz Ay - Benim Dünyam Montessori Okulları öğrenci takip programı</title>
 
     <link href="/css/app.css" rel="stylesheet">
 
@@ -29,7 +29,7 @@
             <div class="wrapper">
                 <nav ID="sidebar" class="sidebar" runat="server">
                     <div class="sidebar-content js-simplebar">
-                        <a class="sidebar-brand" href="/benim-dunyam-anaokulu">
+                        <a class="sidebar-brand" href="/benim-dunyam-montessori-okullari">
                             <span class="align-middle">Yeliz AY</span> &nbsp;&nbsp;&nbsp;
 					<img src="/img/avatars/yeliz_ay.jpeg" class="avatar img-fluid rounded mr-1" alt="Yeliz AY" />
                         </a>
@@ -39,7 +39,7 @@
                             </li>
 
                             <li runat="server" id="menuPanel">
-                                <a class="sidebar-link" href="/benim-dunyam-anaokulu">
+                                <a class="sidebar-link" href="/benim-dunyam-montessori-okullari">
                                     <i class="align-middle" data-feather="sliders"></i><span class="align-middle">Panel</span>
                                 </a>
                             </li>
@@ -165,7 +165,7 @@
                             <div class="row text-muted">
                                 <div class="col-6 text-left">
                                     <p class="mb-0">
-                                        <a href="/benim-dunyam-anaokulu" class="text-muted"><strong>Benim Dünyam Anaokulu...</strong></a> &copy;
+                                        <a href="/benim-dunyam-montessori-okullari" class="text-muted"><strong>Benim Dünyam Montessori Okulları...</strong></a> &copy;
                                     </p>
                                 </div>
                                 <div class="col-6 text-right">

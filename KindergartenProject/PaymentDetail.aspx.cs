@@ -18,13 +18,14 @@ namespace KindergartenProject
         {
             if (!Page.IsPostBack)
             {
-                int year = DateTime.Today.Year;
+                int year = 2021;
 
-                for(int i = -1;i<5;i++)
+                for (int i = -1; i < 10; i++)
                 {
-                    drpYear.Items.Add(new ListItem((year + i).ToString(), (year + i).ToString()));
+                    string displatText = (year + i).ToString() + "-" + (year + i + 1).ToString();
+                    drpYear.Items.Add(new ListItem(displatText, (year + i).ToString()));
                 }
-                drpYear.SelectedValue = year.ToString();
+                drpYear.SelectedValue = DateTime.Today.Year.ToString();
             }
 
             divInformation.InformationVisible = false;
@@ -60,9 +61,10 @@ namespace KindergartenProject
                     StudentEntity entity = new StudentBusiness().Get_Student(new SearchEntity() { Id = id }).Result[0];
 
                     lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.EncryptId + "\">" +
-                                          entity.FullName.ToUpper() + "</a> &nbsp;&nbsp;&nbsp;";
+                        "<div id = 'btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";
                     lblStudentInto.Text += "<a href= '/email-gonder/" + entity.EncryptId +
-                                           "'><img title='Mail Gönder' src ='img/icons/email.png'/></a>";
+                                           "'><div id = 'btnSendEmail' class='btn btn-warning'>Mail Gönder</div></a>";
+                    
 
                 }
             }

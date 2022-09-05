@@ -48,7 +48,7 @@ namespace KindergartenProject
                 {
                     Session[CommonConst.Admin] = resultSet.Result;
                     CurrentContex.Contex = resultSet.Result;
-                    Response.Redirect("benim-dunyam-anaokulu");
+                    Response.Redirect("benim-dunyam-montessori-okullari");
                 }
             }
         }

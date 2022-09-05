@@ -18,7 +18,7 @@ namespace KindergartenProject
         {
             if (SelectedMenuList != MenuList.Login &&  Session[CommonConst.Admin] == null)
             {
-                Response.Redirect("uye-giris");
+                Response.Redirect("/uye-giris");
             }
             else
             {

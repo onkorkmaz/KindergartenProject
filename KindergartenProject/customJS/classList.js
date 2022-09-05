@@ -130,9 +130,9 @@ function validate() {
         errorMessage += "Sınıf Adı boş bırakılamaz\n";
 
 
-    obje = document.getElementById("drpMainTeacher").value;
-    if (IsNullOrEmpty(obje))
-        errorMessage += "Ana öğretmen Boş bırakılamaz\n";
+    //obje = document.getElementById("drpMainTeacher").value;
+    //if (IsNullOrEmpty(obje))
+    //    errorMessage += "Ana öğretmen Boş bırakılamaz\n";
 
     if (!IsNullOrEmpty(errorMessage)) {
         alert(errorMessage);

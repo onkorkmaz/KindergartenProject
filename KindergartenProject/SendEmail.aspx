@@ -22,7 +22,13 @@
                         </div>
                     </div>
                     <div class="mb-2 row">
-                        <label class="col-form-label col-sm-2 text-sm-left">Email Adresi :</label>
+                        <label class="col-form-label col-sm-2 text-sm-left">Ödeme Sezonu</label>
+                        <div class="col-sm-3">
+                           <asp:Label ID="lblSeason" runat="server" CssClass="col-form-label col-sm-12 text-sm-left"></asp:Label>
+                        </div>
+                    </div>
+                    <div class="mb-2 row">
+                        <label class="col-form-label col-sm-2 text-sm-left">Email Adresi</label>
                         <div class="col-sm-3">
                             <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control"  MaxLength="50" placeholder="Email"></asp:TextBox>
                         </div>

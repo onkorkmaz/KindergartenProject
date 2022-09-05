@@ -58,6 +58,38 @@ namespace KindergartenProject
                 setBirthdayInfo(currentList.OrderBy(o => o.BirthDayCurrentYear).ToList(), lblBirthdayThisMonth);
 
             }
+
+            fillIncomingAndOutGoing();
+        }
+
+        private void fillIncomingAndOutGoing()
+        {
+            double paid = 0;
+            double unPaid = 0;
+            double teacherInfo = 0;
+            double commonPriceInfo = 0;
+
+            setPaidInfo(ref paid , ref unPaid);
+            setTeacherPriceInfo();
+            setCommonPriceInfo();
+
+            double total = paid - unPaid - teacherInfo - commonPriceInfo;
+            lblTotal.Text = total.ToString("###,###,###.00");
+        }
+
+        private void setCommonPriceInfo()
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void setTeacherPriceInfo()
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void setPaidInfo(ref double paid , ref double unPaid)
+        {
+            DataResultArgs<List<PaymentEntity>> resultList = new PaymentBusiness().Get_PaymentForCurrentMonth();
         }
 
         private void setLabel(IEnumerable<StudentEntity> currentList, Label lbl)

@@ -29,7 +29,7 @@ namespace KindergartenProject
             divInformation.ListRecordPage = "/ogrenci-listesi";
             divInformation.NewRecordPage = "/ogrenci-ekle";
 
-            setDefaultValues();
+            //setDefaultValues();
             loadClass();
 
             //loadData();

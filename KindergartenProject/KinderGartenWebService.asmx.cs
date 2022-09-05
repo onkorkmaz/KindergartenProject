@@ -94,7 +94,7 @@ namespace KindergartenProject
                 if(classEntity!=null && classEntity.WarningOfStudentCount>0)
                 {
                     int recordedStudentNumber = new StudentBusiness().Get_AllStudentWithCache().Result.Where(o => o.ClassId.HasValue && o.ClassId.Value == cId).ToList().Count();
-                    return "Max Öğrenci Adeti : " + classEntity.WarningOfStudentCount.ToString() + " - Kayıtlı Öğrenci : " + recordedStudentNumber;
+                    return "Max Öğrenci Adeti : " + classEntity.WarningOfStudentCount.ToString() + " <br/>Kayıtlı Öğrenci : " + recordedStudentNumber;
                 }
             }
             return "";
@@ -103,13 +103,13 @@ namespace KindergartenProject
         [WebMethod]
         public DataResultArgs<List<WorkerEntity>> GetActiveTeacher()
         {
-            return new WorkersBusiness().Get_Workers(new SearchEntity() { IsActive = true, IsDeleted = false });
+            return new WorkersBusiness().Get_Workers(new SearchEntity() { IsActive = true, IsDeleted = false }, true);
         }
 
         [WebMethod]
         public List<WorkerEntity> GetAllWorkers()
         {
-            List<WorkerEntity> result = new WorkersBusiness().Get_Workers(new SearchEntity() { IsDeleted = false }).Result;
+            List<WorkerEntity> result = new WorkersBusiness().Get_Workers(new SearchEntity() { IsDeleted = false }, null).Result;
 
             return result;
         }
@@ -302,7 +302,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new WorkersBusiness().Get_Workers_WithId(GeneralFunctions.GetData<int>(id));
+                    result = new WorkersBusiness().Get_Workers_WithId(GeneralFunctions.GetData<int>(id), null);
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -348,6 +348,49 @@ namespace KindergartenProject
         }
 
         [WebMethod]
+        public List<StudentListAndPaymentTypeInfo> GetPaymentDetailSeason(string decryptStudentId, string year)
+        {
+            StudentListAndPaymentTypeInfo currentYear = GetStudentListAndPaymentTypeInfoForPaymentDetail(decryptStudentId, year);
+            int yearInt = Convert.ToInt32(year);
+            StudentListAndPaymentTypeInfo nextYear = GetStudentListAndPaymentTypeInfoForPaymentDetail(decryptStudentId, (yearInt + 1).ToString());
+
+
+            List<StudentListAndPaymentTypeInfo> returnList = new List<StudentListAndPaymentTypeInfo>();
+
+
+            List<PaymentEntity> list = currentYear.StudentList.FirstOrDefault().PaymentList;
+
+            List<PaymentEntity> newList = new List<PaymentEntity>();
+
+            for (int i= 9; i<=12;i++)
+            {
+                if (list.Count >= i)
+                {
+                    newList.Add(list[i]);
+                }
+            }
+
+            currentYear.StudentList.FirstOrDefault().PaymentList = list;
+            returnList.Add(currentYear);
+
+            list = nextYear.StudentList.FirstOrDefault().PaymentList;
+
+            for (int i = 1; i <= 8; i++)
+            {
+                if (list.Count >= i)
+                {
+                    newList.Add(list[i]);
+                }
+            }
+
+            nextYear.StudentList.FirstOrDefault().PaymentList = list;
+            returnList.Add(nextYear);
+
+            return returnList;
+
+        }
+
+        [WebMethod]
         public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForPaymentDetail(string decryptStudentId, string year)
         {
             StudentListAndPaymentTypeInfo info = new StudentListAndPaymentTypeInfo
@@ -376,6 +419,7 @@ namespace KindergartenProject
                     info.StudentList.Add(studentEntity);
                 }
             }
+            info.Year = GeneralFunctions.GetData<int>(year);
             return info;
         }
 
@@ -484,7 +528,7 @@ namespace KindergartenProject
         }
 
         [WebMethod]
-        public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForPaymentList()
+        public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForCurrentMonth()
         {
             StudentListAndPaymentTypeInfo paymentDetailEntity = new StudentListAndPaymentTypeInfo();
 
@@ -509,6 +553,8 @@ namespace KindergartenProject
 
             paymentDetailEntity.StudentList = studentList;
             paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+            paymentDetailEntity.Month = DateTime.Today.Month;
+            paymentDetailEntity.Year = DateTime.Today.Year;
 
             return paymentDetailEntity;
         }
@@ -601,7 +647,7 @@ namespace KindergartenProject
         [WebMethod]
         public DataResultArgs<List<WorkerEntity>> GetWorkerList()
         {
-            return new WorkersBusiness().Get_Workers(new SearchEntity() { IsDeleted = false });
+            return new WorkersBusiness().Get_Workers(new SearchEntity() { IsDeleted = false }, null);
         }
     }
 }

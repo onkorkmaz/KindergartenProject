@@ -81,7 +81,7 @@ namespace KindergartenProject
                 //txtBirthday.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
-                DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness().Get_Class(new SearchEntity() { IsActive = true });
+                DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness().Get_Class(new SearchEntity() { IsActive = true, IsDeleted = false });
                 if (resultSetClassList.HasError)
                 {
                     divInformation.ErrorText = resultSetClassList.ErrorDescription;

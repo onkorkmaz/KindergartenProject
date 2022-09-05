@@ -13,11 +13,8 @@ function loadData() {
     if (!IsNullOrEmpty(encryptStudentId)) {
         var year = document.getElementById("drpYear").value;
         var jsonData = "{decryptStudentId:" + JSON.stringify(encryptStudentId) + ", year:" + year + " }";
-        var jsonData2 = "{ }";
 
-
-
-        CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForPaymentDetail', jsonData, successFunctionCurrentPage, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/GetPaymentDetailSeason', jsonData, successFunctionCurrentPage, errorFunction);
     }
 }
 
@@ -27,35 +24,51 @@ function drpYear_Changed() {
 
 function successFunctionCurrentPage(obje) {
 
-    if (obje.PaymentTypeList != null) {
+    if (obje != null) {
 
-        var paymentTypeList = obje.PaymentTypeList;
-        var year = document.getElementById("drpYear").value;
+        var paymentTypeList = obje[0].PaymentTypeList;
 
-        var count = 0;
-        var tbody = "<table class='table mb - 0'><thead><tr><th scope='col'>Ay</th>";
-        for (var i in paymentTypeList) {
+        if (paymentTypeList != null) {
 
-            tbody += "<th scope='col'>" + paymentTypeList[i].Name + "</th>";
-            count = count + 1;
-        }
+            var count = 0;
+            var tbody = "<table class='table mb - 0'><thead><tr><th scope='col'>Ay</th>";
+            for (var i in paymentTypeList) {
 
-        tbody += "</tr></thead>";
-
-        for (var j in months) {
-
-            for (var k in obje.StudentList) {
-
-                tbody += "<tr>";
-                tbody += "<td>" + months[j][1] + "</td>";
-                tbody += drawPaymentDetail(paymentTypeList, year, months[j][0], obje.StudentList[k], 0);
-                tbody += "</tr>";
+                tbody += "<th scope='col'>" + paymentTypeList[i].Name + "</th>";
+                count = count + 1;
             }
+
+            tbody += "</tr></thead>";
+
+            for (var j in monthsSeasonFirst) {
+
+                for (var k in obje[0].StudentList) {
+
+                    tbody += "<tr>";
+                    tbody += "<td>" + obje[0].Year + " - " + monthsSeasonFirst[j][1] + "</td>";
+                    tbody += drawPaymentDetail(paymentTypeList, obje[0].Year, monthsSeasonFirst[j][0], obje[0].StudentList[k], 0);
+                    tbody += "</tr>";
+                }
+            }
+
+            for (var j in monthsSeasonSecond) {
+
+                for (var k in obje[1].StudentList) {
+
+                    tbody += "<tr>";
+                    tbody += "<td>" + obje[1].Year + " - " +  monthsSeasonSecond[j][1] + "</td>";
+                    tbody += drawPaymentDetail(paymentTypeList, obje[1].Year, monthsSeasonSecond[j][0], obje[1].StudentList[k], 0);
+                    tbody += "</tr>";
+                }
+            }
+
+            tbody += "</table>";
+
+            document.getElementById("divMain").innerHTML = tbody;
         }
-
-        tbody += "</table>";
-
-        document.getElementById("divMain").innerHTML = tbody;
+    }
+    else {
+        alert("Obje is null");
     }
 }
 

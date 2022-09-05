@@ -23,6 +23,8 @@ namespace KindergartenProject
             divInformation.ListRecordPage = "/odeme-plani";
             divInformation.SetVisibleLink(true, false);
 
+            lblSeason.Text = DateTime.Today.Year + " - " + (DateTime.Today.Year + 1);
+
             if (this.Master is kindergarten master)
             {
                 master.SetActiveMenuAttiributes(MenuList.PaymentPlan);
@@ -57,10 +59,9 @@ namespace KindergartenProject
                     StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
 
                     lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.EncryptId + "\">" +
-                                          entity.FullName.ToUpper() +
-                                          "</a> &nbsp;&nbsp;&nbsp;";
+                        "<div id='btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";
                     lblStudentInto.Text += "<a href= '/odeme-plani-detay/" + entity.EncryptId +
-                                           "'><img title='Ödeme Detayı' src ='img/icons/paymentPlan.png'/></a>";
+                                           "'><div id='btnPaymentDetail' class='btn btn-warning'>Ödeme Detayı</div></a>";
 
 
                     hdnStudentName.Value = entity.FullName;
@@ -69,7 +70,7 @@ namespace KindergartenProject
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
                         new PaymentTypeBusiness().Get_PaymentType(new SearchEntity()
-                            {IsActive = true, IsDeleted = false});
+                        { IsActive = true, IsDeleted = false });
 
                     if (resultSet.HasError)
                     {
@@ -81,7 +82,7 @@ namespace KindergartenProject
                         sb.AppendLine(
                             @"<table class='table mb - 0'><thead><tr><th scope='col'><input type='checkbox' id='chc_All' name='chc_All' year='" +
                             DateTime.Today.Year.ToString() +
-                            "' onclick =chcAllChange(); /></th> <th scope='col'>Ay</th>");
+                            "' onclick =chcAllChange(); /></th><th scope='col'>Yıl</th> <th scope='col'>Ay</th>");
 
                         List<PaymentTypeEntity> paymentTypeList = resultSet.Result;
 
@@ -90,32 +91,33 @@ namespace KindergartenProject
                             sb.AppendLine("<th scope='col'>" + payment.Name + "</th>");
                         }
 
-                        var monthList = GetMonthList();
+                        var seasonList = GetSeasonList(DateTime.Today.Year);
 
-                        foreach (int month in monthList.Keys)
+                        foreach (SeasonEntity obje in seasonList)
                         {
-                            var uniqueName = "_" + DateTime.Today.Year.ToString() + "_" + month;
+                            var uniqueName = "_" + obje.Year + "_" + obje.Month;
 
                             var chcPaymentName = "chc" + uniqueName;
 
                             string isCheck = "";
-                            if (DateTime.Today.Month == month)
+                            if (DateTime.Today.Month == obje.Month)
                             {
                                 isCheck = "checked='checked'";
-                                hdnSelectedMonth.Value = "" + month + ",'" + monthList[month] + "'";
+                                hdnSelectedMonth.Value = "" + obje.Month + ",'" + obje.MonthName + "'";
                             }
 
                             sb.AppendLine("<tr>");
                             sb.AppendLine("<td><input type='checkbox' id='" + chcPaymentName + "' name='" +
                                           chcPaymentName +
                                           "' onclick =chcChange(); " + isCheck + " /></td>");
-                            sb.AppendLine("<td>" + monthList[month] + "</td>");
+                            sb.AppendLine("<td>" + obje.Year + "</td>");
+                            sb.AppendLine("<td>" + obje.MonthName + "</td>");
 
 
                             foreach (PaymentTypeEntity payment in paymentTypeList)
                             {
                                 PaymentEntity paymentEntity = entity.PaymentList.FirstOrDefault(o =>
-                                    o.Month == month && o.Year == DateTime.Today.Year && o.PaymentType == payment.Id);
+                                    o.Month == obje.Month && o.Year == obje.Year && o.PaymentType == payment.Id);
 
                                 if (paymentEntity != null)
                                 {
@@ -123,36 +125,64 @@ namespace KindergartenProject
                                     {
                                         if (paymentEntity.IsPayment.Value)
                                         {
-                                            sb.AppendLine(
+                                            if (paymentEntity.Amount > 0)
+                                            {
+                                                sb.AppendLine(
                                                 "<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" +
                                                 paymentEntity.AmountDesc +
                                                 "</td><td><img width='" + width + "' height='" + height +
-                                                "' src=\"img/icons/greenSmile2.png\"/></td></tr></table></td>");
+                                                "' src=\"/img/icons/greenSmile2.png\"/></td></tr></table></td>");
+                                            }
+                                            else
+                                            {
+                                                sb.AppendLine("<td>&nbsp;&nbsp;&nbsp;&nbsp;-</td>");
+                                            }
                                         }
                                         else
                                         {
-                                            sb.AppendLine(
-                                                "<td><table cellpadding='4'><tr style='vertical-align: middle' ><td>" +
-                                                paymentEntity.AmountDesc +
-                                                "</td><td><img width='" + width + "' height='" + height +
-                                                "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                            if (paymentEntity.Amount > 0)
+                                            {
+                                                sb.AppendLine(
+                                                    "<td><table cellpadding='4'><tr style='vertical-align: middle' ><td>" +
+                                                    paymentEntity.AmountDesc +
+                                                    "</td><td><img width='" + width + "' height='" + height +
+                                                    "' src=\"/img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                            }
+                                            else
+                                            {
+                                                sb.AppendLine("<td>&nbsp;&nbsp;&nbsp;&nbsp;-</td>");
+                                            }
                                         }
                                     }
                                     else
                                     {
-                                        sb.AppendLine(
+                                        if (paymentEntity.Amount > 0)
+                                        {
+                                            sb.AppendLine(
                                             "<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" +
                                             paymentEntity.AmountDesc +
                                             "</td><td><img width='" + width + "' height='" + height +
-                                            "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                            "' src=\"/img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine("<td>&nbsp;&nbsp;&nbsp;&nbsp;-</td>");
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    sb.AppendLine("<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" +
-                                                  payment.AmountDesc +
-                                                  "</td><td><img width='" + width + "' height='" + height +
-                                                  "' src=\"img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                    if (!string.IsNullOrEmpty(payment.AmountDesc))
+                                    {
+                                        sb.AppendLine("<td><table cellpadding='4'><tr style='vertical-align: middle'><td>" +
+                                                      payment.AmountDesc +
+                                                      "</td><td><img width='" + width + "' height='" + height +
+                                                      "' src=\"/img/icons/unPayment2.png\"/></td></tr></table></td>");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine("<td>&nbsp;&nbsp;&nbsp;&nbsp;-</td>");
+                                    }
                                 }
                             }
 
@@ -169,21 +199,22 @@ namespace KindergartenProject
             }
         }
 
-        private static Dictionary<int, string> GetMonthList()
+        private static List<SeasonEntity> GetSeasonList(int year)
         {
-            Dictionary<int, string> monthList = new Dictionary<int, string>();
-            monthList.Add(1, "Ocak");
-            monthList.Add(2, "Şubat");
-            monthList.Add(3, "Mart");
-            monthList.Add(4, "Nisan");
-            monthList.Add(5, "Mayıs");
-            monthList.Add(6, "Haziran");
-            monthList.Add(7, "Temmuz");
-            monthList.Add(8, "Ağustos");
-            monthList.Add(9, "Eylül");
-            monthList.Add(10, "Ekim");
-            monthList.Add(11, "Kasım");
-            monthList.Add(12, "Aralık");
+            List<SeasonEntity> monthList = new List<SeasonEntity>();
+            monthList.Add(new SeasonEntity(0, year, 9, "Eylül"));
+            monthList.Add(new SeasonEntity(1, year, 10, "Ekim"));
+            monthList.Add(new SeasonEntity(2, year, 11, "Kasım"));
+            monthList.Add(new SeasonEntity(3, year, 12, "Aralık"));
+            monthList.Add(new SeasonEntity(4, year + 1, 1, "Ocak"));
+            monthList.Add(new SeasonEntity(5, year + 1, 2, "Şubat"));
+            monthList.Add(new SeasonEntity(6, year + 1, 3, "Mart"));
+            monthList.Add(new SeasonEntity(7, year + 1, 4, "Nisan"));
+            monthList.Add(new SeasonEntity(8, year + 1, 5, "Mayıs"));
+            monthList.Add(new SeasonEntity(9, year + 1, 6, "Haziran"));
+            monthList.Add(new SeasonEntity(10, year + 1, 7, "Temmuz"));
+            monthList.Add(new SeasonEntity(11, year + 1, 8, "Ağustus"));
+
             return monthList;
         }
 
@@ -210,25 +241,17 @@ namespace KindergartenProject
                 else
                 {
                     StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
-                    string savePathToFiles =
-                        Server.MapPath("/PaymentDocument/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName));
-
-                    UpdateStudentEmailAndDeleteFolder(entity, savePathToFiles);
-
-
-                    string fileName = savePathToFiles + "/" + GeneralFunctions.ReplaceTurkishChar(entity.FullName) +
-                                      "_odemePlani_" + DateTime.Now.ToString("yyyyMMddhhmmss");
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
                         new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
 
-                    InitializeDocumentAndSave(entity, fileName, resultSet.Result);
+                    StringBuilder sb = InitializeHtmlTable(entity, resultSet.Result);
 
                     //string body = drawTable(entity, resultSet.Result);
 
                     try
                     {
-                        sendMail(fileName, entity);
+                        sendMail(sb, entity);
                         divInformation.SuccessfulText = "Mail gönderim işlemi başarıyla tamamlanmıştır";
                         divInformation.SetVisibleLink(true, false);
                         pnlBody.Enabled = false;
@@ -299,100 +322,94 @@ namespace KindergartenProject
             return;
         }
 
-        private void UpdateStudentEmailAndDeleteFolder(StudentEntity entity, string savePathToFiles)
-        {
-            if (string.IsNullOrEmpty(entity.Email) && !string.IsNullOrEmpty(txtEmail.Text))
-            {
-                entity.Email = txtEmail.Text;
-                new StudentBusiness().Set_Student(entity);
-            }
-
-            if (!Directory.Exists(savePathToFiles))
-                Directory.CreateDirectory(savePathToFiles);
-            else
-            {
-                System.IO.DirectoryInfo di = new DirectoryInfo(savePathToFiles);
-
-                foreach (FileInfo file in di.GetFiles())
-                {
-                    file.Delete();
-                }
-            }
-        }
-
-        private void InitializeDocumentAndSave( StudentEntity entity,  string fileName, List<PaymentTypeEntity> paymentTypeEntityList)
+        private StringBuilder InitializeHtmlTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
         {
             List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.PaymentList);
-
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
-            string templatePath = Server.MapPath("/Template");
+            StringBuilder sb = new StringBuilder();
 
-            byte[] byteArray = File.ReadAllBytes(templatePath + "/odemePlani2.docx");
+            sb.AppendLine(@"
+        
 
-            using (MemoryStream stream = new MemoryStream())
+<table width='800' align='center' style ='border: 1px solid black' cellpadding='20'>       
+            <tr>
+                <td>
+                    <table width='100%' cellpadding='2' cellspacing='8' >
+                    <tr>
+                            <td>
+                               <table width='100%' cellpadding='2' cellspacing='8'> 
+                                   <tr>
+                                        <td width='100'>ADI SOYADI</td>
+                                        <td width='10'>:</td>
+                                        <td>" + entity.FullName + @"</td>
+                                    </tr>
+                                    <tr>
+                                        <td><u>Sayın Velimiz,</u></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan='3' align='center'>
+                                            <hr/>
+                                    <div style='color:blue;' >" + DateTime.Today.Year.ToString() + @"-" + (DateTime.Today.Year + 1).ToString() + @" Eğitim Öğretim Yılı Okul Ücreti Ödeme Tablonuz
+                                    </div>
+                                            <hr/>
+                                        </td>
+                                    </tr>
+                               </table>
+                            </td>
+                            <td align='right'><img src='http://benimdunyamogrencitakip.com/img/icons/benim_dunyam2.png' width='120' /></td>
+                    <tr>
+                       
+                    </table>
+                </td>
+            </tr>
+			<tr>
+				<td>
+					<table width='100%' cellpadding='2' cellspacing='2'>
+					<tr style='color:white; background-color:#336666;'><td style ='border:1px solid #000000;' width='50'>&nbsp;</td>");
+
+            foreach (PaymentTypeEntity _paymentEntity in paymentTypeEntityList)
             {
-                stream.Write(byteArray, 0, (int) byteArray.Length);
-                using (WordprocessingDocument doc = WordprocessingDocument.Open(stream, true))
-                {
-                    setFullName(doc, entity.FullName);
-
-                    DocumentFormat.OpenXml.Wordprocessing.Table table = doc.MainDocumentPart.Document.Body.Elements<DocumentFormat.OpenXml.Wordprocessing.Table>().First();
-
-                    AddWordCell(selectedMonthList, emailPaymentList, table);
-                }
-
-                // Save the file with the new name
-                File.WriteAllBytes(fileName+".docx" , stream.ToArray());
-                FileStream fs = new FileStream(fileName + ".docx", FileMode.OpenOrCreate, FileAccess.Read);
-                fs.Flush();
-                fs.Close();
-                GC.Collect();
-
+                sb.AppendLine("<td style ='border:1px solid #000000;' width='50'>" + _paymentEntity.Name + "</td>");
             }
-        }
 
-        //public void ConvertTopdf(string path, string filename)
-        //{
-        //    SautinSoft.UseOffice u = new SautinSoft.UseOffice();
-        //    if (u.InitWord() == 0)
-        //    {
-        //        //convert Word (RTF, DOC, DOCX to PDF)
-        //        u.ConvertFile(path, @"I:\karthik\pdf\pdf\" + filename, SautinSoft.UseOffice.eDirection.DOC_to_PDF);
-        //    }
-        //    u.CloseOffice();
-        //}
+            sb.AppendLine(@"</tr>
+                     <tr>
+						<td colspan='6'>&nbsp;</td>
+					</tr>");
 
-        private void AddWordCell(Dictionary<int, string> selectedMonthList, List<EmailPaymentEntity> emailPaymentList, Table table)
-        {
             foreach (int month in selectedMonthList.Keys)
             {
-                DocumentFormat.OpenXml.Wordprocessing.TableRow tr =
-                    new DocumentFormat.OpenXml.Wordprocessing.TableRow();
-                AddCell(tr, selectedMonthList[month]);
+                EmailPaymentEntity paymentSchool = null;
+                EmailPaymentEntity paymentService = null;
+                EmailPaymentEntity paymentBooking = null;
+                EmailPaymentEntity paymentMental = null;
+                EmailPaymentEntity paymentAnother = null;
 
                 foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
                 {
                     if (emailPaymentEntity.Month == month)
                     {
-                        switch ((PaymentTypeEnum) emailPaymentEntity.PaymentTypeId)
+                        switch ((PaymentTypeEnum)emailPaymentEntity.PaymentTypeId)
                         {
                             case PaymentTypeEnum.Okul:
-                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                paymentSchool = emailPaymentEntity;
                                 break;
                             case PaymentTypeEnum.None:
                                 break;
                             case PaymentTypeEnum.Servis:
-                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                paymentService = emailPaymentEntity;
                                 break;
                             case PaymentTypeEnum.Kirtasiye:
-                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                paymentBooking = emailPaymentEntity;
                                 break;
                             case PaymentTypeEnum.Mental:
-                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                paymentMental = emailPaymentEntity;
                                 break;
                             case PaymentTypeEnum.Diger:
-                                AddCell(tr, emailPaymentEntity.AmountDescription);
+                                paymentAnother = emailPaymentEntity;
                                 break;
                             default:
                                 break;
@@ -400,26 +417,57 @@ namespace KindergartenProject
                     }
                 }
 
-                table.Append(tr);
+
+                sb.AppendLine(@"<tr style='color:black; background-color:#FFFF99;'>
+						<td style ='border:1px solid #000000;' width='50' style='color:#336666;'><b>" + selectedMonthList[month] + @"</b></td>");
+
+                AddPayment(sb, paymentSchool, month, PaymentTypeEnum.Okul, paymentTypeEntityList);
+                AddPayment(sb, paymentService, month, PaymentTypeEnum.Servis, paymentTypeEntityList);
+                AddPayment(sb, paymentBooking, month, PaymentTypeEnum.Kirtasiye, paymentTypeEntityList);
+                AddPayment(sb, paymentMental, month, PaymentTypeEnum.Mental, paymentTypeEntityList);
+                AddPayment(sb, paymentAnother, month, PaymentTypeEnum.Diger, paymentTypeEntityList);
             }
+
+
+            sb.AppendLine(@"</table>
+				</td>
+			</tr>
+            <tr><td><table width='100%'><tr><td align='right'>Benim Dünyam Montessori Okulları</td><td width='50'></td></tr></table></td></tr>
+        </table>");
+
+            return sb;
+
+
+
         }
 
-        private void setFullName(WordprocessingDocument doc, string fullName)
+        private static void AddPayment(StringBuilder sb, EmailPaymentEntity emailPaymentEntity, int month, PaymentTypeEnum paymentType, List<PaymentTypeEntity> paymentTypeList)
         {
-            var body = doc.MainDocumentPart.Document.Body;
-            var paras = body.Elements<DocumentFormat.OpenXml.Wordprocessing.Paragraph>();
+            int year = DateTime.Today.Year;
+            if (string.IsNullOrEmpty(emailPaymentEntity.AmountColor))
+                emailPaymentEntity.AmountColor = "black";
 
-            foreach (var para in paras)
+            if (emailPaymentEntity != null)
             {
-                foreach (var run in para.Elements<DocumentFormat.OpenXml.Wordprocessing.Run>())
+                sb.AppendLine("<td style ='border:1px solid #000000; color:" + emailPaymentEntity.AmountColor + ";' width='50'><b>" + emailPaymentEntity.AmountDescription + "</b></td>");
+            }
+            else
+            {
+                if (year <= DateTime.Today.Year && month <= DateTime.Today.Month)
                 {
-                    foreach (var text in run.Elements<DocumentFormat.OpenXml.Wordprocessing.Text>())
+                    PaymentTypeEntity payType = paymentTypeList.FirstOrDefault(o => o.Id == (int)paymentType);
+                    if(payType!=null && payType.Amount>0)
                     {
-                        if (text.Text.Contains("fullName"))
-                        {
-                            text.Text = text.Text.Replace("fullName", fullName);
-                        }
+                        sb.AppendLine("<td style ='border:1px solid #000000; color:red;'><b>" + payType.AmountDesc + "</b></td>");
                     }
+                    else
+                    {
+                        sb.AppendLine("<td style ='border:1px solid #000000;' >&nbsp;</td>");
+                    }
+                }
+                else
+                {
+                    sb.AppendLine("<td style ='border:1px solid #000000;' >&nbsp;</td>");
                 }
             }
         }
@@ -433,10 +481,8 @@ namespace KindergartenProject
             tr.Append(tc);
         }
 
-        private void sendMail(string fileName,StudentEntity entity)
+        private void sendMail(StringBuilder sb,StudentEntity entity)
         {
-            string word = fileName + ".docx";
-            string pdf = fileName + ".pdf";
 
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
@@ -456,27 +502,17 @@ namespace KindergartenProject
             {
                 mail.From = new MailAddress("benimdunyamanaokullari@gmail.com");
                 mail.To.Add(txtEmail.Text.Trim());
-                mail.Subject = "Benim Dünyam Anaokulu Ödeme Tablosu " + monthName;
-                mail.Body =
-                    "Sayın Velimiz; <br/> Öğrencimiz " + hdnStudentName.Value +
-                    " ait güncel ödeme tablosu ektedir.";
-
-
-                DocumentCore.Serial = "bla bla";
-                DocumentCore dc = DocumentCore.Load(word);
-                dc.Save(pdf);
+                mail.Subject = "Benim Dünyam Montessori Okulları Ödeme Tablosu " + monthName;
+                mail.Body = sb.ToString();
 
                 mail.IsBodyHtml = true;
-
-                System.Net.Mail.Attachment attachment;
-                attachment = new System.Net.Mail.Attachment(fileName + ".pdf");
-                mail.Attachments.Add(attachment);
 
                 using (SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587))
                 {
                     SmtpServer.UseDefaultCredentials = false; //Need to overwrite this
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("benimdunyamanaokullari@gmail.com", "Yelay123");
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("benimdunyamanaokullari@gmail.com", "enrjpjxobnefsqac");
                     SmtpServer.EnableSsl = true;
+                    SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                     SmtpServer.Send(mail);
                 }
             }
@@ -503,62 +539,105 @@ namespace KindergartenProject
         {
             List<EmailPaymentEntity> emailPaymentList = new List<EmailPaymentEntity>();
 
-            var monthList = GetMonthList();
-            int year = DateTime.Today.Year;
+            var monthList = GetSeasonList(DateTime.Today.Year);
 
-            foreach (int month in monthList.Keys)
+            foreach (SeasonEntity seasonEntity in monthList)
             {
                 foreach (PaymentTypeEntity paymentType in paymentTypeList)
                 {
                     EmailPaymentEntity entity = new EmailPaymentEntity();
-                    entity.Year = year;
-                    entity.Month = month;
+                    entity.Year = seasonEntity.Year;
+                    entity.Month = seasonEntity.Month;
                     entity.PaymentTypeId = paymentType.Id;
+                    entity.AmountDescription = CommonConst.EmptyAmount; ;                    
 
                     PaymentEntity paymentEntity = paymentList.FirstOrDefault(o =>
-                        o.Year == year && o.Month == month && o.PaymentType == paymentType.Id);
+                        o.Year == seasonEntity.Year && o.Month == seasonEntity.Month && o.PaymentType == paymentType.Id);
 
 
                     if (paymentEntity == null)
                     {
-                        if (month > DateTime.Today.Month)
-                            entity.AmountDescription = " - ";
+                        if (seasonEntity.Year > DateTime.Today.Year || (seasonEntity.Month >= DateTime.Today.Month && seasonEntity.Year >= DateTime.Today.Year))
+                        {
+                            entity.AmountDescription = CommonConst.EmptyAmount;
+                            entity.Amount = 0;
+                        }
                         else
                         {
                             entity.AmountDescription = paymentType.AmountDesc;
+                            entity.AmountColor = "red";
+                            entity.Amount = (paymentType.Amount.HasValue) ? paymentType.Amount.Value : 0;
                         }
                     }
-                    else if (paymentEntity.Month > DateTime.Today.Month)
+                    else if (paymentEntity.Month > DateTime.Today.Month && paymentEntity.Year >= DateTime.Today.Year)
                     {
-                        entity.AmountDescription = CommonConst.EmptyAmount;
+                        if (paymentEntity.IsPayment.HasValue && paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue && paymentEntity.Amount.Value > 0)
+                        {
+                            entity.AmountDescription = paymentEntity.AmountDesc;
+                            entity.IsPayment = true;
+                            entity.AmountColor = "green";
+                            entity.Amount = paymentEntity.Amount.Value;
+                        }
+                        //else if (paymentEntity.IsPayment.HasValue && !paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue && paymentEntity.Amount.Value > 0)
+                        //{
+                        //    entity.AmountDescription = paymentEntity.AmountDesc;
+                        //    entity.IsPayment = false;
+                        //    entity.AmountColor = "red";
+                        //    entity.Amount = paymentEntity.Amount.Value;
+                        //}
+                        else
+                        {
+                            entity.AmountDescription = CommonConst.EmptyAmount;
+                            entity.Amount = 0;
+                        }
                     }
                     else
                     {
                         if (paymentEntity.IsPayment.HasValue)
                         {
-                            if (paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue &&
-                                paymentEntity.Amount.Value > 0)
-                            {
-                                entity.AmountDescription = "Ödendi";
-                                entity.IsPayment = true;
-                            }
-                            else if (!paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue &&
-                                     paymentEntity.Amount.Value > 0)
+                            if (paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue && paymentEntity.Amount.Value > 0)
                             {
                                 entity.AmountDescription = paymentEntity.AmountDesc;
+                                entity.IsPayment = true;
+                                entity.AmountColor = "green";
+                                entity.Amount = paymentEntity.Amount.Value;
                             }
-
+                            else if (!paymentEntity.IsPayment.Value && paymentEntity.Amount.HasValue && paymentEntity.Amount.Value > 0)
+                            {
+                                entity.AmountDescription = paymentEntity.AmountDesc;
+                                entity.AmountColor = "red";
+                                entity.Amount = paymentEntity.Amount.Value;
+                            }
                             else
                             {
                                 entity.AmountDescription = paymentType.AmountDesc;
+                                entity.AmountColor = "red";
+                                entity.Amount = (paymentType.Amount.HasValue) ? paymentType.Amount.Value : 0;
                             }
                         }
                         else
                         {
                             entity.AmountDescription = paymentType.AmountDesc;
+                            entity.AmountColor = "red";
+                            entity.Amount = (paymentType.Amount.HasValue) ? paymentType.Amount.Value : 0;
                         }
-
                     }
+
+                    if (entity.AmountColor == "red" && entity.Amount > 0)
+                    {
+                        entity.AmountDescription += "TL (Ödenmedi)";
+                    }
+                    else if (entity.AmountColor == "green" && entity.Amount > 0)
+                    {
+                        entity.AmountDescription += "TL (Ödendi)";
+                    }
+
+                    if (string.IsNullOrEmpty(entity.AmountDescription))
+                    {
+                        entity.AmountColor = "";
+                        entity.AmountDescription = CommonConst.EmptyAmount;
+                    }
+
                     emailPaymentList.Add(entity);
                 }
             }

@@ -21,14 +21,14 @@ function loadData() {
     if (window["StudentListAndPaymentTypeInfoForPaymentList"] != null)
         successFunctionCurrentPage(window["StudentListAndPaymentTypeInfoForPaymentList"]);
     else
-        GetStudentListAndPaymentTypeInfoForPaymentList();
+        GetStudentListAndPaymentTypeInfoForCurrentMonth();
 
 }
 
-function GetStudentListAndPaymentTypeInfoForPaymentList() {
+function GetStudentListAndPaymentTypeInfoForCurrentMonth() {
 
     var jsonData = "{}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForPaymentList',
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForCurrentMonth',
         jsonData,
         successFunctionCurrentPage,
         errorFunction);
@@ -60,13 +60,17 @@ function successFunctionCurrentPage(objects) {
 function drawList(studentList, paymentTypeList, year,month) {
 
 
-    var tbody = "<table class='table mb - 0'><thead><tr><th>##</th><th scope='col'>İsim</th>";
+    var tbody = "<table class='table mb - 0'><thead><tr><th>("+months[month][1]+" Ayı)</th><th scope='col'>İsim</th>";
+    var colspan = 2;
     for (var i in paymentTypeList) {
 
         tbody += "<th scope='col'>" + paymentTypeList[i].Name + "</th>";
+        colspan++;
     }
 
     tbody += "</tr></thead><tbody>";
+
+  
 
 
     if (studentList != null) {

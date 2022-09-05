@@ -36,6 +36,11 @@ function successFunctionGetWorksers(obje) {
             tbody += "<td>" + entityList[i].Price + "</td>";
             tbody += "<td>" + entityList[i].PhoneNumber + "</td>";
 
+            if (entityList[i].IsTeacher)
+                tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
+            else
+                tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
+
             if (entityList[i].IsActive)
                 tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
             else
@@ -61,6 +66,7 @@ function validateAndSave()
     var isManager = document.getElementById("chcIsManager").checked;
     var price = document.getElementById("txtPrice").value;
     var isActive = document.getElementById("chcIsActive").checked;
+    var isTeacher = document.getElementById("chcIsTeacher").checked;
     var phoneNumber = document.getElementById("txtPhoneNumber").value;
 
     var workerEntity = {};
@@ -74,6 +80,7 @@ function validateAndSave()
     workerEntity["PhoneNumber"] = phoneNumber;
 
     workerEntity["IsActive"] = isActive;
+    workerEntity["IsTeacher"] = isTeacher;
 
     var jsonData = "{ encryptId:" + JSON.stringify(id) + ", workerEntity: " + JSON.stringify(workerEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateWorker', jsonData, successFunctionInsertOrUpdateWorker, errorFunction);
@@ -160,6 +167,7 @@ function successFunctionUpdateWorker(obje) {
         document.getElementById("chcIsManager").checked = entity.IsManager;
         document.getElementById("txtPrice").value = entity.Price;
         document.getElementById("chcIsActive").checked = entity.IsActive;
+        document.getElementById("chcIsTeacher").checked = entity.IsTeacher;
         document.getElementById("txtPhoneNumber").checked = entity.PhoneNumber;
 
         document.getElementById("btnSubmit").value = "Güncelle";

@@ -21,7 +21,7 @@
                                             <i class="far fa-fw fa-bell"></i>
                                         </div>
                                         <div class="alert-message">
-                                            <strong>Benim Dünyam Anaokulu Kullanıcı Giriş</strong>
+                                            <strong>Benim Dünyam Montessori Okulları Kullanıcı Giriş</strong>
                                         </div>
                                     </div>
                                 </div>

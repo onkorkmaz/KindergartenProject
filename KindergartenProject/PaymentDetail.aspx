@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="mb-2 row">
-                        <label class="col-form-label col-sm-2 text-sm-left">Ödeme Yılı :</label>
+                        <label class="col-form-label col-sm-2 text-sm-left">Ödeme Sezonu :</label>
                         <div class="col-sm-2">
                             <asp:DropDownList runat="server" ID="drpYear" CssClass="form-control" onchange="drpYear_Changed();">
                             </asp:DropDownList>
