@@ -17,6 +17,11 @@ namespace KindergartenProject
         private const string studentDoesNotFound = "Ödeme detayı için öğrenci seçmelisiniz !!!";
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                Response.Redirect("/uye-giris");
+            }
+
             projectType = (ProjectType)Session[CommonConst.ProjectType];
             if (!Page.IsPostBack)
             {

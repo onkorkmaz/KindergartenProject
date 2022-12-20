@@ -14,6 +14,11 @@ namespace KindergartenProject
         {
             if (!Page.IsPostBack)
             {
+                if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+                {
+                    Response.Redirect("/uye-giris");
+                }
+
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.PaymentType);
                 master.SetVisibleSearchText(false);

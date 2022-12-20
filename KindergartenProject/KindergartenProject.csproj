@@ -351,6 +351,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="common\" />
     <Folder Include="PaymentDocument\ALAS_KOCANOGLU\" />
     <Folder Include="Template\" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.FriendlyUrls;
+﻿using Common;
+using Microsoft.AspNet.FriendlyUrls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,8 +46,6 @@ namespace KindergartenProject
             routes.MapPageRoute("cikis", "cikis", "~/Exit.aspx");
 
         }
-
-
 
         protected void Session_Start(object sender, EventArgs e)
         {

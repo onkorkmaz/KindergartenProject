@@ -32,6 +32,7 @@ namespace KindergartenProject
             setNavbarVisible(SelectedMenuList != MenuList.Login);
         }
 
+
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
         {
 
@@ -95,4 +96,5 @@ namespace KindergartenProject
             sidebar.Visible = isVisible;
         }
     }
+
 }

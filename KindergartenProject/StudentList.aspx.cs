@@ -17,6 +17,11 @@ namespace KindergartenProject
         ProjectType projectType = ProjectType.None;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                Response.Redirect("/uye-giris");
+            }
+
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;

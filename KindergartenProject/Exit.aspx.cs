@@ -13,10 +13,16 @@ namespace KindergartenProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                Response.Redirect("/uye-giris");
+            }
+
             if (Session[CommonConst.Admin] != null)
             {
                 CurrentContex.Contex = null;
                 Session[CommonConst.Admin] = null;
+                Session[CommonConst.ProjectType] = null;
                 Session.Abandon();
                 Response.Redirect("uye-giris");
             }

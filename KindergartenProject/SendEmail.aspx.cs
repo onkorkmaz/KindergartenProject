@@ -18,6 +18,11 @@ namespace KindergartenProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                Response.Redirect("/uye-giris");
+            }
+
             divInformation.InformationVisible = false;
             divInformation.ListRecordPage = "/odeme-plani";
             divInformation.SetVisibleLink(true, false);
