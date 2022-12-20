@@ -14,6 +14,7 @@ namespace KindergartenProject
 {
     public partial class StudentList : System.Web.UI.Page
     {
+        ProjectType projectType = ProjectType.None;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -31,14 +32,14 @@ namespace KindergartenProject
 
             //setDefaultValues();
             loadClass();
-
+            projectType = (ProjectType)Session[CommonConst.ProjectType];
             //loadData();
 
         }
 
         private void loadClass()
         {
-            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness().Get_ClassForStudent();
+            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(projectType).Get_ClassForStudent();
 
             if (resultSet.HasError)
             {
@@ -71,7 +72,7 @@ namespace KindergartenProject
         {
             DateTime first = DateTime.Now;
 
-            DataResultArgs<List<StudentEntity>> resultSet = new StudentBusiness().Get_AllStudentWithCache();
+            DataResultArgs<List<StudentEntity>> resultSet = new StudentBusiness(projectType).Get_AllStudentWithCache();
 
             DateTime second = DateTime.Now;
 
@@ -178,7 +179,7 @@ namespace KindergartenProject
         {
             DataResultArgs<List<StudentEntity>> resultSet = new DataResultArgs<List<StudentEntity>>();
 
-            resultSet = new StudentBusiness().Get_Student(new SearchEntity() { IsDeleted = false });
+            resultSet = new StudentBusiness(projectType).Get_Student(new SearchEntity() { IsDeleted = false });
             if (!resultSet.HasError)
             {
                 List<StudentEntity> entityList = resultSet.Result;

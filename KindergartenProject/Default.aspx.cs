@@ -13,8 +13,14 @@ namespace KindergartenProject
 {
     public partial class Default : System.Web.UI.Page
     {
+        ProjectType projectType = ProjectType.None;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                Response.Redirect("/uye-giris");
+            }
+
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
@@ -23,13 +29,14 @@ namespace KindergartenProject
             }
 
             setDefaultValues();
+            projectType = (ProjectType)Session[CommonConst.ProjectType];
         }
 
         private void setDefaultValues()
         {
             DataResultArgs<List<StudentEntity>> resultSet = new DataResultArgs<List<StudentEntity>>();
 
-            resultSet = new StudentBusiness().Get_Student(new SearchEntity() { IsDeleted = false });
+            resultSet = new StudentBusiness(projectType).Get_Student(new SearchEntity() { IsDeleted = false });
             if (!resultSet.HasError)
             {
                 List<StudentEntity> entityList = resultSet.Result;
@@ -54,8 +61,9 @@ namespace KindergartenProject
                 currentList = entityList.Where(o => o.Birthday != null && o.Birthday.Value > DateTime.MinValue && new DateTime(DateTime.Today.Year, o.Birthday.Value.Month, o.Birthday.Value.Day)
                 < DateTime.Today.AddMonths(1) && new DateTime(DateTime.Today.Year, o.Birthday.Value.Month, o.Birthday.Value.Day) > DateTime.Today).ToList();
 
+                lblMonth.Text = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
 
-                setBirthdayInfo(currentList.OrderBy(o => o.BirthDayCurrentYear).ToList(), lblBirthdayThisMonth);
+                 setBirthdayInfo(currentList.OrderBy(o => o.BirthDayCurrentYear).ToList(), lblBirthdayThisMonth);
 
             }
 
@@ -64,33 +72,30 @@ namespace KindergartenProject
 
         private void fillIncomingAndOutGoing()
         {
-            double paid = 0;
-            double unPaid = 0;
-            double teacherInfo = 0;
-            double commonPriceInfo = 0;
+            decimal commonPriceInfo = 0;
 
-            setPaidInfo(ref paid , ref unPaid);
-            setTeacherPriceInfo();
-            setCommonPriceInfo();
+            PaymentSummary summary = new PaymentBusiness(projectType).Get_PaymentForCurrentMonthWithDefaultAmount().Result;
 
-            double total = paid - unPaid - teacherInfo - commonPriceInfo;
-            lblTotal.Text = total.ToString("###,###,###.00");
+            decimal total = summary.Incoming - summary.WaitingInComing - summary.WorkersExpenses - commonPriceInfo;
+
+            lblTotal.Text = total.ToString("###,###,###.##");
+            lblPaid.Text = summary.Incoming.ToString("###,###,###.##");
+            lblUnpaid.Text = summary.WaitingInComing.ToString("###,###,###.##");
+            lblTeacherPrice.Text = summary.WorkersExpenses.ToString("###,###,###.##");
+
+            if(total<0)
+            {
+                lblTotal.Attributes["style"] = "color:red; font-weight:bold;";
+            }
+            else
+            {
+                lblTotal.Attributes["style"] = "color:green; font-weight:bold;";
+
+            }
+
+            lblCommonPrice.Text = "-";
         }
 
-        private void setCommonPriceInfo()
-        {
-            //throw new NotImplementedException();
-        }
-
-        private void setTeacherPriceInfo()
-        {
-            //throw new NotImplementedException();
-        }
-
-        private void setPaidInfo(ref double paid , ref double unPaid)
-        {
-            DataResultArgs<List<PaymentEntity>> resultList = new PaymentBusiness().Get_PaymentForCurrentMonth();
-        }
 
         private void setLabel(IEnumerable<StudentEntity> currentList, Label lbl)
         {

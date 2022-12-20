@@ -95,5 +95,19 @@ namespace Common
             return "";
         }
 
+        public static string GetProjectType(ProjectType projectType)
+        {
+            switch (projectType)
+            {
+                case ProjectType.None:
+                    return "None";
+                case ProjectType.BenimDuntamKinderGartenSezenSokak:
+                    return "Benim Dünyam Anaokulları";
+                case ProjectType.BenimDunyamEgitimMerkeziİstiklalCaddesi:
+                    return "Benim Dünyam Eğitim Merkezi";
+                default:
+                    return "Default";
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ using Business;
 using Entity;
 using Common;
 using System.Web.Script.Services;
+using System.Web;
 
 namespace KindergartenProject
 {
@@ -21,18 +22,25 @@ namespace KindergartenProject
     [ScriptService]
     public class KinderGartenWebService : WebService
     {
+
         public static Dictionary<string, string> List = new Dictionary<string, string>();
 
-        [WebMethod]
-        public DataResultArgs<StudentEntity> GetStudentEntity(string citizenshipNumber)
+        [WebMethod(EnableSession = true)]
+        public ProjectType GetProjectType()
         {
-            return new StudentBusiness().Get_Student(citizenshipNumber);
+            return (ProjectType)Session[CommonConst.ProjectType];
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<StudentEntity> GetStudentEntity(string citizenshipNumber)
+        {
+            return new StudentBusiness(GetProjectType()).Get_Student(citizenshipNumber);
+        }
+
+        [WebMethod(EnableSession = true)]
         public List<StudentEntity> SearchStudent(string searchValue)
         {
-            List<StudentEntity> resultSet = new StudentBusiness().Get_AllStudentWithCache().Result;
+            List<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result;
 
             if (string.IsNullOrEmpty(searchValue))
             {
@@ -75,46 +83,46 @@ namespace KindergartenProject
             return searchList;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public List<PaymentTypeEntity> GetPaymentAllPaymentType()
         {
-            List<PaymentTypeEntity> result = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsDeleted = false }).Result;
+            List<PaymentTypeEntity> result = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsDeleted = false }).Result;
 
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
 
         public string CalculateRecordedStudentCount(string classId)
         {
             int cId = GeneralFunctions.GetData<int>(classId);
             if (cId > 0)
             {
-                ClassEntity classEntity = new ClassBusiness().Get_ClassWithId(cId).Result;
+                ClassEntity classEntity = new ClassBusiness(GetProjectType()).Get_ClassWithId(cId).Result;
                 if(classEntity!=null && classEntity.WarningOfStudentCount>0)
                 {
-                    int recordedStudentNumber = new StudentBusiness().Get_AllStudentWithCache().Result.Where(o => o.ClassId.HasValue && o.ClassId.Value == cId).ToList().Count();
+                    int recordedStudentNumber = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result.Where(o => o.ClassId.HasValue && o.ClassId.Value == cId).ToList().Count();
                     return "Max Öğrenci Adeti : " + classEntity.WarningOfStudentCount.ToString() + " <br/>Kayıtlı Öğrenci : " + recordedStudentNumber;
                 }
             }
             return "";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<List<WorkerEntity>> GetActiveTeacher()
         {
-            return new WorkersBusiness().Get_Workers(new SearchEntity() { IsActive = true, IsDeleted = false }, true);
+            return new WorkersBusiness(GetProjectType()).Get_Workers(new SearchEntity() { IsActive = true, IsDeleted = false }, true);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public List<WorkerEntity> GetAllWorkers()
         {
-            List<WorkerEntity> result = new WorkersBusiness().Get_Workers(new SearchEntity() { IsDeleted = false }, null).Result;
+            List<WorkerEntity> result = new WorkersBusiness(GetProjectType()).Get_Workers(new SearchEntity() { IsDeleted = false }, null).Result;
 
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdatePaymentType(string encryptId, PaymentTypeEntity paymentTypeEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
@@ -131,10 +139,10 @@ namespace KindergartenProject
 
             paymentTypeEntity.DatabaseProcess = currentProcess;
 
-            return new PaymentTypeBusiness().Set_PaymentType(paymentTypeEntity);
+            return new PaymentTypeBusiness(GetProjectType()).Set_PaymentType(paymentTypeEntity);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdateWorker(string encryptId, WorkerEntity workerEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
@@ -151,11 +159,11 @@ namespace KindergartenProject
 
             workerEntity.DatabaseProcess = currentProcess;
 
-            return new WorkersBusiness().Set_Worker(workerEntity);
+            return new WorkersBusiness(GetProjectType()).Set_Worker(workerEntity);
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeleteWorker(string id)
         {
             DataResultArgs<bool> result = new DataResultArgs<bool>
@@ -175,14 +183,14 @@ namespace KindergartenProject
                         DatabaseProcess = DatabaseProcess.Deleted
                     };
 
-                    result = new WorkersBusiness().Set_Worker(entity);
+                    result = new WorkersBusiness(GetProjectType()).Set_Worker(entity);
                 }
             }
 
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeletePaymentType(string id)
         {
             DataResultArgs<bool> result = new DataResultArgs<bool>
@@ -202,7 +210,7 @@ namespace KindergartenProject
                         DatabaseProcess = DatabaseProcess.Deleted
                     };
 
-                    result = new PaymentTypeBusiness().Set_PaymentType(entity);
+                    result = new PaymentTypeBusiness(GetProjectType()).Set_PaymentType(entity);
                 }
             }
 
@@ -210,7 +218,7 @@ namespace KindergartenProject
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeleteStudent(string id)
         {
             DataResultArgs<bool> result = new DataResultArgs<bool>
@@ -226,7 +234,7 @@ namespace KindergartenProject
                 {
                     StudentEntity entity = new StudentEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
 
-                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness().Set_Student(entity);
+                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).Set_Student(entity);
                     result.HasError = resultSet.HasError;
                     result.MyException = resultSet.MyException;
                     result.ErrorDescription = resultSet.ErrorDescription;
@@ -237,7 +245,7 @@ namespace KindergartenProject
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<StudentEntity> ConvertStudent(string id)
         {
             DataResultArgs<StudentEntity> result = new DataResultArgs<StudentEntity>
@@ -251,21 +259,21 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    StudentEntity studentEntity = new StudentBusiness().Get_Student(idInt).Result;
+                    StudentEntity studentEntity = new StudentBusiness(GetProjectType()).Get_Student(idInt).Result;
 
                     if (studentEntity != null)
                     {
                         studentEntity.IsStudent = true;
                         studentEntity.DatabaseProcess = DatabaseProcess.Update;
                         studentEntity.IsAddAfterPaymentUnPayment = true;
-                        result = new StudentBusiness().Set_Student(studentEntity);
+                        result = new StudentBusiness(GetProjectType()).Set_Student(studentEntity);
                     }
                 }
             }
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<PaymentTypeEntity> UpdatePaymentType(string id)
         {
             DataResultArgs<PaymentTypeEntity> result = new DataResultArgs<PaymentTypeEntity>
@@ -279,7 +287,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new PaymentTypeBusiness().Get_PaymentTypeWithId(GeneralFunctions.GetData<int>(id));
+                    result = new PaymentTypeBusiness(GetProjectType()).Get_PaymentTypeWithId(GeneralFunctions.GetData<int>(id));
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -288,7 +296,7 @@ namespace KindergartenProject
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<WorkerEntity> UpdateWorker(string id)
         {
             DataResultArgs<WorkerEntity> result = new DataResultArgs<WorkerEntity>
@@ -302,7 +310,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new WorkersBusiness().Get_Workers_WithId(GeneralFunctions.GetData<int>(id), null);
+                    result = new WorkersBusiness(GetProjectType()).Get_Workers_WithId(GeneralFunctions.GetData<int>(id), null);
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -311,14 +319,14 @@ namespace KindergartenProject
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public List<StudentEntity> GetAllStudent()
         {
-            List<StudentEntity> resultSet = new StudentBusiness().Get_AllStudentWithCache().Result;
+            List<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result;
             return resultSet;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public void SetCacheData(string key, string value)
         {
             if (!List.ContainsKey(key))
@@ -327,7 +335,7 @@ namespace KindergartenProject
             List[key] = value;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string GetCacheData(string key)
         {
             if (List.ContainsKey(key))
@@ -335,19 +343,19 @@ namespace KindergartenProject
             return "";
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string Decrypt(string id)
         {
             return Cipher.Decrypt(id);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string Encrypt(string id)
         {
             return Cipher.Encrypt(id);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public List<StudentListAndPaymentTypeInfo> GetPaymentDetailSeason(string decryptStudentId, string year)
         {
             StudentListAndPaymentTypeInfo currentYear = GetStudentListAndPaymentTypeInfoForPaymentDetail(decryptStudentId, year);
@@ -364,7 +372,7 @@ namespace KindergartenProject
 
             for (int i= 9; i<=12;i++)
             {
-                if (list.Count >= i)
+                if (list.Count > i)
                 {
                     newList.Add(list[i]);
                 }
@@ -377,7 +385,7 @@ namespace KindergartenProject
 
             for (int i = 1; i <= 8; i++)
             {
-                if (list.Count >= i)
+                if (list.Count > i)
                 {
                     newList.Add(list[i]);
                 }
@@ -390,7 +398,7 @@ namespace KindergartenProject
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForPaymentDetail(string decryptStudentId, string year)
         {
             StudentListAndPaymentTypeInfo info = new StudentListAndPaymentTypeInfo
@@ -404,10 +412,10 @@ namespace KindergartenProject
 
             if (idInt > 0)
             {
-                StudentEntity studentEntity = new StudentBusiness().Get_Student().Result.FirstOrDefault(o => o.Id == idInt);
+                StudentEntity studentEntity = new StudentBusiness(GetProjectType()).Get_Student().Result.FirstOrDefault(o => o.Id == idInt);
                 if (studentEntity != null)
                 {
-                    DataResultArgs<List<PaymentEntity>> paymentListResult = new PaymentBusiness().Get_Payment(idInt, year);
+                    DataResultArgs<List<PaymentEntity>> paymentListResult = new PaymentBusiness(GetProjectType()).Get_Payment(idInt, year);
                     if (!paymentListResult.HasError)
                     {
                         if (paymentListResult.Result.Any())
@@ -423,7 +431,7 @@ namespace KindergartenProject
             return info;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<PaymentEntity> DoPaymentOrUnPayment(string id, string encryptStudentId, string year, string month, string amount, bool isPayment, string paymentType)
         {
             PaymentEntity paymentEntity = new PaymentEntity
@@ -442,7 +450,7 @@ namespace KindergartenProject
             paymentEntity.IsPayment = isPayment;
             paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
 
-            DataResultArgs<string> resultSet = new PaymentBusiness().Set_Payment(paymentEntity);
+            DataResultArgs<string> resultSet = new PaymentBusiness(GetProjectType()).Set_Payment(paymentEntity);
 
             paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
             DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>();
@@ -454,7 +462,7 @@ namespace KindergartenProject
             return returnResultSet;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<PaymentEntity> SetPaymentAmount(string id, string encryptStudentId, string year, string month,
             string currentAmount, string paymentType)
         {
@@ -474,7 +482,7 @@ namespace KindergartenProject
             paymentEntity.IsPayment = null;
             paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
 
-            DataResultArgs<string> resultSet = new PaymentBusiness().Set_Payment(paymentEntity);
+            DataResultArgs<string> resultSet = new PaymentBusiness(GetProjectType()).Set_Payment(paymentEntity);
 
             paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
             DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>
@@ -488,7 +496,7 @@ namespace KindergartenProject
             return returnResultSet;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<PaymentEntity> SetAnotherPaymentAmount(string id, string encryptStudentId, string year, string month,
             string currentAmount, string paymentType)
         {
@@ -509,11 +517,11 @@ namespace KindergartenProject
             paymentEntity.IsPayment = null;
             paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
 
-            DataResultArgs<string> resultSet = new PaymentBusiness().Set_Payment(paymentEntity);
+            DataResultArgs<string> resultSet = new PaymentBusiness(GetProjectType()).Set_Payment(paymentEntity);
 
             paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
 
-            PaymentEntity dbPaymentEntity = new PaymentBusiness().Get_PaymentWidthId(paymentEntity.Id);
+            PaymentEntity dbPaymentEntity = new PaymentBusiness(GetProjectType()).Get_PaymentWidthId(paymentEntity.Id);
             dbPaymentEntity.EncryptStudentId = encryptStudentId;
 
             DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>
@@ -527,15 +535,15 @@ namespace KindergartenProject
             return returnResultSet;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForCurrentMonth()
         {
             StudentListAndPaymentTypeInfo paymentDetailEntity = new StudentListAndPaymentTypeInfo();
 
             List<StudentEntity> studentList =
-                new StudentBusiness().Get_Student().Result.Where(o => o.IsStudent == true).ToList();
+                new StudentBusiness(GetProjectType()).Get_Student().Result.Where(o => o.IsStudent == true).ToList();
 
-            List<PaymentEntity> paymentEntityList = new PaymentBusiness().Get_PaymentForCurrentMonth().Result;
+            List<PaymentEntity> paymentEntityList = new PaymentBusiness(GetProjectType()).Get_PaymentForCurrentMonth().Result;
 
             foreach (PaymentEntity paymentEntity in paymentEntityList)
             {
@@ -552,7 +560,7 @@ namespace KindergartenProject
             }
 
             paymentDetailEntity.StudentList = studentList;
-            paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+            paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
             paymentDetailEntity.Month = DateTime.Today.Month;
             paymentDetailEntity.Year = DateTime.Today.Year;
 
@@ -560,26 +568,26 @@ namespace KindergartenProject
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<ClassEntity> ControlClassName(string className)
         {
-            return new ClassBusiness().ControlClassName(className);
+            return new ClassBusiness(GetProjectType()).ControlClassName(className);
         }
 
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public StudentEntity GetStudentEntityWithFullName(string fullName)
         {
-            return new StudentBusiness().Get_StudentWithFullName(fullName);
+            return new StudentBusiness(GetProjectType()).Get_StudentWithFullName(fullName);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<List<ClassEntity>> GetClassList()
         {
-            return new ClassBusiness().Get_Class(new SearchEntity() { IsDeleted = false  });
+            return new ClassBusiness(GetProjectType()).Get_Class(new SearchEntity() { IsDeleted = false  });
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdateClass(string encryptId, ClassEntity classEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
@@ -596,10 +604,10 @@ namespace KindergartenProject
 
             classEntity.DatabaseProcess = currentProcess;
 
-            return new ClassBusiness().Set_Class(classEntity);
+            return new ClassBusiness(GetProjectType()).Set_Class(classEntity);
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeleteClass(string id)
         {
             DataResultArgs<bool> result = new DataResultArgs<bool>
@@ -614,14 +622,14 @@ namespace KindergartenProject
                 if (idInt > 0)
                 {
                     ClassEntity entity = new ClassEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
-                    result = new ClassBusiness().Set_Class(entity);
+                    result = new ClassBusiness(GetProjectType()).Set_Class(entity);
                 }
             }
 
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<ClassEntity> UpdateClass(string id)
         {
             DataResultArgs<ClassEntity> result = new DataResultArgs<ClassEntity>
@@ -635,7 +643,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new ClassBusiness().Get_ClassWithId(GeneralFunctions.GetData<int>(id));
+                    result = new ClassBusiness(GetProjectType()).Get_ClassWithId(GeneralFunctions.GetData<int>(id));
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -644,10 +652,10 @@ namespace KindergartenProject
             return result;
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<List<WorkerEntity>> GetWorkerList()
         {
-            return new WorkersBusiness().Get_Workers(new SearchEntity() { IsDeleted = false }, null);
+            return new WorkersBusiness(GetProjectType()).Get_Workers(new SearchEntity() { IsDeleted = false }, null);
         }
     }
 }

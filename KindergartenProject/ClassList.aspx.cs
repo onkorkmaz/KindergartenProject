@@ -9,6 +9,9 @@ namespace KindergartenProject
 {
     public partial class ClassList : System.Web.UI.Page
     {
+        WorkersBusiness business = null;
+        ProjectType projectType = ProjectType.None;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -17,7 +20,11 @@ namespace KindergartenProject
                 master.SetActiveMenuAttiributes(MenuList.ClassList);
                 master.SetVisibleSearchText(false);
 
-                List<WorkerEntity> currentList = new WorkersBusiness().Get_Workers(new SearchEntity() { IsActive = true, IsDeleted = false }, true).Result;
+                projectType = (ProjectType)Session[CommonConst.ProjectType];
+                business = new WorkersBusiness(projectType);
+
+
+                List<WorkerEntity> currentList = business.Get_Workers(new SearchEntity() { IsActive = true, IsDeleted = false }, true).Result;
 
                 List<WorkerEntity> list = new List<WorkerEntity>();
 

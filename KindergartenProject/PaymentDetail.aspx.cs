@@ -13,9 +13,11 @@ namespace KindergartenProject
 {
     public partial class PaymentDetail : System.Web.UI.Page
     {
+        ProjectType projectType = ProjectType.None;
         private const string studentDoesNotFound = "Ödeme detayı için öğrenci seçmelisiniz !!!";
         protected void Page_Load(object sender, EventArgs e)
         {
+            projectType = (ProjectType)Session[CommonConst.ProjectType];
             if (!Page.IsPostBack)
             {
                 int year = 2021;
@@ -58,7 +60,7 @@ namespace KindergartenProject
                 }
                 else
                 {
-                    StudentEntity entity = new StudentBusiness().Get_Student(new SearchEntity() { Id = id }).Result[0];
+                    StudentEntity entity = new StudentBusiness(projectType).Get_Student(new SearchEntity() { Id = id }).Result[0];
 
                     lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.EncryptId + "\">" +
                         "<div id = 'btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";

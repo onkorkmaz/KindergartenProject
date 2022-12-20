@@ -56,7 +56,7 @@
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                    Ocak
+                                    <asp:Label runat="server" ID="lblMonth"></asp:Label>
                                     <hr />
                                     <div class="table-responsive">
                                         <table class="table mb-0">
@@ -71,11 +71,11 @@
                                             </thead>
                                             <tr>
                                                 <td>
-                                                    <asp:Label ID="lblPaid" runat="server" Text=""></asp:Label></td>
+                                                    <asp:Label ID="lblPaid" runat="server" Font-Bold="true" Text=""></asp:Label></td>
                                                 <td>
-                                                    <asp:Label ID="lblUnpaid" runat="server" Text=""></asp:Label></td>
+                                                    <asp:Label ID="lblUnpaid" runat="server" Font-Bold="true" Text=""></asp:Label></td>
                                                 <td>
-                                                    <asp:Label ID="lblTeacherPrice" runat="server" Text=""></asp:Label></td>
+                                                    <asp:Label ID="lblTeacherPrice" runat="server" Font-Bold="true" Text=""></asp:Label></td>
                                                 <td>
                                                     <asp:Label ID="lblCommonPrice" runat="server" Text=""></asp:Label>
 

@@ -4,6 +4,13 @@ using System.Text;
 
 namespace Common
 {
+    public enum ProjectType
+    {
+        None =0,
+        BenimDuntamKinderGartenSezenSokak =1,
+        BenimDunyamEgitimMerkeziİstiklalCaddesi=2
+    }
+
     public enum DatabaseProcess
     {
         Add = 0,

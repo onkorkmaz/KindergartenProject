@@ -25,6 +25,15 @@ namespace Entity
         public DateTime AddedOn { get; set; }
         public DateTime DeletedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
+        public ProjectType ProjectType { get; set; }
+        public string ProjectTypeDescription 
+        { 
+            get
+            {
+                return GeneralFunctions.GetProjectType(ProjectType);
+            }
+        }
+
 
     }
 }

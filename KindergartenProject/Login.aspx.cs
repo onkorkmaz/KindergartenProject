@@ -25,7 +25,8 @@ namespace KindergartenProject
             {
                 txtUserName.Text = "yeliz";
                 txtPassword.Text = "1";
-                btnLogin_Click(null, null);
+                drpProjectType.SelectedValue = "2";
+                //btnLogin_Click(null, null);
             }
 
         }
@@ -34,8 +35,11 @@ namespace KindergartenProject
         {
             string userName = txtUserName.Text.Trim();
             string password = txtPassword.Text.Trim();
+            string projectType = drpProjectType.SelectedValue;
+            Int16 projectTypeInt = 0;
+            Int16.TryParse(projectType, out projectTypeInt);
 
-            DataResultArgs<AdminEntity> resultSet = new AdminBusiness().Get_Admin(userName, password);
+            DataResultArgs<AdminEntity> resultSet = new AdminBusiness((ProjectType)projectTypeInt).Get_Admin(userName, password);
             if (resultSet.HasError)
                 divInformation.ErrorText = resultSet.ErrorDescription;
             else
@@ -47,6 +51,7 @@ namespace KindergartenProject
                 else
                 {
                     Session[CommonConst.Admin] = resultSet.Result;
+                    Session[CommonConst.ProjectType] = (ProjectType)projectTypeInt;
                     CurrentContex.Contex = resultSet.Result;
                     Response.Redirect("benim-dunyam-montessori-okullari");
                 }

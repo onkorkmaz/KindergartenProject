@@ -59,6 +59,7 @@ function successFunctionGetClassList(obje) {
                 tbody += "<td>" + entityList[i].Name + "</td>";
                 tbody += "<td>" + entityList[i].Description + "</td>";
                 tbody += "<td>" + entityList[i].WarningOfStudentCount + "</td>";
+                tbody += "<td>" + entityList[i].StudentCount + "</td>";
                 tbody += "<td>" + entityList[i].MainTeacher;
                 if (!entityList[i].IsActiveMainTeacher) {
                     tbody += "&nbsp; <img src='/img/icons/passive.png' width='15' height='15' />";
@@ -76,7 +77,10 @@ function successFunctionGetClassList(obje) {
                 else
                     tbody += "<td><img src='/img/icons/passive.png' width='20' height ='20' /></td>";
 
-                tbody += "<td>" + convertToJavaScriptDate(entityList[i].UpdatedOn) + "</td>";
+                
+                tbody += "<td>" + entityList[i].TeacherOutGoing + "</td>";
+                tbody += "<td>" + entityList[i].StudentIncoming + "</td>";
+                tbody += "<td>" + entityList[i].StudentCurrentIncoming + "</td>";
                 tbody += "</tr> ";
             }
 

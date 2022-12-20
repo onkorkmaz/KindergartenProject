@@ -38,12 +38,27 @@
                                         <asp:TextBox runat="server" TextMode="Password" ID="txtPassword" CssClass="form-control" placeholder="Şifre"></asp:TextBox>
                                     </div>
                                 </div>
+
+                                <div class="mb-3 row">
+
+                                    <label class="col-form-label col-sm-4 text-sm-left">Eğitim Kurumu</label>
+                                    <div class="col-sm-5">
+                                        <asp:DropDownList runat="server" ID="drpProjectType"  CssClass="form-control">
+                                            <asp:ListItem Text="Hiçbiri" Selected="True" Value="0"></asp:ListItem>
+                                            <asp:ListItem Text="Benim Dünyam Anaokulu" Value="1"></asp:ListItem>
+                                            <asp:ListItem Text="Benim Dünyam Eğitim Merkezi" Value="2"></asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+
+                                </div>
+
                                 <div class="mb-3 row">
                                     <div class="col-sm-12">
                                         <asp:Button runat="server" ID="btnLogin" CssClass="btn btn-primary " Text="Giriş" OnClientClick="javascript: return validate()" OnClick="btnLogin_Click" />
 
                                     </div>
                                 </div>
+
                             </div>
                         </asp:Panel>
                     </div>

@@ -8,6 +8,8 @@ namespace Common
     {
         public const string EmptyAmount = " - ";
         public const string Admin = "Admin";
+        public const string ProjectType = "ProjectType";
+
         public const string Url = "https://benimdunyamogrencitakip.com";
     }
 

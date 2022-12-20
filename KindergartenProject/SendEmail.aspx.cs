@@ -7,14 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
-using DocumentFormat.OpenXml.Packaging;
-using Table = DocumentFormat.OpenXml.Wordprocessing.Table;
-using SautinSoft.Document;
 
 namespace KindergartenProject
 {
     public partial class SendEmail : System.Web.UI.Page
     {
+        ProjectType projectType = ProjectType.None;
+
         private const string studentDoesNotFound = "Ödeme detayı için öğrenci seçmelisiniz !!!";
 
         protected void Page_Load(object sender, EventArgs e)
@@ -31,6 +30,8 @@ namespace KindergartenProject
                 master.SetVisibleSearchText(false);
             }
 
+            ProjectType projectType = (ProjectType)Session[CommonConst.ProjectType];
+
             if (!Page.IsPostBack)
             {
                 btnSendEmailCopy.Attributes.Add("Style", "display:none;");
@@ -42,6 +43,7 @@ namespace KindergartenProject
                     divInformation.ErrorText = studentDoesNotFound;
                     divInformation.ErrorLinkText = "Ödeme Listesi için tıklayınız ...";
                     divInformation.ErrorLink = "~/odeme-plani";
+                    return;
                 }
 
                 string IdDecrypt = Cipher.Decrypt(Id.ToString());
@@ -56,7 +58,7 @@ namespace KindergartenProject
                 {
                     int width = 15;
                     int height = 15;
-                    StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
+                    StudentEntity entity = new StudentBusiness(projectType).Get_StudentWithPaymentList(id);
 
                     lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.EncryptId + "\">" +
                         "<div id='btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";
@@ -69,7 +71,7 @@ namespace KindergartenProject
                     txtEmail.Text = entity.Email;
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                        new PaymentTypeBusiness().Get_PaymentType(new SearchEntity()
+                        new PaymentTypeBusiness(projectType).Get_PaymentType(new SearchEntity()
                         { IsActive = true, IsDeleted = false });
 
                     if (resultSet.HasError)
@@ -240,10 +242,10 @@ namespace KindergartenProject
                 }
                 else
                 {
-                    StudentEntity entity = new StudentBusiness().Get_StudentWithPaymentList(id);
+                    StudentEntity entity = new StudentBusiness(projectType).Get_StudentWithPaymentList(id);
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                        new PaymentTypeBusiness().Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
+                        new PaymentTypeBusiness(projectType).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
 
                     StringBuilder sb = InitializeHtmlTable(entity, resultSet.Result);
 

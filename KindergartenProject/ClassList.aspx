@@ -79,11 +79,14 @@
                             <th scope="col">#####</th>
                             <th scope="col">Sınıf Adı</th>
                             <th scope="col">Açıklama</th>
-                            <th scope="col">Max Öğrenci Sayısı</th>
+                            <th scope="col">Max Öğrenci</th>
+                            <th scope="col">Mevcut Öğrenci</th>
                             <th scope="col">Ana Öğretmen</th>
                             <th scope="col">Yardımcı Öğretmen</th>
                             <th scope="col">Aktif</th>
-                            <th scope="col">Güncellenme Tarihi</th>
+                            <th scope="col">Öğretmen Giderleri</th>
+                            <th scope="col">Beklenen Gelir</th>
+                            <th scope="col">Anlık Gelir</th>
 
                         </tr>
                     </thead>
