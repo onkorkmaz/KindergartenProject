@@ -21,6 +21,8 @@ namespace KindergartenProject
                 Response.Redirect("/uye-giris");
             }
 
+            projectType = (ProjectType)Session[CommonConst.ProjectType];
+
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
@@ -28,8 +30,7 @@ namespace KindergartenProject
                 master.SetVisibleSearchText(false);
             }
 
-            setDefaultValues();
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
+            setDefaultValues();      
         }
 
         private void setDefaultValues()
@@ -76,7 +77,7 @@ namespace KindergartenProject
 
             PaymentSummary summary = new PaymentBusiness(projectType).Get_PaymentForCurrentMonthWithDefaultAmount().Result;
 
-            decimal total = summary.Incoming - summary.WaitingInComing - summary.WorkersExpenses - commonPriceInfo;
+            decimal total = summary.Incoming - summary.WorkersExpenses - commonPriceInfo;
 
             lblTotal.Text = total.ToString("###,###,###.##");
             lblPaid.Text = summary.Incoming.ToString("###,###,###.##");

@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class AddStudent : System.Web.UI.Page
+    public partial class StudentAdd : System.Web.UI.Page
     {
         #region VARIABLES
         StudentBusiness business = null;
@@ -66,6 +66,11 @@ namespace KindergartenProject
         #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                Response.Redirect("/uye-giris");
+            }
+
             projectType = (ProjectType)Session[CommonConst.ProjectType];
             business = new StudentBusiness(projectType);
 
@@ -75,7 +80,7 @@ namespace KindergartenProject
             divInformation.InformationVisible = false;
 
             var master = this.Master as kindergarten;
-            master.SetActiveMenuAttiributes(MenuList.AddStudenList);
+            master.SetActiveMenuAttiributes(MenuList.StudenAdd);
             master.SetVisibleSearchText(false);
             btnPaymentDetail.Visible = false;
             btnDelete.Visible = false;

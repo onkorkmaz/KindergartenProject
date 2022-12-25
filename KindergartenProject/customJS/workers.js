@@ -168,7 +168,7 @@ function successFunctionUpdateWorker(obje) {
         document.getElementById("txtPrice").value = entity.Price;
         document.getElementById("chcIsActive").checked = entity.IsActive;
         document.getElementById("chcIsTeacher").checked = entity.IsTeacher;
-        document.getElementById("txtPhoneNumber").checked = entity.PhoneNumber;
+        document.getElementById("txtPhoneNumber").value = entity.PhoneNumber;
 
         document.getElementById("btnSubmit").value = "Güncelle";
         document.getElementById("btnSubmit").disabled = "";

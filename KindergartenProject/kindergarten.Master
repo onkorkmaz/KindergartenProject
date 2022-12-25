@@ -51,7 +51,7 @@
                                 </a>
                             </li>
 
-                            <li runat="server" id="menuAddStudent">
+                            <li runat="server" id="menuStudentAdd">
                                 <a class="sidebar-link" href="/ogrenci-ekle">
                                     <i class="align-middle" data-feather="credit-card"></i><span class="align-middle">Öğrenci Kayıt</span>
                                 </a>
@@ -69,6 +69,12 @@
                                     <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="/odeme-tipleri">Ödeme Tipleri</a></li>
                                     <li class="sidebar-item" id="classList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
                                     <li class="sidebar-item" id="workers" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
+
+                                    <li class="sidebar-item" id="outgoingAdd" runat="server"><a class="sidebar-link" href="/masraf-ekle">Masraf Ekle</a></li>
+
+                                    <li class="sidebar-item" id="outgoingList" runat="server"><a class="sidebar-link" href="/masraf-listesi">Masraf Listesi</a></li>
+
+
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>
                                     
 

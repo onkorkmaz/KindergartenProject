@@ -18,9 +18,6 @@ function txtSearchStudent_Change(searchValue) {
 
 function loadData() {
 
-    if (window["StudentListAndPaymentTypeInfoForPaymentList"] != null)
-        successFunctionCurrentPage(window["StudentListAndPaymentTypeInfoForPaymentList"]);
-    else
         GetStudentListAndPaymentTypeInfoForCurrentMonth();
 
 }
@@ -36,10 +33,6 @@ function GetStudentListAndPaymentTypeInfoForCurrentMonth() {
 }
 
 function successFunctionCurrentPage(objects) {
-
-    if (window["StudentListAndPaymentTypeInfoForPaymentList"] == null) {
-        window["StudentListAndPaymentTypeInfoForPaymentList"] = objects;
-    }
 
     var studentList = objects.StudentList;
 
@@ -60,7 +53,7 @@ function successFunctionCurrentPage(objects) {
 function drawList(studentList, paymentTypeList, year,month) {
 
 
-    var tbody = "<table class='table mb - 0'><thead><tr><th>("+months[month][1]+" Ayı)</th><th scope='col'>İsim</th>";
+    var tbody = "<table class='table mb - 0'><thead><tr><th>("+months[month-1][1]+" Ayı)</th><th scope='col'>İsim</th>";
     var colspan = 2;
     for (var i in paymentTypeList) {
 

@@ -79,7 +79,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AddStudent.aspx" />
+    <Content Include="customJS\outgoing.js" />
+    <Content Include="StudentAdd.aspx" />
     <Content Include="ClassList.aspx" />
     <Content Include="css\app.css" />
     <Content Include="css\custom.css" />
@@ -161,6 +162,7 @@
     <Content Include="Login.aspx" />
     <Content Include="PaymentDetail.aspx" />
     <Content Include="PaymentPlan.aspx" />
+    <Content Include="ExpenseAdd.aspx" />
     <Content Include="Workers.aspx" />
     <Content Include="PaymentType.aspx" />
     <Content Include="customJS\paymentType.js" />
@@ -171,12 +173,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddStudent.aspx.cs">
-      <DependentUpon>AddStudent.aspx</DependentUpon>
+    <Compile Include="StudentAdd.aspx.cs">
+      <DependentUpon>StudentAdd.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AddStudent.aspx.designer.cs">
-      <DependentUpon>AddStudent.aspx</DependentUpon>
+    <Compile Include="StudentAdd.aspx.designer.cs">
+      <DependentUpon>StudentAdd.aspx</DependentUpon>
     </Compile>
     <Compile Include="ClassList.aspx.cs">
       <DependentUpon>ClassList.aspx</DependentUpon>
@@ -233,6 +235,13 @@
     </Compile>
     <Compile Include="PaymentPlan.aspx.designer.cs">
       <DependentUpon>PaymentPlan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseAdd.aspx.cs">
+      <DependentUpon>ExpenseAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ExpenseAdd.aspx.designer.cs">
+      <DependentUpon>ExpenseAdd.aspx</DependentUpon>
     </Compile>
     <Compile Include="Workers.aspx.cs">
       <DependentUpon>Workers.aspx</DependentUpon>

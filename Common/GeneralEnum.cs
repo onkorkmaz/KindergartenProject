@@ -22,12 +22,14 @@ namespace Common
     {
         Panel = 0,
         StudentList = 1,
-        AddStudenList = 2,
+        StudenAdd = 2,
         PaymentPlan = 3,
         PaymentType = 4,
         Login = 5,
         ClassList = 6,
-        Workers = 7
+        Workers = 7,
+        OutgoingAdd = 8,
+        OutgoingList = 9
 
     }
 

@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class AddStudent
+    public partial class StudentAdd
     {
 
         /// <summary>
