@@ -74,11 +74,11 @@ function setDefaultValues(studentList) {
         if (studentList[i].IsActive && studentList[i].IsStudent) {
             activeCount++;
         }
-        else if (!studentList[i].IsStudent)
+        else if (!studentList[i].IsStudent && studentList[i].IsActive)
         {
             interviewCount++;
         }
-        else if (studentList[i].IsStudent && !studentList[i].IsActive) {
+        else if (!studentList[i].IsActive) {
             passiveCount++;
         }
     }
@@ -160,6 +160,14 @@ function drawList(entityList) {
             tbody += "<td>" + entityList[i].BirthdayWithFormat + "</td>";
             tbody += "<td>" + entityList[i].FatherInfo + "</td>";
             tbody += "<td>" + entityList[i].MotherInfo + "</td>";
+            if (entityList[i].SchoolClass != undefined && entityList[i].SchoolClass != null && entityList[i].SchoolClass != '') {
+                tbody += "<td>" + entityList[i].SchoolClass + "</td>";
+            }
+            else {
+                tbody += "<td> - </td>";
+
+            }
+
 
             if (entityList[i].IsActive) {
                 if (entityList[i].IsStudent)
@@ -190,6 +198,14 @@ function drawList(entityList) {
                         tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + entityList[i].DateOfMeetingWithFormat + "</td></tr>";
                         tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + entityList[i].EmailStr + "</td></tr>";
                         tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + entityList[i].NotesStr + "</td></tr>";
+                        if (entityList[i].SchoolClass != undefined && entityList[i].SchoolClass != null && entityList[i].SchoolClass != '') {
+                            tbody +="<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + entityList[i].SchoolClass + "</td></tr>";
+                        }
+                        else {
+                            tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'> - </td></tr>";
+
+                        }
+
 
                         if (entityList[i].IsActive)
                             tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/active.png' width='20' height ='20' /></td></tr>";
@@ -311,7 +327,7 @@ function interviewStudent() {
     var entityList = [];
 
     for (var i = 0; i < objects.length; i++) {
-        if (objects[i]["IsStudent"] === false) {
+        if (objects[i]["IsStudent"] === false && objects[i]["IsActive"] === true ) {
             entityList.push(objects[i]);
         }
     }
@@ -329,7 +345,7 @@ function passiveStudent() {
 
 
     for (var i = 0; i < objects.length; i++) {
-        if (objects[i]["IsActive"] === false && objects[i]["IsStudent"] === true) {
+        if (objects[i]["IsActive"] === false) {
             entityList.push(objects[i]);
         }
     }

@@ -59,6 +59,11 @@ namespace KindergartenProject
                     drpClassList.SelectedValue = currentRecord.ClassId.ToString();
                     hdnCurrentClassId.Value = currentRecord.ClassId.ToString();
                 }
+
+                if (GeneralFunctions.GetData<int>(currentRecord.SchoolClass) > 0)
+                {
+                    drpSchoolClass.SelectedIndex = GeneralFunctions.GetData<int>(currentRecord.SchoolClass);
+                }
             }
         }
         #endregion PROPERTIES
@@ -179,6 +184,13 @@ namespace KindergartenProject
             entity.SpokenPrice = GeneralFunctions.GetData<decimal>(txtSpokenPrice.Text);
             entity.Email = txtEmail.Text;
             entity.ClassId = GeneralFunctions.GetData<int>(drpClassList.SelectedValue);
+
+
+            if (drpSchoolClass.SelectedIndex > 0)
+            {
+                entity.SchoolClass = drpSchoolClass.SelectedValue;
+            }
+
 
             if (entity.DatabaseProcess == DatabaseProcess.Add)
                 entity.IsAddAfterPaymentUnPayment = true;

@@ -22,6 +22,8 @@ namespace KindergartenProject
                 Response.Redirect("/uye-giris");
             }
 
+            projectType = (ProjectType)Session[CommonConst.ProjectType];
+
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
@@ -35,11 +37,7 @@ namespace KindergartenProject
             divInformation.ListRecordPage = "/ogrenci-listesi";
             divInformation.NewRecordPage = "/ogrenci-ekle";
 
-            //setDefaultValues();
             loadClass();
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
-            //loadData();
-
         }
 
         private void loadClass()
@@ -192,10 +190,10 @@ namespace KindergartenProject
                 IEnumerable<StudentEntity> currentList = entityList.Where(o => o.IsStudent == true && o.IsActive == true);
                 setLabel(currentList, lblActiveStudent, "Aktif");
 
-                currentList = entityList.Where(o => o.IsStudent == true && o.IsActive == false);
+                currentList = entityList.Where(o => o.IsActive == false);
                 setLabel(currentList, lblPassiveStudent, "Pasif");
 
-                currentList = entityList.Where(o => o.IsStudent == false);
+                currentList = entityList.Where(o => o.IsStudent == false && o.IsActive == true);
                 setLabel(currentList, lblInterview, "Görüşme");
 
                 setLabel(entityList, lblAllStudent, "Toplam");

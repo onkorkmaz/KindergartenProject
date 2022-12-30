@@ -90,7 +90,7 @@
 
                         <div class="mb-3 row" id="divClassList">
 
-                            <label class="col-form-label col-sm-2 text-sm-left">Sınıf</label>
+                            <label class="col-form-label col-sm-2 text-sm-left">Benim Dünyam Sınıfı</label>
                             <div class="col-sm-2">
                                 <asp:DropDownList runat="server" ID="drpClassList" onchange="OnClassListChanged(this.value);" CssClass="form-control">
                                 </asp:DropDownList>
@@ -103,6 +103,25 @@
                             <asp:HiddenField runat="server" ID="hdnCurrentClassId" />
                         </div>
 
+
+                         <div class="mb-3 row">
+                            <label class="col-form-label col-sm-2 text-sm-left">Mevcut Sınıfı</label>
+                            <div class="col-sm-2">
+                                <asp:DropDownList runat="server" ID="drpSchoolClass"  CssClass="form-control">
+                                    <asp:ListItem Text="Seçininiz" Value ="-1" Selected="True"></asp:ListItem>
+                                    
+                                    <asp:ListItem Text="1" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="2" Value="2"></asp:ListItem>
+                                    <asp:ListItem Text="3" Value="3"></asp:ListItem>
+                                    <asp:ListItem Text="4" Value="4"></asp:ListItem>
+                                    <asp:ListItem Text="5" Value="5"></asp:ListItem>
+                                    <asp:ListItem Text="6" Value="6"></asp:ListItem>
+                                    <asp:ListItem Text="7" Value="7"></asp:ListItem>
+                                    <asp:ListItem Text="8" Value="8"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+ 
+                        </div>
 
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>

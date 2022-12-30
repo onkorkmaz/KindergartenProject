@@ -67,6 +67,8 @@
                             <th scope="col">Doğum Tarihi</th>
                             <th scope="col">Baba Bilg.</th>
                             <th scope="col">Anne Bilg.</th>
+                            <th scope="col">O. Sınıfı</th>
+
                             <th scope="col">Kayıt D.</th>
 
                         </tr>
