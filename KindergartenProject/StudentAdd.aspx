@@ -137,10 +137,24 @@
                             </div>
 
                         </div>
-                        <div class="mb-3 row">
-                            <label class="col-form-label col-sm-2 text-sm-left">Görüşme Tarihi</label>
+                        <%--<div class="mb-3 row">
+                            <label class="col-form-label col-sm-2 text-sm-left">Sisteme Giriş Tar</label>
                             <div class="col-sm-3">
                                 <asp:TextBox ID="txtDateOfMeeting" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                            </div>
+                        </div>--%>
+
+                        <div class="mb-3 row">
+                            <label class="col-form-label col-sm-2 text-sm-left">Deneme Dersi alacak mı ? </label>
+                            <div class="col-sm-3">
+                                <asp:CheckBox runat="server" ID="chcInterview" CssClass="form-check-input" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-form-label col-sm-2 text-sm-left">Deneme Dersi Tarihi</label>
+                            <div class="col-sm-3">
+                                <asp:TextBox ID="txtInterviewDate" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
                             </div>
                         </div>
 

@@ -70,7 +70,11 @@ function setStudent(entity) {
     document.getElementById("txtSpokenPrice").value = entity.SpokenPrice;
     document.getElementById("txtNotes").value = entity.Notes;
     document.getElementById("txtBirthday").value = entity.BirthdayWithFormat2;
-    document.getElementById("txtDateOfMeeting").value = entity.DateOfMeetingWithFormat2;
+    //document.getElementById("txtDateOfMeeting").value = entity.DateOfMeetingWithFormat2;
+    document.getElementById("txtInterviewDate").value = entity.InterviewWithFormat;
+    document.getElementById("chcInterview").checked = entity.IsInterview;
+
+
     document.getElementById("txtEmail").value = entity.Email;
     document.getElementById("btnSubmit").value = "Güncelle";
 }
@@ -173,6 +177,14 @@ function validate() {
         errorMessage += "Email bilgisi doğru formatta girilmemiştir.\n";
 
     }
+
+    var isInterview = document.getElementById("chcInterview").checked;
+    if (isInterview) {
+        var interviewDate = document.getElementById("txtInterviewDate").value;
+        //errorMessage += "Email bilgisi doğru formatta girilmemiştir.\n";
+
+    }
+
 
     if (!IsNullOrEmpty(errorMessage)) {
         alert(errorMessage);

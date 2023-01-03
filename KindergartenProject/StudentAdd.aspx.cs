@@ -45,10 +45,17 @@ namespace KindergartenProject
 
                 hdnStudentState.Value = (currentRecord.IsStudent) ? "0" : "1";
 
-                if (currentRecord.DateOfMeeting.HasValue)
+                //if (currentRecord.DateOfMeeting.HasValue)
+                //{
+                //    txtDateOfMeeting.Text = currentRecord.DateOfMeeting.Value.ToString("yyyy-MM-dd");
+                //}
+
+                if (currentRecord.InterviewDate.HasValue)
                 {
-                    txtDateOfMeeting.Text = currentRecord.DateOfMeeting.Value.ToString("yyyy-MM-dd");
+                    txtInterviewDate.Text = currentRecord.InterviewDate.Value.ToString("yyyy-MM-dd");
                 }
+
+                chcInterview.Checked = currentRecord.IsInterview;
 
                 txtNotes.Text = currentRecord.Notes;
                 txtSpokenPrice.Text = currentRecord.SpokenPrice.ToString();
@@ -64,6 +71,8 @@ namespace KindergartenProject
                 {
                     drpSchoolClass.SelectedIndex = GeneralFunctions.GetData<int>(currentRecord.SchoolClass);
                 }
+
+
             }
         }
         #endregion PROPERTIES
@@ -93,7 +102,8 @@ namespace KindergartenProject
             if (!Page.IsPostBack)
             {
                 //txtBirthday.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                //txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                txtInterviewDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
                 DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness(projectType).Get_Class(new SearchEntity() { IsActive = true, IsDeleted = false });
                 if (resultSetClassList.HasError)
@@ -180,11 +190,12 @@ namespace KindergartenProject
             entity.IsActive = chcIsActive.Checked;
             entity.IsStudent = drpStudentState.SelectedValue == "0";
             entity.Notes = txtNotes.Text;
-            entity.DateOfMeeting = GeneralFunctions.GetData<DateTime>(txtDateOfMeeting.Text);
+            //entity.DateOfMeeting = GeneralFunctions.GetData<DateTime>(txtDateOfMeeting.Text);
             entity.SpokenPrice = GeneralFunctions.GetData<decimal>(txtSpokenPrice.Text);
             entity.Email = txtEmail.Text;
             entity.ClassId = GeneralFunctions.GetData<int>(drpClassList.SelectedValue);
-
+            entity.IsInterview = chcInterview.Checked;
+            entity.InterviewDate = GeneralFunctions.GetData<DateTime>(txtInterviewDate.Text); 
 
             if (drpSchoolClass.SelectedIndex > 0)
             {

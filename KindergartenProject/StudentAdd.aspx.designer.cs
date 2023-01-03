@@ -204,13 +204,22 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.TextBox txtSpokenPrice;
 
         /// <summary>
-        /// txtDateOfMeeting control.
+        /// chcInterview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDateOfMeeting;
+        protected global::System.Web.UI.WebControls.CheckBox chcInterview;
+
+        /// <summary>
+        /// txtInterviewDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtInterviewDate;
 
         /// <summary>
         /// txtNotes control.

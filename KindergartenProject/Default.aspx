@@ -59,33 +59,9 @@
                                     <asp:Label runat="server" ID="lblMonth"></asp:Label>
                                     <hr />
                                     <div class="table-responsive">
-                                        <table class="table mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Ödeme Yapanlar</th>
-                                                    <th scope="col">Gelecek Ödemeler</th>
-                                                    <th scope="col">Öğretmen Giderleri</th>
-                                                    <th scope="col">Genel Giderler</th>
-                                                    <th scope="col">Toplam</th>
-                                                </tr>
-                                            </thead>
-                                            <tr>
-                                                <td>
-                                                    <asp:Label ID="lblPaid" runat="server" Font-Bold="true" Text=""></asp:Label></td>
-                                                <td>
-                                                    <asp:Label ID="lblUnpaid" runat="server" Font-Bold="true" Text=""></asp:Label></td>
-                                                <td>
-                                                    <asp:Label ID="lblTeacherPrice" runat="server" Font-Bold="true" Text=""></asp:Label></td>
-                                                <td>
-                                                    <asp:Label ID="lblCommonPrice" runat="server" Text=""></asp:Label>
-
-                                                </td>
-                                                <td>
-
-                                                    <asp:Label ID="lblTotal" runat="server" Text=""></asp:Label>
-
-                                                </td>
-                                            </tr>
+                                        <table class="table mb-0" runat="server" id="tblSummaryResult">
+                                            
+                                            
                                         </table>
                                     </div>
 

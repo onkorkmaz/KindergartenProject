@@ -64,12 +64,14 @@
                             <th scope="col">&nbsp;</th>
                             <th scope="col">#####</th>
                             <th scope="col">İsim Soyisim</th>
-                            <th scope="col">Doğum Tarihi</th>
-                            <th scope="col">Baba Bilg.</th>
-                            <th scope="col">Anne Bilg.</th>
+                            <%--<th scope="col">Doğum Tarihi</th>--%>
+                            <%--<th scope="col">Baba Bilg.</th>--%>
+                            <th scope="col">Veli Bilg.</th>
                             <th scope="col">O. Sınıfı</th>
 
                             <th scope="col">Kayıt D.</th>
+                            <th scope="col">Deneme D</th>
+                            <th scope="col">Deneme Ders T.</th>
 
                         </tr>
                     </thead>

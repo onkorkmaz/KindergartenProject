@@ -154,12 +154,16 @@ function drawList(entityList) {
                 tbody += "<a href = \"/odeme-plani-detay/" + entityList[i].EncryptId + "\"><img title = 'Ödeme detayı' src =\"/img/icons/paymentPlan.png\"/></a> &nbsp; ";
                 tbody += "<a href = \"/email-gonder/" + entityList[i].EncryptId + "\"><img title = 'Email gönder' src =\"/img/icons/email4.png\"/></a> &nbsp; ";
             }
-            
+
+            var parentInfo = entityList[i].MotherInfo;
+            if (IsNullOrEmpty(parentInfo))
+                parentInfo += " - " + entityList[i].FatherInfo;
+           
+
             tbody += "</td>";
             tbody += "<td>" + entityList[i].FullName + "</td>";
-            tbody += "<td>" + entityList[i].BirthdayWithFormat + "</td>";
-            tbody += "<td>" + entityList[i].FatherInfo + "</td>";
-            tbody += "<td>" + entityList[i].MotherInfo + "</td>";
+            //tbody += "<td>" + entityList[i].BirthdayWithFormat + "</td>";
+            tbody += "<td>" + parentInfo + "</td>";
             if (entityList[i].SchoolClass != undefined && entityList[i].SchoolClass != null && entityList[i].SchoolClass != '') {
                 tbody += "<td>" + entityList[i].SchoolClass + "</td>";
             }
@@ -167,7 +171,6 @@ function drawList(entityList) {
                 tbody += "<td> - </td>";
 
             }
-
 
             if (entityList[i].IsActive) {
                 if (entityList[i].IsStudent)
@@ -178,6 +181,20 @@ function drawList(entityList) {
             else {
                 tbody += "<td>&nbsp;<img src='img/icons/passive.png' width='20' height ='20' /></td>";
             }
+
+            if (entityList[i].IsInterview)
+                tbody += "<td>&nbsp;<img src='img/icons/paymentOk.png' width='20' height ='20' /></td>";
+            else
+                tbody += "<td> </td>";
+
+            if (entityList[i].IsInterview) {
+                tbody += "<td>" + entityList[i].InterviewWithFormat + "</td>";
+            }
+            else {
+                tbody += "<td> </td>";
+            }
+
+            
             tbody += "</tr> ";
 
             tbody += "<tr style='display: none;' id='tr" + entityList[i].EncryptId + "' >";

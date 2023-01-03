@@ -75,26 +75,42 @@ namespace KindergartenProject
         {
             decimal commonPriceInfo = 0;
 
-            PaymentSummary summary = new PaymentBusiness(projectType).Get_PaymentForCurrentMonthWithDefaultAmount().Result;
+            List<PaymentSummary> summaryList = new PaymentBusiness(projectType).Get_PaymentForCurrentMonthWithDefaultAmount().Result;
 
-            decimal total = summary.Incoming - summary.WorkersExpenses - commonPriceInfo;
+            string htmlSummary = @"<thead>
+                                      <tr>
+                                          <th scope='col'>Yıl / Ay</th>
+                                          <th scope='col'>Ödeme Yapanlar</th>
+                                          <th scope='col'>Gelecek Ödemeler</th>
+                                          <th scope='col'>Öğretmen Giderleri</th>
+                                          <th scope='col'>Genel Giderler</th>
+                                          <th scope='col'>Toplam</th>
+                                      </tr>
+                                  </thead>";
 
-            lblTotal.Text = total.ToString("###,###,###.##");
-            lblPaid.Text = summary.Incoming.ToString("###,###,###.##");
-            lblUnpaid.Text = summary.WaitingInComing.ToString("###,###,###.##");
-            lblTeacherPrice.Text = summary.WorkersExpenses.ToString("###,###,###.##");
 
-            if(total<0)
+            foreach (PaymentSummary summary in summaryList)
             {
-                lblTotal.Attributes["style"] = "color:red; font-weight:bold;";
-            }
-            else
-            {
-                lblTotal.Attributes["style"] = "color:green; font-weight:bold;";
+                decimal total = summary.Incoming - summary.WorkersExpenses - commonPriceInfo;
+                string style = "style='color:red; font-weight:bold;'";
+
+                if (total >= 0)
+                {
+                    style = "style = 'color:green; font-weight:bold;'";
+                }
+
+                htmlSummary += @"<tr>
+                                     <td>2022</td>
+                                     <td>" + summary.Incoming.ToString("###,###,###.##") + @"</td>
+                                     <td>" + summary.WaitingInComing.ToString("###,###,###.##") + @"</td>
+                                     <td>" + summary.WorkersExpenses.ToString("###,###,###.##") + @"</td>
+                                     <td>-</td>
+                                     <td " + style + @">" + total.ToString("###,###,###.##") + @"</td>
+                                 </tr>";
 
             }
 
-            lblCommonPrice.Text = "-";
+            //tblSummaryResult.InnerHtml = htmlSummary;
         }
 
 
