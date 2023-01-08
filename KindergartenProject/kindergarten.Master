@@ -61,6 +61,11 @@
                                     <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ödeme Planları</span>
                                 </a>
                             </li>
+                             <li runat="server" id="menuStudentAttendanceBookList">
+                                <a class="sidebar-link" href="/yoklama-sayfasi">
+                                    <i class="align-middle" data-feather="user"></i><span class="align-middle">Yoklama Defteri</span>
+                                </a>
+                            </li>
                              <li runat="server" id="menuSettings">
                                 <a data-target="#ui" data-toggle="collapse" class="sidebar-link collapsed">
                                     <i class="align-middle" data-feather="briefcase"></i><span class="align-middle">Ayarlar</span>

@@ -18,14 +18,14 @@ function txtSearchStudent_Change(searchValue) {
 
 function loadData() {
 
-        GetStudentListAndPaymentTypeInfoForCurrentMonth();
+    GetStudentListAndPaymentTypeInfoForCurrentMonth();
 
 }
 
 function GetStudentListAndPaymentTypeInfoForCurrentMonth() {
 
     var jsonData = "{}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForCurrentMonth',
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForLastTwoMonths',
         jsonData,
         successFunctionCurrentPage,
         errorFunction);

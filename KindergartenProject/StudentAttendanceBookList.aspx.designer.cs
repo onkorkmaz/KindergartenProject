@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class StudentList
+    public partial class StudentAttendanceBookList
     {
 
         /// <summary>
@@ -24,66 +24,48 @@ namespace KindergartenProject
         protected global::KindergartenProject.userControl.divInformation divInformation;
 
         /// <summary>
-        /// lblTimer control.
+        /// drpYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTimer;
+        protected global::System.Web.UI.WebControls.DropDownList drpYear;
 
         /// <summary>
-        /// lblActiveStudent control.
+        /// drpMonth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblActiveStudent;
+        protected global::System.Web.UI.WebControls.DropDownList drpMonth;
 
         /// <summary>
-        /// lblInterview control.
+        /// drpDays control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInterview;
+        protected global::System.Web.UI.WebControls.DropDownList drpDays;
 
         /// <summary>
-        /// lblPassiveStudent control.
+        /// studentAttendanceHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPassiveStudent;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl studentAttendanceHeader;
 
         /// <summary>
-        /// hdnId control.
+        /// studentAttendanceList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnId;
-
-        /// <summary>
-        /// drpClassList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drpClassList;
-
-        /// <summary>
-        /// tBodyStudentList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tBodyStudentList;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl studentAttendanceList;
     }
 }

@@ -35,6 +35,34 @@ namespace KindergartenProject
 
         private void setDefaultValues()
         {
+            fillStudentCount();
+
+            fillIncomingAndOutGoing();
+
+            fillClassList();
+        }
+
+        private void fillClassList()
+        {
+            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(projectType).Get_ClassForStudent();
+            if (!resultSet.HasError)
+            {
+                List<ClassEntity> list = resultSet.Result;
+
+                string html = "<table class='table mb-0'>";
+
+                foreach (ClassEntity entity in list)
+                {
+                    html += "<tr><td><a href='ogrenci-listesi/"+entity.Id+"'>" + entity.Name + "</a></td><td>:</td><td><b>"+entity.StudentCount+"</b></td></tr>";
+                }
+                html += "</table>";
+
+                divTblClass.InnerHtml = html;
+            }
+        }
+
+        private void fillStudentCount()
+        {
             DataResultArgs<List<StudentEntity>> resultSet = new DataResultArgs<List<StudentEntity>>();
 
             resultSet = new StudentBusiness(projectType).Get_Student(new SearchEntity() { IsDeleted = false });
@@ -42,7 +70,7 @@ namespace KindergartenProject
             {
                 List<StudentEntity> entityList = resultSet.Result;
 
-                List<StudentEntity> currentList = entityList.Where(o => o.IsStudent == true).ToList();
+                List<StudentEntity> currentList = entityList.Where(o => o.IsStudent == true && o.IsActive.Value).ToList();
                 setLabel(currentList, lblStudent);
 
                 currentList = entityList.Where(o => o.IsStudent == true && o.AddedOn > DateTime.Now.AddMonths(-1)).ToList();
@@ -64,11 +92,9 @@ namespace KindergartenProject
 
                 lblMonth.Text = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
 
-                 setBirthdayInfo(currentList.OrderBy(o => o.BirthDayCurrentYear).ToList(), lblBirthdayThisMonth);
+                setBirthdayInfo(currentList.OrderBy(o => o.BirthDayCurrentYear).ToList(), lblBirthdayThisMonth);
 
             }
-
-            fillIncomingAndOutGoing();
         }
 
         private void fillIncomingAndOutGoing()

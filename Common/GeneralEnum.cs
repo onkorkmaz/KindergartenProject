@@ -29,7 +29,9 @@ namespace Common
         ClassList = 6,
         Workers = 7,
         OutgoingAdd = 8,
-        OutgoingList = 9
+        OutgoingList = 9,
+        StudentAttendanceBookList = 10
+
 
     }
 

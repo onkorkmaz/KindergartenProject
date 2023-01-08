@@ -204,11 +204,11 @@ namespace KindergartenProject
 
 
             if (entity.DatabaseProcess == DatabaseProcess.Add)
-                entity.IsAddAfterPaymentUnPayment = true;
+                entity.StudentDetail.AddUnPaymentRecordAfterStundetInsert = true;
 
             if (hdnStudentState.Value == "1" && entity.IsStudent)
             {
-                entity.IsAddAfterPaymentUnPayment = true;
+                entity.StudentDetail.AddUnPaymentRecordAfterStundetInsert = true;
             }
 
             DataResultArgs<StudentEntity> resultSet = business.Set_Student(entity);

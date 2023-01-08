@@ -4,6 +4,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="/customJS/studentList.js"></script>
+    <script src="/customJS/studentCommon.js"></script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">
@@ -13,13 +15,13 @@
         <div class="col-12 col-xl-12">
             <div class="mb-3 row">
 
-                <div class="col-sm-3">
+               <%-- <div class="col-sm-3">
                     <div class="alert alert-primary alert-dismissible" role="alert">
                         <div class="alert-message">
                             <asp:Label runat="server" ID="lblAllStudent" Style="cursor: pointer;"></asp:Label>
                         </div>
                     </div>
-                </div>
+                </div>--%>
 
                 <div class="col-sm-3">
                     <div class="alert alert-success alert-dismissible" role="alert">

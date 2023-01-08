@@ -80,6 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="customJS\outgoing.js" />
+    <Content Include="customJS\studentAttendanceBook.js" />
+    <Content Include="customJS\studentCommon.js" />
     <Content Include="StudentAdd.aspx" />
     <Content Include="ClassList.aspx" />
     <Content Include="css\app.css" />
@@ -163,6 +165,7 @@
     <Content Include="PaymentDetail.aspx" />
     <Content Include="PaymentPlan.aspx" />
     <Content Include="ExpenseAdd.aspx" />
+    <Content Include="StudentAttendanceBookList.aspx" />
     <Content Include="Workers.aspx" />
     <Content Include="PaymentType.aspx" />
     <Content Include="customJS\paymentType.js" />
@@ -173,6 +176,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="common\CommonUIFunction.cs" />
     <Compile Include="StudentAdd.aspx.cs">
       <DependentUpon>StudentAdd.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -242,6 +246,13 @@
     </Compile>
     <Compile Include="ExpenseAdd.aspx.designer.cs">
       <DependentUpon>ExpenseAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAttendanceBookList.aspx.cs">
+      <DependentUpon>StudentAttendanceBookList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentAttendanceBookList.aspx.designer.cs">
+      <DependentUpon>StudentAttendanceBookList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Workers.aspx.cs">
       <DependentUpon>Workers.aspx</DependentUpon>
@@ -360,7 +371,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="common\" />
     <Folder Include="PaymentDocument\ALAS_KOCANOGLU\" />
     <Folder Include="Template\" />
   </ItemGroup>

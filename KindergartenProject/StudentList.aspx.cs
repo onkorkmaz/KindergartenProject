@@ -28,16 +28,23 @@ namespace KindergartenProject
             {
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.StudentList);
-                lblAllStudent.Attributes.Add("onclick", "allStudent();");
+                //lblAllStudent.Attributes.Add("onclick", "allStudent();");
                 lblActiveStudent.Attributes.Add("onclick", "activeStudent();");
                 lblInterview.Attributes.Add("onclick", "interviewStudent();");
                 lblPassiveStudent.Attributes.Add("onclick", "passiveStudent();");
+
+                object id = Page.RouteData.Values["class_id"];
+                if (id != null)
+                {
+                    loadClass();
+                    drpClassList.SelectedValue = GeneralFunctions.GetData<string>(id);
+                }
             }
 
             divInformation.ListRecordPage = "/ogrenci-listesi";
             divInformation.NewRecordPage = "/ogrenci-ekle";
 
-            loadClass();
+            //loadClass();
         }
 
         private void loadClass()
@@ -118,7 +125,7 @@ namespace KindergartenProject
 
                 sb.AppendLine( "</td>");
                 sb.AppendLine( "<td>" + entityList[i].FullName + "</td>");
-                sb.AppendLine( "<td>" + entityList[i].BirthdayWithFormat + "</td>");
+                sb.AppendLine( "<td>" + entityList[i].BirthdayWithFormatddMMyyyy + "</td>");
                 sb.AppendLine( "<td>" + entityList[i].FatherInfo + "</td>");
                 sb.AppendLine( "<td>" + entityList[i].MotherInfo + "</td>");
 
@@ -196,7 +203,7 @@ namespace KindergartenProject
                 currentList = entityList.Where(o => o.IsStudent == false && o.IsActive == true);
                 setLabel(currentList, lblInterview, "Görüşme");
 
-                setLabel(entityList, lblAllStudent, "Toplam");
+                //setLabel(entityList, lblAllStudent, "Toplam");
 
             }
         }

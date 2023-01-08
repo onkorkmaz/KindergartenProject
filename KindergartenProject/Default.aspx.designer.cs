@@ -60,15 +60,6 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.Label lblMonth;
 
         /// <summary>
-        /// tblSummaryResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable tblSummaryResult;
-
-        /// <summary>
         /// lblBirthdayToday control.
         /// </summary>
         /// <remarks>
@@ -85,5 +76,14 @@ namespace KindergartenProject
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblBirthdayThisMonth;
+
+        /// <summary>
+        /// divTblClass control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTblClass;
     }
 }

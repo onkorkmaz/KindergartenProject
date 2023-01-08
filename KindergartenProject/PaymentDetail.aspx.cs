@@ -32,7 +32,13 @@ namespace KindergartenProject
                     string displatText = (year + i).ToString() + "-" + (year + i + 1).ToString();
                     drpYear.Items.Add(new ListItem(displatText, (year + i).ToString()));
                 }
-                drpYear.SelectedValue = DateTime.Today.Year.ToString();
+
+                int currentYear = DateTime.Today.Year;
+                int currentMonth = DateTime.Today.Month;
+                if (currentMonth < 8)
+                    currentYear--;
+
+                drpYear.SelectedValue = currentYear.ToString();
             }
 
             divInformation.InformationVisible = false;

@@ -78,6 +78,15 @@ namespace KindergartenProject
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuPaymentPlan;
 
         /// <summary>
+        /// menuStudentAttendanceBookList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuStudentAttendanceBookList;
+
+        /// <summary>
         /// menuSettings control.
         /// </summary>
         /// <remarks>

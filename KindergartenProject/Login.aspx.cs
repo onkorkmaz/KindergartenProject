@@ -21,14 +21,13 @@ namespace KindergartenProject
             master.SetVisibleSearchText(false);
 
             string machineName = Environment.MachineName;
-            if(machineName == "DESKTOP-U63HM5J")
+            if(machineName == "DESKTOP-4ISBFD4")
             {
                 txtUserName.Text = "yeliz";
                 txtPassword.Text = "1";
                 drpProjectType.SelectedValue = "2";
-                //btnLogin_Click(null, null);
+                btnLogin_Click(null, null);
             }
-
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)

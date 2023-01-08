@@ -98,7 +98,7 @@ namespace KindergartenProject
                             sb.AppendLine("<th scope='col'>" + payment.Name + "</th>");
                         }
 
-                        var seasonList = GetSeasonList(DateTime.Today.Year);
+                        var seasonList = CommonUIFunction.GetSeasonList(DateTime.Today.Year);
 
                         foreach (SeasonEntity obje in seasonList)
                         {
@@ -123,7 +123,7 @@ namespace KindergartenProject
 
                             foreach (PaymentTypeEntity payment in paymentTypeList)
                             {
-                                PaymentEntity paymentEntity = entity.PaymentList.FirstOrDefault(o =>
+                                PaymentEntity paymentEntity = entity.StudentDetail.PaymentList.FirstOrDefault(o =>
                                     o.Month == obje.Month && o.Year == obje.Year && o.PaymentType == payment.Id);
 
                                 if (paymentEntity != null)
@@ -204,25 +204,6 @@ namespace KindergartenProject
                     }
                 }
             }
-        }
-
-        private static List<SeasonEntity> GetSeasonList(int year)
-        {
-            List<SeasonEntity> monthList = new List<SeasonEntity>();
-            monthList.Add(new SeasonEntity(0, year, 9, "Eylül"));
-            monthList.Add(new SeasonEntity(1, year, 10, "Ekim"));
-            monthList.Add(new SeasonEntity(2, year, 11, "Kasım"));
-            monthList.Add(new SeasonEntity(3, year, 12, "Aralık"));
-            monthList.Add(new SeasonEntity(4, year + 1, 1, "Ocak"));
-            monthList.Add(new SeasonEntity(5, year + 1, 2, "Şubat"));
-            monthList.Add(new SeasonEntity(6, year + 1, 3, "Mart"));
-            monthList.Add(new SeasonEntity(7, year + 1, 4, "Nisan"));
-            monthList.Add(new SeasonEntity(8, year + 1, 5, "Mayıs"));
-            monthList.Add(new SeasonEntity(9, year + 1, 6, "Haziran"));
-            monthList.Add(new SeasonEntity(10, year + 1, 7, "Temmuz"));
-            monthList.Add(new SeasonEntity(11, year + 1, 8, "Ağustus"));
-
-            return monthList;
         }
 
         protected void btnSendEmail_Click(object sender, EventArgs e)
@@ -331,7 +312,7 @@ namespace KindergartenProject
 
         private StringBuilder InitializeHtmlTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
         {
-            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.PaymentList);
+            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.StudentDetail.PaymentList);
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
             StringBuilder sb = new StringBuilder();
@@ -546,7 +527,7 @@ namespace KindergartenProject
         {
             List<EmailPaymentEntity> emailPaymentList = new List<EmailPaymentEntity>();
 
-            var monthList = GetSeasonList(DateTime.Today.Year);
+            var monthList = CommonUIFunction.GetSeasonList(DateTime.Today.Year);
 
             foreach (SeasonEntity seasonEntity in monthList)
             {

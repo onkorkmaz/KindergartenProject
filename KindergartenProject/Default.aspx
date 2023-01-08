@@ -59,32 +59,12 @@
                                     <asp:Label runat="server" ID="lblMonth"></asp:Label>
                                     <hr />
                                     <div class="table-responsive">
-                                        <table class="table mb-0" runat="server" id="tblSummaryResult">
-                                            
-                                            
-                                        </table>
+                                        <%--<div runat="server" id="divTblClass"></div>--%>
                                     </div>
-
-                                    <%--<table border="1">
-                                        <tr>
-                                            <td></td>
-                                            <td>:</td>
-                                            <td>
-                                                <asp:Label runat="server" ID="lblPayment"></asp:Label></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>:</td>
-                                            <td>
-                                                <asp:Label runat="server" ID="lblMonthPayment"></asp:Label></td>
-                                        </tr>
-                                    </table>--%>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
-
-
                             <div class="card">
                                 <div class="card-body">
                                     <h3 class="card-title mb-4"><b>Bu gün doğum günü olanlar</b></h3>
@@ -100,7 +80,15 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><b>Sınıf Dağılımları</b></h5>
+                                    <hr />
+                                    <div class="table-responsive">
+                                       <div runat="server" id="divTblClass"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

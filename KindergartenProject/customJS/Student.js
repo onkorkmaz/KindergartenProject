@@ -69,7 +69,7 @@ function setStudent(entity) {
     document.getElementById("chcIsActive").checked = entity.IsActive;
     document.getElementById("txtSpokenPrice").value = entity.SpokenPrice;
     document.getElementById("txtNotes").value = entity.Notes;
-    document.getElementById("txtBirthday").value = entity.BirthdayWithFormat2;
+    document.getElementById("txtBirthday").value = entity.BirthdayWithFormatyyyyMMdd;
     //document.getElementById("txtDateOfMeeting").value = entity.DateOfMeetingWithFormat2;
     document.getElementById("txtInterviewDate").value = entity.InterviewWithFormat;
     document.getElementById("chcInterview").checked = entity.IsInterview;

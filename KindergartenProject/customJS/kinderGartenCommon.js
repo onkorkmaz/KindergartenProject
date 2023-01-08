@@ -182,3 +182,19 @@ const PaymentType = {
     "Mental": 4,
     "Diger": 5
 }
+
+
+function getDayName(year, month, day) {
+    var a = new Date(year, month, day);
+    var weekdays = new Array(7);
+    weekdays[0] = "Pzr";
+    weekdays[1] = "Prtsi";
+    weekdays[2] = "Salı";
+    weekdays[3] = "Çrş";
+    weekdays[4] = "Prş";
+    weekdays[5] = "Cma";
+    weekdays[6] = "Crtsi";
+    var r = weekdays[a.getDay()];
+    return r;
+}
+

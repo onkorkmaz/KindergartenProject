@@ -10,26 +10,6 @@
     }
 };
 
-function txtSearchStudent_Change(searchValue) {
-
-    successFunctionSearchStudent(searchValue);
-    SetCacheData("searchValue", searchValue);
-}
-
-function GetStudentList() {
-
-    var studentList = window["studentList"];
-
-    if (window["studentList"] == null) {
-
-        var jsonData = "{}";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllStudent', jsonData, successFunctionCurrentPage, errorFunction);
-        studentList = window["studentList"];
-    }
-
-    return studentList;
-
-}
 
 function onClassNameChanged() {
 
@@ -47,22 +27,14 @@ function onClassNameChanged() {
 }
 
 
-function successFunctionCurrentPage(obje) {
-
-    var entityList = obje;
-    if (entityList != null) {
-        window["studentList"] = obje;
-    }
-}
-
 function setDefaultValues(studentList) {
 
-    var allObje = document.getElementById("lblAllStudent");
+    //var allObje = document.getElementById("lblAllStudent");
     var activeObje = document.getElementById("lblActiveStudent");
     var interviewObje = document.getElementById("lblInterview");
     var passiveObje = document.getElementById("lblPassiveStudent");
 
-    setLabel(studentList.length, allObje, "Toplam");
+    //setLabel(studentList.length, allObje, "Toplam");
 
     var activeCount = 0;
     var passiveCount = 0;
@@ -98,9 +70,22 @@ function successFunctionSearchStudent(search,isLoadedFirst) {
     var objects = GetStudentList();
     setDefaultValues(objects);
 
-    if (isLoadedFirst || (search != null && search.trim() == '')) {
+    var classId = document.getElementById("drpClassList").value;
+
+    if ((search != null && search.trim() == '')) {
         activeStudent();
         return;
+    }
+    else if (isLoadedFirst && classId> 0)
+    {
+        activeStudent(classId);
+        return;
+    }
+    else if (isLoadedFirst)
+    {
+        activeStudent();
+        return;
+
     }
     else if (!IsNullOrEmpty(search)) {
         entityList = GetFilterStudent(studentList, search);
@@ -116,7 +101,7 @@ function successFunctionSearchStudent(search,isLoadedFirst) {
 
             for (var i = 0; i < entityList.length; i++) {
 
-                if (entityList[i]["ClassId"] == document.getElementById("drpClassList").value) {
+                if (entityList[i]["ClassId"] == document.getElementById("drpClassList").value && entityList[i]["IsActive"] == true ) {
                     newEntityList.push(entityList[i]);
                 }
             }
@@ -162,7 +147,7 @@ function drawList(entityList) {
 
             tbody += "</td>";
             tbody += "<td>" + entityList[i].FullName + "</td>";
-            //tbody += "<td>" + entityList[i].BirthdayWithFormat + "</td>";
+            //tbody += "<td>" + entityList[i].BirthdayWithFormatddMMyyyy + "</td>";
             tbody += "<td>" + parentInfo + "</td>";
             if (entityList[i].SchoolClass != undefined && entityList[i].SchoolClass != null && entityList[i].SchoolClass != '') {
                 tbody += "<td>" + entityList[i].SchoolClass + "</td>";
@@ -174,16 +159,16 @@ function drawList(entityList) {
 
             if (entityList[i].IsActive) {
                 if (entityList[i].IsStudent)
-                    tbody += "<td>&nbsp;<img src='img/icons/student3.png' width='20' height ='20' /></td>";
+                    tbody += "<td>&nbsp;<img src='/img/icons/student3.png' width='20' height ='20' /></td>";
                 else
                     tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='/img/icons/interview.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
             }
             else {
-                tbody += "<td>&nbsp;<img src='img/icons/passive.png' width='20' height ='20' /></td>";
+                tbody += "<td>&nbsp;<img src='/img/icons/passive.png' width='20' height ='20' /></td>";
             }
 
             if (entityList[i].IsInterview)
-                tbody += "<td>&nbsp;<img src='img/icons/paymentOk.png' width='20' height ='20' /></td>";
+                tbody += "<td>&nbsp;<img src='/img/icons/paymentOk.png' width='20' height ='20' /></td>";
             else
                 tbody += "<td> </td>";
 
@@ -316,19 +301,27 @@ function allStudent() {
     setMenuBold(1);
 }
 
-function activeStudent() {
+function activeStudent(classId) {
 
     var text = document.getElementById("lblActiveStudent").innerHTML;
 
-
-    document.getElementById("drpClassList").value = "-1";
+    if (classId == undefined)
+        document.getElementById("drpClassList").value = "-1";
 
     var objects = GetStudentList();
     var entityList = [];
 
     for (var i = 0; i < objects.length; i++) {
         if (objects[i]["IsActive"] === true && objects[i]["IsStudent"] == true) {
-            entityList.push(objects[i]);
+
+            if (classId != undefined && classId > 0) {
+                if (objects[i]["ClassId"] == classId) {
+                    entityList.push(objects[i]);
+                }
+            }
+            else {
+                entityList.push(objects[i]);
+            }
         }
     }
 
@@ -373,20 +366,21 @@ function passiveStudent() {
 
 function setMenuBold(menuId) {
 
-    var allObje = document.getElementById("lblAllStudent");
+    //var allObje = document.getElementById("lblAllStudent");
     var activeObje = document.getElementById("lblActiveStudent");
     var interviewObje = document.getElementById("lblInterview");
     var passiveObje = document.getElementById("lblPassiveStudent");
 
-    removeBold(allObje);
+    //removeBold(allObje);
     removeBold(activeObje);
     removeBold(interviewObje);
     removeBold(passiveObje);
 
-    if (menuId == 1) {
-        addBold(allObje);
-    }
-    else if (menuId == 2) {
+    //if (menuId == 1) {
+    //    addBold(allObje);
+    //}
+    //else 
+    if (menuId == 2) {
         addBold(activeObje);
     }
     else if (menuId == 3) {

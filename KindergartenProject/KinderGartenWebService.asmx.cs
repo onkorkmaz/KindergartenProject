@@ -101,7 +101,7 @@ namespace KindergartenProject
                 ClassEntity classEntity = new ClassBusiness(GetProjectType()).Get_ClassWithId(cId).Result;
                 if(classEntity!=null && classEntity.WarningOfStudentCount>0)
                 {
-                    int recordedStudentNumber = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result.Where(o => o.ClassId.HasValue && o.ClassId.Value == cId).ToList().Count();
+                    int recordedStudentNumber = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result.Where(o => o.ClassId.HasValue && o.ClassId.Value == cId && o.IsActive.Value).ToList().Count();
                     return "Max Öğrenci Adeti : " + classEntity.WarningOfStudentCount.ToString() + " <br/>Kayıtlı Öğrenci : " + recordedStudentNumber;
                 }
             }
@@ -265,7 +265,7 @@ namespace KindergartenProject
                     {
                         studentEntity.IsStudent = true;
                         studentEntity.DatabaseProcess = DatabaseProcess.Update;
-                        studentEntity.IsAddAfterPaymentUnPayment = true;
+                        studentEntity.StudentDetail.AddUnPaymentRecordAfterStundetInsert = true;
                         result = new StudentBusiness(GetProjectType()).Set_Student(studentEntity);
                     }
                 }
@@ -327,6 +327,29 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public List<StudentEntity> GetAllStudentAndAttendanceList()
+        {
+            List<StudentEntity> studentList = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result;
+
+            List<StudentAttendanceBookEntity> attendanceList = new StudentAttendanceBookBusiness(GetProjectType()).Get_StudentAttendanceBookWithCache(new SearchEntity() { IsActive = true , IsDeleted = false });
+
+            studentList.ForEach(o => o.StudentDetail.StudentAttendanceBookList = new List<StudentAttendanceBookEntity>());
+
+            foreach (StudentAttendanceBookEntity entity in attendanceList)
+            {
+                studentList.FirstOrDefault(o => o.Id == entity.StudentId).StudentDetail.StudentAttendanceBookList.Add(entity);
+            }
+            
+            return studentList;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<StudentAttendanceBookEntity>> GetAttenDanceList()
+        {
+            return new StudentAttendanceBookBusiness(GetProjectType()).Get_StudentAttendanceBook(new SearchEntity() { IsActive = true });
+        }
+
+        [WebMethod(EnableSession = true)]
         public void SetCacheData(string key, string value)
         {
             if (!List.ContainsKey(key))
@@ -366,7 +389,7 @@ namespace KindergartenProject
             List<StudentListAndPaymentTypeInfo> returnList = new List<StudentListAndPaymentTypeInfo>();
 
 
-            List<PaymentEntity> list = currentYear.StudentList.FirstOrDefault().PaymentList;
+            List<PaymentEntity> list = currentYear.StudentList.First().StudentDetail.PaymentList;
 
             List<PaymentEntity> newList = new List<PaymentEntity>();
 
@@ -378,10 +401,10 @@ namespace KindergartenProject
                 }
             }
 
-            currentYear.StudentList.FirstOrDefault().PaymentList = list;
+            currentYear.StudentList.First().StudentDetail.PaymentList = list;
             returnList.Add(currentYear);
 
-            list = nextYear.StudentList.FirstOrDefault().PaymentList;
+            list = nextYear.StudentList.First().StudentDetail.PaymentList;
 
             for (int i = 1; i <= 8; i++)
             {
@@ -391,7 +414,7 @@ namespace KindergartenProject
                 }
             }
 
-            nextYear.StudentList.FirstOrDefault().PaymentList = list;
+            nextYear.StudentList.First().StudentDetail.PaymentList = list;
             returnList.Add(nextYear);
 
             return returnList;
@@ -420,7 +443,7 @@ namespace KindergartenProject
                     {
                         if (paymentListResult.Result.Any())
                         {
-                            studentEntity.PaymentList = paymentListResult.Result;
+                            studentEntity.StudentDetail.PaymentList = paymentListResult.Result;
                         }
                     }
 
@@ -429,6 +452,18 @@ namespace KindergartenProject
             }
             info.Year = GeneralFunctions.GetData<int>(year);
             return info;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> ProcessAttendanceBook(int studentId,int year, int month, int day , bool isArrival)
+        {
+            StudentAttendanceBookEntity entity = new StudentAttendanceBookEntity();
+            entity.StudentId = studentId;
+            entity.ArrivalDate = new DateTime(year, month, day);
+            entity.IsArrival = isArrival;
+            entity.IsActive = true;
+            entity.ProjectType = GetProjectType();
+            return new StudentAttendanceBookBusiness(GetProjectType()).Set_StudentAttendanceBook(entity);
         }
 
         [WebMethod(EnableSession = true)]
@@ -554,12 +589,44 @@ namespace KindergartenProject
                     StudentEntity first = studentList.FirstOrDefault(o => o.Id == studentId);
                     if (first != null)
                     {
-                        studentList.FirstOrDefault(o => o.Id == studentId).PaymentList.Add(paymentEntity);
+                        studentList.FirstOrDefault(o => o.Id == studentId).StudentDetail.PaymentList.Add(paymentEntity);
                     }
                 }
             }
 
-            paymentDetailEntity.StudentList = studentList;
+            paymentDetailEntity.StudentList = studentList.OrderBy(o=>o.Name).ToList();
+            paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+            paymentDetailEntity.Month = DateTime.Today.Month;
+            paymentDetailEntity.Year = DateTime.Today.Year;
+
+            return paymentDetailEntity;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForLastTwoMonths()
+        {
+            StudentListAndPaymentTypeInfo paymentDetailEntity = new StudentListAndPaymentTypeInfo();
+
+            List<StudentEntity> studentList =
+                new StudentBusiness(GetProjectType()).Get_Student().Result.Where(o => o.IsStudent == true).ToList();
+
+            List<PaymentEntity> paymentEntityList = new PaymentBusiness(GetProjectType()).Get_LastTwoMonths().Result;
+
+            foreach (PaymentEntity paymentEntity in paymentEntityList)
+            {
+                if (paymentEntity.StudentId != null)
+                {
+                    int studentId = paymentEntity.StudentId.Value;
+
+                    StudentEntity first = studentList.FirstOrDefault(o => o.Id == studentId);
+                    if (first != null)
+                    {
+                        studentList.First(o => o.Id == studentId).StudentDetail.PaymentList.Add(paymentEntity);
+                    }
+                }
+            }
+
+            paymentDetailEntity.StudentList = studentList.OrderBy(o => o.Name).ToList();
             paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
             paymentDetailEntity.Month = DateTime.Today.Month;
             paymentDetailEntity.Year = DateTime.Today.Year;

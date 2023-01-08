@@ -40,6 +40,7 @@ namespace KindergartenProject
             clearMenuActiveStyle(menuStudenList);
             clearMenuActiveStyle(menuStudentAdd);
             clearMenuActiveStyle(menuPaymentPlan);
+            clearMenuActiveStyle(menuStudentAttendanceBookList);
             clearMenuActiveStyle(menuSettings);
 
             clearSubMenuStyle();
@@ -49,6 +50,7 @@ namespace KindergartenProject
             SetMenuAttiributes(menuStudenList, selectedMenuList == MenuList.StudentList);
             SetMenuAttiributes(menuStudentAdd, selectedMenuList == MenuList.StudenAdd);
             SetMenuAttiributes(menuPaymentPlan, selectedMenuList == MenuList.PaymentPlan);
+            SetMenuAttiributes(menuStudentAttendanceBookList, selectedMenuList == MenuList.StudentAttendanceBookList);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.PaymentType, menuPaymentType);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ClassList, classList);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.Workers, workers);
