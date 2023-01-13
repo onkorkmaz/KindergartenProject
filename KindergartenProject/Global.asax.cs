@@ -48,8 +48,10 @@ namespace KindergartenProject
             routes.MapPageRoute("sinif-listesi", "sinif-listesi", "~/ClassList.aspx");
             routes.MapPageRoute("calisan-listesi", "calisan-listesi", "~/Workers.aspx");
 
-            routes.MapPageRoute("masraf-ekle", "masraf-ekle", "~/ExpenseAdd.aspx");
-            routes.MapPageRoute("masraf-listesi", "masraf-listesi", "~/ExpenseList.aspx");
+            routes.MapPageRoute("gelir-gider-ekle", "gelir-gider-ekle", "~/IncomingAndExpenseAdd.aspx");
+            routes.MapPageRoute("gelir-gider-listesi", "gelir-gider-listesi", "~/IncomingAndExpenseList.aspx");
+            routes.MapPageRoute("gelir-gider-tipi", "gelir-gider-tipi", "~/IncomingAndExpenseType.aspx");
+
 
 
             routes.MapPageRoute("cikis", "cikis", "~/Exit.aspx");

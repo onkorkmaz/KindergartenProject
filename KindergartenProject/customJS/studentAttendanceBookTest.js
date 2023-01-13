@@ -1,5 +1,6 @@
 ﻿window.onload = function () {
-    loadData();   
+    
+    loadData();
 };
 
 function loadData() {
@@ -23,10 +24,23 @@ function successFunctionSearchStudent(search) {
     else {
         entityList = studentList;
     }
-
+    
     drawStudentAttendanceBook(entityList);
 }
 
+function getDayNamee(year, month, day) {
+    var a = new Date(year, month, day);
+    var weekdays = new Array(7);
+    weekdays[0] = "Pzr";
+    weekdays[1] = "Prtsi";
+    weekdays[2] = "Salı";
+    weekdays[3] = "Çrş";
+    weekdays[4] = "Prş";
+    weekdays[5] = "Cma";
+    weekdays[6] = "Crtsi";
+    var r = weekdays[a.getDay()];
+    return r;
+}
 
 function drawStudentAttendanceBook(entityList) {
 
@@ -41,30 +55,27 @@ function drawStudentAttendanceBook(entityList) {
         year++;
     }
 
+
     if (entityList == null || entityList.length <= 0) {
         document.getElementById("tBodyStudentList").innerHTML = tbody;
         return;
     }
 
-
     header = "<tr><th scope='col'>#####</th><th scope='col'>İsim Soyisim</th>";
 
-    var endDayValue = document.getElementById("drpDays").value;
+
+    var endDayValue = 2;
     var begin = 1;
-    if (endDayValue > 16)
+    if (endDayValue > 16) {
         begin = 16;
-
-    for (let i = begin; i <= endDayValue; i++) {
-        var dayDesc = getDayName(year, (month - 1), i);
-        if (dayDesc == "Crtsi" || dayDesc == "Pzr") {
-            header += "<th scope='col'><span style='color:red;'>" + i + "(" + dayDesc + ")" + "</span></th >";
-        }
-        else {
-            header += "<th scope='col'>" + i + "(" + dayDesc + ")" + "</th >";
-        }
-
     }
 
+    for (var i = begin; i <= endDayValue; i++) {
+
+        var dayDesc = getDayNamee(year, (month - 1), i);
+        header += "<th scope='col'>" + i + "(" + dayDesc + ")" + "</th >";
+    }
+   
     header +="</tr > '";
 
     document.getElementById("studentAttendanceHeader").innerHTML = header;
@@ -106,20 +117,6 @@ function drawStudentAttendanceBook(entityList) {
         document.getElementById("lblInfo").innerHTML = year + " - " + months[month-1][1];
 
     }
-}
-
-function getDayName(year, month, day) {
-    var a = new Date(year, month, day);
-    var weekdays = new Array(7);
-    weekdays[0] = "Pzr";
-    weekdays[1] = "Prtsi";
-    weekdays[2] = "Salı";
-    weekdays[3] = "Çrş";
-    weekdays[4] = "Prş";
-    weekdays[5] = "Cma";
-    weekdays[6] = "Crtsi";
-    var r = weekdays[a.getDay()];
-    return r;
 }
 
 function onChange(element) {
@@ -183,5 +180,4 @@ function drpYearMonthDayChanged(changeType) {
     loadData();
 
 }
-
 

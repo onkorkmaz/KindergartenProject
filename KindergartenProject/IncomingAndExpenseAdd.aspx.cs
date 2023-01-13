@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class ExpenseAdd : System.Web.UI.Page
+    public partial class IncomingAndExpenseAdd : System.Web.UI.Page
     {
         #region VARIABLES
         ExpenseBusiness business = null;
@@ -50,13 +50,13 @@ namespace KindergartenProject
             projectType = (ProjectType)Session[CommonConst.ProjectType];
             business = new ExpenseBusiness(projectType);
 
-            divInformation.ListRecordPage = "/masraf-listesi";
-            divInformation.NewRecordPage = "/masraf-ekle";
+            divInformation.ListRecordPage = "/gelir-gider-listesi";
+            divInformation.NewRecordPage = "/gelir-gider-ekle";
 
             divInformation.InformationVisible = false;
 
             var master = this.Master as kindergarten;
-            master.SetActiveMenuAttiributes(MenuList.OutgoingAdd);
+            master.SetActiveMenuAttiributes(MenuList.IncomingAndExpenseAdd);
             master.SetVisibleSearchText(false);
             btnDelete.Visible = false;
 
@@ -137,7 +137,7 @@ namespace KindergartenProject
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/masraf-ekle");
+            Response.Redirect("/gelir-gider-ekle");
         }
 
 

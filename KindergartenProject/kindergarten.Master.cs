@@ -54,8 +54,10 @@ namespace KindergartenProject
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.PaymentType, menuPaymentType);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ClassList, classList);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.Workers, workers);
-            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.OutgoingList, outgoingList);
-            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.OutgoingAdd, outgoingAdd);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.IncomingAndExpenseAdd, incomingAndExpenseAdd);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.IncomingAndExpenseList, incomingAndExpenseList);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.IncomingAndExpenseType, incomingAndExpenseType);
+
 
         }
 

@@ -80,8 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="customJS\outgoing.js" />
+    <Content Include="customJS\studentAttendanceBookTest.js" />
     <Content Include="customJS\studentAttendanceBook.js" />
     <Content Include="customJS\studentCommon.js" />
+    <Content Include="customJS\incomingAndExpenseType.js" />
     <Content Include="StudentAdd.aspx" />
     <Content Include="ClassList.aspx" />
     <Content Include="css\app.css" />
@@ -164,8 +166,10 @@
     <Content Include="Login.aspx" />
     <Content Include="PaymentDetail.aspx" />
     <Content Include="PaymentPlan.aspx" />
-    <Content Include="ExpenseAdd.aspx" />
+    <Content Include="IncomingAndExpenseAdd.aspx" />
+    <Content Include="StudentAttendanceBookListTest.aspx" />
     <Content Include="StudentAttendanceBookList.aspx" />
+    <Content Include="IncomingAndExpenseType.aspx" />
     <Content Include="Workers.aspx" />
     <Content Include="PaymentType.aspx" />
     <Content Include="customJS\paymentType.js" />
@@ -240,12 +244,19 @@
     <Compile Include="PaymentPlan.aspx.designer.cs">
       <DependentUpon>PaymentPlan.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ExpenseAdd.aspx.cs">
-      <DependentUpon>ExpenseAdd.aspx</DependentUpon>
+    <Compile Include="IncomingAndExpenseAdd.aspx.cs">
+      <DependentUpon>IncomingAndExpenseAdd.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ExpenseAdd.aspx.designer.cs">
-      <DependentUpon>ExpenseAdd.aspx</DependentUpon>
+    <Compile Include="IncomingAndExpenseAdd.aspx.designer.cs">
+      <DependentUpon>IncomingAndExpenseAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAttendanceBookListTest.aspx.cs">
+      <DependentUpon>StudentAttendanceBookListTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentAttendanceBookListTest.aspx.designer.cs">
+      <DependentUpon>StudentAttendanceBookListTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="StudentAttendanceBookList.aspx.cs">
       <DependentUpon>StudentAttendanceBookList.aspx</DependentUpon>
@@ -253,6 +264,13 @@
     </Compile>
     <Compile Include="StudentAttendanceBookList.aspx.designer.cs">
       <DependentUpon>StudentAttendanceBookList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IncomingAndExpenseType.aspx.cs">
+      <DependentUpon>IncomingAndExpenseType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IncomingAndExpenseType.aspx.designer.cs">
+      <DependentUpon>IncomingAndExpenseType.aspx</DependentUpon>
     </Compile>
     <Compile Include="Workers.aspx.cs">
       <DependentUpon>Workers.aspx</DependentUpon>

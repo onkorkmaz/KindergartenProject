@@ -132,22 +132,31 @@ namespace KindergartenProject
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl workers;
 
         /// <summary>
-        /// outgoingAdd control.
+        /// incomingAndExpenseAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outgoingAdd;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseAdd;
 
         /// <summary>
-        /// outgoingList control.
+        /// incomingAndExpenseList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outgoingList;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseList;
+
+        /// <summary>
+        /// incomingAndExpenseType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseType;
 
         /// <summary>
         /// liExit control.

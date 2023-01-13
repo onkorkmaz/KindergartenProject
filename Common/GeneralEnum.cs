@@ -28,9 +28,10 @@ namespace Common
         Login = 5,
         ClassList = 6,
         Workers = 7,
-        OutgoingAdd = 8,
-        OutgoingList = 9,
-        StudentAttendanceBookList = 10
+        IncomingAndExpenseAdd = 8,
+        IncomingAndExpenseList = 9,
+        StudentAttendanceBookList = 10,
+        IncomingAndExpenseType =11
 
 
     }

@@ -75,9 +75,11 @@
                                     <li class="sidebar-item" id="classList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
                                     <li class="sidebar-item" id="workers" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
 
-                                    <li class="sidebar-item" id="outgoingAdd" runat="server"><a class="sidebar-link" href="/masraf-ekle">Masraf Ekle</a></li>
+                                    <li class="sidebar-item" id="incomingAndExpenseAdd" runat="server"><a class="sidebar-link" href="/gelir-gider-ekle">Gelir-Gider Ekle</a></li>
 
-                                    <li class="sidebar-item" id="outgoingList" runat="server"><a class="sidebar-link" href="/masraf-listesi">Masraf Listesi</a></li>
+                                    <li class="sidebar-item" id="incomingAndExpenseList" runat="server"><a class="sidebar-link" href="/gelir-gider-listesi">Gelir-Gider Listesi</a></li>
+
+                                    <li class="sidebar-item" id="incomingAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
 
 
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>

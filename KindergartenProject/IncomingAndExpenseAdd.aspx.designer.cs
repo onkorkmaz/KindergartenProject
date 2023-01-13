@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class ExpenseAdd
+    public partial class IncomingAndExpenseAdd
     {
 
         /// <summary>

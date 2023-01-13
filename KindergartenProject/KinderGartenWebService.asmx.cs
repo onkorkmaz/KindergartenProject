@@ -123,6 +123,16 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public List<IncomingAndExpenseTypeEntity> GetAllIncomingAndExpenseType()
+        {
+            List<IncomingAndExpenseTypeEntity> result = new IncomingAndExpenseTypeBusiness(GetProjectType()).Get_IncomingAndExpenseType(new SearchEntity() { IsDeleted = false }).Result;
+
+            return result;
+        }
+
+        
+
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdatePaymentType(string encryptId, PaymentTypeEntity paymentTypeEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
@@ -189,6 +199,34 @@ namespace KindergartenProject
 
             return result;
         }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> DeleteIncomingAndExpenseType(string id)
+        {
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true,
+                ErrorDescription = "Id bilgisine ulaşılamadı."
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    IncomingAndExpenseTypeEntity entity = new IncomingAndExpenseTypeEntity
+                    {
+                        Id = idInt,
+                        DatabaseProcess = DatabaseProcess.Deleted
+                    };
+
+                    result = new IncomingAndExpenseTypeBusiness(GetProjectType()).Set_IncomingAndExpenseType(entity);
+                }
+            }
+
+            return result;
+        }
+
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeletePaymentType(string id)
@@ -318,6 +356,31 @@ namespace KindergartenProject
 
             return result;
         }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<IncomingAndExpenseTypeEntity> UpdateIncomingAndExpenseType(string id)
+        {
+            DataResultArgs<IncomingAndExpenseTypeEntity> result = new DataResultArgs<IncomingAndExpenseTypeEntity>
+
+            {
+                HasError = true,
+                ErrorDescription = "Entity ulaşılamadı..."
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    result = new IncomingAndExpenseTypeBusiness(GetProjectType()).Get_IncomingAndExpenseType_WithId(idInt);
+                    if (result.Result != null)
+                        result.HasError = false;
+                }
+            }
+
+            return result;
+        }
+
 
         [WebMethod(EnableSession = true)]
         public List<StudentEntity> GetAllStudent()
@@ -672,6 +735,26 @@ namespace KindergartenProject
             classEntity.DatabaseProcess = currentProcess;
 
             return new ClassBusiness(GetProjectType()).Set_Class(classEntity);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> InsertOrUpdateIncomingAndExpenseTypeEntity(string encryptId, IncomingAndExpenseTypeEntity incomingAndExpenseTypeEntity)
+        {
+            DatabaseProcess currentProcess = DatabaseProcess.Add;
+            incomingAndExpenseTypeEntity.Id = 0;
+            if (!string.IsNullOrEmpty(encryptId))
+            {
+                int.TryParse(Cipher.Decrypt(encryptId), out var id);
+                if (id > 0)
+                {
+                    currentProcess = DatabaseProcess.Update;
+                }
+                incomingAndExpenseTypeEntity.Id = id;
+            }
+
+            incomingAndExpenseTypeEntity.DatabaseProcess = currentProcess;
+
+            return new IncomingAndExpenseTypeBusiness(GetProjectType()).Set_IncomingAndExpenseType(incomingAndExpenseTypeEntity);
         }
 
         [WebMethod(EnableSession = true)]
