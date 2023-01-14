@@ -5,7 +5,7 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/customJS/outgoing.js"></script>
+    <script src="/customJS/incomingAndExpense.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
@@ -16,9 +16,9 @@
                 <asp:HiddenField runat="server" ID="hdnId" />
 
                 <div class="mb-3 row">
-                    <label class="col-form-label col-sm-2 text-sm-left">Masraf Türü</label>
+                    <label class="col-form-label col-sm-2 text-sm-left">Gelir / Gider Tipi</label>
                     <div class="col-sm-6">
-                        <asp:TextBox runat="server" ID="txtName" CssClass="form-control" placeholder="Masraf Türü"></asp:TextBox>
+                         <asp:DropDownList runat="server" ID="drpIncomingAndExpenseType" onchange="onIncomingAndExpenseTypeChanged()" CssClass="form-control"></asp:DropDownList>
                     </div>
                 </div>
 
@@ -33,18 +33,6 @@
                     <label class="col-form-label col-sm-2 text-sm-left">Açıklama</label>
                     <div class="col-sm-6">
                         <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control" placeholder="Açıklama"></asp:TextBox>
-                    </div>
-                </div>
-
-
-                <div class="mb-3 row">
-                    <label class="col-form-label col-sm-2 text-sm-left">Ödeme Sıklığı</label>
-                    <div class="col-sm-10">
-                        <asp:RadioButton runat="server" Text="Anlık" ID="rdbMoment" GroupName="PaymentTypeRecusrsive" CssClass="form-check-input" Checked="true" />
-                        &nbsp;&nbsp;&nbsp;
-                        <asp:RadioButton runat="server" Text="Aylık" ID="rdbMontly" GroupName="PaymentTypeRecusrsive" CssClass="form-check-input" />&nbsp;&nbsp;&nbsp;
-                        <asp:RadioButton runat="server" Text="Yıllık" ID="rdbYearly" GroupName="PaymentTypeRecusrsive" CssClass="form-check-input" />
-
                     </div>
                 </div>
 
@@ -66,6 +54,9 @@
                                 </td>
                                 <td>
                                     <asp:Button runat="server" ID="btnDelete" CssClass="btn btn-danger" OnClientClick="javascript: return validateDelete()" Text="Sil" OnClick="btnDelete_Click" />
+                                </td>
+                                <td>
+                                    <asp:TextBox runat="server" ReadOnly="true" ID="txtIncomingAndExpenseTypeName" CssClass="form-control" placeholder="Tutar" Font-Bold="True"></asp:TextBox>
                                 </td>
                             </tr>
                         </table>

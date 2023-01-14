@@ -10,6 +10,9 @@
     }
 };
 
+function onChangeChcOldInterview() {
+    interviewStudent();
+}
 
 function onClassNameChanged() {
 
@@ -70,15 +73,8 @@ function successFunctionSearchStudent(search,isLoadedFirst) {
     var objects = GetStudentList();
     setDefaultValues(objects);
 
-    var classId = document.getElementById("drpClassList").value;
-
     if ((search != null && search.trim() == '')) {
         activeStudent();
-        return;
-    }
-    else if (isLoadedFirst && classId> 0)
-    {
-        activeStudent(classId);
         return;
     }
     else if (isLoadedFirst)
@@ -301,12 +297,14 @@ function allStudent() {
     setMenuBold(1);
 }
 
-function activeStudent(classId) {
+function activeStudent() {
 
-    var text = document.getElementById("lblActiveStudent").innerHTML;
+    var classId = document.getElementById("drpClassList").value;
 
-    if (classId == undefined)
-        document.getElementById("drpClassList").value = "-1";
+    setVisibleItems(StudentListType.ActiveStudent);
+
+    var divOldInterview = document.getElementById("divOldInterview");
+    divOldInterview.style.display = "none";
 
     var objects = GetStudentList();
     var entityList = [];
@@ -319,7 +317,13 @@ function activeStudent(classId) {
                     entityList.push(objects[i]);
                 }
             }
-            else {
+            //Sınıf ataması yapılmayan öğrenciler
+            else if (classId != undefined && classId == -2) {
+                if (IsNullOrEmpty(objects[i]["ClassId"]) || objects[i]["ClassId"] == 0) {
+                    entityList.push(objects[i]);
+                }
+            }
+            else  {
                 entityList.push(objects[i]);
             }
         }
@@ -332,13 +336,41 @@ function activeStudent(classId) {
 
 function interviewStudent() {
 
+    setVisibleItems(StudentListType.InterviewStudent);
+
+    var chcInterview = document.getElementById("chcInterview");
+
     document.getElementById("drpClassList").value = "-1";
     var objects = GetStudentList();
     var entityList = [];
 
     for (var i = 0; i < objects.length; i++) {
-        if (objects[i]["IsStudent"] === false && objects[i]["IsActive"] === true ) {
-            entityList.push(objects[i]);
+        if (objects[i]["IsStudent"] === false && objects[i]["IsActive"] === true) {
+
+            //entityList.push(objects[i]);
+
+            var interviewDate = objects[i].InterviewDateWithFormat;
+            var parts = interviewDate.split('-');
+
+            var currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+
+            var _myInterviewDate = new Date();
+            _myInterviewDate.setHours(0, 0, 0, 0);
+
+
+            if (parts.length == 3) {
+                _myInterviewDate = new Date(parts[0], parts[1] - 1, parts[2]);
+            }
+
+            if (chcInterview.checked) {
+                if (_myInterviewDate != null && _myInterviewDate.getTime() < currentDate.getTime()) {
+                    entityList.push(objects[i]);
+                }
+            }
+            else if (IsNullOrEmpty(interviewDate) || _myInterviewDate.getTime() >= currentDate.getTime()) {
+                entityList.push(objects[i]);
+            }
         }
     }
 
@@ -347,9 +379,39 @@ function interviewStudent() {
 
 }
 
+function setVisibleItems(studentListType) {
+
+    var divOldInterview = document.getElementById("divOldInterview");
+    divOldInterview.style.display = "none";
+
+    var lblClassName = document.getElementById("lblClassName");
+    lblClassName.style.display = "none";
+
+    var divClassList = document.getElementById("divClassList");
+    divClassList.style.display = "none";
+
+
+
+
+    if (studentListType == StudentListType.ActiveStudent) {
+        lblClassName.style.display = "";
+        divClassList.style.display = "";
+    }
+    else if (studentListType == StudentListType.PassiveStudent) {
+
+    }
+    else if (studentListType == StudentListType.InterviewStudent) {
+        divOldInterview.style.display = "";
+    }
+}
+
+
 function passiveStudent() {
 
     document.getElementById("drpClassList").value = "-1";
+
+    setVisibleItems(StudentListType.PassiveStudent);
+
     var objects = GetStudentList();
     var entityList = [];
 

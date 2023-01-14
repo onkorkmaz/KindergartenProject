@@ -27,7 +27,7 @@
     <form id="form1" runat="server">
         <div>
             <div class="wrapper">
-                <nav ID="sidebar" class="sidebar" runat="server">
+                <nav id="sidebar" class="sidebar" runat="server">
                     <div class="sidebar-content js-simplebar">
                         <a class="sidebar-brand" href="/benim-dunyam-montessori-okullari">
                             <span class="align-middle">Yeliz AY</span> &nbsp;&nbsp;&nbsp;
@@ -58,34 +58,41 @@
                             </li>
                             <li runat="server" id="menuPaymentPlan">
                                 <a class="sidebar-link" href="/odeme-plani">
-                                    <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ödeme Planları</span>
+                                    <i class="align-middle" data-feather="briefcase"></i><span class="align-middle">Ödeme Planları</span>
                                 </a>
                             </li>
-                             <li runat="server" id="menuStudentAttendanceBookList">
+                            <li runat="server" id="menuStudentAttendanceBookList">
                                 <a class="sidebar-link" href="/yoklama-sayfasi">
-                                    <i class="align-middle" data-feather="user"></i><span class="align-middle">Yoklama Defteri</span>
+                                    <i class="align-middle" data-feather="umbrella"></i><span class="align-middle">Yoklama Defteri</span>
                                 </a>
                             </li>
-                             <li runat="server" id="menuSettings">
+
+                            <li id="incomingAndExpenseAdd" runat="server">
+                                <a class="sidebar-link" href="/gelir-gider-ekle">
+                                    
+                                     <i class="align-middle" data-feather="save"></i><span class="align-middle">Gelir-Gider Ekle</span>
+                                </a>
+
+                            </li>
+
+                            <li id="incomingAndExpenseList" runat="server">
+                                <a class="sidebar-link" href="/gelir-gider-listesi">
+                                    
+                                    <i class="align-middle" data-feather="paperclip"></i><span class="align-middle">Gelir-Gider Listesi</span>
+                                </a>
+
+                            </li>
+
+                            <li runat="server" id="menuSettings">
                                 <a data-target="#ui" data-toggle="collapse" class="sidebar-link collapsed">
-                                    <i class="align-middle" data-feather="briefcase"></i><span class="align-middle">Ayarlar</span>
+                                    <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ayarlar</span>
                                 </a>
                                 <ul id="ui" data-parent="#sidebar" runat="server">
                                     <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="/odeme-tipleri">Ödeme Tipleri</a></li>
                                     <li class="sidebar-item" id="classList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
                                     <li class="sidebar-item" id="workers" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
-
-                                    <li class="sidebar-item" id="incomingAndExpenseAdd" runat="server"><a class="sidebar-link" href="/gelir-gider-ekle">Gelir-Gider Ekle</a></li>
-
-                                    <li class="sidebar-item" id="incomingAndExpenseList" runat="server"><a class="sidebar-link" href="/gelir-gider-listesi">Gelir-Gider Listesi</a></li>
-
                                     <li class="sidebar-item" id="incomingAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
-
-
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>
-                                    
-
-
                                 </ul>
                             </li>
                             <li runat="server" id="liExit">

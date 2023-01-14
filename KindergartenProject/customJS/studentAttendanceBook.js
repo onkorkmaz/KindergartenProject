@@ -141,7 +141,13 @@ function successFunctionProcessAttendanceBook(object) {
         alert("Hata var !!!" + object.ErrorDescription);
     }
     else {
-        alert("Kayıt başarıldır");
+        var entity = object.Result;
+
+        if (entity.IsArrival)
+            alert("Yoklama kaydı eklenmiştir.");
+        else
+            alert("Yoklama kaydı silinmiştir.");
+
     }
 }
 

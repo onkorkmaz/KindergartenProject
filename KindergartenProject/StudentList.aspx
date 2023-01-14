@@ -15,7 +15,7 @@
         <div class="col-12 col-xl-12">
             <div class="mb-3 row">
 
-               <%-- <div class="col-sm-3">
+                <%-- <div class="col-sm-3">
                     <div class="alert alert-primary alert-dismissible" role="alert">
                         <div class="alert-message">
                             <asp:Label runat="server" ID="lblAllStudent" Style="cursor: pointer;"></asp:Label>
@@ -26,21 +26,21 @@
                 <div class="col-sm-3">
                     <div class="alert alert-success alert-dismissible" role="alert">
                         <div class="alert-message">
-                            <asp:Label runat="server" ID="lblActiveStudent" style="cursor: pointer;"></asp:Label>
+                            <asp:Label runat="server" ID="lblActiveStudent" Style="cursor: pointer;"></asp:Label>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="alert alert-warning alert-dismissible" role="alert">
                         <div class="alert-message">
-                            <asp:Label runat="server" ID="lblInterview" style="cursor: pointer;"></asp:Label>
+                            <asp:Label runat="server" ID="lblInterview" Style="cursor: pointer;"></asp:Label>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="alert alert-secondary alert-dismissible" role="alert">
                         <div class="alert-message">
-                            <asp:Label runat="server" ID="lblPassiveStudent" style="cursor: pointer;"></asp:Label>
+                            <asp:Label runat="server" ID="lblPassiveStudent" Style="cursor: pointer;"></asp:Label>
                         </div>
                     </div>
                 </div>
@@ -48,13 +48,19 @@
         </div>
 
         <asp:HiddenField runat="server" ID="hdnId" />
-                <div class="mb-3 row">
-                    <label class="col-form-label col-sm-2 text-sm-left">Sınıf Adı</label>
-                    <div class="col-sm-2">
-                        <asp:DropDownList runat="server" ID="drpClassList" onchange="onClassNameChanged();" CssClass="form-control" ></asp:DropDownList>
-                    </div>
-                </div>
-            <hr />
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 text-sm-left" id ="lblClassName">Sınıf Adı</label>
+            <div class="col-sm-2" id="divClassList">
+                <asp:DropDownList runat="server" ID="drpClassList" onchange="onClassNameChanged();" CssClass="form-control"></asp:DropDownList>
+            </div>
+            <div id="divOldInterview" style="display:none;" class="col-sm-4">
+              
+                     Eski Görüşmeler &nbsp;
+                    <asp:CheckBox runat="server" onclick="onChangeChcOldInterview();" ID="chcInterview" CssClass="form-check-input" />
+              
+            </div>
+        </div>
+        <hr />
 
 
 

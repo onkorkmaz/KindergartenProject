@@ -145,18 +145,22 @@
                         </div>--%>
 
                         <div class="mb-3 row">
-                            <label class="col-form-label col-sm-2 text-sm-left">Deneme Dersi alacak mı ? </label>
-                            <div class="col-sm-3">
-                                <asp:CheckBox runat="server" ID="chcInterview" CssClass="form-check-input" />
+
+                           <label class="col-form-label col-sm-2 text-sm-left">Deneme Dersi alacak mı ? </label>
+                            <div class="col-sm-2">
+                                <asp:CheckBox runat="server" onclick ="onChangeIsInterview();" ID="chcInterview" CssClass="form-check-input" />
                             </div>
+                            
                         </div>
 
-                        <div class="mb-3 row">
-                            <label class="col-form-label col-sm-2 text-sm-left">Deneme Dersi Tarihi</label>
-                            <div class="col-sm-3">
-                                <asp:TextBox ID="txtInterviewDate" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
-                            </div>
+                        <div class="mb-3 row"   style="display:none;" id="interviewDate" runat="server">
+
+                           <label class="col-form-label col-sm-2 text-sm-left">Deneme Dersi Tarihi </label>
+                            <div class="col-sm-2">
+                                 <asp:TextBox ID="txtInterviewDate" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                             </div>
                         </div>
+
 
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Notlar</label>

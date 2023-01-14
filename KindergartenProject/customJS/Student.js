@@ -33,6 +33,19 @@ function fullName_Change() {
 
 }
 
+function onChangeIsInterview() {
+    var checked = document.getElementById("chcInterview").checked;
+    var interviewDate = document.getElementById("interviewDate");
+
+    if (checked) {
+        interviewDate.style.display = "";
+
+    }
+    else {
+        interviewDate.style.display = "none";
+    }
+}
+
 function IsUserNameExist(fullName) {
 
     if (!IsNullOrEmpty(fullName)) {
@@ -181,7 +194,16 @@ function validate() {
     var isInterview = document.getElementById("chcInterview").checked;
     if (isInterview) {
         var interviewDate = document.getElementById("txtInterviewDate").value;
-        //errorMessage += "Email bilgisi doğru formatta girilmemiştir.\n";
+        if (IsNullOrEmpty(interviewDate)) {
+            errorMessage += "Görüşme tarihi boş geçilemez.\n";
+        }
+        else {
+            var ToDate = new Date();
+            if (new Date(interviewDate).getTime() < ToDate.getTime() && document.getElementById("btnSubmit").value=="Kaydet") {
+
+            errorMessage += "Görüşme tarihi bugünden küçük olamaz.\n";
+            }
+        }
 
     }
 

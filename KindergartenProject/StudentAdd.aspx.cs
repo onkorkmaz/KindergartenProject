@@ -152,6 +152,12 @@ namespace KindergartenProject
                             btnSubmit.Text = ButtonText.Update;
                             btnPaymentDetail.Visible = currentRecord.IsStudent;
                             btnDelete.Visible = true;
+
+                            if(currentRecord.IsInterview)
+                            {
+                                interviewDate.Style.Remove("display");
+                            }
+
                         }
                     }
                 }

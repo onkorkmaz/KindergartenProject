@@ -3,6 +3,7 @@ using Common;
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,27 +14,25 @@ namespace KindergartenProject
     public partial class IncomingAndExpenseAdd : System.Web.UI.Page
     {
         #region VARIABLES
-        ExpenseBusiness business = null;
+        IncomingAndExpenseBusiness business = null;
         ProjectType projectType = ProjectType.None;
-        List<ExpenseEntity> lst;
+        List<IncomingAndExpenseEntity> lst;
         #endregion VARIABLES
 
         public const string paymentDetail = "Ödeme Detayı";
 
         #region PROPERTIES
-        private ExpenseEntity currentRecord;
-        public ExpenseEntity CurrentRecord
+        private IncomingAndExpenseEntity currentRecord;
+        public IncomingAndExpenseEntity CurrentRecord
         {
             set
             {
                 currentRecord = value;
                 hdnId.Value = currentRecord.Id.ToString();
                 txtDescription.Text = currentRecord.Description;
-                txtName.Text = currentRecord.Name;
+                drpIncomingAndExpenseType.SelectedValue = currentRecord.IncomingAndExpenseTypeId.ToString();
                 txtAmount.Text = currentRecord.Amount.ToString(); ;
                 chcIsActive.Checked = (currentRecord.IsActive.HasValue) ? currentRecord.IsActive.Value : false;
-                rdbMoment.Checked = true;
-                rdbMontly.Checked = currentRecord.IsRecursiveMontly.HasValue && currentRecord.IsRecursiveMontly.Value;
 
             }
         }
@@ -48,7 +47,7 @@ namespace KindergartenProject
             }
 
             projectType = (ProjectType)Session[CommonConst.ProjectType];
-            business = new ExpenseBusiness(projectType);
+            business = new IncomingAndExpenseBusiness(projectType);
 
             divInformation.ListRecordPage = "/gelir-gider-listesi";
             divInformation.NewRecordPage = "/gelir-gider-ekle";
@@ -62,6 +61,7 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
+                loadIncomingAndExpenseType();
                 object Id = Page.RouteData.Values["outgoing_id"];
 
                 if (Id != null)
@@ -71,7 +71,8 @@ namespace KindergartenProject
                     int id = GeneralFunctions.GetData<int>(IdDecrypt);
                     if (id > 0)
                     {
-                        DataResultArgs<List<ExpenseEntity>> resultSet = new ExpenseBusiness(projectType).Get_Expense(new SearchEntity() { Id = id });
+                        DataResultArgs<List<IncomingAndExpenseEntity>> resultSet = 
+                            new IncomingAndExpenseBusiness(projectType).Get_IncomingAndExpense(new SearchEntity() { Id = id });
                         if (resultSet.HasError)
                         {
                             divInformation.ErrorText = resultSet.ErrorDescription;
@@ -87,6 +88,43 @@ namespace KindergartenProject
             }
         }
 
+        private void loadIncomingAndExpenseType()
+        {
+            DataResultArgs<List<IncomingAndExpenseTypeEntity>> typeListResult = new IncomingAndExpenseTypeBusiness(projectType).Get_IncomingAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }); ;
+
+            if (typeListResult.HasError)
+            {
+                divInformation.ErrorText = typeListResult.ErrorDescription;
+                return;
+            }
+            else
+            {
+                List<IncomingAndExpenseTypeEntity> typeList = typeListResult.Result;
+
+                int count = 0;
+                foreach (IncomingAndExpenseTypeEntity entity in typeList)
+                {
+                    drpIncomingAndExpenseType.Items.Add(new ListItem(entity.Name, entity.Id.ToString()));
+                    drpIncomingAndExpenseType.Items[count].Attributes.Add("typeOfAmount", entity.Type.ToString());
+                    count++;
+                }
+
+                drpIncomingAndExpenseType.SelectedIndex = 0;
+                
+                if(drpIncomingAndExpenseType.Items[0].Attributes["typeOfAmount"] == TypeOfAmount.Incoming.ToString())
+                {
+                    txtIncomingAndExpenseTypeName.BackColor = Color.Green;
+                    txtIncomingAndExpenseTypeName.ForeColor = Color.White;
+                    txtIncomingAndExpenseTypeName.Text = "Gelir";
+                }
+                else
+                {
+                    txtIncomingAndExpenseTypeName.BackColor = Color.Red;
+                    txtIncomingAndExpenseTypeName.Text = "Gider";
+                }
+            }
+        }
+
 
         #endregion CONTRUCTOR && PAGE_LOAD
 
@@ -94,17 +132,16 @@ namespace KindergartenProject
 
         private void processToDatabase(DatabaseProcess databaseProcess)
         {
-            ExpenseEntity entity = new ExpenseEntity();
+            IncomingAndExpenseEntity entity = new IncomingAndExpenseEntity();
             entity.DatabaseProcess = databaseProcess;
             entity.Id = GeneralFunctions.GetData<Int32>(hdnId.Value);
 
-            entity.Name = txtName.Text;
+            entity.IncomingAndExpenseTypeId = GeneralFunctions.GetData<int>(drpIncomingAndExpenseType.SelectedValue);
             entity.Amount = GeneralFunctions.GetData<decimal>(txtAmount.Text);
             entity.Description = txtDescription.Text;
-            entity.IsRecursiveMontly = rdbMontly.Checked;
             entity.IsActive = chcIsActive.Checked;
            
-            DataResultArgs<string> resultSet = business.Set_Expense(entity);
+            DataResultArgs<bool> resultSet = business.Set_IncomingAndExpense(entity);
             if (resultSet.HasError)
             {
                 divInformation.ErrorText = resultSet.ErrorDescription;

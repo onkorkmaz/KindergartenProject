@@ -87,7 +87,7 @@ function validate() {
     obje = document.getElementById("drpType").value;
     if (IsNullOrEmpty(obje))
         errorMessage += "Tip Seçilmelidir\n";
-    else if (obje != 1 && obje != 2) {
+    else if (obje != 1 && obje != 2 && obje != 3) {
         errorMessage += "Tip Seçilmelidir\n";
     }
 

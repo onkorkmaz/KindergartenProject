@@ -518,15 +518,26 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> ProcessAttendanceBook(int studentId,int year, int month, int day , bool isArrival)
+        public DataResultArgs<StudentAttendanceBookEntity> ProcessAttendanceBook(int studentId,int year, int month, int day , bool isArrival)
         {
+            DataResultArgs<StudentAttendanceBookEntity> resultSet = new DataResultArgs<StudentAttendanceBookEntity>();
             StudentAttendanceBookEntity entity = new StudentAttendanceBookEntity();
             entity.StudentId = studentId;
             entity.ArrivalDate = new DateTime(year, month, day);
             entity.IsArrival = isArrival;
             entity.IsActive = true;
             entity.ProjectType = GetProjectType();
-            return new StudentAttendanceBookBusiness(GetProjectType()).Set_StudentAttendanceBook(entity);
+            DataResultArgs<bool> result = new StudentAttendanceBookBusiness(GetProjectType()).Set_StudentAttendanceBook(entity);
+
+            resultSet.Result = entity;
+            resultSet.HasError = result.HasError;
+            resultSet.ErrorCode = result.ErrorCode;
+            resultSet.ErrorDescription = result.ErrorDescription;
+            resultSet.MyException = result.MyException;
+
+            return resultSet;
+
+
         }
 
         [WebMethod(EnableSession = true)]

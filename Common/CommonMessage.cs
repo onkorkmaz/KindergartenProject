@@ -30,4 +30,11 @@ namespace Common
     {
         public const string SearchValue = "searchValue";
     }
+
+    public static class TypeOfAmount
+    {
+        public const int Incoming = 1;
+        public const int Expense = 2;
+
+    }
 }

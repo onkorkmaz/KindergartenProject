@@ -183,3 +183,10 @@ const PaymentType = {
     "Diger": 5
 }
 
+const StudentListType =
+{
+    "ActiveStudent": 1,
+    "InterviewStudent": 2,
+    "PassiveStudent": 3,
+}
+

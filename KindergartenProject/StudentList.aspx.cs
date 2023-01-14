@@ -33,10 +33,10 @@ namespace KindergartenProject
                 lblInterview.Attributes.Add("onclick", "interviewStudent();");
                 lblPassiveStudent.Attributes.Add("onclick", "passiveStudent();");
 
+                loadClass();
                 object id = Page.RouteData.Values["class_id"];
                 if (id != null)
                 {
-                    loadClass();
                     drpClassList.SelectedValue = GeneralFunctions.GetData<string>(id);
                 }
             }
@@ -61,7 +61,7 @@ namespace KindergartenProject
                 List<ClassEntity> classList = resultSet.Result;
                 List<ClassEntity> list = new List<ClassEntity>();
 
-                list.Add(new ClassEntity() { Id = -1 });
+                list.Add(new ClassEntity() { Id = -1, Name = "-" });
                 if (resultSet.Result != null)
                 {
 
@@ -70,6 +70,9 @@ namespace KindergartenProject
                         list.Add(entity);
                     }
                 }
+
+
+                list.Add(new ClassEntity() { Id = -2 , Name ="Atanmayanlar" });
 
                 drpClassList.DataSource = list;
                 drpClassList.DataValueField = "Id";

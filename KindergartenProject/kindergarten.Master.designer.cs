@@ -87,6 +87,24 @@ namespace KindergartenProject
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuStudentAttendanceBookList;
 
         /// <summary>
+        /// incomingAndExpenseAdd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseAdd;
+
+        /// <summary>
+        /// incomingAndExpenseList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseList;
+
+        /// <summary>
         /// menuSettings control.
         /// </summary>
         /// <remarks>
@@ -130,24 +148,6 @@ namespace KindergartenProject
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl workers;
-
-        /// <summary>
-        /// incomingAndExpenseAdd control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseAdd;
-
-        /// <summary>
-        /// incomingAndExpenseList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseList;
 
         /// <summary>
         /// incomingAndExpenseType control.
