@@ -188,7 +188,6 @@ function validate() {
     var email = document.getElementById("txtEmail").value;
     if (!IsNullOrEmpty(email) && !checkEmail(email)) {
         errorMessage += "Email bilgisi doğru formatta girilmemiştir.\n";
-
     }
 
     var isInterview = document.getElementById("chcInterview").checked;
@@ -197,16 +196,7 @@ function validate() {
         if (IsNullOrEmpty(interviewDate)) {
             errorMessage += "Görüşme tarihi boş geçilemez.\n";
         }
-        else {
-            var ToDate = new Date();
-            if (new Date(interviewDate).getTime() < ToDate.getTime() && document.getElementById("btnSubmit").value=="Kaydet") {
-
-            errorMessage += "Görüşme tarihi bugünden küçük olamaz.\n";
-            }
-        }
-
     }
-
 
     if (!IsNullOrEmpty(errorMessage)) {
         alert(errorMessage);

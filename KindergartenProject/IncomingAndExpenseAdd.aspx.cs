@@ -102,6 +102,10 @@ namespace KindergartenProject
                 List<IncomingAndExpenseTypeEntity> typeList = typeListResult.Result;
 
                 int count = 0;
+
+                if (typeList.Count == 0)
+                    return;
+
                 foreach (IncomingAndExpenseTypeEntity entity in typeList)
                 {
                     drpIncomingAndExpenseType.Items.Add(new ListItem(entity.Name, entity.Id.ToString()));

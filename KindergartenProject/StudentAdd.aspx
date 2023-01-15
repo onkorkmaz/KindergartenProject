@@ -104,7 +104,7 @@
                         </div>
 
 
-                         <div class="mb-3 row">
+                         <div class="mb-3 row" runat="server" id="divSchoolClass">
                             <label class="col-form-label col-sm-2 text-sm-left">Mevcut Sınıfı</label>
                             <div class="col-sm-2">
                                 <asp:DropDownList runat="server" ID="drpSchoolClass"  CssClass="form-control">

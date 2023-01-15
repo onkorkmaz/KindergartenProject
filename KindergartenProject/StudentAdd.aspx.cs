@@ -101,6 +101,11 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
+                if(projectType!= ProjectType.BenimDunyamEgitimMerkeziİstiklalCaddesi)
+                {
+                    divSchoolClass.Visible = false;
+                }
+
                 //txtBirthday.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 //txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 txtInterviewDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
