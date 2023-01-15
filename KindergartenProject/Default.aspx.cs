@@ -37,7 +37,7 @@ namespace KindergartenProject
         {
             fillStudentCount();
 
-            fillIncomingAndOutGoing();
+            fillIncomeAndOutGoing();
 
             fillClassList();
         }
@@ -97,7 +97,7 @@ namespace KindergartenProject
             }
         }
 
-        private void fillIncomingAndOutGoing()
+        private void fillIncomeAndOutGoing()
         {
             decimal commonPriceInfo = 0;
 
@@ -117,7 +117,7 @@ namespace KindergartenProject
 
             foreach (PaymentSummary summary in summaryList)
             {
-                decimal total = summary.Incoming - summary.WorkersExpenses - commonPriceInfo;
+                decimal total = summary.Income - summary.WorkerExpenses - commonPriceInfo;
                 string style = "style='color:red; font-weight:bold;'";
 
                 if (total >= 0)
@@ -127,9 +127,9 @@ namespace KindergartenProject
 
                 htmlSummary += @"<tr>
                                      <td>2022</td>
-                                     <td>" + summary.Incoming.ToString("###,###,###.##") + @"</td>
-                                     <td>" + summary.WaitingInComing.ToString("###,###,###.##") + @"</td>
-                                     <td>" + summary.WorkersExpenses.ToString("###,###,###.##") + @"</td>
+                                     <td>" + summary.Income.ToString("###,###,###.##") + @"</td>
+                                     <td>" + summary.WaitingInCome.ToString("###,###,###.##") + @"</td>
+                                     <td>" + summary.WorkerExpenses.ToString("###,###,###.##") + @"</td>
                                      <td>-</td>
                                      <td " + style + @">" + total.ToString("###,###,###.##") + @"</td>
                                  </tr>";

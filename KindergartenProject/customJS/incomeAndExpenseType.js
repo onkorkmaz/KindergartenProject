@@ -6,17 +6,21 @@
 function loadData() {
 
     var jsonData = "{  }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllWorkers', jsonData, successFunctionGetWorksers, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllIncomeAndExpenseType', jsonData, successFunctionGetIncomeAndExpenseType, errorFunction);
 
 }
 
-function successFunctionGetWorksers(obje) {
+function successFunctionGetIncomeAndExpenseType(obje) {
 
     var entityList = obje;
     if (entityList != null) {
 
-        var tbody = "";
+        var tbodyIncome = "";
+        var tbodyExpense= "";
+
         for (var i in entityList) {
+
+            var tbody = "";            
 
             tbody += "<tr>";
             tbody += "<td>";
@@ -25,32 +29,34 @@ function successFunctionGetWorksers(obje) {
             tbody += "</td>";
 
             tbody += "<td>" + entityList[i].Name + "</td>";
-            tbody += "<td>" + entityList[i].Surname + "</td>";
-            if (entityList[i].IsManager) {
-                tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
-            }
-            else {
-                tbody += "<td>&nbsp;</td>";
-
-            }
-            tbody += "<td>" + entityList[i].Price + "</td>";
-            tbody += "<td>" + entityList[i].PhoneNumber + "</td>";
-
-            if (entityList[i].IsTeacher)
-                tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
-            else
-                tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
-
+            
             if (entityList[i].IsActive)
                 tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
             else
                 tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
 
-            tbody += "<td>" + convertToJavaScriptDate(entityList[i].UpdatedOn) + "</td>";
+            if (entityList[i].Type==1)
+                tbody += "<td>Gelir</td>";
+            else if (entityList[i].Type == 2)
+                tbody += "<td>Gider</td>";
+            else if (entityList[i].Type == 3)
+                tbody += "<td style='color:red;'>Çalışan Gideri</td>";
+
             tbody += "</tr> ";
+
+
+            if (entityList[i].Type == 1) {
+                tbodyIncome += tbody;
+            }
+            else {
+                tbodyExpense += tbody;
+
+            }
         }
 
-        document.getElementById("tbWorkers").innerHTML = tbody;
+        document.getElementById("tbIncome").innerHTML = tbodyIncome;
+        document.getElementById("tbExpense").innerHTML = tbodyExpense;
+
 
     }
 }
@@ -62,28 +68,16 @@ function validateAndSave()
 
     var id = document.getElementById("hdnId").value;
     var name = document.getElementById("txtName").value;
-    var surname = document.getElementById("txtSurname").value;
-    var isManager = document.getElementById("chcIsManager").checked;
-    var price = document.getElementById("txtPrice").value;
+    var type = document.getElementById("drpType").value;
     var isActive = document.getElementById("chcIsActive").checked;
-    var isTeacher = document.getElementById("chcIsTeacher").checked;
-    var phoneNumber = document.getElementById("txtPhoneNumber").value;
 
-    var workerEntity = {};
-    workerEntity["Name"] = name;
-    workerEntity["Surname"] = surname;
-    workerEntity["IsManager"] = isManager;
-    if (price == '') {
-        price = 0;
-    }
-    workerEntity["Price"] = price;
-    workerEntity["PhoneNumber"] = phoneNumber;
 
-    workerEntity["IsActive"] = isActive;
-    workerEntity["IsTeacher"] = isTeacher;
-
-    var jsonData = "{ encryptId:" + JSON.stringify(id) + ", workerEntity: " + JSON.stringify(workerEntity) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateWorker', jsonData, successFunctionInsertOrUpdateWorker, errorFunction);
+    var IncomeAndExpenseTypeEntity = {};
+    IncomeAndExpenseTypeEntity["Name"] = name;
+    IncomeAndExpenseTypeEntity["Type"] = type;
+    IncomeAndExpenseTypeEntity["IsActive"] = isActive;
+    var jsonData = "{ encryptId:" + JSON.stringify(id) + ", IncomeAndExpenseTypeEntity: " + JSON.stringify(IncomeAndExpenseTypeEntity) + " }";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateIncomeAndExpenseTypeEntity', jsonData, successFunctionInsertOrUpdateIncomeAndExpenseTypeEntity, errorFunction);
 
     return false;
 
@@ -96,14 +90,12 @@ function validate() {
     if (IsNullOrEmpty(obje))
         errorMessage += "İsim boş bırakılamaz\n";
 
-    obje = document.getElementById("txtSurname").value;
+    obje = document.getElementById("drpType").value;
     if (IsNullOrEmpty(obje))
-        errorMessage += "Soyisim boş bırakılamaz\n";
-
-    //obje = document.getElementById("txtPrice").value;
-    //if (IsNullOrEmpty(obje))
-    //    errorMessage += "Tutar boş bırakılamaz\n";
-
+        errorMessage += "Tip Seçilmelidir\n";
+    else if (obje != 1 && obje != 2 && obje != 3) {
+        errorMessage += "Tip Seçilmelidir\n";
+    }
 
 
     if (!IsNullOrEmpty(errorMessage)) {
@@ -114,7 +106,7 @@ function validate() {
     return true;
 }
 
-function successFunctionInsertOrUpdateWorker(obje) {
+function successFunctionInsertOrUpdateIncomeAndExpenseTypeEntity(obje) {
 
     if (!obje.HasError && obje.Result) {
         loadData();
@@ -133,7 +125,7 @@ function deleteCurrentRecord(id) {
     if (confirm('Silme işlemine devam etmek istediğinize emin misiniz?')) {
 
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteWorker', jsonData, successFunctionDeletePaymentType, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteIncomeAndExpenseType', jsonData, successFunctionDeletePaymentType, errorFunction);
     }
 
 }
@@ -154,8 +146,8 @@ function successFunctionDeletePaymentType(obje) {
 function updateCurrentRecord(id) {
 
     document.getElementById("hdnId").value = id;
-    var jsonData = "{ id: " + JSON.stringify(id) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdateWorker', jsonData, successFunctionUpdateWorker, errorFunction);
+    var jsonData = "{ id: " + JSON.stringify(id) + "}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdateIncomeAndExpenseType', jsonData, successFunctionUpdateWorker, errorFunction);
 
 }
 
@@ -163,12 +155,11 @@ function successFunctionUpdateWorker(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
         document.getElementById("txtName").value = entity.Name;
-        document.getElementById("txtSurname").value = entity.Surname;
-        document.getElementById("chcIsManager").checked = entity.IsManager;
-        document.getElementById("txtPrice").value = entity.Price;
+
+        document.getElementById("drpType").value = entity.Type;
+
+
         document.getElementById("chcIsActive").checked = entity.IsActive;
-        document.getElementById("chcIsTeacher").checked = entity.IsTeacher;
-        document.getElementById("txtPhoneNumber").value = entity.PhoneNumber;
 
         document.getElementById("btnSubmit").value = "Güncelle";
         document.getElementById("btnSubmit").disabled = "";
@@ -182,13 +173,9 @@ function successFunctionUpdateWorker(obje) {
 function setDefaultValues() {
     document.getElementById("hdnId").value = "";
     document.getElementById("txtName").value = "";
-    document.getElementById("txtSurname").value = "";
-
-    document.getElementById("txtPrice").value = "";
-    document.getElementById("txtPhoneNumber").value = "";
+    document.getElementById("drpType").value = 1;
 
     document.getElementById("chcIsActive").checked = true;
-    document.getElementById("chcIsManager").checked = false;
     document.getElementById("btnSubmit").value = "Kaydet";
     //document.getElementById("btnSubmit").disabled = "disabled";
 

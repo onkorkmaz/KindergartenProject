@@ -9,7 +9,7 @@ namespace KindergartenProject
 {
     public partial class ClassList : System.Web.UI.Page
     {
-        WorkersBusiness business = null;
+        WorkerBusiness business = null;
         ProjectType projectType = ProjectType.None;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -26,10 +26,10 @@ namespace KindergartenProject
                 master.SetVisibleSearchText(false);
 
                 projectType = (ProjectType)Session[CommonConst.ProjectType];
-                business = new WorkersBusiness(projectType);
+                business = new WorkerBusiness(projectType);
 
 
-                List<WorkerEntity> currentList = business.Get_Workers(new SearchEntity() { IsActive = true, IsDeleted = false }, true).Result;
+                List<WorkerEntity> currentList = business.Get_Worker(new SearchEntity() { IsActive = true, IsDeleted = false }, true).Result;
 
                 List<WorkerEntity> list = new List<WorkerEntity>();
 

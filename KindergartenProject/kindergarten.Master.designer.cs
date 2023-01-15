@@ -87,22 +87,22 @@ namespace KindergartenProject
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuStudentAttendanceBookList;
 
         /// <summary>
-        /// incomingAndExpenseAdd control.
+        /// menuIncomeAndExpenseAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseAdd;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuIncomeAndExpenseAdd;
 
         /// <summary>
-        /// incomingAndExpenseList control.
+        /// menuIncomeAndExpenseList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseList;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuIncomeAndExpenseList;
 
         /// <summary>
         /// menuSettings control.
@@ -141,22 +141,22 @@ namespace KindergartenProject
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl classList;
 
         /// <summary>
-        /// workers control.
+        /// workerList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl workers;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl workerList;
 
         /// <summary>
-        /// incomingAndExpenseType control.
+        /// IncomeAndExpenseType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl incomingAndExpenseType;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl IncomeAndExpenseType;
 
         /// <summary>
         /// liExit control.

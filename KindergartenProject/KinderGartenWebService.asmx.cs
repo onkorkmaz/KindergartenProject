@@ -111,21 +111,21 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public DataResultArgs<List<WorkerEntity>> GetActiveTeacher()
         {
-            return new WorkersBusiness(GetProjectType()).Get_Workers(new SearchEntity() { IsActive = true, IsDeleted = false }, true);
+            return new WorkerBusiness(GetProjectType()).Get_Worker(new SearchEntity() { IsActive = true, IsDeleted = false }, true);
         }
 
         [WebMethod(EnableSession = true)]
-        public List<WorkerEntity> GetAllWorkers()
+        public List<WorkerEntity> GetAllWorker()
         {
-            List<WorkerEntity> result = new WorkersBusiness(GetProjectType()).Get_Workers(new SearchEntity() { IsDeleted = false }, null).Result;
+            List<WorkerEntity> result = new WorkerBusiness(GetProjectType()).Get_Worker(new SearchEntity() { IsDeleted = false }, null).Result;
 
             return result;
         }
 
         [WebMethod(EnableSession = true)]
-        public List<IncomingAndExpenseTypeEntity> GetAllIncomingAndExpenseType()
+        public List<IncomeAndExpenseTypeEntity> GetAllIncomeAndExpenseType()
         {
-            List<IncomingAndExpenseTypeEntity> result = new IncomingAndExpenseTypeBusiness(GetProjectType()).Get_IncomingAndExpenseType(new SearchEntity() { IsDeleted = false }).Result;
+            List<IncomeAndExpenseTypeEntity> result = new IncomeAndExpenseTypeBusiness(GetProjectType()).Get_IncomeAndExpenseType(new SearchEntity() { IsDeleted = false }).Result;
 
             return result;
         }
@@ -169,7 +169,7 @@ namespace KindergartenProject
 
             workerEntity.DatabaseProcess = currentProcess;
 
-            return new WorkersBusiness(GetProjectType()).Set_Worker(workerEntity);
+            return new WorkerBusiness(GetProjectType()).Set_Worker(workerEntity);
         }
 
 
@@ -193,7 +193,7 @@ namespace KindergartenProject
                         DatabaseProcess = DatabaseProcess.Deleted
                     };
 
-                    result = new WorkersBusiness(GetProjectType()).Set_Worker(entity);
+                    result = new WorkerBusiness(GetProjectType()).Set_Worker(entity);
                 }
             }
 
@@ -201,7 +201,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> DeleteIncomingAndExpenseType(string id)
+        public DataResultArgs<bool> DeleteIncomeAndExpenseType(string id)
         {
             DataResultArgs<bool> result = new DataResultArgs<bool>
             {
@@ -214,13 +214,13 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    IncomingAndExpenseTypeEntity entity = new IncomingAndExpenseTypeEntity
+                    IncomeAndExpenseTypeEntity entity = new IncomeAndExpenseTypeEntity
                     {
                         Id = idInt,
                         DatabaseProcess = DatabaseProcess.Deleted
                     };
 
-                    result = new IncomingAndExpenseTypeBusiness(GetProjectType()).Set_IncomingAndExpenseType(entity);
+                    result = new IncomeAndExpenseTypeBusiness(GetProjectType()).Set_IncomeAndExpenseType(entity);
                 }
             }
 
@@ -348,7 +348,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new WorkersBusiness(GetProjectType()).Get_Workers_WithId(GeneralFunctions.GetData<int>(id), null);
+                    result = new WorkerBusiness(GetProjectType()).Get_Worker_WithId(GeneralFunctions.GetData<int>(id), null);
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -358,9 +358,9 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<IncomingAndExpenseTypeEntity> UpdateIncomingAndExpenseType(string id)
+        public DataResultArgs<IncomeAndExpenseTypeEntity> UpdateIncomeAndExpenseType(string id)
         {
-            DataResultArgs<IncomingAndExpenseTypeEntity> result = new DataResultArgs<IncomingAndExpenseTypeEntity>
+            DataResultArgs<IncomeAndExpenseTypeEntity> result = new DataResultArgs<IncomeAndExpenseTypeEntity>
 
             {
                 HasError = true,
@@ -372,7 +372,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new IncomingAndExpenseTypeBusiness(GetProjectType()).Get_IncomingAndExpenseType_WithId(idInt);
+                    result = new IncomeAndExpenseTypeBusiness(GetProjectType()).Get_IncomeAndExpenseType_WithId(idInt);
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -749,10 +749,10 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> InsertOrUpdateIncomingAndExpenseTypeEntity(string encryptId, IncomingAndExpenseTypeEntity incomingAndExpenseTypeEntity)
+        public DataResultArgs<bool> InsertOrUpdateIncomeAndExpenseTypeEntity(string encryptId, IncomeAndExpenseTypeEntity IncomeAndExpenseTypeEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
-            incomingAndExpenseTypeEntity.Id = 0;
+            IncomeAndExpenseTypeEntity.Id = 0;
             if (!string.IsNullOrEmpty(encryptId))
             {
                 int.TryParse(Cipher.Decrypt(encryptId), out var id);
@@ -760,12 +760,12 @@ namespace KindergartenProject
                 {
                     currentProcess = DatabaseProcess.Update;
                 }
-                incomingAndExpenseTypeEntity.Id = id;
+                IncomeAndExpenseTypeEntity.Id = id;
             }
 
-            incomingAndExpenseTypeEntity.DatabaseProcess = currentProcess;
+            IncomeAndExpenseTypeEntity.DatabaseProcess = currentProcess;
 
-            return new IncomingAndExpenseTypeBusiness(GetProjectType()).Set_IncomingAndExpenseType(incomingAndExpenseTypeEntity);
+            return new IncomeAndExpenseTypeBusiness(GetProjectType()).Set_IncomeAndExpenseType(IncomeAndExpenseTypeEntity);
         }
 
         [WebMethod(EnableSession = true)]
@@ -816,7 +816,27 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public DataResultArgs<List<WorkerEntity>> GetWorkerList()
         {
-            return new WorkersBusiness(GetProjectType()).Get_Workers(new SearchEntity() { IsDeleted = false }, null);
+            return new WorkerBusiness(GetProjectType()).Get_Worker(new SearchEntity() { IsDeleted = false }, null);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> AddIncomeAndExpense(string encryptId, IncomeAndExpenseEntity incomeAndExpenseEntity)
+        {
+            DatabaseProcess currentProcess = DatabaseProcess.Add;
+            incomeAndExpenseEntity.Id = 0;
+            if (!string.IsNullOrEmpty(encryptId))
+            {
+                int.TryParse(Cipher.Decrypt(encryptId), out var id);
+                if (id > 0)
+                {
+                    currentProcess = DatabaseProcess.Update;
+                }
+                incomeAndExpenseEntity.Id = id;
+            }
+
+            incomeAndExpenseEntity.DatabaseProcess = currentProcess;
+
+            return new IncomeAndExpenseBusiness(GetProjectType()).Set_IncomeAndExpense(incomeAndExpenseEntity);
         }
     }
 }

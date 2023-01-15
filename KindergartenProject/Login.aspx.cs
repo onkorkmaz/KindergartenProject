@@ -26,7 +26,7 @@ namespace KindergartenProject
                 txtUserName.Text = "yeliz";
                 txtPassword.Text = "1";
                 drpProjectType.SelectedValue = "2";
-                //btnLogin_Click(null, null);
+                btnLogin_Click(null, null);
             }
         }
 

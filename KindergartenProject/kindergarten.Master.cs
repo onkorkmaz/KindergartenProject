@@ -41,6 +41,9 @@ namespace KindergartenProject
             clearMenuActiveStyle(menuStudentAdd);
             clearMenuActiveStyle(menuPaymentPlan);
             clearMenuActiveStyle(menuStudentAttendanceBookList);
+            clearMenuActiveStyle(menuIncomeAndExpenseList);
+            clearMenuActiveStyle(menuIncomeAndExpenseAdd);
+
             clearMenuActiveStyle(menuSettings);
 
             clearSubMenuStyle();
@@ -51,12 +54,13 @@ namespace KindergartenProject
             SetMenuAttiributes(menuStudentAdd, selectedMenuList == MenuList.StudenAdd);
             SetMenuAttiributes(menuPaymentPlan, selectedMenuList == MenuList.PaymentPlan);
             SetMenuAttiributes(menuStudentAttendanceBookList, selectedMenuList == MenuList.StudentAttendanceBookList);
+            SetMenuAttiributes(menuIncomeAndExpenseAdd, selectedMenuList == MenuList.IncomeAndExpenseAdd);
+            SetMenuAttiributes(menuIncomeAndExpenseList, selectedMenuList == MenuList.IncomeAndExpenseList);
+
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.PaymentType, menuPaymentType);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ClassList, classList);
-            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.Workers, workers);
-            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.IncomingAndExpenseAdd, incomingAndExpenseAdd);
-            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.IncomingAndExpenseList, incomingAndExpenseList);
-            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.IncomingAndExpenseType, incomingAndExpenseType);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.WorkerList, workerList);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.IncomeAndExpenseType, IncomeAndExpenseType);
 
 
         }

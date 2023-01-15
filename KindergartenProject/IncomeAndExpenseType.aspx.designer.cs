@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class IncomingAndExpenseAdd
+    public partial class IncomeAndExpenseType
     {
 
         /// <summary>
@@ -42,31 +42,22 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.HiddenField hdnId;
 
         /// <summary>
-        /// drpIncomingAndExpenseType control.
+        /// drpType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drpIncomingAndExpenseType;
+        protected global::System.Web.UI.WebControls.DropDownList drpType;
 
         /// <summary>
-        /// txtAmount control.
+        /// txtName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAmount;
-
-        /// <summary>
-        /// txtDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDescription;
+        protected global::System.Web.UI.WebControls.TextBox txtName;
 
         /// <summary>
         /// chcIsActive control.
@@ -96,21 +87,21 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.Button btnCancel;
 
         /// <summary>
-        /// btnDelete control.
+        /// tbIncome control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDelete;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbIncome;
 
         /// <summary>
-        /// txtIncomingAndExpenseTypeName control.
+        /// tbExpense control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtIncomingAndExpenseTypeName;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbExpense;
     }
 }

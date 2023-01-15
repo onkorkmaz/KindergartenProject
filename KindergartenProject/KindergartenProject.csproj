@@ -79,12 +79,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="customJS\incomingAndExpense.js" />
+    <Content Include="customJS\incomeAndExpense.js" />
     <Content Include="customJS\outgoing.js" />
     <Content Include="customJS\studentAttendanceBookTest.js" />
     <Content Include="customJS\studentAttendanceBook.js" />
     <Content Include="customJS\studentCommon.js" />
-    <Content Include="customJS\incomingAndExpenseType.js" />
+    <Content Include="customJS\incomeAndExpenseType.js" />
     <Content Include="StudentAdd.aspx" />
     <Content Include="ClassList.aspx" />
     <Content Include="css\app.css" />
@@ -93,7 +93,7 @@
     <Content Include="customJS\paymentDetail.js" />
     <Content Include="customJS\paymentList.js" />
     <Content Include="customJS\classList.js" />
-    <Content Include="customJS\workers.js" />
+    <Content Include="customJS\worker.js" />
     <Content Include="customJS\sendEmail.js" />
     <Content Include="customJS\login.js" />
     <Content Include="customJS\studentList.js" />
@@ -167,11 +167,11 @@
     <Content Include="Login.aspx" />
     <Content Include="PaymentDetail.aspx" />
     <Content Include="PaymentPlan.aspx" />
-    <Content Include="IncomingAndExpenseAdd.aspx" />
+    <Content Include="IncomeAndExpenseAdd.aspx" />
     <Content Include="StudentAttendanceBookListTest.aspx" />
     <Content Include="StudentAttendanceBookList.aspx" />
-    <Content Include="IncomingAndExpenseType.aspx" />
-    <Content Include="Workers.aspx" />
+    <Content Include="IncomeAndExpenseType.aspx" />
+    <Content Include="WorkerList.aspx" />
     <Content Include="PaymentType.aspx" />
     <Content Include="customJS\paymentType.js" />
     <Content Include="customJS\student.js" />
@@ -245,12 +245,12 @@
     <Compile Include="PaymentPlan.aspx.designer.cs">
       <DependentUpon>PaymentPlan.aspx</DependentUpon>
     </Compile>
-    <Compile Include="IncomingAndExpenseAdd.aspx.cs">
-      <DependentUpon>IncomingAndExpenseAdd.aspx</DependentUpon>
+    <Compile Include="IncomeAndExpenseAdd.aspx.cs">
+      <DependentUpon>IncomeAndExpenseAdd.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="IncomingAndExpenseAdd.aspx.designer.cs">
-      <DependentUpon>IncomingAndExpenseAdd.aspx</DependentUpon>
+    <Compile Include="IncomeAndExpenseAdd.aspx.designer.cs">
+      <DependentUpon>IncomeAndExpenseAdd.aspx</DependentUpon>
     </Compile>
     <Compile Include="StudentAttendanceBookListTest.aspx.cs">
       <DependentUpon>StudentAttendanceBookListTest.aspx</DependentUpon>
@@ -266,19 +266,19 @@
     <Compile Include="StudentAttendanceBookList.aspx.designer.cs">
       <DependentUpon>StudentAttendanceBookList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="IncomingAndExpenseType.aspx.cs">
-      <DependentUpon>IncomingAndExpenseType.aspx</DependentUpon>
+    <Compile Include="IncomeAndExpenseType.aspx.cs">
+      <DependentUpon>IncomeAndExpenseType.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="IncomingAndExpenseType.aspx.designer.cs">
-      <DependentUpon>IncomingAndExpenseType.aspx</DependentUpon>
+    <Compile Include="IncomeAndExpenseType.aspx.designer.cs">
+      <DependentUpon>IncomeAndExpenseType.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Workers.aspx.cs">
-      <DependentUpon>Workers.aspx</DependentUpon>
+    <Compile Include="WorkerList.aspx.cs">
+      <DependentUpon>WorkerList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Workers.aspx.designer.cs">
-      <DependentUpon>Workers.aspx</DependentUpon>
+    <Compile Include="WorkerList.aspx.designer.cs">
+      <DependentUpon>WorkerList.aspx</DependentUpon>
     </Compile>
     <Compile Include="PaymentType.aspx.cs">
       <DependentUpon>PaymentType.aspx</DependentUpon>

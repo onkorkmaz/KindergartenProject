@@ -79,8 +79,8 @@ function successFunctionGetClassList(obje) {
 
                 
                 tbody += "<td>" + entityList[i].TeacherOutGoing + "</td>";
-                tbody += "<td>" + entityList[i].StudentIncoming + "</td>";
-                tbody += "<td>" + entityList[i].StudentCurrentIncoming + "</td>";
+                tbody += "<td>" + entityList[i].StudentIncome + "</td>";
+                tbody += "<td>" + entityList[i].StudentCurrentIncome + "</td>";
                 tbody += "</tr> ";
             }
 

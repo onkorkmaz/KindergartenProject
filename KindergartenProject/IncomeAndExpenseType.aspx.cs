@@ -11,26 +11,25 @@ using Business;
 
 namespace KindergartenProject
 {
-    public partial class IncomingAndExpenseType : System.Web.UI.Page
+    public partial class IncomeAndExpenseType : System.Web.UI.Page
     {
         ProjectType projectType = ProjectType.None;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                Response.Redirect("/uye-giris");
+            }
+
             if (!Page.IsPostBack)
             {
                 projectType = (ProjectType)Session[CommonConst.ProjectType];
                 var master = this.Master as kindergarten;
-                master.SetActiveMenuAttiributes(MenuList.IncomingAndExpenseType);
+                master.SetActiveMenuAttiributes(MenuList.IncomeAndExpenseType);
                 master.SetVisibleSearchText(false);
                 drpType.Items.Add(new ListItem("Gelir", "1"));
                 drpType.Items.Add(new ListItem("Gider", "2"));
-
-                //List<IncomingAndExpenseTypeEntity> list = new IncomingAndExpenseTypeBusiness(projectType).Get_IncomingAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
-
-                //if (list.FirstOrDefault(o => o.Type == 3) == null)
-                //{
-                //    drpType.Items.Add(new ListItem("Çalışan Gideri", "3"));
-                //}
+                drpType.Items.Add(new ListItem("Çalışan Gideri", "3")); 
             }
         }
     }

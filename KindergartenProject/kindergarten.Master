@@ -67,7 +67,7 @@
                                 </a>
                             </li>
 
-                            <li id="incomingAndExpenseAdd" runat="server">
+                            <li id="menuIncomeAndExpenseAdd" runat="server">
                                 <a class="sidebar-link" href="/gelir-gider-ekle">
                                     
                                      <i class="align-middle" data-feather="save"></i><span class="align-middle">Gelir-Gider Ekle</span>
@@ -75,7 +75,7 @@
 
                             </li>
 
-                            <li id="incomingAndExpenseList" runat="server">
+                            <li id="menuIncomeAndExpenseList" runat="server">
                                 <a class="sidebar-link" href="/gelir-gider-listesi">
                                     
                                     <i class="align-middle" data-feather="paperclip"></i><span class="align-middle">Gelir-Gider Listesi</span>
@@ -90,8 +90,8 @@
                                 <ul id="ui" data-parent="#sidebar" runat="server">
                                     <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="/odeme-tipleri">Ödeme Tipleri</a></li>
                                     <li class="sidebar-item" id="classList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
-                                    <li class="sidebar-item" id="workers" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
-                                    <li class="sidebar-item" id="incomingAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
+                                    <li class="sidebar-item" id="workerList" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
+                                    <li class="sidebar-item" id="IncomeAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>
                                 </ul>
                             </li>

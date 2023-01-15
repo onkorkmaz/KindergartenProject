@@ -1,11 +1,11 @@
-﻿<%@ Page Title="Benim Dünyam - Öğretmen Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="Workers.aspx.cs" Inherits="KindergartenProject.Workers" %>
+﻿<%@ Page Title="Benim Dünyam - Öğretmen Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="WorkerList.aspx.cs" Inherits="KindergartenProject.WorkerList" %>
 
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-     <script src="/customJS/workers.js"></script>
+     <script src="/customJS/worker.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
@@ -92,7 +92,7 @@
                             <th scope="col">Güncellenme Tarihi</th>
                         </tr>
                     </thead>
-                    <tbody runat="server" id="tbWorkers">
+                    <tbody runat="server" id="tbWorker">
                     </tbody>
                 </table>
             </div>

@@ -11,6 +11,8 @@ namespace Common
         public const string ProjectType = "ProjectType";
 
         public const string Url = "https://benimdunyamogrencitakip.com";
+
+        public const string TL = "###,###,###.##";
     }
 
     public static class RecordMessage
@@ -33,7 +35,7 @@ namespace Common
 
     public static class TypeOfAmount
     {
-        public const int Incoming = 1;
+        public const int Income = 1;
         public const int Expense = 2;
 
     }

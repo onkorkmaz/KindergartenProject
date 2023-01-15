@@ -1,11 +1,11 @@
-﻿<%@ Page Title="Benim Dünyam - Gelir - Gider Tipi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="IncomingAndExpenseType.aspx.cs" Inherits="KindergartenProject.IncomingAndExpenseType" %>
+﻿<%@ Page Title="Benim Dünyam - Gelir - Gider Tipi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="IncomeAndExpenseType.aspx.cs" Inherits="KindergartenProject.IncomeAndExpenseType" %>
 
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/customJS/incomingAndExpenseType.js"></script>
+    <script src="/customJS/IncomeAndExpenseType.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
@@ -59,10 +59,10 @@
                                     <th scope="col">#####</th>
                                     <th scope="col">İsim</th>
                                     <th scope="col">Aktif</th>
-                                    <th scope="col">Günc Tar.</th>
+                                    <th scope="col">Tip</th>
 
                                 </tr>
-                                <tbody runat="server" id="tbIncoming">
+                                <tbody runat="server" id="tbIncome">
                                 </tbody>
                             </thead>
                         </table>
@@ -78,7 +78,7 @@
                                     <th scope="col">#####</th>
                                     <th scope="col">İsim</th>
                                     <th scope="col">Aktif</th>
-                                    <th scope="col">Günc Tar.</th>
+                                    <th scope="col">Tip</th>
 
                                 </tr>
                                 <tbody runat="server" id="tbExpense">

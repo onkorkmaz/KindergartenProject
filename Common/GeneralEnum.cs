@@ -27,11 +27,11 @@ namespace Common
         PaymentType = 4,
         Login = 5,
         ClassList = 6,
-        Workers = 7,
-        IncomingAndExpenseAdd = 8,
-        IncomingAndExpenseList = 9,
+        WorkerList = 7,
+        IncomeAndExpenseAdd = 8,
+        IncomeAndExpenseList = 9,
         StudentAttendanceBookList = 10,
-        IncomingAndExpenseType =11
+        IncomeAndExpenseType =11
 
 
     }

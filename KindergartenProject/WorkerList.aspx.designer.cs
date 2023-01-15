@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class Workers
+    public partial class WorkerList
     {
 
         /// <summary>
@@ -123,12 +123,12 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.Button btnCancel;
 
         /// <summary>
-        /// tbWorkers control.
+        /// tbWorker control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbWorkers;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbWorker;
     }
 }

@@ -11,26 +11,26 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class IncomingAndExpenseAdd : System.Web.UI.Page
+    public partial class IncomeAndExpenseAdd : System.Web.UI.Page
     {
         #region VARIABLES
-        IncomingAndExpenseBusiness business = null;
+        IncomeAndExpenseBusiness business = null;
         ProjectType projectType = ProjectType.None;
-        List<IncomingAndExpenseEntity> lst;
+        List<IncomeAndExpenseEntity> lst;
         #endregion VARIABLES
 
         public const string paymentDetail = "Ödeme Detayı";
 
         #region PROPERTIES
-        private IncomingAndExpenseEntity currentRecord;
-        public IncomingAndExpenseEntity CurrentRecord
+        private IncomeAndExpenseEntity currentRecord;
+        public IncomeAndExpenseEntity CurrentRecord
         {
             set
             {
                 currentRecord = value;
                 hdnId.Value = currentRecord.Id.ToString();
                 txtDescription.Text = currentRecord.Description;
-                drpIncomingAndExpenseType.SelectedValue = currentRecord.IncomingAndExpenseTypeId.ToString();
+                drpIncomeAndExpenseType.SelectedValue = currentRecord.IncomeAndExpenseTypeId.ToString();
                 txtAmount.Text = currentRecord.Amount.ToString(); ;
                 chcIsActive.Checked = (currentRecord.IsActive.HasValue) ? currentRecord.IsActive.Value : false;
 
@@ -47,7 +47,7 @@ namespace KindergartenProject
             }
 
             projectType = (ProjectType)Session[CommonConst.ProjectType];
-            business = new IncomingAndExpenseBusiness(projectType);
+            business = new IncomeAndExpenseBusiness(projectType);
 
             divInformation.ListRecordPage = "/gelir-gider-listesi";
             divInformation.NewRecordPage = "/gelir-gider-ekle";
@@ -55,13 +55,15 @@ namespace KindergartenProject
             divInformation.InformationVisible = false;
 
             var master = this.Master as kindergarten;
-            master.SetActiveMenuAttiributes(MenuList.IncomingAndExpenseAdd);
+            master.SetActiveMenuAttiributes(MenuList.IncomeAndExpenseAdd);
             master.SetVisibleSearchText(false);
             btnDelete.Visible = false;
 
             if (!Page.IsPostBack)
             {
-                loadIncomingAndExpenseType();
+                loadIncomeAndExpenseType();
+                loadWorker();
+
                 object Id = Page.RouteData.Values["outgoing_id"];
 
                 if (Id != null)
@@ -71,8 +73,8 @@ namespace KindergartenProject
                     int id = GeneralFunctions.GetData<int>(IdDecrypt);
                     if (id > 0)
                     {
-                        DataResultArgs<List<IncomingAndExpenseEntity>> resultSet = 
-                            new IncomingAndExpenseBusiness(projectType).Get_IncomingAndExpense(new SearchEntity() { Id = id });
+                        DataResultArgs<List<IncomeAndExpenseEntity>> resultSet = 
+                            new IncomeAndExpenseBusiness(projectType).Get_IncomeAndExpense(new SearchEntity() { Id = id });
                         if (resultSet.HasError)
                         {
                             divInformation.ErrorText = resultSet.ErrorDescription;
@@ -88,9 +90,43 @@ namespace KindergartenProject
             }
         }
 
-        private void loadIncomingAndExpenseType()
+        private void loadWorker()
         {
-            DataResultArgs<List<IncomingAndExpenseTypeEntity>> typeListResult = new IncomingAndExpenseTypeBusiness(projectType).Get_IncomingAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }); ;
+            List<WorkerEntity> lst = new WorkerBusiness(projectType).Get_Worker(new SearchEntity() { IsActive = true, IsDeleted = false }, null).Result;
+
+            int count = 0;
+
+            if (lst.Count == 0)
+                return;
+
+            string price = lst.Sum(o => o.Price).Value.ToString(CommonConst.TL);
+            drpWorker.Items.Add(new ListItem("Hepsi - " + price, "-1"));
+            drpWorker.Items[count].Attributes.Add("calculatePrice", price);
+            count++;
+
+            List<WorkerEntity> activeList = lst.Where(o => o.IsActive == true).ToList();
+            price = activeList.Sum(o => o.Price).Value.ToString(CommonConst.TL);
+
+            drpWorker.Items.Add(new ListItem("Sadece Aktif Olanlar - "+ price, "-2"));
+
+            drpWorker.Items[count].Attributes.Add("calculatePrice", price);
+            count++;
+
+            foreach (WorkerEntity entity in lst)
+            {
+                string displayText =  entity.Title + " - " + entity.PriceStr;
+                drpWorker.Items.Add(new ListItem(displayText, entity.Id.ToString()));
+
+                drpWorker.Items[count].Attributes.Add("calculatePrice", entity.PriceStr);
+
+                count++;
+            }
+
+        }
+
+        private void loadIncomeAndExpenseType()
+        {
+            DataResultArgs<List<IncomeAndExpenseTypeEntity>> typeListResult = new IncomeAndExpenseTypeBusiness(projectType).Get_IncomeAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }); ;
 
             if (typeListResult.HasError)
             {
@@ -99,32 +135,40 @@ namespace KindergartenProject
             }
             else
             {
-                List<IncomingAndExpenseTypeEntity> typeList = typeListResult.Result;
+                List<IncomeAndExpenseTypeEntity> typeList = typeListResult.Result;
 
                 int count = 0;
 
                 if (typeList.Count == 0)
                     return;
 
-                foreach (IncomingAndExpenseTypeEntity entity in typeList)
+                foreach (IncomeAndExpenseTypeEntity entity in typeList)
                 {
-                    drpIncomingAndExpenseType.Items.Add(new ListItem(entity.Name, entity.Id.ToString()));
-                    drpIncomingAndExpenseType.Items[count].Attributes.Add("typeOfAmount", entity.Type.ToString());
+                    string name = entity.Name;
+                    if (entity.Type == 1)
+                        name += " -> Gelir ";
+                    else if (entity.Type == 2)
+                        name += " -> Gider";
+                    else if (entity.Type == 3)
+                        name += " -> Çalışan Gideri";
+
+                    drpIncomeAndExpenseType.Items.Add(new ListItem(name, entity.Id.ToString()));
+                    drpIncomeAndExpenseType.Items[count].Attributes.Add("typeOfAmount", entity.Type.ToString());
                     count++;
                 }
 
-                drpIncomingAndExpenseType.SelectedIndex = 0;
+                drpIncomeAndExpenseType.SelectedIndex = 0;
                 
-                if(drpIncomingAndExpenseType.Items[0].Attributes["typeOfAmount"] == TypeOfAmount.Incoming.ToString())
+                if(drpIncomeAndExpenseType.Items[0].Attributes["typeOfAmount"] == TypeOfAmount.Income.ToString())
                 {
-                    txtIncomingAndExpenseTypeName.BackColor = Color.Green;
-                    txtIncomingAndExpenseTypeName.ForeColor = Color.White;
-                    txtIncomingAndExpenseTypeName.Text = "Gelir";
+                    txtIncomeAndExpenseTypeName.BackColor = Color.Green;
+                    txtIncomeAndExpenseTypeName.ForeColor = Color.White;
+                    txtIncomeAndExpenseTypeName.Text = "Gelir";
                 }
                 else
                 {
-                    txtIncomingAndExpenseTypeName.BackColor = Color.Red;
-                    txtIncomingAndExpenseTypeName.Text = "Gider";
+                    txtIncomeAndExpenseTypeName.BackColor = Color.Red;
+                    txtIncomeAndExpenseTypeName.Text = "Gider";
                 }
             }
         }
@@ -136,16 +180,16 @@ namespace KindergartenProject
 
         private void processToDatabase(DatabaseProcess databaseProcess)
         {
-            IncomingAndExpenseEntity entity = new IncomingAndExpenseEntity();
+            IncomeAndExpenseEntity entity = new IncomeAndExpenseEntity();
             entity.DatabaseProcess = databaseProcess;
             entity.Id = GeneralFunctions.GetData<Int32>(hdnId.Value);
 
-            entity.IncomingAndExpenseTypeId = GeneralFunctions.GetData<int>(drpIncomingAndExpenseType.SelectedValue);
+            entity.IncomeAndExpenseTypeId = GeneralFunctions.GetData<int>(drpIncomeAndExpenseType.SelectedValue);
             entity.Amount = GeneralFunctions.GetData<decimal>(txtAmount.Text);
             entity.Description = txtDescription.Text;
             entity.IsActive = chcIsActive.Checked;
            
-            DataResultArgs<bool> resultSet = business.Set_IncomingAndExpense(entity);
+            DataResultArgs<bool> resultSet = business.Set_IncomeAndExpense(entity);
             if (resultSet.HasError)
             {
                 divInformation.ErrorText = resultSet.ErrorDescription;

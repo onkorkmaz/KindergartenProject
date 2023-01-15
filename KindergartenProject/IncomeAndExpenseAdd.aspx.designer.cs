@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class IncomingAndExpenseType
+    public partial class IncomeAndExpenseAdd
     {
 
         /// <summary>
@@ -42,22 +42,49 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.HiddenField hdnId;
 
         /// <summary>
-        /// drpType control.
+        /// drpIncomeAndExpenseType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drpType;
+        protected global::System.Web.UI.WebControls.DropDownList drpIncomeAndExpenseType;
 
         /// <summary>
-        /// txtName control.
+        /// divWorker control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtName;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divWorker;
+
+        /// <summary>
+        /// drpWorker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpWorker;
+
+        /// <summary>
+        /// txtAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAmount;
+
+        /// <summary>
+        /// txtDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
         /// chcIsActive control.
@@ -87,21 +114,21 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.Button btnCancel;
 
         /// <summary>
-        /// tbIncoming control.
+        /// btnDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbIncoming;
+        protected global::System.Web.UI.WebControls.Button btnDelete;
 
         /// <summary>
-        /// tbExpense control.
+        /// txtIncomeAndExpenseTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbExpense;
+        protected global::System.Web.UI.WebControls.TextBox txtIncomeAndExpenseTypeName;
     }
 }
