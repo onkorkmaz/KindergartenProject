@@ -33,6 +33,7 @@ namespace KindergartenProject
                 drpIncomeAndExpenseType.SelectedValue = currentRecord.IncomeAndExpenseTypeId.ToString();
                 txtAmount.Text = currentRecord.Amount.ToString(); ;
                 chcIsActive.Checked = (currentRecord.IsActive.HasValue) ? currentRecord.IsActive.Value : false;
+                txtProcessDate.Text = currentRecord.ProcessDate.ToString("yyyy-MM-dd");
 
             }
         }
@@ -64,7 +65,9 @@ namespace KindergartenProject
                 loadIncomeAndExpenseType();
                 loadWorker();
 
-                object Id = Page.RouteData.Values["outgoing_id"];
+                txtProcessDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+
+                object Id = Page.RouteData.Values["incomeAndExpense_id"];
 
                 if (Id != null)
                 {
@@ -153,13 +156,13 @@ namespace KindergartenProject
                         name += " -> Çalışan Gideri";
 
                     drpIncomeAndExpenseType.Items.Add(new ListItem(name, entity.Id.ToString()));
-                    drpIncomeAndExpenseType.Items[count].Attributes.Add("typeOfAmount", entity.Type.ToString());
+                    drpIncomeAndExpenseType.Items[count].Attributes.Add("incomeAndExpenseSubType", entity.Type.ToString());
                     count++;
                 }
 
                 drpIncomeAndExpenseType.SelectedIndex = 0;
                 
-                if(drpIncomeAndExpenseType.Items[0].Attributes["typeOfAmount"] == TypeOfAmount.Income.ToString())
+                if(drpIncomeAndExpenseType.Items[0].Attributes["incomeAndExpenseSubType"] == IncomeAndExpenseSubType.Income.ToString())
                 {
                     txtIncomeAndExpenseTypeName.BackColor = Color.Green;
                     txtIncomeAndExpenseTypeName.ForeColor = Color.White;

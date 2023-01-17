@@ -187,11 +187,11 @@ function updateCurrentRecord(id) {
 
     document.getElementById("hdnId").value = id;
     var jsonData = "{ id: " + JSON.stringify(id) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdateClass', jsonData, successFunctionUpdateClass, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetClassWithId', jsonData, successFunctionGetClassWithId, errorFunction);
 
 }
 
-function successFunctionUpdateClass(obje) {
+function successFunctionGetClassWithId(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
         document.getElementById("hdnId").value = entity.EncryptId;

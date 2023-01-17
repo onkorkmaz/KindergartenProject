@@ -147,11 +147,11 @@ function updateCurrentRecord(id) {
 
     document.getElementById("hdnId").value = id;
     var jsonData = "{ id: " + JSON.stringify(id) + "}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdateIncomeAndExpenseType', jsonData, successFunctionUpdateWorker, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetIncomeAndExpenseTypeWithId', jsonData, successFunctionGetIncomeAndExpenseTypeWithId, errorFunction);
 
 }
 
-function successFunctionUpdateWorker(obje) {
+function successFunctionGetIncomeAndExpenseTypeWithId(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
         document.getElementById("txtName").value = entity.Name;

@@ -155,11 +155,11 @@ function updateCurrentRecord(id) {
 
     document.getElementById("hdnId").value = id;
     var jsonData = "{ id: " + JSON.stringify(id) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdateWorker', jsonData, successFunctionUpdateWorker, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetWorkerWithId', jsonData, successFunctionGetWorkerWithId, errorFunction);
 
 }
 
-function successFunctionUpdateWorker(obje) {
+function successFunctionGetWorkerWithId(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
         document.getElementById("txtName").value = entity.Name;

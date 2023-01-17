@@ -33,10 +33,11 @@ namespace Common
         public const string SearchValue = "searchValue";
     }
 
-    public static class TypeOfAmount
+    public static class IncomeAndExpenseSubType
     {
         public const int Income = 1;
         public const int Expense = 2;
+        public const int WorkerExpense = 3;
 
     }
 }

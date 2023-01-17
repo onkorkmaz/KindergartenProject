@@ -99,7 +99,7 @@ namespace KindergartenProject
             if (cId > 0)
             {
                 ClassEntity classEntity = new ClassBusiness(GetProjectType()).Get_ClassWithId(cId).Result;
-                if(classEntity!=null && classEntity.WarningOfStudentCount>0)
+                if (classEntity != null && classEntity.WarningOfStudentCount > 0)
                 {
                     int recordedStudentNumber = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result.Where(o => o.ClassId.HasValue && o.ClassId.Value == cId && o.IsActive.Value).ToList().Count();
                     return "Max Öğrenci Adeti : " + classEntity.WarningOfStudentCount.ToString() + " <br/>Kayıtlı Öğrenci : " + recordedStudentNumber;
@@ -130,7 +130,7 @@ namespace KindergartenProject
             return result;
         }
 
-        
+
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdatePaymentType(string encryptId, PaymentTypeEntity paymentTypeEntity)
@@ -312,7 +312,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<PaymentTypeEntity> UpdatePaymentType(string id)
+        public DataResultArgs<PaymentTypeEntity> GetPaymentTypeWithId(string id)
         {
             DataResultArgs<PaymentTypeEntity> result = new DataResultArgs<PaymentTypeEntity>
             {
@@ -335,7 +335,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<WorkerEntity> UpdateWorker(string id)
+        public DataResultArgs<WorkerEntity> GetWorkerWithId(string id)
         {
             DataResultArgs<WorkerEntity> result = new DataResultArgs<WorkerEntity>
             {
@@ -358,7 +358,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<IncomeAndExpenseTypeEntity> UpdateIncomeAndExpenseType(string id)
+        public DataResultArgs<IncomeAndExpenseTypeEntity> GetIncomeAndExpenseTypeWithId(string id)
         {
             DataResultArgs<IncomeAndExpenseTypeEntity> result = new DataResultArgs<IncomeAndExpenseTypeEntity>
 
@@ -394,7 +394,7 @@ namespace KindergartenProject
         {
             List<StudentEntity> studentList = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result;
 
-            List<StudentAttendanceBookEntity> attendanceList = new StudentAttendanceBookBusiness(GetProjectType()).Get_StudentAttendanceBookWithCache(new SearchEntity() { IsActive = true , IsDeleted = false });
+            List<StudentAttendanceBookEntity> attendanceList = new StudentAttendanceBookBusiness(GetProjectType()).Get_StudentAttendanceBookWithCache(new SearchEntity() { IsActive = true, IsDeleted = false });
 
             studentList.ForEach(o => o.StudentDetail.StudentAttendanceBookList = new List<StudentAttendanceBookEntity>());
 
@@ -402,7 +402,7 @@ namespace KindergartenProject
             {
                 studentList.FirstOrDefault(o => o.Id == entity.StudentId).StudentDetail.StudentAttendanceBookList.Add(entity);
             }
-            
+
             return studentList;
         }
 
@@ -456,7 +456,7 @@ namespace KindergartenProject
 
             List<PaymentEntity> newList = new List<PaymentEntity>();
 
-            for (int i= 9; i<=12;i++)
+            for (int i = 9; i <= 12; i++)
             {
                 if (list.Count > i)
                 {
@@ -518,7 +518,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<StudentAttendanceBookEntity> ProcessAttendanceBook(int studentId,int year, int month, int day , bool isArrival)
+        public DataResultArgs<StudentAttendanceBookEntity> ProcessAttendanceBook(int studentId, int year, int month, int day, bool isArrival)
         {
             DataResultArgs<StudentAttendanceBookEntity> resultSet = new DataResultArgs<StudentAttendanceBookEntity>();
             StudentAttendanceBookEntity entity = new StudentAttendanceBookEntity();
@@ -668,7 +668,7 @@ namespace KindergartenProject
                 }
             }
 
-            paymentDetailEntity.StudentList = studentList.OrderBy(o=>o.Name).ToList();
+            paymentDetailEntity.StudentList = studentList.OrderBy(o => o.Name).ToList();
             paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
             paymentDetailEntity.Month = DateTime.Today.Month;
             paymentDetailEntity.Year = DateTime.Today.Year;
@@ -725,8 +725,16 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public DataResultArgs<List<ClassEntity>> GetClassList()
         {
-            return new ClassBusiness(GetProjectType()).Get_Class(new SearchEntity() { IsDeleted = false  });
+            return new ClassBusiness(GetProjectType()).Get_Class(new SearchEntity() { IsDeleted = false });
         }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<IncomeAndExpenseEntity>> GetIncomeAndExpenseList()
+        {
+            return new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpense(new SearchEntity() { IsDeleted = false });
+
+        }
+
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdateClass(string encryptId, ClassEntity classEntity)
@@ -791,7 +799,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<ClassEntity> UpdateClass(string id)
+        public DataResultArgs<ClassEntity> GetClassWithId(string id)
         {
             DataResultArgs<ClassEntity> result = new DataResultArgs<ClassEntity>
             {
@@ -837,6 +845,59 @@ namespace KindergartenProject
             incomeAndExpenseEntity.DatabaseProcess = currentProcess;
 
             return new IncomeAndExpenseBusiness(GetProjectType()).Set_IncomeAndExpense(incomeAndExpenseEntity);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryForCurrentMonth()
+        {
+            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryForCurrentMonth();
+        }
+
+
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> DeleteIncomeAndExpenseWithId(string id)
+        {
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true,
+                ErrorDescription = "Id bilgisine ulaşılamadı"
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    IncomeAndExpenseEntity entity = new IncomeAndExpenseEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
+                    result = new IncomeAndExpenseBusiness(GetProjectType()).Set_IncomeAndExpense(entity);
+                }
+            }
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<IncomeAndExpenseEntity> GetIncomeAndExpenseWithId(string id)
+        {
+            DataResultArgs<IncomeAndExpenseEntity> result = new DataResultArgs<IncomeAndExpenseEntity>
+            {
+                HasError = true,
+                ErrorDescription = "Entity ulaşılamadı..."
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    result = new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpenseWithId(GeneralFunctions.GetData<int>(id));
+                    if (result.Result != null)
+                        result.HasError = false;
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -79,6 +79,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="customJS\default.js" />
     <Content Include="customJS\incomeAndExpense.js" />
     <Content Include="customJS\outgoing.js" />
     <Content Include="customJS\studentAttendanceBookTest.js" />

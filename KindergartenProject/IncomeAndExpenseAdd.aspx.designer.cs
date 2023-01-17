@@ -87,6 +87,15 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
+        /// txtProcessDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtProcessDate;
+
+        /// <summary>
         /// chcIsActive control.
         /// </summary>
         /// <remarks>
@@ -130,5 +139,14 @@ namespace KindergartenProject
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtIncomeAndExpenseTypeName;
+
+        /// <summary>
+        /// tbIncomeAndExpenseList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbIncomeAndExpenseList;
     }
 }

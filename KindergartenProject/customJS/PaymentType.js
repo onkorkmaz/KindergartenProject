@@ -129,11 +129,11 @@ function updateCurrentRecord(id) {
 
     document.getElementById("hdnId").value = id;
     var jsonData = "{ id: " + JSON.stringify(id) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdatePaymentType', jsonData, successFunctionUpdatePaymentType, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetPaymentTypeWithId', jsonData, successFunctionGetPaymentTypeWithId, errorFunction);
 
 }
 
-function successFunctionUpdatePaymentType(obje) {
+function successFunctionGetPaymentTypeWithId(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
         document.getElementById("txtPaymentType").value = entity.Name;

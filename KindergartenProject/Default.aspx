@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Benim dünyam - Analiz Paneli" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="KindergartenProject.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="/customJS/default.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -56,11 +57,30 @@
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                    <asp:Label runat="server" ID="lblMonth"></asp:Label>
-                                    <hr />
-                                    <div class="table-responsive">
-                                        <%--<div runat="server" id="divTblClass"></div>--%>
-                                    </div>
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Ay</th>
+                                                <th scope="col">Ödenen Aidatlar</th>
+                                                <th scope="col">Beklenen Aidatlar</th>
+                                                <th scope="col">Diğer Gelirler</th>
+                                                <th scope="col">Öğr. Maaşları</th>
+                                                <th scope="col">Diğer Giderler</th>
+                                                <th scope="col">Anlık Toplam</th>
+                                                <th scope="col">Beklenen Toplam</th>
+                                            </tr>
+                                            <tr>
+                                                <td><span style="color:darkred;" id="currentMonth"></span></td>
+                                                <td>&nbsp;&nbsp;<b><span style="color:green;" id="incomeForStudentPayment"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span id="waitingIncomeForStudentPayment"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="color:green;" id="incomeWithoutStudentPayment"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="color:#d5265b;" id="workerExpenses"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="color:red;" id="expenseWithoutWorker"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="font-size:16px;" id="currentBalance"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="font-size:16px;" id="totalBalance"></span></b></td>
+                                            </tr>
+                                        </thead>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +105,7 @@
                                     <h5 class="card-title mb-4"><b>Sınıf Dağılımları</b></h5>
                                     <hr />
                                     <div class="table-responsive">
-                                       <div runat="server" id="divTblClass"></div>
+                                        <div runat="server" id="divTblClass"></div>
                                     </div>
                                 </div>
                             </div>

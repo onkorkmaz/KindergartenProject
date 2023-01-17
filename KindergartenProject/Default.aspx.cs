@@ -36,9 +36,6 @@ namespace KindergartenProject
         private void setDefaultValues()
         {
             fillStudentCount();
-
-            fillIncomeAndOutGoing();
-
             fillClassList();
         }
 
@@ -90,55 +87,9 @@ namespace KindergartenProject
                 currentList = entityList.Where(o => o.Birthday != null && o.Birthday.Value > DateTime.MinValue && new DateTime(DateTime.Today.Year, o.Birthday.Value.Month, o.Birthday.Value.Day)
                 < DateTime.Today.AddMonths(1) && new DateTime(DateTime.Today.Year, o.Birthday.Value.Month, o.Birthday.Value.Day) > DateTime.Today).ToList();
 
-                lblMonth.Text = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month);
-
                 setBirthdayInfo(currentList.OrderBy(o => o.BirthDayCurrentYear).ToList(), lblBirthdayThisMonth);
-
             }
         }
-
-        private void fillIncomeAndOutGoing()
-        {
-            decimal commonPriceInfo = 0;
-
-            List<PaymentSummary> summaryList = new PaymentBusiness(projectType).Get_PaymentForCurrentMonthWithDefaultAmount().Result;
-
-            string htmlSummary = @"<thead>
-                                      <tr>
-                                          <th scope='col'>Yıl / Ay</th>
-                                          <th scope='col'>Ödeme Yapanlar</th>
-                                          <th scope='col'>Gelecek Ödemeler</th>
-                                          <th scope='col'>Öğretmen Giderleri</th>
-                                          <th scope='col'>Genel Giderler</th>
-                                          <th scope='col'>Toplam</th>
-                                      </tr>
-                                  </thead>";
-
-
-            foreach (PaymentSummary summary in summaryList)
-            {
-                decimal total = summary.Income - summary.WorkerExpenses - commonPriceInfo;
-                string style = "style='color:red; font-weight:bold;'";
-
-                if (total >= 0)
-                {
-                    style = "style = 'color:green; font-weight:bold;'";
-                }
-
-                htmlSummary += @"<tr>
-                                     <td>2022</td>
-                                     <td>" + summary.Income.ToString("###,###,###.##") + @"</td>
-                                     <td>" + summary.WaitingInCome.ToString("###,###,###.##") + @"</td>
-                                     <td>" + summary.WorkerExpenses.ToString("###,###,###.##") + @"</td>
-                                     <td>-</td>
-                                     <td " + style + @">" + total.ToString("###,###,###.##") + @"</td>
-                                 </tr>";
-
-            }
-
-            //tblSummaryResult.InnerHtml = htmlSummary;
-        }
-
 
         private void setLabel(IEnumerable<StudentEntity> currentList, Label lbl)
         {

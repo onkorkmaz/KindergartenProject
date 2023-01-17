@@ -18,7 +18,7 @@
                 <div class="mb-3 row">
                     <label class="col-form-label col-sm-2 text-sm-left">Gelir / Gider Tipi</label>
                     <div class="col-sm-6">
-                         <asp:DropDownList runat="server" ID="drpIncomeAndExpenseType" onchange="onIncomeAndExpenseTypeChanged()" CssClass="form-control"></asp:DropDownList>
+                        <asp:DropDownList runat="server" ID="drpIncomeAndExpenseType" onchange="onIncomeAndExpenseTypeChanged()" CssClass="form-control"></asp:DropDownList>
                     </div>
                 </div>
 
@@ -44,6 +44,15 @@
                     </div>
                 </div>
 
+
+                <div class="mb-3 row">
+                    <label class="col-form-label col-sm-2 text-sm-left">İşlem Tarihi</label>
+                    <div class="col-sm-6">
+                        <asp:TextBox ID="txtProcessDate" runat="server" TextMode="Date" CssClass="form-control" />
+                    </div>
+                </div>
+
+
                 <div class="mb-3 row">
                     <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>
                     <div class="col-sm-10">
@@ -56,7 +65,7 @@
                         <table cellpadding="4">
                             <tr>
                                 <td>
-                                 <asp:Button runat="server" ID="btnSubmit" CssClass="btn btn-primary " Text="Kaydet" OnClientClick="javascript: return validateAndSave()" />   
+                                    <asp:Button runat="server" ID="btnSubmit" CssClass="btn btn-primary " Text="Kaydet" OnClientClick="javascript: return validateAndSave()" />
                                 </td>
                                 <td>
                                     <asp:Button runat="server" ID="btnCancel" CssClass="btn btn-secondary " Text="İptal" OnClick="btnCancel_Click" />
@@ -75,4 +84,55 @@
             </asp:Panel>
         </div>
     </div>
+
+    <div class="col-12 col-xl-12">
+        <div class="table-responsive">
+            <table class="table mb-0" border="1">
+                <thead>
+                    <tr>
+                        <th scope="col">Ay</th>
+                        <th scope="col">Ödenen Aidatlar</th>
+                        <th scope="col">Beklenen Aidatlar</th>
+                        <th scope="col">Diğer Gelirler</th>
+                        <th scope="col">Öğr. Maaşları</th>
+                        <th scope="col">Diğer Giderler</th>
+                        <th scope="col">Anlık Toplam</th>
+                        <th scope="col">Beklenen Toplam</th>
+                    </tr>
+                    <tr>
+                        <td><span style="color:darkred;" id="currentMonth"></span></td>
+                        <td>&nbsp;&nbsp;<b><span style="color:green;" id="incomeForStudentPayment"></span></b></td>
+                        <td>&nbsp;&nbsp;<b><span id="waitingIncomeForStudentPayment"></span></b></td>
+                        <td>&nbsp;&nbsp;<b><span style="color:green;" id="incomeWithoutStudentPayment"></span></b></td>
+                        <td>&nbsp;&nbsp;<b><span style="color:#d5265b;" id="workerExpenses"></span></b></td>
+                        <td>&nbsp;&nbsp;<b><span style="color:red;" id="expenseWithoutWorker"></span></b></td>
+                        <td>&nbsp;&nbsp;<b><span style="font-size:16px;" id="currentBalance"></span></b></td>
+                        <td>&nbsp;&nbsp;<b><span style="font-size:16px;" id="totalBalance"></span></b></td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <hr />
+    <div class="col-12 col-xl-12">
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">#####</th>
+                        <th scope="col">Gider / Gelir</th>
+                        <th scope="col">Gider / Gelir Adı</th>
+                        <th scope="col">Tutar</th>
+                        <th scope="col">Tarih</th>
+                        <th scope="col">Açıklama</th>
+                        <th scope="col">Aktif</th>
+                    </tr>
+                </thead>
+                <tbody runat="server" id="tbIncomeAndExpenseList">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
 </asp:Content>
