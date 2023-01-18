@@ -850,7 +850,7 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryForCurrentMonth()
         {
-            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryForCurrentMonth();
+            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
         }
 
 

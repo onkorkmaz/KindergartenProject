@@ -111,6 +111,9 @@ function successFunctionGetIncomeAndExpenseWithId(obje) {
         document.getElementById("txtAmount").value = entity.Amount;
         document.getElementById("txtDescription").value = entity.Description;
         document.getElementById("chcIsActive").checked = entity.IsActive;
+        document.getElementById("txtProcessDate").value = entity.ProcessDateWithFormatyyyyMMdd;
+
+        
         document.getElementById("btnSubmit").value = "Güncelle";
         document.getElementById("btnSubmit").disabled = "";
     }
@@ -270,7 +273,7 @@ function setDefaultValues() {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
-    today = mm + '/' + dd + '/' + yyyy;
+    today = yyyy + '-' + mm + '-' + dd ;
 
     document.getElementById("txtProcessDate").value = today;
     document.getElementById("chcIsActive").checked = true;
@@ -296,7 +299,7 @@ function addIncomeAndExpense(amount,workerId) {
         var processDate = document.getElementById("txtProcessDate").value;
 
         var worker = "";
-        if (IncomeAndExpenseSubType == IncomeAndExpenseSubType.WorkerExpense) {
+        if (incomeAndExpenseSubType == IncomeAndExpenseSubType.WorkerExpense) {
             if (workerId > 0) {
                 worker = workerId;
             }

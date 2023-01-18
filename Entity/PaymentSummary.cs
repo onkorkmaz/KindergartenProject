@@ -9,11 +9,11 @@ namespace Entity
     {
         public decimal IncomeForStudentPayment { get; set; }
 
-        public string IncomeForStudentPaymentStr 
-        { 
+        public string IncomeForStudentPaymentStr
+        {
             get
             {
-                if (IncomeForStudentPayment > 0)
+                if (IncomeForStudentPayment != 0)
                     return IncomeForStudentPayment.ToString(CommonConst.TL);
                 else
                     return "-";
@@ -27,7 +27,7 @@ namespace Entity
         {
             get
             {
-                if (WaitingIncomeForStudentPayment > 0)
+                if (WaitingIncomeForStudentPayment != 0)
                     return WaitingIncomeForStudentPayment.ToString(CommonConst.TL);
                 else
                     return "-";
@@ -42,7 +42,7 @@ namespace Entity
         {
             get
             {
-                if (IncomeWithoutStudentPayment > 0)
+                if (IncomeWithoutStudentPayment != 0)
                     return IncomeWithoutStudentPayment.ToString(CommonConst.TL);
                 else
                     return "-";
@@ -56,7 +56,7 @@ namespace Entity
         {
             get
             {
-                if (WorkerExpenses > 0)
+                if (WorkerExpenses != 0)
                     return WorkerExpenses.ToString(CommonConst.TL);
                 else
                     return "-";
@@ -69,7 +69,7 @@ namespace Entity
         {
             get
             {
-                if (ExpenseWithoutWorker > 0)
+                if (ExpenseWithoutWorker != 0)
                     return ExpenseWithoutWorker.ToString(CommonConst.TL);
                 else
                     return "-";
@@ -83,7 +83,7 @@ namespace Entity
         {
             get
             {
-                if (CurrentBalance > 0)
+                if (CurrentBalance != 0)
                     return CurrentBalance.ToString(CommonConst.TL);
                 else
                     return "-";
@@ -96,12 +96,16 @@ namespace Entity
         {
             get
             {
-                if (TotalBalance > 0)
+                if (TotalBalance != 0)
                     return TotalBalance.ToString(CommonConst.TL);
                 else
                     return "-";
             }
         }
+
+        public int Year { get; set; }
+        public int Month { get; set; }
+
 
     }
 }

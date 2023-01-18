@@ -147,15 +147,26 @@ namespace KindergartenProject
 
                 foreach (IncomeAndExpenseTypeEntity entity in typeList)
                 {
-                    string name = entity.Name;
+                    string name = "";
                     if (entity.Type == 1)
-                        name += " -> Gelir ";
+                    {
+                        name += "Gelir - " + entity.Name;
+                        drpIncomeAndExpenseType.Items.Add(new ListItem(name, entity.Id.ToString()));
+                        drpIncomeAndExpenseType.Items[count].Attributes.Add("style", "color:green;");
+                    }
                     else if (entity.Type == 2)
-                        name += " -> Gider";
+                    {
+                        name += "Gider - " + entity.Name;
+                        drpIncomeAndExpenseType.Items.Add(new ListItem(name, entity.Id.ToString()));
+                        drpIncomeAndExpenseType.Items[count].Attributes.Add("style", "color:red;");
+                    }
                     else if (entity.Type == 3)
-                        name += " -> Çalışan Gideri";
-
-                    drpIncomeAndExpenseType.Items.Add(new ListItem(name, entity.Id.ToString()));
+                    {
+                        name += "Çalışan Gideri - " + entity.Name;
+                        drpIncomeAndExpenseType.Items.Add(new ListItem(name, entity.Id.ToString()));
+                        drpIncomeAndExpenseType.Items[count].Attributes.Add("style", "color:red;");
+                    }
+  
                     drpIncomeAndExpenseType.Items[count].Attributes.Add("incomeAndExpenseSubType", entity.Type.ToString());
                     count++;
                 }

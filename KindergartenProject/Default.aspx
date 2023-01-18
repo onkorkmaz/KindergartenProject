@@ -25,36 +25,9 @@
         <div class="row">
             <div class="col-xl-12 d-flex">
                 <div class="w-100">
+
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-4"><b>Öğrenci Sayısı</b> :
-                                        <asp:Label runat="server" ID="lblStudent"></asp:Label></h5>
-
-                                    <hr />
-                                    <div class="mb-1">
-                                        <span class="text-muted"><b>Bu ay yapılan kayıt sayısı</b> : </span>
-                                        <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i>
-                                            <asp:Label runat="server" ID="lblMonthStudent"></asp:Label></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-4"><b>Öğrenci Görüşme</b> :
-                                        <asp:Label runat="server" ID="lblInterview"></asp:Label></h5>
-                                    <h1 class="mt-1 mb-3"></h1>
-                                    <hr />
-                                    <div class="mb-1">
-                                        <span class="text-muted"><b>Bu ay yapılan görüşme sayısı</b> : </span>
-                                        <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i>
-                                            <asp:Label runat="server" ID="lblMonthInterview"></asp:Label>
-                                        </span>
-
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-body">
                                     <table class="table mb-0">
@@ -70,21 +43,36 @@
                                                 <th scope="col">Beklenen Toplam</th>
                                             </tr>
                                             <tr>
-                                                <td><span style="color:darkred;" id="currentMonth"></span></td>
-                                                <td>&nbsp;&nbsp;<b><span style="color:green;" id="incomeForStudentPayment"></span></b></td>
+                                                <td><span style="color: darkred;" id="currentMonth"></span></td>
+                                                <td>&nbsp;&nbsp;<b><span style="color: green;" id="incomeForStudentPayment"></span></b></td>
                                                 <td>&nbsp;&nbsp;<b><span id="waitingIncomeForStudentPayment"></span></b></td>
-                                                <td>&nbsp;&nbsp;<b><span style="color:green;" id="incomeWithoutStudentPayment"></span></b></td>
-                                                <td>&nbsp;&nbsp;<b><span style="color:#d5265b;" id="workerExpenses"></span></b></td>
-                                                <td>&nbsp;&nbsp;<b><span style="color:red;" id="expenseWithoutWorker"></span></b></td>
-                                                <td>&nbsp;&nbsp;<b><span style="font-size:16px;" id="currentBalance"></span></b></td>
-                                                <td>&nbsp;&nbsp;<b><span style="font-size:16px;" id="totalBalance"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="color: green;" id="incomeWithoutStudentPayment"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="color: #d5265b;" id="workerExpenses"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="color: red;" id="expenseWithoutWorker"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="currentBalance"></span></b></td>
+                                                <td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalBalance"></span></b></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><b>Öğrenci Sayısı</b> :
+                                        <asp:Label runat="server" ID="lblStudent"></asp:Label></h5>
+
+                                    <hr />
+                                    <div class="mb-1">
+                                        <span class="text-muted"><b>Bu ay yapılan kayıt sayısı</b> : </span>
+                                        <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i>
+                                            <asp:Label runat="server" ID="lblMonthStudent"></asp:Label></span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="card">
                                 <div class="card-body">
                                     <h3 class="card-title mb-4"><b>Bu gün doğum günü olanlar</b></h3>
@@ -97,6 +85,24 @@
                                         <br />
                                         <span class="text-success"><i class="mdi mdi-arrow-bottom-right"></i>
                                             <asp:Label runat="server" ID="lblBirthdayThisMonth"></asp:Label></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4"><b>Öğrenci Görüşme</b> :
+                                        <asp:Label runat="server" ID="lblInterview"></asp:Label></h5>
+                                    <h1 class="mt-1 mb-3"></h1>
+                                    <hr />
+                                    <div class="mb-1">
+                                        <span class="text-muted"><b>Bu ay yapılan görüşme sayısı</b> : </span>
+                                        <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i>
+                                            <asp:Label runat="server" ID="lblMonthInterview"></asp:Label>
+                                        </span>
+
                                     </div>
                                 </div>
                             </div>
