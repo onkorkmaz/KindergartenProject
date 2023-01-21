@@ -26,6 +26,15 @@ namespace Entity
         public DateTime DeletedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
         public ProjectType ProjectType { get; set; }
+
+        public Int16 ProjectTypeInt
+        { 
+            get
+            {
+                return (Int16)ProjectType;
+            }
+        }
+
         public string ProjectTypeDescription 
         { 
             get

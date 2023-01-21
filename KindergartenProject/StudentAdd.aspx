@@ -109,15 +109,19 @@
                             <div class="col-sm-2">
                                 <asp:DropDownList runat="server" ID="drpSchoolClass"  CssClass="form-control">
                                     <asp:ListItem Text="Seçininiz" Value ="-1" Selected="True"></asp:ListItem>
-                                    
-                                    <asp:ListItem Text="1" Value="1"></asp:ListItem>
-                                    <asp:ListItem Text="2" Value="2"></asp:ListItem>
-                                    <asp:ListItem Text="3" Value="3"></asp:ListItem>
-                                    <asp:ListItem Text="4" Value="4"></asp:ListItem>
-                                    <asp:ListItem Text="5" Value="5"></asp:ListItem>
-                                    <asp:ListItem Text="6" Value="6"></asp:ListItem>
-                                    <asp:ListItem Text="7" Value="7"></asp:ListItem>
-                                    <asp:ListItem Text="8" Value="8"></asp:ListItem>
+                                    <asp:ListItem Text="2 Yaş" Value="1"></asp:ListItem>                                    
+                                    <asp:ListItem Text="3 Yaş" Value="2"></asp:ListItem>
+                                    <asp:ListItem Text="4 Yaş" Value="3"></asp:ListItem>
+                                    <asp:ListItem Text="5 Yaş" Value="4"></asp:ListItem>
+                                    <asp:ListItem Text="6 Yaş" Value="5"></asp:ListItem>
+                                    <asp:ListItem Text="1.Sınıf" Value="6"></asp:ListItem>
+                                    <asp:ListItem Text="2.Sınıf" Value="7"></asp:ListItem>
+                                    <asp:ListItem Text="3.Sınıf" Value="8"></asp:ListItem>
+                                    <asp:ListItem Text="4.Sınıf" Value="9"></asp:ListItem>
+                                    <asp:ListItem Text="5.Sınıf" Value="10"></asp:ListItem>
+                                    <asp:ListItem Text="6.Sınıf" Value="11"></asp:ListItem>
+                                    <asp:ListItem Text="7.Sınıf" Value="12"></asp:ListItem>
+                                    <asp:ListItem Text="8.Sınıf" Value="13"></asp:ListItem>
                                 </asp:DropDownList>
                             </div>
  

@@ -52,4 +52,30 @@ namespace Common
         SuperAdmin = 1,
         Visitor = 2
     }
+
+    public enum SchoolClassEnum
+    {
+        None=0,
+        Kindergarten_2_Age = 1,
+        Kindergarten_3_Age = 2,
+        Kindergarten_4_Age = 3,
+        Kindergarten_5_Age = 4,
+        Kindergarten_6_Age = 5,
+        Class_1 = 6,
+        Class_2 = 7,
+        Class_3 = 8,
+        Class_4 = 9,
+        Class_5 = 10,
+        Class_6 = 11,
+        Class_7 = 12,
+        Class_8 = 13,
+
+
+
+
+
+
+
+
+    }
 }

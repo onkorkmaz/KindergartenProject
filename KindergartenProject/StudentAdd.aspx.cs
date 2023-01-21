@@ -210,7 +210,7 @@ namespace KindergartenProject
 
             if (drpSchoolClass.SelectedIndex > 0)
             {
-                entity.SchoolClass = drpSchoolClass.SelectedValue;
+                entity.SchoolClassEnum = (SchoolClassEnum)GeneralFunctions.GetData<int>(drpSchoolClass.SelectedValue);
             }
 
 

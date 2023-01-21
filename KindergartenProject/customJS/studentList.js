@@ -145,13 +145,6 @@ function drawList(entityList) {
             tbody += "<td>" + entityList[i].FullName + "</td>";
             //tbody += "<td>" + entityList[i].BirthdayWithFormatddMMyyyy + "</td>";
             tbody += "<td>" + parentInfo + "</td>";
-            if (entityList[i].SchoolClass != undefined && entityList[i].SchoolClass != null && entityList[i].SchoolClass != '') {
-                tbody += "<td>" + entityList[i].SchoolClass + "</td>";
-            }
-            else {
-                tbody += "<td> - </td>";
-
-            }
 
             if (entityList[i].IsActive) {
                 if (entityList[i].IsStudent)
@@ -163,16 +156,27 @@ function drawList(entityList) {
                 tbody += "<td>&nbsp;<img src='/img/icons/passive.png' width='20' height ='20' /></td>";
             }
 
-            if (entityList[i].IsInterview)
-                tbody += "<td>&nbsp;<img src='/img/icons/paymentOk.png' width='20' height ='20' /></td>";
-            else
-                tbody += "<td> </td>";
+            if (entityList[i].ProjectTypeInt == 2) {
 
-            if (entityList[i].IsInterview) {
-                tbody += "<td>" + entityList[i].InterviewWithFormat + "</td>";
-            }
-            else {
-                tbody += "<td> </td>";
+                if (entityList[i].SchoolClassDesc != undefined && entityList[i].SchoolClassDesc != null && entityList[i].SchoolClassDesc != '') {
+                    tbody += "<td>" + entityList[i].SchoolClassDesc + "</td>";
+                }
+                else {
+                    tbody += "<td> - </td>";
+
+                }
+
+                if (entityList[i].IsInterview)
+                    tbody += "<td>&nbsp;<img src='/img/icons/paymentOk.png' width='20' height ='20' /></td>";
+                else
+                    tbody += "<td> </td>";
+
+                if (entityList[i].IsInterview) {
+                    tbody += "<td>" + entityList[i].InterviewWithFormat + "</td>";
+                }
+                else {
+                    tbody += "<td> </td>";
+                }
             }
 
             
@@ -196,8 +200,8 @@ function drawList(entityList) {
                         tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + entityList[i].DateOfMeetingWithFormat + "</td></tr>";
                         tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + entityList[i].EmailStr + "</td></tr>";
                         tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + entityList[i].NotesStr + "</td></tr>";
-                        if (entityList[i].SchoolClass != undefined && entityList[i].SchoolClass != null && entityList[i].SchoolClass != '') {
-                            tbody +="<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + entityList[i].SchoolClass + "</td></tr>";
+                        if (entityList[i].SchoolClassDesc != undefined && entityList[i].SchoolClassDesc != null && entityList[i].SchoolClassDesc != '') {
+                            tbody +="<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + entityList[i].SchoolClassDesc + "</td></tr>";
                         }
                         else {
                             tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'> - </td></tr>";

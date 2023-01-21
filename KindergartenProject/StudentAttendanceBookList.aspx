@@ -35,22 +35,21 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="card">
-                     <div class="card-body">
-                          <b><label class="col-form-label col-sm-2 text-sm-left" id="lblInfo"></label></b>
-                         </div>
-
-                    <div class="card-body">
-                        <table class="table mb-0">
-                            <thead runat="server" id="studentAttendanceHeader">
-                            </thead>
-                            <tbody runat="server" id="studentAttendanceList">
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="table-responsive">
+                <b>
+                    <label class="col-form-label col-sm-2 text-sm-left" id="lblInfo"></label>
+                </b>
+                <hr />
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead runat="server" id="studentAttendanceHeader">
+                        </thead>
+                        <tbody runat="server" id="studentAttendanceList">
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
         </div>
     </div>

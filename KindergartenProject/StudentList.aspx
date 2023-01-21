@@ -75,11 +75,17 @@
                             <%--<th scope="col">Doğum Tarihi</th>--%>
                             <%--<th scope="col">Baba Bilg.</th>--%>
                             <th scope="col">Veli Bilg.</th>
-                            <th scope="col">O. Sınıfı</th>
-
+                            
                             <th scope="col">Kayıt D.</th>
+
+                            <%if (Session[Common.CommonConst.ProjectType] != null && (Common.ProjectType)Session[Common.CommonConst.ProjectType] == Common.ProjectType.BenimDunyamEgitimMerkeziİstiklalCaddesi)
+                                {
+                             %>
+                            <th scope="col">O. Sınıfı</th>
                             <th scope="col">Deneme D</th>
                             <th scope="col">Deneme Ders T.</th>
+                            <%
+                                }%>
 
                         </tr>
                     </thead>
