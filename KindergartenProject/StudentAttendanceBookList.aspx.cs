@@ -52,6 +52,10 @@ namespace KindergartenProject
             drpDays.Items.Add(new ListItem("1-15", "15"));
             drpDays.Items.Add(new ListItem("16-" + lastDay + "", lastDay.ToString()));
 
+            if(DateTime.Today.Day>15)
+            {
+                drpDays.SelectedValue = lastDay.ToString();
+            }
 
         }
     }

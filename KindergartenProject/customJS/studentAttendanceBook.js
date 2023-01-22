@@ -1,5 +1,5 @@
 ﻿window.onload = function () {
-    loadData();   
+    onChangeChcCurrentDay();
 };
 
 function loadData() {
@@ -11,6 +11,34 @@ function loadData() {
     else {
         successFunctionSearchStudent(null, true);
     }
+}
+
+function onChangeChcCurrentDay() {
+
+    let currentDay = document.getElementById("chcCurrentDay");
+    let year = document.getElementById("drpYear");
+    let month = document.getElementById("drpMonth");
+    let days = document.getElementById("drpDays");
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    if (dd > 15) {
+        days.selectedIndex = "1";
+    }
+
+    if (currentDay.checked) {
+        year.disabled = true;
+        month.disabled = true;
+        days.disabled = true;
+    }
+    else {
+        year.disabled = false;
+        month.disabled = false;
+        days.disabled = false;
+    }
+
+
+    loadData();
 }
 
 function successFunctionSearchStudent(search) {
@@ -37,6 +65,11 @@ function drawStudentAttendanceBook(entityList) {
 
     let month = document.getElementById("drpMonth").value;
 
+    let currentDay = document.getElementById("chcCurrentDay");
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+
+
     if (month < monthsSeasonFirst[0][0]) {
         year++;
     }
@@ -55,6 +88,11 @@ function drawStudentAttendanceBook(entityList) {
         begin = 16;
 
     for (let i = begin; i <= endDayValue; i++) {
+
+        if (currentDay.checked && i != dd) {
+            continue;
+        }
+
         var dayDesc = getDayName(year, (month - 1), i);
         if (dayDesc == "Crtsi" || dayDesc == "Pzr") {
             header += "<th scope='col'><span style='color:red;'>" + i + "(" + dayDesc + ")" + "</span></th >";
@@ -83,6 +121,11 @@ function drawStudentAttendanceBook(entityList) {
             tbody += "<td>" + entityList[i].FullName + "</td>";
 
             for (let j = begin; j <= endDayValue; j++) {
+
+                if (currentDay.checked && j != dd) {
+                    continue;
+                }
+
                 var uniqueName = "_" + year + "_" + month + "_" + j + "_" + entityList[i]["Id"];
 
                 var attendance = attendanceList.find(o => o.Year == year && o.Month == month && o.Day == j);

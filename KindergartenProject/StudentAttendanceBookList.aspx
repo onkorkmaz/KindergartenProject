@@ -38,9 +38,17 @@
             </div>
 
             <div class="table-responsive">
-                <b>
-                    <label class="col-form-label col-sm-2 text-sm-left" id="lblInfo"></label>
-                </b>
+                
+                   <table>
+                       <tr>
+                           <td width="150"><b><label class="col-form-label text-sm-left" id="lblInfo"></label></b></td>
+                           <td>
+                               Yoklama da bugünü göster &nbsp;
+                               <asp:CheckBox runat="server" Checked="true" onclick="onChangeChcCurrentDay();" ID="chcCurrentDay" CssClass="form-check-input" />
+                           </td>
+                       </tr>
+                    
+                       </table>
                 <hr />
                 <div class="table-responsive">
                     <table class="table mb-0">
