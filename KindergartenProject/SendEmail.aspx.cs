@@ -52,7 +52,7 @@ namespace KindergartenProject
                 }
 
                 string IdDecrypt = Cipher.Decrypt(Id.ToString());
-                int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                int id = CommonFunctions.GetData<int>(IdDecrypt);
                 if (id <= 0)
                 {
                     divInformation.ErrorText = studentDoesNotFound;
@@ -220,7 +220,7 @@ namespace KindergartenProject
                 }
 
                 string IdDecrypt = Cipher.Decrypt(Id.ToString());
-                int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                int id = CommonFunctions.GetData<int>(IdDecrypt);
                 if (id <= 0)
                 {
                     ThrowError();
@@ -515,8 +515,8 @@ namespace KindergartenProject
             foreach (string monthIdAndName in selectedMonthList)
             {
                 string[] temp = monthIdAndName.Split(',');
-                if (GeneralFunctions.GetData<int>(temp[0]) > 0)
-                    list.Add(GeneralFunctions.GetData<int>(temp[0]), temp[1].Replace("'", ""));
+                if (CommonFunctions.GetData<int>(temp[0]) > 0)
+                    list.Add(CommonFunctions.GetData<int>(temp[0]), temp[1].Replace("'", ""));
             }
 
             return list;

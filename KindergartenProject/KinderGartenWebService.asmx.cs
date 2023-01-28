@@ -88,7 +88,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new AuthorityBusiness(GetProjectType()).Get_AuthorityWithId(GeneralFunctions.GetData<int>(id));
+                    result = new AuthorityBusiness(GetProjectType()).Get_AuthorityWithId(CommonFunctions.GetData<int>(id));
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -130,7 +130,7 @@ namespace KindergartenProject
                 return resultSet;
             }
 
-            searchValue = GeneralFunctions.ReplaceTurkishChar(searchValue.ToLower());
+            searchValue = CommonFunctions.ReplaceTurkishChar(searchValue.ToLower());
 
             List<StudentEntity> searchList = new List<StudentEntity>();
 
@@ -140,25 +140,25 @@ namespace KindergartenProject
                 {
                     searchList.Add(entity);
                 }
-                else if (entity.FullName != null && GeneralFunctions.ReplaceTurkishChar(entity.FullName.ToLower()).Contains(searchValue))
+                else if (entity.FullName != null && CommonFunctions.ReplaceTurkishChar(entity.FullName.ToLower()).Contains(searchValue))
                 {
                     searchList.Add(entity);
                 }
-                else if (entity.FatherName != null && GeneralFunctions.ReplaceTurkishChar(entity.FatherName.ToLower()).Contains(searchValue))
-                {
-                    searchList.Add(entity);
-                }
-
-                else if (entity.MotherName != null && GeneralFunctions.ReplaceTurkishChar(entity.MotherName.ToLower()).Contains(searchValue))
-                {
-                    searchList.Add(entity);
-                }
-                else if (entity.FatherPhoneNumber != null && GeneralFunctions.ReplaceTurkishChar(entity.FatherPhoneNumber.ToLower()).Contains(searchValue))
+                else if (entity.FatherName != null && CommonFunctions.ReplaceTurkishChar(entity.FatherName.ToLower()).Contains(searchValue))
                 {
                     searchList.Add(entity);
                 }
 
-                else if (entity.MotherPhoneNumber != null && GeneralFunctions.ReplaceTurkishChar(entity.MotherPhoneNumber.ToLower()).Contains(searchValue))
+                else if (entity.MotherName != null && CommonFunctions.ReplaceTurkishChar(entity.MotherName.ToLower()).Contains(searchValue))
+                {
+                    searchList.Add(entity);
+                }
+                else if (entity.FatherPhoneNumber != null && CommonFunctions.ReplaceTurkishChar(entity.FatherPhoneNumber.ToLower()).Contains(searchValue))
+                {
+                    searchList.Add(entity);
+                }
+
+                else if (entity.MotherPhoneNumber != null && CommonFunctions.ReplaceTurkishChar(entity.MotherPhoneNumber.ToLower()).Contains(searchValue))
                 {
                     searchList.Add(entity);
                 }
@@ -178,7 +178,7 @@ namespace KindergartenProject
 
         public string CalculateRecordedStudentCount(string classId)
         {
-            int cId = GeneralFunctions.GetData<int>(classId);
+            int cId = CommonFunctions.GetData<int>(classId);
             if (cId > 0)
             {
                 ClassEntity classEntity = new ClassBusiness(GetProjectType()).Get_ClassWithId(cId).Result;
@@ -408,7 +408,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new PaymentTypeBusiness(GetProjectType()).Get_PaymentTypeWithId(GeneralFunctions.GetData<int>(id));
+                    result = new PaymentTypeBusiness(GetProjectType()).Get_PaymentTypeWithId(CommonFunctions.GetData<int>(id));
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -431,7 +431,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new WorkerBusiness(GetProjectType()).Get_Worker_WithId(GeneralFunctions.GetData<int>(id), null);
+                    result = new WorkerBusiness(GetProjectType()).Get_Worker_WithId(CommonFunctions.GetData<int>(id), null);
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -577,7 +577,7 @@ namespace KindergartenProject
 
             string id = Cipher.Decrypt(decryptStudentId);
 
-            int idInt = GeneralFunctions.GetData<int>(id);
+            int idInt = CommonFunctions.GetData<int>(id);
 
             if (idInt > 0)
             {
@@ -596,7 +596,7 @@ namespace KindergartenProject
                     info.StudentList.Add(studentEntity);
                 }
             }
-            info.Year = GeneralFunctions.GetData<int>(year);
+            info.Year = CommonFunctions.GetData<int>(year);
             return info;
         }
 
@@ -629,22 +629,22 @@ namespace KindergartenProject
             PaymentEntity paymentEntity = new PaymentEntity
             {
                 EncryptStudentId = encryptStudentId,
-                StudentId = GeneralFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
-                Year = GeneralFunctions.GetData<short>(year),
-                Month = GeneralFunctions.GetData<short>(month),
-                Amount = GeneralFunctions.GetData<decimal>(amount),
-                Id = GeneralFunctions.GetData<int>(id)
+                StudentId = CommonFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
+                Year = CommonFunctions.GetData<short>(year),
+                Month = CommonFunctions.GetData<short>(month),
+                Amount = CommonFunctions.GetData<decimal>(amount),
+                Id = CommonFunctions.GetData<int>(id)
             };
             paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
             paymentEntity.IsActive = true;
             paymentEntity.IsDeleted = true;
             paymentEntity.PaymentDate = DateTime.Now;
             paymentEntity.IsPayment = isPayment;
-            paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
+            paymentEntity.PaymentType = CommonFunctions.GetData<short>(paymentType);
 
             DataResultArgs<string> resultSet = new PaymentBusiness(GetProjectType()).Set_Payment(paymentEntity);
 
-            paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
+            paymentEntity.Id = CommonFunctions.GetData<int>(resultSet.Result);
             DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>();
             returnResultSet.ErrorCode = resultSet.ErrorCode;
             returnResultSet.ErrorDescription = resultSet.ErrorDescription;
@@ -661,22 +661,22 @@ namespace KindergartenProject
             PaymentEntity paymentEntity = new PaymentEntity
             {
                 EncryptStudentId = encryptStudentId,
-                StudentId = GeneralFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
-                Year = GeneralFunctions.GetData<short>(year),
-                Month = GeneralFunctions.GetData<short>(month),
-                Amount = GeneralFunctions.GetData<decimal>(currentAmount),
-                Id = GeneralFunctions.GetData<int>(id)
+                StudentId = CommonFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
+                Year = CommonFunctions.GetData<short>(year),
+                Month = CommonFunctions.GetData<short>(month),
+                Amount = CommonFunctions.GetData<decimal>(currentAmount),
+                Id = CommonFunctions.GetData<int>(id)
             };
             paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
             paymentEntity.IsActive = true;
             paymentEntity.IsDeleted = false;
             paymentEntity.PaymentDate = DateTime.Now;
             paymentEntity.IsPayment = null;
-            paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
+            paymentEntity.PaymentType = CommonFunctions.GetData<short>(paymentType);
 
             DataResultArgs<string> resultSet = new PaymentBusiness(GetProjectType()).Set_Payment(paymentEntity);
 
-            paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
+            paymentEntity.Id = CommonFunctions.GetData<int>(resultSet.Result);
             DataResultArgs<PaymentEntity> returnResultSet = new DataResultArgs<PaymentEntity>
             {
                 ErrorCode = resultSet.ErrorCode,
@@ -695,11 +695,11 @@ namespace KindergartenProject
             PaymentEntity paymentEntity = new PaymentEntity
             {
                 EncryptStudentId = encryptStudentId,
-                StudentId = GeneralFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
-                Year = GeneralFunctions.GetData<short>(year),
-                Month = GeneralFunctions.GetData<short>(month),
-                Amount = GeneralFunctions.GetData<decimal>(currentAmount),
-                Id = GeneralFunctions.GetData<int>(id),
+                StudentId = CommonFunctions.GetData<int>(Cipher.Decrypt(encryptStudentId)),
+                Year = CommonFunctions.GetData<short>(year),
+                Month = CommonFunctions.GetData<short>(month),
+                Amount = CommonFunctions.GetData<decimal>(currentAmount),
+                Id = CommonFunctions.GetData<int>(id),
                 IsChangeAmountPaymentNotOK = true
             };
             paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
@@ -707,11 +707,11 @@ namespace KindergartenProject
             paymentEntity.IsDeleted = false;
             paymentEntity.PaymentDate = DateTime.Now;
             paymentEntity.IsPayment = null;
-            paymentEntity.PaymentType = GeneralFunctions.GetData<short>(paymentType);
+            paymentEntity.PaymentType = CommonFunctions.GetData<short>(paymentType);
 
             DataResultArgs<string> resultSet = new PaymentBusiness(GetProjectType()).Set_Payment(paymentEntity);
 
-            paymentEntity.Id = GeneralFunctions.GetData<int>(resultSet.Result);
+            paymentEntity.Id = CommonFunctions.GetData<int>(resultSet.Result);
 
             PaymentEntity dbPaymentEntity = new PaymentBusiness(GetProjectType()).Get_PaymentWidthId(paymentEntity.Id);
             dbPaymentEntity.EncryptStudentId = encryptStudentId;
@@ -874,7 +874,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new ClassBusiness(GetProjectType()).Get_ClassWithId(GeneralFunctions.GetData<int>(id));
+                    result = new ClassBusiness(GetProjectType()).Get_ClassWithId(CommonFunctions.GetData<int>(id));
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -953,7 +953,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpenseWithId(GeneralFunctions.GetData<int>(id));
+                    result = new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpenseWithId(CommonFunctions.GetData<int>(id));
                     if (result.Result != null)
                         result.HasError = false;
                 }

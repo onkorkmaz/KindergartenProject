@@ -82,7 +82,7 @@
                                 </a>
 
                             </li>
-
+                             
                             <li runat="server" id="menuSettings">
                                 <a data-target="#ui" data-toggle="collapse" class="sidebar-link collapsed">
                                     <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ayarlar</span>

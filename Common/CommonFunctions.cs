@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Common
 {
-    public class GeneralFunctions
+    public class CommonFunctions
     {
         public static string ToString(object obje)
         {

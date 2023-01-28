@@ -73,7 +73,7 @@ namespace KindergartenProject
                 {
                     string IdDecrypt = Cipher.Decrypt(Id.ToString());
 
-                    int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                    int id = CommonFunctions.GetData<int>(IdDecrypt);
                     if (id > 0)
                     {
                         DataResultArgs<List<IncomeAndExpenseEntity>> resultSet = 
@@ -196,10 +196,10 @@ namespace KindergartenProject
         {
             IncomeAndExpenseEntity entity = new IncomeAndExpenseEntity();
             entity.DatabaseProcess = databaseProcess;
-            entity.Id = GeneralFunctions.GetData<Int32>(hdnId.Value);
+            entity.Id = CommonFunctions.GetData<Int32>(hdnId.Value);
 
-            entity.IncomeAndExpenseTypeId = GeneralFunctions.GetData<int>(drpIncomeAndExpenseType.SelectedValue);
-            entity.Amount = GeneralFunctions.GetData<decimal>(txtAmount.Text);
+            entity.IncomeAndExpenseTypeId = CommonFunctions.GetData<int>(drpIncomeAndExpenseType.SelectedValue);
+            entity.Amount = CommonFunctions.GetData<decimal>(txtAmount.Text);
             entity.Description = txtDescription.Text;
             entity.IsActive = chcIsActive.Checked;
            
@@ -230,7 +230,7 @@ namespace KindergartenProject
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             Button btn = ((Button)sender);
-            bool insert = GeneralFunctions.GetData<int>(hdnId.Value) <= 0;
+            bool insert = CommonFunctions.GetData<int>(hdnId.Value) <= 0;
             processToDatabase((insert) ? DatabaseProcess.Add : DatabaseProcess.Update);
         }
 
@@ -244,7 +244,7 @@ namespace KindergartenProject
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            int id = GeneralFunctions.GetData<int>(hdnId.Value);
+            int id = CommonFunctions.GetData<int>(hdnId.Value);
 
             if (id > 0)
             {

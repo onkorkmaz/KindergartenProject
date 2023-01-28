@@ -45,14 +45,57 @@ namespace Common
         Diger = 17
     }
 
-    public enum AdminTypeEnum
+    #region
+    /*  
+        SELECT 
+        REPLACE
+        (
+        REPLACE(
+	        REPLACE(
+		        REPLACE(
+			        REPLACE(
+				        REPLACE(
+					        REPLACE(lower(a.name), ' ', '_')
+						        , 'Ö', 'ö')
+				        , 'İ', 'i')
+			        ,'ö','o')
+		        ,'ğ','g')
+	        ,'ş','s'),
+        'ı','i')
+        + ' = ' +convert(varchar(50), id)+',' from tbAuthority a
+        where isDeleted=0
+     */
+    #endregion
+
+    public enum Authority
+    {
+        none=0,
+        ogrenci_islem = 1,
+        ogrenci_izleme = 2,
+        odeme_plani_izleme = 3,
+        odeme_plani_ozet_izleme = 4,
+        yoklama_izleme = 5,
+        yoklama_islem = 6,
+        gelir_gider_izleme = 7,
+        gelir_gider_islem = 8,
+        odeme_tipleri_izleme = 9,
+        odeme_tipleri_islem = 10,
+        sinif_izleme = 11,
+        sinif_islem = 12,
+        çalisan_yonetimi_izleme = 13,
+        çalisan_yonetimi_islem = 14,
+        gelir_gider_tipi_islem = 15,
+        gelir_gider_tipi_izleme = 16,
+        sifre_degistir_islem = 17,
+        sifre_degistir_izleme = 18,
+    }
+
+    public enum AuthorityTypeEnum
     {
         None = 0,
         Develeper = 1,
         SuperAdmin = 2,
-        Admin = 3,
-        Visitor = 4,
-        OnlyView = 5
+        Authority = 3
     }
 
     public enum SchoolClassEnum

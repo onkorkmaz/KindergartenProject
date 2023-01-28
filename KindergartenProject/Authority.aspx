@@ -33,13 +33,6 @@
                     </div>
                 </div>
 
-                 <div class="mb-3 row">
-                    <label class="col-form-label col-sm-2 text-sm-left">Yetki</label>
-                    <div class="col-sm-10">
-                        <asp:CheckBox runat="server" ID="chcHasAuthority" CssClass="form-check-input" Checked="true" />
-                    </div>
-                </div>
-
                 <div class="mb-3 row">
                     <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>
                     <div class="col-sm-10">
@@ -65,7 +58,6 @@
                         <tr>
                             <th scope="col">#####</th>
                             <th scope="col">Yetki Adı</th>
-                            <th scope="col">Yetki</th>
                             <th scope="col">Açıklama</th>
                             <th scope="col">Aktif</th>
                         </tr>

@@ -62,7 +62,7 @@ namespace KindergartenProject
             {
                 string IdDecrypt = Cipher.Decrypt(Id.ToString());
                 hdnId.Value = IdDecrypt;
-                int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                int id = CommonFunctions.GetData<int>(IdDecrypt);
                 if (id <= 0)
                 {
                     divInformation.ErrorText = studentDoesNotFound;

@@ -37,7 +37,7 @@ namespace KindergartenProject
                 object id = Page.RouteData.Values["class_id"];
                 if (id != null)
                 {
-                    drpClassList.SelectedValue = GeneralFunctions.GetData<string>(id);
+                    drpClassList.SelectedValue = CommonFunctions.GetData<string>(id);
                 }
             }
 

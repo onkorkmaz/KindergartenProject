@@ -32,10 +32,13 @@ namespace KindergartenProject
             setNavbarVisible(SelectedMenuList != MenuList.Login);
         }
 
+        internal void HasAuthority()
+        {
+            //throw new NotImplementedException();
+        }
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
         {
-
             clearMenuActiveStyle(menuPanel);
             clearMenuActiveStyle(menuStudenList);
             clearMenuActiveStyle(menuStudentAdd);

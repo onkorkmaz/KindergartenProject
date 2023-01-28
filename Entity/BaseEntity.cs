@@ -39,7 +39,7 @@ namespace Entity
         { 
             get
             {
-                return GeneralFunctions.GetProjectType(ProjectType);
+                return CommonFunctions.GetProjectType(ProjectType);
             }
         }
 

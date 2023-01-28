@@ -28,11 +28,6 @@ function successFunctionGetAuthorityList(obje) {
 
                 tbody += "<td>" + entityList[i].Name + "</td>";
 
-                if (entityList[i].HasAuthority)
-                    tbody += "<td><img src='/img/icons/hasAuthority.png' width='25' height ='25' /></td>";
-                else
-                    tbody += "<td><img src='/img/icons/hasNotAuthority.png' width='25' height ='25' /></td>";
-
                 tbody += "<td>" + entityList[i].Description + "</td>";
 
                 if (entityList[i].IsActive)
@@ -60,14 +55,12 @@ function validateAndSave()
     var id = document.getElementById("hdnId").value;
     var name = document.getElementById("txtAuthorityName").value;
     var description = document.getElementById("txtDescription").value;
-    var hasAuthority = document.getElementById("chcHasAuthority").checked;
     var isActive = document.getElementById("chcIsActive").checked;
 
 
     var authorityEntity = {};
     authorityEntity["Name"] = name;
     authorityEntity["IsActive"] = isActive;
-    authorityEntity["HasAuthority"] = hasAuthority;
     authorityEntity["Description"] = description;
 
 
@@ -143,7 +136,6 @@ function successFunctionGetAuthorityWithId(obje) {
         document.getElementById("hdnId").value = entity.EncryptId;
         document.getElementById("txtAuthorityName").value = entity.Name;
         document.getElementById("txtDescription").value = entity.Description;
-        document.getElementById("chcHasAuthority").checked = entity.IsActive;
         document.getElementById("chcIsActive").checked = entity.IsActive;
         document.getElementById("btnSubmit").value = "Güncelle";
         document.getElementById("btnSubmit").disabled = "";
@@ -159,7 +151,6 @@ function setDefaultValues() {
     document.getElementById("txtAuthorityName").value = "";
     document.getElementById("txtDescription").value = "";
     document.getElementById("chcIsActive").checked = true;
-    document.getElementById("chcHasAuthority").checked = true;
     document.getElementById("btnSubmit").value = "Kaydet";
 }
 

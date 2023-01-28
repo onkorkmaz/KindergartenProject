@@ -125,7 +125,7 @@ namespace KindergartenProject
                     sb.Append("<a href = \"/ogrenci-guncelle/" + student.EncryptId + "\">");
                     sb.Append(student.FullName + " "); sb.AppendLine("</td>");
                     sb.AppendLine("<td>");
-                    sb.Append(GeneralFunctions.ToDateWithCulture(student.Birthday));
+                    sb.Append(CommonFunctions.ToDateWithCulture(student.Birthday));
                     sb.AppendLine("</a>");
                     sb.AppendLine("</td>");
                     _ = (value.TotalDays == 0) ? sb.Append("<td>(Bugün)</td>") : sb.Append("<td>(" + value.TotalDays + " gün kaldı)</td>");

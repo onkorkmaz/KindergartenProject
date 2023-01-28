@@ -67,9 +67,9 @@ namespace KindergartenProject
                     hdnCurrentClassId.Value = currentRecord.ClassId.ToString();
                 }
 
-                if (GeneralFunctions.GetData<int>(currentRecord.SchoolClass) > 0)
+                if (CommonFunctions.GetData<int>(currentRecord.SchoolClass) > 0)
                 {
-                    drpSchoolClass.SelectedIndex = GeneralFunctions.GetData<int>(currentRecord.SchoolClass);
+                    drpSchoolClass.SelectedIndex = CommonFunctions.GetData<int>(currentRecord.SchoolClass);
                 }
 
 
@@ -143,7 +143,7 @@ namespace KindergartenProject
                 {
                     string IdDecrypt = Cipher.Decrypt(Id.ToString());
 
-                    int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                    int id = CommonFunctions.GetData<int>(IdDecrypt);
                     if (id > 0)
                     {
                         DataResultArgs<List<StudentEntity>> resultSet = new StudentBusiness(projectType).Get_Student(new SearchEntity() { Id = id });
@@ -167,7 +167,7 @@ namespace KindergartenProject
                     }
                 }
 
-                int classId = GeneralFunctions.GetData<int>(drpClassList.SelectedValue);
+                int classId = CommonFunctions.GetData<int>(drpClassList.SelectedValue);
                 if (classId > 0)
                 {
                     lblMaxStudentCount.Text = new KinderGartenWebService().CalculateRecordedStudentCount(classId.ToString());
@@ -184,7 +184,7 @@ namespace KindergartenProject
         {
             StudentEntity entity = new StudentEntity();
             entity.DatabaseProcess = databaseProcess;
-            entity.Id = GeneralFunctions.GetData<Int32>(hdnId.Value);
+            entity.Id = CommonFunctions.GetData<Int32>(hdnId.Value);
             entity.CitizenshipNumber = txtTckn.Text;
             entity.Name = txtName.Text;
             entity.Surname = txtSurname.Text;
@@ -194,7 +194,7 @@ namespace KindergartenProject
 
             if (!string.IsNullOrEmpty(txtBirthday.Text))
             {
-                entity.Birthday = GeneralFunctions.GetData<DateTime>(txtBirthday.Text);
+                entity.Birthday = CommonFunctions.GetData<DateTime>(txtBirthday.Text);
             }
             entity.FatherPhoneNumber = txtFatherPhoneNumber.Text;
             entity.MotherPhoneNumber = txtMotherPhoneNumber.Text;
@@ -202,15 +202,15 @@ namespace KindergartenProject
             entity.IsStudent = drpStudentState.SelectedValue == "0";
             entity.Notes = txtNotes.Text;
             //entity.DateOfMeeting = GeneralFunctions.GetData<DateTime>(txtDateOfMeeting.Text);
-            entity.SpokenPrice = GeneralFunctions.GetData<decimal>(txtSpokenPrice.Text);
+            entity.SpokenPrice = CommonFunctions.GetData<decimal>(txtSpokenPrice.Text);
             entity.Email = txtEmail.Text;
-            entity.ClassId = GeneralFunctions.GetData<int>(drpClassList.SelectedValue);
+            entity.ClassId = CommonFunctions.GetData<int>(drpClassList.SelectedValue);
             entity.IsInterview = chcInterview.Checked;
-            entity.InterviewDate = GeneralFunctions.GetData<DateTime>(txtInterviewDate.Text); 
+            entity.InterviewDate = CommonFunctions.GetData<DateTime>(txtInterviewDate.Text); 
 
             if (drpSchoolClass.SelectedIndex > 0)
             {
-                entity.SchoolClassEnum = (SchoolClassEnum)GeneralFunctions.GetData<int>(drpSchoolClass.SelectedValue);
+                entity.SchoolClassEnum = (SchoolClassEnum)CommonFunctions.GetData<int>(drpSchoolClass.SelectedValue);
             }
 
 
@@ -258,7 +258,7 @@ namespace KindergartenProject
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             Button btn = ((Button)sender);
-            bool insert = GeneralFunctions.GetData<int>(hdnId.Value) <= 0;
+            bool insert = CommonFunctions.GetData<int>(hdnId.Value) <= 0;
             processToDatabase((insert) ? DatabaseProcess.Add : DatabaseProcess.Update);
         }
 
@@ -272,7 +272,7 @@ namespace KindergartenProject
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            int id = GeneralFunctions.GetData<int>(hdnId.Value);
+            int id = CommonFunctions.GetData<int>(hdnId.Value);
 
             if (id > 0)
             {
@@ -288,7 +288,7 @@ namespace KindergartenProject
             {
                 string IdDecrypt = Cipher.Decrypt(Id.ToString());
 
-                int id = GeneralFunctions.GetData<int>(IdDecrypt);
+                int id = CommonFunctions.GetData<int>(IdDecrypt);
                 if (id > 0)
                 {
                     string link = "~/odeme-plani-detay/" + Cipher.Encrypt(id.ToString());
