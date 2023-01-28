@@ -34,15 +34,12 @@ namespace KindergartenProject
             routes.MapPageRoute("ogrenci-ekle", "ogrenci-ekle", "~/StudentAdd.aspx");
             routes.MapPageRoute("ogrenci-guncelle", "ogrenci-guncelle/{student_id}", "~/StudentAdd.aspx");
 
-
             routes.MapPageRoute("odeme-plani", "odeme-plani", "~/PaymentPlan.aspx");
 
             routes.MapPageRoute("yoklama-sayfasi", "yoklama-sayfasi", "~/StudentAttendanceBookList.aspx");
 
             routes.MapPageRoute("odeme-plani-detay", "odeme-plani-detay/{student_id}", "~/PaymentDetail.aspx");
             routes.MapPageRoute("email-gonder", "email-gonder/{student_id}", "~/SendEmail.aspx");
-
-
 
             routes.MapPageRoute("odeme-tipleri", "odeme-tipleri", "~/PaymentType.aspx");
             routes.MapPageRoute("sinif-listesi", "sinif-listesi", "~/ClassList.aspx");
@@ -51,9 +48,7 @@ namespace KindergartenProject
             routes.MapPageRoute("gelir-gider-ekle", "gelir-gider-ekle", "~/IncomeAndExpenseAdd.aspx");
             routes.MapPageRoute("gelir-gider-listesi", "gelir-gider-listesi", "~/IncomeAndExpenseList.aspx");
             routes.MapPageRoute("gelir-gider-tipi", "gelir-gider-tipi", "~/IncomeAndExpenseType.aspx");
-
-
-
+            routes.MapPageRoute("yetki-tipi", "yetki-tipi", "~/Authority.aspx");
             routes.MapPageRoute("cikis", "cikis", "~/Exit.aspx");
 
         }

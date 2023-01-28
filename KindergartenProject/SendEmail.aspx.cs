@@ -498,7 +498,7 @@ namespace KindergartenProject
                 using (SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587))
                 {
                     SmtpServer.UseDefaultCredentials = false; //Need to overwrite this
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("benimdunyamanaokullari@gmail.com", "enrjpjxobnefsqac");
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("benimdunyamanaokullari@gmail.com", "Yelay123_XC");
                     SmtpServer.EnableSsl = true;
                     SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                     SmtpServer.Send(mail);

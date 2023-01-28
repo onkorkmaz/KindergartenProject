@@ -31,9 +31,8 @@ namespace Common
         IncomeAndExpenseAdd = 8,
         IncomeAndExpenseList = 9,
         StudentAttendanceBookList = 10,
-        IncomeAndExpenseType =11
-
-
+        IncomeAndExpenseType =11,
+        Authority = 12
     }
 
     public enum PaymentTypeEnum
@@ -49,8 +48,11 @@ namespace Common
     public enum AdminTypeEnum
     {
         None = 0,
-        SuperAdmin = 1,
-        Visitor = 2
+        Develeper = 1,
+        SuperAdmin = 2,
+        Admin = 3,
+        Visitor = 4,
+        OnlyView = 5
     }
 
     public enum SchoolClassEnum
@@ -69,13 +71,5 @@ namespace Common
         Class_6 = 11,
         Class_7 = 12,
         Class_8 = 13,
-
-
-
-
-
-
-
-
     }
 }

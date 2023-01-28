@@ -79,6 +79,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Authority.aspx" />
+    <Content Include="customJS\authority.js" />
     <Content Include="customJS\default.js" />
     <Content Include="customJS\incomeAndExpense.js" />
     <Content Include="customJS\outgoing.js" />
@@ -86,6 +88,8 @@
     <Content Include="customJS\studentAttendanceBook.js" />
     <Content Include="customJS\studentCommon.js" />
     <Content Include="customJS\incomeAndExpenseType.js" />
+    <Content Include="img\icons\hasAuthority.png" />
+    <Content Include="img\icons\hasNotAuthority.png" />
     <Content Include="StudentAdd.aspx" />
     <Content Include="ClassList.aspx" />
     <Content Include="css\app.css" />
@@ -182,6 +186,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authority.aspx.cs">
+      <DependentUpon>Authority.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Authority.aspx.designer.cs">
+      <DependentUpon>Authority.aspx</DependentUpon>
+    </Compile>
     <Compile Include="common\CommonUIFunction.cs" />
     <Compile Include="StudentAdd.aspx.cs">
       <DependentUpon>StudentAdd.aspx</DependentUpon>

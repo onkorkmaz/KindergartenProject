@@ -132,31 +132,40 @@ namespace KindergartenProject
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuPaymentType;
 
         /// <summary>
-        /// classList control.
+        /// menuClassList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl classList;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuClassList;
 
         /// <summary>
-        /// workerList control.
+        /// menuWorkerList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl workerList;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuWorkerList;
 
         /// <summary>
-        /// IncomeAndExpenseType control.
+        /// menuIncomeAndExpenseType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl IncomeAndExpenseType;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuIncomeAndExpenseType;
+
+        /// <summary>
+        /// menuAuthority control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAuthority;
 
         /// <summary>
         /// liExit control.

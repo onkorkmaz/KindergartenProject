@@ -28,6 +28,10 @@
                             <asp:DropDownList runat="server" ID="drpYear" CssClass="form-control" onchange="drpYear_Changed();">
                             </asp:DropDownList>
                         </div>
+                        <label class="col-form-label col-sm-2 text-sm-left">Ödemeleri Pasif Yap</label>
+                        <div class="col-sm-2">
+                           
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">

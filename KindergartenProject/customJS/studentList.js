@@ -150,7 +150,7 @@ function drawList(entityList) {
                 if (entityList[i].IsStudent)
                     tbody += "<td>&nbsp;<img src='/img/icons/student3.png' width='20' height ='20' /></td>";
                 else
-                    tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='/img/icons/interview.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
+                    tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='/img/icons/smile.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
             }
             else {
                 tbody += "<td>&nbsp;<img src='/img/icons/passive.png' width='20' height ='20' /></td>";

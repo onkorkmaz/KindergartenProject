@@ -23,12 +23,95 @@ namespace KindergartenProject
     public class KinderGartenWebService : WebService
     {
 
+        #region Authority
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<AuthorityEntity>> GetAuthorityList()
+        {
+            return new AuthorityBusiness(GetProjectType()).Get_Authority(new SearchEntity() { IsDeleted = false });
+        }
+
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> InsertOrUpdateAuthority(string encryptId, AuthorityEntity authorityEntity)
+        {
+            DatabaseProcess currentProcess = DatabaseProcess.Add;
+            authorityEntity.Id = 0;
+            if (!string.IsNullOrEmpty(encryptId))
+            {
+                int.TryParse(Cipher.Decrypt(encryptId), out var id);
+                if (id > 0)
+                {
+                    currentProcess = DatabaseProcess.Update;
+                }
+                authorityEntity.Id = id;
+            }
+
+            authorityEntity.DatabaseProcess = currentProcess;
+
+            return new AuthorityBusiness(GetProjectType()).Set_Authority(authorityEntity);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> DeleteAuthority(string id)
+        {
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true,
+                ErrorDescription = "Id bilgisine ulaşılamadı"
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    AuthorityEntity entity = new AuthorityEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
+                    result = new AuthorityBusiness(GetProjectType()).Set_Authority(entity);
+                }
+            }
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<AuthorityEntity> GetAuthorityWithId(string id)
+        {
+            DataResultArgs<AuthorityEntity> result = new DataResultArgs<AuthorityEntity>
+            {
+                HasError = true,
+                ErrorDescription = "Entity ulaşılamadı..."
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    result = new AuthorityBusiness(GetProjectType()).Get_AuthorityWithId(GeneralFunctions.GetData<int>(id));
+                    if (result.Result != null)
+                        result.HasError = false;
+                }
+            }
+
+            return result;
+        }
+
+        #endregion Authority
+
         public static Dictionary<string, string> List = new Dictionary<string, string>();
 
         [WebMethod(EnableSession = true)]
         public ProjectType GetProjectType()
         {
-            return (ProjectType)Session[CommonConst.ProjectType];
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                return ProjectType.None;
+            }
+            else
+            {
+                return (ProjectType)Session[CommonConst.ProjectType];
+            }
         }
 
         [WebMethod(EnableSession = true)]
@@ -728,13 +811,13 @@ namespace KindergartenProject
             return new ClassBusiness(GetProjectType()).Get_Class(new SearchEntity() { IsDeleted = false });
         }
 
+
         [WebMethod(EnableSession = true)]
         public DataResultArgs<List<IncomeAndExpenseEntity>> GetIncomeAndExpenseList()
         {
             return new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpense(new SearchEntity() { IsDeleted = false });
 
         }
-
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdateClass(string encryptId, ClassEntity classEntity)
@@ -776,27 +859,6 @@ namespace KindergartenProject
             return new IncomeAndExpenseTypeBusiness(GetProjectType()).Set_IncomeAndExpenseType(IncomeAndExpenseTypeEntity);
         }
 
-        [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> DeleteClass(string id)
-        {
-            DataResultArgs<bool> result = new DataResultArgs<bool>
-            {
-                HasError = true,
-                ErrorDescription = "Id bilgisine ulaşılamadı"
-            };
-
-            if (!string.IsNullOrEmpty(id))
-            {
-                int.TryParse(Cipher.Decrypt(id), out var idInt);
-                if (idInt > 0)
-                {
-                    ClassEntity entity = new ClassEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
-                    result = new ClassBusiness(GetProjectType()).Set_Class(entity);
-                }
-            }
-
-            return result;
-        }
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<ClassEntity> GetClassWithId(string id)

@@ -15,13 +15,13 @@ namespace KindergartenProject
         protected void Page_Load(object sender, EventArgs e)
         {
             var master = this.Master as kindergarten;
-            ((kindergarten) master).SelectedMenuList = MenuList.Login;
+            ((kindergarten)master).SelectedMenuList = MenuList.Login;
 
             master.SetActiveMenuAttiributes(MenuList.Login);
             master.SetVisibleSearchText(false);
 
             string machineName = Environment.MachineName;
-            if(machineName == "DESKTOP-4ISBFD4")
+            if (machineName == "DESKTOP-4ISBFD4")
             {
                 txtUserName.Text = "yeliz";
                 txtPassword.Text = "1";
