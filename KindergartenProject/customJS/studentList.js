@@ -136,9 +136,10 @@ function drawList(entityList) {
                 tbody += "<a href = \"/email-gonder/" + entityList[i].EncryptId + "\"><img title = 'Email gönder' src =\"/img/icons/email4.png\"/></a> &nbsp; ";
             }
 
-            var parentInfo = entityList[i].MotherInfo;
+            var parentInfo = entityList[i].MotherName + " - ";
+            parentInfo += "<a href='tel:" + entityList[i].MotherPhoneNumber + "'>" + entityList[i].MotherPhoneNumber+"</a>";
             if (IsNullOrEmpty(parentInfo))
-                parentInfo += " - " + entityList[i].FatherInfo;
+                parentInfo = "" + entityList[i].FatherName + " - " + "<a href='tel:" + entityList[i].FatherPhoneNumber + "'>" + entityList[i].FatherPhoneNumber + "</a>";
            
 
             tbody += "</td>";
@@ -190,6 +191,12 @@ function drawList(entityList) {
                     tbody += "<table border='1' width='100%' cellpadding='8'>";
                     {
                         tbody += "<tr><td width='150'><b>TCKN</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].CitizenshipNumberStr + "</td></tr>";
+
+                        tbody += "<tr><td width='150'><b>Anne Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].MotherName + "</td></tr>";
+                        tbody += "<tr><td width='150'><b>Anne Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entityList[i].MotherPhoneNumber + "'>" + entityList[i].MotherPhoneNumber + "</a></td></tr>";
+
+                        tbody += "<tr><td width='150'><b>Baba Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].FatherName + "</td></tr>";
+                        tbody += "<tr><td width='150'><b>Baba Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entityList[i].FatherPhoneNumber + "'>" + entityList[i].FatherPhoneNumber + "</a></td></tr>";
 
                         tbody += "<tr><td width='150'><b>Konuşulan ücret</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].SpokenPriceStr + "</td></tr>";
                         tbody += "<tr><td width='150'><b>Sınıf</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].ClassName + "</td></tr>";

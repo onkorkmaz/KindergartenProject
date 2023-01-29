@@ -12,16 +12,31 @@ namespace KindergartenProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            AdminEntity adminEntity = null;
             if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
             {
                 Response.Redirect("/uye-giris");
             }
+
+            adminEntity = (AdminEntity)Session[CommonConst.Admin];
 
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.Authority);
                 master.SetVisibleSearchText(false);
+            }
+
+            controlAuthorization(adminEntity);
+
+        }
+
+        private void controlAuthorization(AdminEntity adminEntity)
+        {
+            if (CurrentContex.Contex.AuthorityTypeEnum != AuthorityTypeEnum.Develeper)
+            {
+                Response.Write("<script>alert('Bu sayfa için yetkiniz bulunmamaktadır.');</script>");
+                //Response.Redirect("benim-dunyam-montessori-okullari");
             }
         }
     }

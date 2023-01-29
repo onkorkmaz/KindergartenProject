@@ -90,7 +90,7 @@
                                 <ul id="ui" data-parent="#sidebar" runat="server">
                                     <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="/odeme-tipleri">Ödeme Tipleri</a></li>
                                     <li class="sidebar-item" id="menuClassList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
-                                    <li class="sidebar-item" id="menuWorkerList" runat="server"><a class="sidebar-link" href="/yetki-tipleri">Çalışan Yönetimi</a></li>
+                                    <li class="sidebar-item" id="menuWorkerList" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
                                     <li class="sidebar-item" id="menuIncomeAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
 
                                       <li class="sidebar-item" id="menuAuthority" runat="server"><a class="sidebar-link" href="/yetki-tipi">Yetki Tipi</a></li>
