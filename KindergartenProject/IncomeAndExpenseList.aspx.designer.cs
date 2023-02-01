@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class StudentAttendanceBookListTest
+    public partial class IncomeAndExpenseList
     {
 
         /// <summary>
@@ -42,30 +42,12 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.DropDownList drpMonth;
 
         /// <summary>
-        /// drpDays control.
+        /// tbIncomeAndExpenseList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drpDays;
-
-        /// <summary>
-        /// studentAttendanceHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl studentAttendanceHeader;
-
-        /// <summary>
-        /// studentAttendanceList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl studentAttendanceList;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbIncomeAndExpenseList;
     }
 }

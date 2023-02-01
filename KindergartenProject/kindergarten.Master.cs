@@ -32,11 +32,6 @@ namespace KindergartenProject
             setNavbarVisible(SelectedMenuList != MenuList.Login);
         }
 
-        internal void HasAuthority()
-        {
-            //throw new NotImplementedException();
-        }
-
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
         {
             clearMenuActiveStyle(menuPanel);
@@ -106,6 +101,21 @@ namespace KindergartenProject
         public void setNavbarVisible(bool isVisible)
         {
             sidebar.Visible = isVisible;
+        }
+
+        private bool hasAuthority;
+
+        public bool HasAuthority
+        {
+            get 
+            { 
+                return hasAuthority; 
+            }
+            set 
+            {
+                hasAuthority = value;
+                pnlMain.Visible = hasAuthority;
+            }
         }
     }
 

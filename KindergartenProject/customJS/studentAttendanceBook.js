@@ -80,7 +80,7 @@ function drawStudentAttendanceBook(entityList) {
     }
 
 
-    header = "<tr><th scope='col'>#####</th><th scope='col'>İsim Soyisim</th>";
+    header = "<tr><th scope='col' width='20'>#####</th><th scope='col'>İsim Soyisim</th>";
 
     var endDayValue = document.getElementById("drpDays").value;
     var begin = 1;
@@ -113,11 +113,12 @@ function drawStudentAttendanceBook(entityList) {
             var attendanceList = entityList[i].StudentDetail.StudentAttendanceBookList;
 
             tbody += "<tr>";
-            tbody += "<td>";
-            tbody += "<a href = \"/ogrenci-yoklama-detay/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/detail.png\"/></a> &nbsp; ";
-            tbody += "</td>";
-           
-           
+            //tbody += "<td>";
+            //tbody += "<a href = \"/ogrenci-yoklama-detay/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/detail.png\"/></a> &nbsp; ";
+            //tbody += "</td>";
+
+            tbody += "<td style='cursor: pointer;' onclick =onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
+
             tbody += "<td>" + entityList[i].FullName + "</td>";
 
             for (let j = begin; j <= endDayValue; j++) {
@@ -142,6 +143,7 @@ function drawStudentAttendanceBook(entityList) {
 
 
             tbody += "</tr> ";
+            tbody += GetDetailRow(entityList[i], 1, 4, false);
 
         }
         document.getElementById("studentAttendanceList").innerHTML = tbody;

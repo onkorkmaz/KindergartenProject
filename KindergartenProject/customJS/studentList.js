@@ -180,57 +180,9 @@ function drawList(entityList) {
                 }
             }
 
-            
             tbody += "</tr> ";
 
-            tbody += "<tr style='display: none;' id='tr" + entityList[i].EncryptId + "' >";
-            {
-                tbody += "<td colspan=2></td >";
-                tbody += "<td colspan=6>";
-                {
-                    tbody += "<table border='1' width='100%' cellpadding='8'>";
-                    {
-                        tbody += "<tr><td width='150'><b>TCKN</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].CitizenshipNumberStr + "</td></tr>";
-
-                        tbody += "<tr><td width='150'><b>Anne Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].MotherName + "</td></tr>";
-                        tbody += "<tr><td width='150'><b>Anne Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entityList[i].MotherPhoneNumber + "'>" + entityList[i].MotherPhoneNumber + "</a></td></tr>";
-
-                        tbody += "<tr><td width='150'><b>Baba Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].FatherName + "</td></tr>";
-                        tbody += "<tr><td width='150'><b>Baba Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entityList[i].FatherPhoneNumber + "'>" + entityList[i].FatherPhoneNumber + "</a></td></tr>";
-
-                        tbody += "<tr><td width='150'><b>Konuşulan ücret</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].SpokenPriceStr + "</td></tr>";
-                        tbody += "<tr><td width='150'><b>Sınıf</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].ClassName + "</td></tr>";
-
-                        tbody += "<tr><td width='150'><b>Ana Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].MainTeacher + "</td></tr>";
-                        tbody += "<tr><td width='150'><b>Yardımcı Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entityList[i].HelperTeacher + "</td></tr>";
-
-                        tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + entityList[i].DateOfMeetingWithFormat + "</td></tr>";
-                        tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + entityList[i].EmailStr + "</td></tr>";
-                        tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + entityList[i].NotesStr + "</td></tr>";
-                        if (entityList[i].SchoolClassDesc != undefined && entityList[i].SchoolClassDesc != null && entityList[i].SchoolClassDesc != '') {
-                            tbody +="<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + entityList[i].SchoolClassDesc + "</td></tr>";
-                        }
-                        else {
-                            tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'> - </td></tr>";
-
-                        }
-
-
-                        if (entityList[i].IsActive)
-                            tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/active.png' width='20' height ='20' /></td></tr>";
-                        else
-                            tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/passive.png' width='20' height ='20' /></td></tr>";
-
-                        tbody += "<tr><td><input type='submit' value='Sil' id='btnDelete' class='btn btn-danger' onclick='return deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-
-                       
-
-                    }
-                    tbody += "</table>";
-                }
-                tbody += "</td > ";
-            }
-            tbody += "</tr>";
+            tbody += GetDetailRow(entityList[i], 2, 6, false);
 
         }
 
@@ -240,11 +192,6 @@ function drawList(entityList) {
     }
 }
 
-
-function onDetailRow(id) {
-    var row = document.getElementById("tr" + id);
-    row.style.display = row.style.display === 'none' ? '' : 'none';
-}
 
 function deleteCurrentRecord(id) {
 

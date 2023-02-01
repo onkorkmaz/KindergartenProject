@@ -1,7 +1,9 @@
-﻿using Common;
+﻿using Business;
+using Common;
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -9,9 +11,13 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class StudentAttendanceBookListTest : System.Web.UI.Page
+    public partial class IncomeAndExpenseList : System.Web.UI.Page
     {
+        #region VARIABLES
         ProjectType projectType = ProjectType.None;
+        #endregion VARIABLES
+
+        #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
             if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
@@ -21,8 +27,15 @@ namespace KindergartenProject
 
             projectType = (ProjectType)Session[CommonConst.ProjectType];
 
+            divInformation.ListRecordPage = "/gelir-gider-listesi";
+            divInformation.NewRecordPage = "/gelir-gider-ekle";
+
+            divInformation.InformationVisible = false;
+
             var master = this.Master as kindergarten;
-            master.SetActiveMenuAttiributes(MenuList.StudentAttendanceBookList);
+            master.SetActiveMenuAttiributes(MenuList.IncomeAndExpenseList);
+            master.SetVisibleSearchText(false);
+
 
             int year = 2021;
 
@@ -48,11 +61,11 @@ namespace KindergartenProject
 
             drpMonth.SelectedValue = currentMonth.ToString();
 
-            int lastDay = DateTime.DaysInMonth(currentYear, currentMonth);
-            drpDays.Items.Add(new ListItem("1-15", "15"));
-            drpDays.Items.Add(new ListItem("16-" + lastDay + "", lastDay.ToString()));
 
 
         }
+
+        #endregion CONTRUCTOR && PAGE_LOAD
+
     }
 }

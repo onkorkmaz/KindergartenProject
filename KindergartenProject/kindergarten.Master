@@ -69,20 +69,20 @@
 
                             <li id="menuIncomeAndExpenseAdd" runat="server">
                                 <a class="sidebar-link" href="/gelir-gider-ekle">
-                                    
-                                     <i class="align-middle" data-feather="save"></i><span class="align-middle">Gelir-Gider Ekle</span>
+
+                                    <i class="align-middle" data-feather="save"></i><span class="align-middle">Gelir-Gider Ekle</span>
                                 </a>
 
                             </li>
 
                             <li id="menuIncomeAndExpenseList" runat="server">
                                 <a class="sidebar-link" href="/gelir-gider-listesi">
-                                    
+
                                     <i class="align-middle" data-feather="paperclip"></i><span class="align-middle">Gelir-Gider Listesi</span>
                                 </a>
 
                             </li>
-                             
+
                             <li runat="server" id="menuSettings">
                                 <a data-target="#ui" data-toggle="collapse" class="sidebar-link collapsed">
                                     <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ayarlar</span>
@@ -93,7 +93,7 @@
                                     <li class="sidebar-item" id="menuWorkerList" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
                                     <li class="sidebar-item" id="menuIncomeAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
 
-                                      <li class="sidebar-item" id="menuAuthority" runat="server"><a class="sidebar-link" href="/yetki-tipi">Yetki Tipi</a></li>
+                                    <li class="sidebar-item" id="menuAuthority" runat="server"><a class="sidebar-link" href="/yetki-tipi">Yetki Tipi</a></li>
 
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>
                                 </ul>
@@ -106,43 +106,44 @@
                         </ul>
                     </div>
                 </nav>
+                <asp:Panel runat="server" ID="pnlMain" CssClass="main">
+                    <div class="main">
+                        <nav class="navbar navbar-expand navbar-light navbar-bg">
+                            <a class="sidebar-toggle d-flex">
+                                <i class="hamburger align-self-center"></i>
+                            </a>
 
-                <div class="main">
-                    <nav class="navbar navbar-expand navbar-light navbar-bg">
-                        <a class="sidebar-toggle d-flex">
-                            <i class="hamburger align-self-center"></i>
-                        </a>
 
+                            <div class="input-group input-group-navbar">
+                                <asp:TextBox runat="server" ID="txtSearchStudent" CssClass="form-control" placeholder="TCKN - Ad Soyad - Baba Adı - Anne Adı" onkeyup="txtSearchStudent_Change(this.value);"></asp:TextBox>
+                            </div>
+                        </nav>
 
-                        <div class="input-group input-group-navbar">
-                            <asp:TextBox runat="server" ID="txtSearchStudent" CssClass="form-control" placeholder="TCKN - Ad Soyad - Baba Adı - Anne Adı" onkeyup="txtSearchStudent_Change(this.value);"></asp:TextBox>
-                        </div>
-                    </nav>
+                        <main class="content">
+                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                            </asp:ContentPlaceHolder>
+                        </main>
 
-                    <main class="content">
-                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                        </asp:ContentPlaceHolder>
-                    </main>
-
-                    <footer class="footer">
-                        <div class="container-fluid">
-                            <div class="row text-muted">
-                                <div class="col-6 text-left">
-                                    <p class="mb-0">
-                                        <a href="/benim-dunyam-montessori-okullari" class="text-muted"><strong>Benim Dünyam Montessori Okulları...</strong></a> &copy;
-                                    </p>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <a class="text-muted" href="#">0216 520 29 93</a>
-                                        </li>
-                                    </ul>
+                        <footer class="footer">
+                            <div class="container-fluid">
+                                <div class="row text-muted">
+                                    <div class="col-6 text-left">
+                                        <p class="mb-0">
+                                            <a href="/benim-dunyam-montessori-okullari" class="text-muted"><strong>Benim Dünyam Montessori Okulları...</strong></a> &copy;
+                                        </p>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a class="text-muted" href="#">0216 520 29 93</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </footer>
-                </div>
+                        </footer>
+                    </div>
+                </asp:Panel>
             </div>
         </div>
     </form>

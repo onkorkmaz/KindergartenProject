@@ -24,7 +24,6 @@ namespace KindergartenProject
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.ClassList);
                 master.SetVisibleSearchText(false);
-                master.HasAuthority();
 
                 projectType = (ProjectType)Session[CommonConst.ProjectType];
                 business = new WorkerBusiness(projectType);

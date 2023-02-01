@@ -820,6 +820,22 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<IncomeAndExpenseEntity>> GetIncomeAndExpenseListForCurrentDate()
+        {
+            return new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpenseWithYearAndMonth(new SearchEntity() { IsDeleted = false }, DateTime.Today.Year, DateTime.Today.Month);
+
+        }
+
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<IncomeAndExpenseEntity>> GetIncomeAndExpenseListWithMonthAndYear(int year, int month)
+        {
+            return new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpenseWithYearAndMonth(new SearchEntity() { IsDeleted = false }, year, month);
+
+        }
+
+
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdateClass(string encryptId, ClassEntity classEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
@@ -915,7 +931,11 @@ namespace KindergartenProject
             return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
         }
 
-
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithYearAndMonth(int year,int month)
+        {
+            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(year, month);
+        }
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeleteIncomeAndExpenseWithId(string id)

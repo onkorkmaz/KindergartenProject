@@ -1,20 +1,22 @@
-﻿var isFirstLoad = true;
+﻿
 
 window.onload = function () {
-    if (isFirstLoad) {
-        onIncomeAndExpenseTypeChanged();
-        onWorkerChanged();
-        isFirstLoad = false;
-    }
 
-    loadData();
-    loadIncomeAndExpenseSummaryForCurrentMonth();
+    loadAllData();
 
 };
 
-function loadIncomeAndExpenseSummaryForCurrentMonth() {
-    var jsonData = "{  }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_IncomeAndExpenseSummaryForCurrentMonth', jsonData, successFunctionGetIncomeAndExpenseSummaryForCurrentMonth, errorFunction);
+function loadAllData() {
+    loadData();
+    loadIncomeAndExpenseSummaryWithYearAndMonth();
+}
+
+function loadIncomeAndExpenseSummaryWithYearAndMonth() {
+    let year = GetYear();
+    let month =GetMonth();
+
+    var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + "}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_IncomeAndExpenseSummaryWithYearAndMonth', jsonData, successFunctionGetIncomeAndExpenseSummaryForCurrentMonth, errorFunction);
 }
 
 function successFunctionGetIncomeAndExpenseSummaryForCurrentMonth(obje) {
@@ -58,9 +60,29 @@ function successFunctionGetIncomeAndExpenseSummaryForCurrentMonth(obje) {
     }
 }
 
+function GetYear() {
+    let year = document.getElementById("drpYear").value;
+    let month = GetMonth();
+    if (month < monthsSeasonFirst[0][0]) {
+        year++;
+    }
+
+    return year;
+}
+
+function GetMonth() {
+    
+    let month = document.getElementById("drpMonth").value;
+    return month;
+}
+
 function loadData() {
-    var jsonData = "{  }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetIncomeAndExpenseListForCurrentDate', jsonData, successFunctionGetIncomeAndExpenseList, errorFunction);
+
+    let year = GetYear();
+    let month = GetMonth();
+
+    var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + "}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetIncomeAndExpenseListWithMonthAndYear', jsonData, successFunctionGetIncomeAndExpenseList, errorFunction);
 }
 
 function deleteCurrentRecord(id) {
@@ -133,8 +155,8 @@ function successFunctionGetIncomeAndExpenseList(obje) {
 
                 tbody += "<tr>";
                 tbody += "<td>";
-                tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-                tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+                //tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
+                //tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
                 tbody += "</td>";
 
                 if (entityList[i].IncomeAndExpenseType == 1) {
@@ -362,4 +384,13 @@ const IncomeAndExpenseSubType =
     "Income": 1,
     "Expense": 2,
     "WorkerExpense":3
+}
+
+
+function drpYearMontChanged(changeType) {
+
+    if (changeType == 'year') {
+        document.getElementById("drpMonth").value = 1;
+    }
+    loadAllData();
 }

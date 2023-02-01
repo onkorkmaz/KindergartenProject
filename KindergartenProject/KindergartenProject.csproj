@@ -82,14 +82,15 @@
     <Content Include="Authority.aspx" />
     <Content Include="customJS\authority.js" />
     <Content Include="customJS\default.js" />
+    <Content Include="customJS\incomeAndExpenseList.js" />
     <Content Include="customJS\incomeAndExpense.js" />
     <Content Include="customJS\outgoing.js" />
-    <Content Include="customJS\studentAttendanceBookTest.js" />
     <Content Include="customJS\studentAttendanceBook.js" />
     <Content Include="customJS\studentCommon.js" />
     <Content Include="customJS\incomeAndExpenseType.js" />
     <Content Include="img\icons\hasAuthority.png" />
     <Content Include="img\icons\hasNotAuthority.png" />
+    <Content Include="IncomeAndExpenseList.aspx" />
     <Content Include="StudentAdd.aspx" />
     <Content Include="ClassList.aspx" />
     <Content Include="css\app.css" />
@@ -173,7 +174,6 @@
     <Content Include="PaymentDetail.aspx" />
     <Content Include="PaymentPlan.aspx" />
     <Content Include="IncomeAndExpenseAdd.aspx" />
-    <Content Include="StudentAttendanceBookListTest.aspx" />
     <Content Include="StudentAttendanceBookList.aspx" />
     <Content Include="IncomeAndExpenseType.aspx" />
     <Content Include="WorkerList.aspx" />
@@ -194,6 +194,13 @@
       <DependentUpon>Authority.aspx</DependentUpon>
     </Compile>
     <Compile Include="common\CommonUIFunction.cs" />
+    <Compile Include="IncomeAndExpenseList.aspx.cs">
+      <DependentUpon>IncomeAndExpenseList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IncomeAndExpenseList.aspx.designer.cs">
+      <DependentUpon>IncomeAndExpenseList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentAdd.aspx.cs">
       <DependentUpon>StudentAdd.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -263,13 +270,6 @@
     </Compile>
     <Compile Include="IncomeAndExpenseAdd.aspx.designer.cs">
       <DependentUpon>IncomeAndExpenseAdd.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="StudentAttendanceBookListTest.aspx.cs">
-      <DependentUpon>StudentAttendanceBookListTest.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="StudentAttendanceBookListTest.aspx.designer.cs">
-      <DependentUpon>StudentAttendanceBookListTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="StudentAttendanceBookList.aspx.cs">
       <DependentUpon>StudentAttendanceBookList.aspx</DependentUpon>
