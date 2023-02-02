@@ -103,7 +103,7 @@ function drawStudentAttendanceBook(entityList) {
 
     }
 
-    header +="</tr > '";
+    header +="</tr >";
 
     document.getElementById("studentAttendanceHeader").innerHTML = header;
 
@@ -117,7 +117,7 @@ function drawStudentAttendanceBook(entityList) {
             //tbody += "<a href = \"/ogrenci-yoklama-detay/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/detail.png\"/></a> &nbsp; ";
             //tbody += "</td>";
 
-            tbody += "<td style='cursor: pointer;' onclick =onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
 
             tbody += "<td>" + entityList[i].FullName + "</td>";
 
@@ -143,7 +143,7 @@ function drawStudentAttendanceBook(entityList) {
 
 
             tbody += "</tr> ";
-            tbody += GetDetailRow(entityList[i], 1, 4, false);
+            tbody += _getDetailRow(entityList[i]);
 
         }
         document.getElementById("studentAttendanceList").innerHTML = tbody;
@@ -151,6 +151,54 @@ function drawStudentAttendanceBook(entityList) {
         document.getElementById("lblInfo").innerHTML = year + " - " + months[month-1][1];
 
     }
+}
+
+function _getDetailRow(entity) {
+    let tbody = "";
+    tbody += "<tr style='display: none;' id='tr" + entity.EncryptId + "' >";
+    {
+        tbody += "<td colspan='1'></td >";
+        tbody += "<td colspan='4'>";
+        {
+            tbody += "<table border='1' width='100%' cellpadding='8'>";
+            {
+                tbody += "<tr><td width='150'><b>TCKN</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.CitizenshipNumberStr + "</td></tr>";
+
+                tbody += "<tr><td width='150'><b>Anne Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.MotherName + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Anne Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entity.MotherPhoneNumber + "'>" + entity.MotherPhoneNumber + "</a></td></tr>";
+
+                tbody += "<tr><td width='150'><b>Baba Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.FatherName + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Baba Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entity.FatherPhoneNumber + "'>" + entity.FatherPhoneNumber + "</a></td></tr>";
+
+                tbody += "<tr><td width='150'><b>Konuşulan ücret</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.SpokenPriceStr + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Sınıf</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.ClassName + "</td></tr>";
+
+                tbody += "<tr><td width='150'><b>Ana Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.MainTeacher + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Yardımcı Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.HelperTeacher + "</td></tr>";
+
+                tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + entity.DateOfMeetingWithFormat + "</td></tr>";
+                tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + entity.EmailStr + "</td></tr>";
+                tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + entity.NotesStr + "</td></tr>";
+                if (entity.SchoolClassDesc != undefined && entity.SchoolClassDesc != null && entity.SchoolClassDesc != '') {
+                    tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + entity.SchoolClassDesc + "</td></tr>";
+                }
+                else {
+                    tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'> - </td></tr>";
+
+                }
+            }
+            tbody += "</table>";
+        }
+        tbody += "</td > ";
+    }
+    tbody += "</tr>";
+
+    return tbody;
+}
+
+function _onDetailRow(id) {
+    var row = document.getElementById("tr" + id);
+    row.style.display = row.style.display === 'none' ? '' : 'none';
 }
 
 function getDayName(year, month, day) {

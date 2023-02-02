@@ -126,9 +126,9 @@ function drawList(entityList) {
         for (var i in entityList) {
 
             tbody += "<tr>";
-            tbody += "<td style='cursor: pointer;' onclick =onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
             tbody += "<td>";
-            tbody += "<a href = \"/ogrenci-guncelle/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/update1.png\"/></a> &nbsp; ";       
+            tbody += "<a href = \"/ogrenci-guncelle/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/update1.png\"/></a> &nbsp; ";
             //tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
 
             if (entityList[i].IsStudent == true) {
@@ -137,10 +137,10 @@ function drawList(entityList) {
             }
 
             var parentInfo = entityList[i].MotherName + " - ";
-            parentInfo += "<a href='tel:" + entityList[i].MotherPhoneNumber + "'>" + entityList[i].MotherPhoneNumber+"</a>";
+            parentInfo += "<a href='tel:" + entityList[i].MotherPhoneNumber + "'>" + entityList[i].MotherPhoneNumber + "</a>";
             if (IsNullOrEmpty(parentInfo))
                 parentInfo = "" + entityList[i].FatherName + " - " + "<a href='tel:" + entityList[i].FatherPhoneNumber + "'>" + entityList[i].FatherPhoneNumber + "</a>";
-           
+
 
             tbody += "</td>";
             tbody += "<td>" + entityList[i].FullName + "</td>";
@@ -157,32 +157,29 @@ function drawList(entityList) {
                 tbody += "<td>&nbsp;<img src='/img/icons/passive.png' width='20' height ='20' /></td>";
             }
 
-            if (entityList[i].ProjectTypeInt == 2) {
+            if (entityList[i].SchoolClassDesc != undefined && entityList[i].SchoolClassDesc != null && entityList[i].SchoolClassDesc != '') {
+                tbody += "<td>" + entityList[i].SchoolClassDesc + "</td>";
+            }
+            else {
+                tbody += "<td> - </td>";
 
-                if (entityList[i].SchoolClassDesc != undefined && entityList[i].SchoolClassDesc != null && entityList[i].SchoolClassDesc != '') {
-                    tbody += "<td>" + entityList[i].SchoolClassDesc + "</td>";
-                }
-                else {
-                    tbody += "<td> - </td>";
+            }
 
-                }
+            if (entityList[i].IsInterview)
+                tbody += "<td>&nbsp;<img src='/img/icons/paymentOk.png' width='20' height ='20' /></td>";
+            else
+                tbody += "<td> </td>";
 
-                if (entityList[i].IsInterview)
-                    tbody += "<td>&nbsp;<img src='/img/icons/paymentOk.png' width='20' height ='20' /></td>";
-                else
-                    tbody += "<td> </td>";
-
-                if (entityList[i].IsInterview) {
-                    tbody += "<td>" + entityList[i].InterviewWithFormat + "</td>";
-                }
-                else {
-                    tbody += "<td> </td>";
-                }
+            if (entityList[i].IsInterview) {
+                tbody += "<td>" + entityList[i].InterviewWithFormat + "</td>";
+            }
+            else {
+                tbody += "<td> </td>";
             }
 
             tbody += "</tr> ";
 
-            tbody += GetDetailRow(entityList[i], 2, 6, false);
+            tbody += _getDetailRow(entityList[i]);
 
         }
 
@@ -190,6 +187,65 @@ function drawList(entityList) {
 
         document.getElementById("tBodyStudentList").innerHTML = tbody;
     }
+}
+
+
+function _getDetailRow(entity) {
+    let tbody = "";
+    tbody += "<tr style='display: none;' id='tr" + entity.EncryptId + "' >";
+    {
+        tbody += "<td colspan='2'></td >";
+        tbody += "<td colspan='8'>";
+        {
+            tbody += "<table border='1' width='100%' cellpadding='8'>";
+            {
+                tbody += "<tr><td width='150'><b>TCKN</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.CitizenshipNumberStr + "</td></tr>";
+
+                tbody += "<tr><td width='150'><b>Anne Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.MotherName + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Anne Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entity.MotherPhoneNumber + "'>" + entity.MotherPhoneNumber + "</a></td></tr>";
+
+                tbody += "<tr><td width='150'><b>Baba Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.FatherName + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Baba Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entity.FatherPhoneNumber + "'>" + entity.FatherPhoneNumber + "</a></td></tr>";
+
+                tbody += "<tr><td width='150'><b>Konuşulan ücret</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.SpokenPriceStr + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Sınıf</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.ClassName + "</td></tr>";
+
+                tbody += "<tr><td width='150'><b>Ana Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.MainTeacher + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Yardımcı Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.HelperTeacher + "</td></tr>";
+
+                tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + entity.DateOfMeetingWithFormat + "</td></tr>";
+                tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + entity.EmailStr + "</td></tr>";
+                tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + entity.NotesStr + "</td></tr>";
+                if (entity.SchoolClassDesc != undefined && entity.SchoolClassDesc != null && entity.SchoolClassDesc != '') {
+                    tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + entity.SchoolClassDesc + "</td></tr>";
+                }
+                else {
+                    tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'> - </td></tr>";
+
+                }
+
+
+                if (entity.IsActive)
+                    tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/active.png' width='20' height ='20' /></td></tr>";
+                else
+                    tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/passive.png' width='20' height ='20' /></td></tr>";
+
+                tbody += "<tr><td><input type='submit' value='Sil' id='btnDelete' class='btn btn-danger' onclick='return deleteCurrentRecord(\"" + entity.EncryptId + "\")' /></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+
+            }
+            tbody += "</table>";
+        }
+        tbody += "</td > ";
+    }
+    tbody += "</tr>";
+
+    return tbody;
+}
+
+
+function _onDetailRow(id) {
+    var row = document.getElementById("tr" + id);
+    row.style.display = row.style.display === 'none' ? '' : 'none';
 }
 
 
