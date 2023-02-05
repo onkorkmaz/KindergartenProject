@@ -252,7 +252,13 @@ namespace KindergartenProject
 
             workerEntity.DatabaseProcess = currentProcess;
 
-            return new WorkerBusiness(GetProjectType()).Set_Worker(workerEntity);
+            DataResultArgs<bool> result = new WorkerBusiness(GetProjectType()).Set_Worker(workerEntity);
+            if(!result.HasError && currentProcess == DatabaseProcess.Update && false.Equals(workerEntity.IsActive))
+            {
+                result = new ClassBusiness(GetProjectType()).UpdateClassForDeletedWorkers(CommonFunctions.GetData<int>(workerEntity.Id));
+            }
+
+            return result;
         }
 
 
@@ -277,6 +283,12 @@ namespace KindergartenProject
                     };
 
                     result = new WorkerBusiness(GetProjectType()).Set_Worker(entity);
+
+                    if(!result.HasError)
+                    {
+                        result = new ClassBusiness(GetProjectType()).UpdateClassForDeletedWorkers(CommonFunctions.GetData<int>(id));
+                    }
+
                 }
             }
 
@@ -386,7 +398,7 @@ namespace KindergartenProject
                     {
                         studentEntity.IsStudent = true;
                         studentEntity.DatabaseProcess = DatabaseProcess.Update;
-                        studentEntity.StudentDetail.AddUnPaymentRecordAfterStundetInsert = true;
+                        studentEntity.StudentDetailPackage.AddUnPaymentRecordAfterStundetInsert = true;
                         result = new StudentBusiness(GetProjectType()).Set_Student(studentEntity);
                     }
                 }
@@ -479,11 +491,11 @@ namespace KindergartenProject
 
             List<StudentAttendanceBookEntity> attendanceList = new StudentAttendanceBookBusiness(GetProjectType()).Get_StudentAttendanceBookWithCache(new SearchEntity() { IsActive = true, IsDeleted = false });
 
-            studentList.ForEach(o => o.StudentDetail.StudentAttendanceBookList = new List<StudentAttendanceBookEntity>());
+            studentList.ForEach(o => o.StudentDetailPackage.StudentAttendanceBookList = new List<StudentAttendanceBookEntity>());
 
             foreach (StudentAttendanceBookEntity entity in attendanceList)
             {
-                studentList.FirstOrDefault(o => o.Id == entity.StudentId).StudentDetail.StudentAttendanceBookList.Add(entity);
+                studentList.FirstOrDefault(o => o.Id == entity.StudentId).StudentDetailPackage.StudentAttendanceBookList.Add(entity);
             }
 
             return studentList;
@@ -535,7 +547,7 @@ namespace KindergartenProject
             List<StudentListAndPaymentTypeInfo> returnList = new List<StudentListAndPaymentTypeInfo>();
 
 
-            List<PaymentEntity> list = currentYear.StudentList.First().StudentDetail.PaymentList;
+            List<PaymentEntity> list = currentYear.StudentList.First().StudentDetailPackage.PaymentList;
 
             List<PaymentEntity> newList = new List<PaymentEntity>();
 
@@ -547,10 +559,10 @@ namespace KindergartenProject
                 }
             }
 
-            currentYear.StudentList.First().StudentDetail.PaymentList = list;
+            currentYear.StudentList.First().StudentDetailPackage.PaymentList = list;
             returnList.Add(currentYear);
 
-            list = nextYear.StudentList.First().StudentDetail.PaymentList;
+            list = nextYear.StudentList.First().StudentDetailPackage.PaymentList;
 
             for (int i = 1; i <= 8; i++)
             {
@@ -560,7 +572,7 @@ namespace KindergartenProject
                 }
             }
 
-            nextYear.StudentList.First().StudentDetail.PaymentList = list;
+            nextYear.StudentList.First().StudentDetailPackage.PaymentList = list;
             returnList.Add(nextYear);
 
             return returnList;
@@ -589,7 +601,7 @@ namespace KindergartenProject
                     {
                         if (paymentListResult.Result.Any())
                         {
-                            studentEntity.StudentDetail.PaymentList = paymentListResult.Result;
+                            studentEntity.StudentDetailPackage.PaymentList = paymentListResult.Result;
                         }
                     }
 
@@ -746,7 +758,7 @@ namespace KindergartenProject
                     StudentEntity first = studentList.FirstOrDefault(o => o.Id == studentId);
                     if (first != null)
                     {
-                        studentList.FirstOrDefault(o => o.Id == studentId).StudentDetail.PaymentList.Add(paymentEntity);
+                        studentList.FirstOrDefault(o => o.Id == studentId).StudentDetailPackage.PaymentList.Add(paymentEntity);
                     }
                 }
             }
@@ -778,7 +790,7 @@ namespace KindergartenProject
                     StudentEntity first = studentList.FirstOrDefault(o => o.Id == studentId);
                     if (first != null)
                     {
-                        studentList.First(o => o.Id == studentId).StudentDetail.PaymentList.Add(paymentEntity);
+                        studentList.First(o => o.Id == studentId).StudentDetailPackage.PaymentList.Add(paymentEntity);
                     }
                 }
             }
@@ -931,8 +943,15 @@ namespace KindergartenProject
             return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
         }
 
+
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithYearAndMonth(int year,int month)
+        public DataResultArgs<List<PaymentSummaryDetail>> Get_IncomeAndExpenseSummaryForCurrentMonthDetail()
+        {
+            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryDetailWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithYearAndMonth(int year, int month)
         {
             return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(year, month);
         }
@@ -980,6 +999,39 @@ namespace KindergartenProject
             }
 
             return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> SetUnpaymentRecordStatus(int studentId, int year, int month)
+        {
+            DataResultArgs<bool> resultSet = new DataResultArgs<bool>();
+
+            DataResultArgs<string> resultSetStr = new DataResultArgs<string>();
+            StudentDetailBusiness business = new StudentDetailBusiness(GetProjectType());
+            StudentDetailEntity entity = business.Get_StudentDetail(new SearchEntity() { StudentId = studentId, ProjectType = GetProjectType() }).Result.FirstOrDefault();
+
+            if (entity == null)
+                entity = new StudentDetailEntity();
+
+            entity.StudentId = studentId;
+            entity.IsPaymentPassive = !entity.IsPaymentPassive;
+            entity.DatabaseProcess = (entity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
+            resultSet = business.Set_StudentDetail(entity);
+
+            if (!resultSet.HasError)
+            {
+                resultSetStr = new PaymentBusiness(GetProjectType()).SetUnPaymentRecordStatusWithStudentId(studentId,year,month);
+
+                if(resultSetStr.HasError)
+                {
+                    resultSet.HasError = true;
+                    resultSet.ErrorCode = resultSetStr.ErrorCode;
+                    resultSet.ErrorDescription = resultSetStr.ErrorDescription;
+                    resultSet.MyException = resultSetStr.MyException;
+                }
+
+            }
+            return resultSet;
         }
     }
 }

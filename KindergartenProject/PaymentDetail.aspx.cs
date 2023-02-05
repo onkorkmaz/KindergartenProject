@@ -23,18 +23,18 @@ namespace KindergartenProject
             }
 
             projectType = (ProjectType)Session[CommonConst.ProjectType];
+            int currentYear = DateTime.Today.Year;
+            int currentMonth = DateTime.Today.Month;
             if (!Page.IsPostBack)
             {
                 int year = 2021;
-
                 for (int i = -1; i < 10; i++)
                 {
                     string displatText = (year + i).ToString() + "-" + (year + i + 1).ToString();
                     drpYear.Items.Add(new ListItem(displatText, (year + i).ToString()));
                 }
 
-                int currentYear = DateTime.Today.Year;
-                int currentMonth = DateTime.Today.Month;
+               
                 if (currentMonth < 8)
                     currentYear--;
 
@@ -77,7 +77,7 @@ namespace KindergartenProject
                         "<div id = 'btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";
                     lblStudentInto.Text += "<a href= '/email-gonder/" + entity.EncryptId +
                                            "'><div id = 'btnSendEmail' class='btn btn-warning'>Mail Gönder</div></a>";
-                    
+
 
                 }
             }

@@ -126,7 +126,7 @@ function drawList(entityList) {
         for (var i in entityList) {
 
             tbody += "<tr>";
-            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].EncryptId + "\") id='tdPlus' >+</td>";
             tbody += "<td>";
             tbody += "<a href = \"/ogrenci-guncelle/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/update1.png\"/></a> &nbsp; ";
             //tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
@@ -246,6 +246,11 @@ function _getDetailRow(entity) {
 function _onDetailRow(id) {
     var row = document.getElementById("tr" + id);
     row.style.display = row.style.display === 'none' ? '' : 'none';
+
+    if (row.style.display == '')
+        document.getElementById("tdPlus").innerHTML = "-";
+    else
+        document.getElementById("tdPlus").innerHTML = "+";
 }
 
 

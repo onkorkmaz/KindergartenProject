@@ -18,7 +18,8 @@
                     <div class="mb-2 row">
                         <label class="col-form-label col-sm-2 text-sm-left">Öğrenci Bilgileri :</label>
                         <div class="col-sm-6">
-                            <label class="col-form-label col-sm-12 text-sm-left"><asp:Label runat="server" ID="lblStudentInto"></asp:Label></label>
+                            <label class="col-form-label col-sm-12 text-sm-left">
+                                <asp:Label runat="server" ID="lblStudentInto"></asp:Label></label>
                             <hr />
                         </div>
                     </div>
@@ -28,11 +29,8 @@
                             <asp:DropDownList runat="server" ID="drpYear" CssClass="form-control" onchange="drpYear_Changed();">
                             </asp:DropDownList>
                         </div>
-                        <label class="col-form-label col-sm-2 text-sm-left">Ödemeleri Pasif Yap</label>
-                        <div class="col-sm-2">
-                           
-                        </div>
                     </div>
+                    
                 </div>
                 <div class="card-body">
                     <asp:Panel runat="server" ID="pnlBody">

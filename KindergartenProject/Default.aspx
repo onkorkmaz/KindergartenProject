@@ -35,7 +35,8 @@
                                             <table class="table mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Ay</th>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Ay</th>                                                        
                                                         <th scope="col">Ödenen Aidatlar</th>
                                                         <th scope="col">Beklenen Aidatlar</th>
                                                         <th scope="col">Diğer Gelirler</th>
@@ -45,7 +46,8 @@
                                                         <th scope="col">Beklenen Toplam</th>
                                                     </tr>
                                                     <tr>
-                                                        <td><span style="color: darkred;" id="currentMonth"></span></td>
+                                                        <td style='cursor: pointer;' onclick=onDetailRow(); id="tdPlus">+</td>
+                                                        <td><span style="color: darkred;" id="currentMonth"></span></td>                                                       
                                                         <td>&nbsp;&nbsp;<b><span style="color: green;" id="incomeForStudentPayment"></span></b></td>
                                                         <td>&nbsp;&nbsp;<b><span id="waitingIncomeForStudentPayment"></span></b></td>
                                                         <td>&nbsp;&nbsp;<b><span style="color: green;" id="incomeWithoutStudentPayment"></span></b></td>
@@ -53,6 +55,12 @@
                                                         <td>&nbsp;&nbsp;<b><span style="color: red;" id="expenseWithoutWorker"></span></b></td>
                                                         <td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="currentBalance"></span></b></td>
                                                         <td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalBalance"></span></b></td>
+                                                    </tr>
+                                                    <tr id="trPaymentDetail" style="display:none;">
+                                                        <td colspan="9">
+                                                            <div class="table-responsive" id="tblPaymentDetail">
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 </thead>
                                             </table>

@@ -208,17 +208,19 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
         
 
         var paymentOkInputStyle = "";
-        var notPayableInputTextStyle = "";
-        var notPayableCheckboxChecked = "";
+        var passiveInputTextStyle = "";
 
         if (displayAmount == 0) {
             tdPaymentStyle = "style ='display:none;'";
             tdUnPaymentStyle = "style ='display:none;'";
         }
 
+        if (!studentEntity.IsActive) {
+            passiveInputTextStyle = " disabled='disabled';";
+        }
         var imgDisplay = "";
 
-        var paymentEntity = findPaymentEntity(studentEntity.StudentDetail.PaymentList, month, paymentTypeList[i].Id);
+        var paymentEntity = findPaymentEntity(studentEntity.StudentDetailPackage.PaymentList, month, paymentTypeList[i].Id);
         if (paymentEntity != null) {
             id = paymentEntity.Id;
 
@@ -265,7 +267,7 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
 
         tbody += "<td style='display:none;'><input type='hidden' value='" + isPayment + "' id = '" + hdnPaymentStatus + "'/></td>";
 
-        tbody += "<td><input encryptstudentid='" + studentEntity.EncryptId + "' islistscreen='" + isListScreen + "' " + paymentOkInputStyle + " " + notPayableInputTextStyle + " size='3' CssClass='form - control' id='" +
+        tbody += "<td><input encryptstudentid='" + studentEntity.EncryptId + "' islistscreen='" + isListScreen + "' " + paymentOkInputStyle + " " + passiveInputTextStyle + " size='3' CssClass='form - control' id='" +
             txtAmountName + "' name='" + txtAmountName + "' type='text' value='" + displayAmount + "' onkeypress='return isNumber(event)' onchange =textAmount_Change(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year +
             "," + month + "," + paymentTypeList[i].Id + "," + amount + "," + isListScreen + ") /></td>";
 

@@ -7,7 +7,6 @@
     }
 };
 
-
 function loadData() {
     var encryptStudentId = document.getElementById("hdnId").value;
     if (!IsNullOrEmpty(encryptStudentId)) {

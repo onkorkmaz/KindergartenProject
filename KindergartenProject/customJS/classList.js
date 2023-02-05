@@ -60,12 +60,12 @@ function successFunctionGetClassList(obje) {
                 tbody += "<td>" + entityList[i].Description + "</td>";
                 tbody += "<td>" + entityList[i].WarningOfStudentCount + "</td>";
                 tbody += "<td>" + entityList[i].StudentCount + "</td>";
-                tbody += "<td>" + entityList[i].MainTeacher;
+                tbody += "<td>" + entityList[i].MainTeacherInfo;
                 if (!entityList[i].IsActiveMainTeacher) {
                     tbody += "&nbsp; <img src='/img/icons/passive.png' width='15' height='15' />";
                 }
                 tbody +="</td>";
-                tbody += "<td>" + entityList[i].HelperTeacher;
+                tbody += "<td>" + entityList[i].HelperTeacherInfo;
                 if (!entityList[i].IsActiveHelperTeacer) {
                     tbody += "&nbsp; <img src='/img/icons/passive.png' width='15' height='15' />";
                 }
@@ -102,8 +102,8 @@ function validateAndSave()
     var id = document.getElementById("hdnId").value;
     var name = document.getElementById("txtClassName").value;
     var description = document.getElementById("txtDescription").value;
-    var mainTeacer = document.getElementById("drpMainTeacher").value;
-    var helperTeacher = document.getElementById("drpHelperTeacher").value;
+    var mainTeacherId = document.getElementById("drpMainTeacher").value;
+    var helperTeacherId = document.getElementById("drpHelperTeacher").value;
     var warningOfStudentCount = document.getElementById("txtWarningOfStudentCount").value;
     var isActive = document.getElementById("chcIsActive").checked;
 
@@ -112,8 +112,8 @@ function validateAndSave()
 
     var classEntity = {};
     classEntity["Name"] = name;
-    classEntity["MainTeacherCode"] = mainTeacer;
-    classEntity["HelperTeacherCode"] = helperTeacher;
+    classEntity["MainTeacherId"] = mainTeacherId;
+    classEntity["HelperTeacherId"] = helperTeacherId;
     classEntity["WarningOfStudentCount"] = warningOfStudentCount;
     classEntity["IsActive"] = isActive;
     classEntity["Description"] = description;
@@ -198,8 +198,8 @@ function successFunctionGetClassWithId(obje) {
         document.getElementById("txtClassName").value = entity.Name;
         document.getElementById("txtWarningOfStudentCount").value = entity.WarningOfStudentCount;
         document.getElementById("txtDescription").value = entity.Description;
-        document.getElementById("drpMainTeacher").value = entity.MainTeacherCode;
-        document.getElementById("drpHelperTeacher").value = entity.HelperTeacherCode;
+        document.getElementById("drpMainTeacher").value = entity.MainTeacherId;
+        document.getElementById("drpHelperTeacher").value = entity.HelperTeacherId;
         document.getElementById("chcIsActive").checked = entity.IsActive;
         document.getElementById("btnSubmit").value = "Güncelle";
         document.getElementById("btnSubmit").disabled = "";

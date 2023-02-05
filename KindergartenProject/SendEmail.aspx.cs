@@ -123,7 +123,7 @@ namespace KindergartenProject
 
                             foreach (PaymentTypeEntity payment in paymentTypeList)
                             {
-                                PaymentEntity paymentEntity = entity.StudentDetail.PaymentList.FirstOrDefault(o =>
+                                PaymentEntity paymentEntity = entity.StudentDetailPackage.PaymentList.FirstOrDefault(o =>
                                     o.Month == obje.Month && o.Year == obje.Year && o.PaymentType == payment.Id);
 
                                 if (paymentEntity != null)
@@ -312,7 +312,7 @@ namespace KindergartenProject
 
         private StringBuilder InitializeHtmlTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
         {
-            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.StudentDetail.PaymentList);
+            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.StudentDetailPackage.PaymentList);
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
             StringBuilder sb = new StringBuilder();

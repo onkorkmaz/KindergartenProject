@@ -5,7 +5,7 @@
 function loadData() {
     var searchValue = document.getElementById("txtSearchStudent").value;
 
-    if (!IsNullOrEmpty(searchValue)) {
+    if (!IsNullOrEmpty(searchValue)) {drpYearMonthDayChanged
         successFunctionSearchStudent(searchValue);
     }
     else {
@@ -110,14 +110,14 @@ function drawStudentAttendanceBook(entityList) {
     if (entityList != null) {
         for (var i in entityList) {
 
-            var attendanceList = entityList[i].StudentDetail.StudentAttendanceBookList;
+            var attendanceList = entityList[i].StudentDetailPackage.StudentAttendanceBookList;
 
             tbody += "<tr>";
             //tbody += "<td>";
             //tbody += "<a href = \"/ogrenci-yoklama-detay/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/detail.png\"/></a> &nbsp; ";
             //tbody += "</td>";
 
-            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].EncryptId + "\") >+</td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].EncryptId + "\") id='tdPlus' >+</td>";
 
             tbody += "<td>" + entityList[i].FullName + "</td>";
 
@@ -199,6 +199,12 @@ function _getDetailRow(entity) {
 function _onDetailRow(id) {
     var row = document.getElementById("tr" + id);
     row.style.display = row.style.display === 'none' ? '' : 'none';
+
+    if (row.style.display == '')
+        document.getElementById("tdPlus").innerHTML = "-";
+    else
+        document.getElementById("tdPlus").innerHTML = "+";
+
 }
 
 function getDayName(year, month, day) {
@@ -246,40 +252,40 @@ function successFunctionProcessAttendanceBook(object) {
 
 function drpYearMonthDayChanged(changeType) {
 
-    var year = document.getElementById("drpYear").value;
+        var year = document.getElementById("drpYear").value;
 
-    const d = new Date();
-    let month = document.getElementById("drpMonth").value;
+        const d = new Date();
+        let month = document.getElementById("drpMonth").value;
 
-    if (changeType == "year") {
-        month = d.getMonth();
-        document.getElementById("drpMonth").value = month + 1;
+        if (changeType == "year") {
+            month = d.getMonth();
+            document.getElementById("drpMonth").value = month + 1;
 
-    }
-
-
-    if (changeType == "year" || changeType == "month") {
-        var select = document.getElementById("drpDays");
-        var length = select.options.length;
-        for (i = length - 1; i >= 0; i--) {
-            select.options[i] = null;
         }
 
-        var lastDayOfMonth = new Date(year, month, 0).getDate();
 
-        var option = document.createElement('option');
-        option.text = "1-15";
-        option.value = "15";
-        select.add(option, 15)
+        if (changeType == "year" || changeType == "month") {
+            var select = document.getElementById("drpDays");
+            var length = select.options.length;
+            for (i = length - 1; i >= 0; i--) {
+                select.options[i] = null;
+            }
 
-        option = document.createElement('option');
-        option.text = "16-" + lastDayOfMonth;
-        option.value = lastDayOfMonth;
-        select.add(option, lastDayOfMonth)
-    }
+            var lastDayOfMonth = new Date(year, month, 0).getDate();
+
+            var option = document.createElement('option');
+            option.text = "1-15";
+            option.value = "15";
+            select.add(option, 15)
+
+            option = document.createElement('option');
+            option.text = "16-" + lastDayOfMonth;
+            option.value = lastDayOfMonth;
+            select.add(option, lastDayOfMonth)
+        }
 
 
-    loadData();
+        loadData();
 
 }
 

@@ -20,5 +20,8 @@ namespace Entity
 
         public string Username;
         public string Tckn;
+        public int StudentId { get; set; }
+
+        public ProjectType ProjectType { get; set; }
     }
 }
