@@ -194,6 +194,10 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
 
         var displayAmount = paymentTypeList[i].Amount;
         var amount = paymentTypeList[i].Amount;
+        if (!studentEntity.IsActive &&) {
+            amount = 0;
+            displayAmount = 0;
+        }
         var id = 0;
         var isPayment = false;
         var uniqueName = "_" + studentEntity.Id + "_" + year + "_" + month + "_" + paymentTypeList[i].Id;
