@@ -96,6 +96,7 @@
                                     <li class="sidebar-item" id="menuAuthority" runat="server"><a class="sidebar-link" href="/yetki-tipi">Yetki Tipi</a></li>
 
                                     <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/cache-clear">Cache Temizliği</a></li>
                                 </ul>
                             </li>
                             <li runat="server" id="liExit">

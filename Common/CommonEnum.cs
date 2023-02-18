@@ -93,7 +93,7 @@ namespace Common
     public enum AuthorityTypeEnum
     {
         None = 0,
-        Develeper = 1,
+        Developer = 1,
         SuperAdmin = 2,
         Authority = 3
     }

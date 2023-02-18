@@ -24,8 +24,8 @@ function successFunctionGetIncomeAndExpenseType(obje) {
 
             tbody += "<tr>";
             tbody += "<td>";
-            tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-            tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+            tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].Id + "\")'/></a>";
+            tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].Id + "\")' /></a>";
             tbody += "</td>";
 
             tbody += "<td>" + entityList[i].Name + "</td>";
@@ -76,7 +76,7 @@ function validateAndSave()
     IncomeAndExpenseTypeEntity["Name"] = name;
     IncomeAndExpenseTypeEntity["Type"] = type;
     IncomeAndExpenseTypeEntity["IsActive"] = isActive;
-    var jsonData = "{ encryptId:" + JSON.stringify(id) + ", IncomeAndExpenseTypeEntity: " + JSON.stringify(IncomeAndExpenseTypeEntity) + " }";
+    var jsonData = "{ id:" + JSON.stringify(id) + ", IncomeAndExpenseTypeEntity: " + JSON.stringify(IncomeAndExpenseTypeEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateIncomeAndExpenseTypeEntity', jsonData, successFunctionInsertOrUpdateIncomeAndExpenseTypeEntity, errorFunction);
 
     return false;

@@ -79,7 +79,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CacheClear.aspx" />
     <Content Include="Authority.aspx" />
+    <Content Include="customJS\cacheClear.js" />
     <Content Include="customJS\authority.js" />
     <Content Include="customJS\default.js" />
     <Content Include="customJS\incomeAndExpenseList.js" />
@@ -186,6 +188,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheClear.aspx.cs">
+      <DependentUpon>CacheClear.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CacheClear.aspx.designer.cs">
+      <DependentUpon>CacheClear.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Authority.aspx.cs">
       <DependentUpon>Authority.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -20,8 +20,8 @@ function successFunctionGetWorksers(obje) {
 
             tbody += "<tr>";
             tbody += "<td>";
-            tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-            tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+            tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].Id + "\")'/></a>";
+            tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].Id + "\")' /></a>";
             tbody += "</td>";
 
             tbody += "<td>" + entityList[i].Name + "</td>";
@@ -82,7 +82,7 @@ function validateAndSave()
     workerEntity["IsActive"] = isActive;
     workerEntity["IsTeacher"] = isTeacher;
 
-    var jsonData = "{ encryptId:" + JSON.stringify(id) + ", workerEntity: " + JSON.stringify(workerEntity) + " }";
+    var jsonData = "{ id:" + JSON.stringify(id) + ", workerEntity: " + JSON.stringify(workerEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateWorker', jsonData, successFunctionInsertOrUpdateWorker, errorFunction);
 
     return false;

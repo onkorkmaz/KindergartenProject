@@ -65,9 +65,9 @@ namespace KindergartenProject
                     int height = 15;
                     StudentEntity entity = new StudentBusiness(projectType).Get_StudentWithPaymentList(id);
 
-                    lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.EncryptId + "\">" +
+                    lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.Id + "\">" +
                         "<div id='btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";
-                    lblStudentInto.Text += "<a href= '/odeme-plani-detay/" + entity.EncryptId +
+                    lblStudentInto.Text += "<a href= '/odeme-plani-detay/" + entity.Id +
                                            "'><div id='btnPaymentDetail' class='btn btn-warning'>Ödeme Detayı</div></a>";
 
 
@@ -123,7 +123,7 @@ namespace KindergartenProject
 
                             foreach (PaymentTypeEntity payment in paymentTypeList)
                             {
-                                PaymentEntity paymentEntity = entity.StudentDetailPackage.PaymentList.FirstOrDefault(o =>
+                                PaymentEntity paymentEntity = entity.StudentPackage.PaymentList.FirstOrDefault(o =>
                                     o.Month == obje.Month && o.Year == obje.Year && o.PaymentType == payment.Id);
 
                                 if (paymentEntity != null)
@@ -312,7 +312,7 @@ namespace KindergartenProject
 
         private StringBuilder InitializeHtmlTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
         {
-            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.StudentDetailPackage.PaymentList);
+            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.StudentPackage.PaymentList);
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
             StringBuilder sb = new StringBuilder();

@@ -52,8 +52,8 @@ function successFunctionGetClassList(obje) {
 
                 tbody += "<tr>";
                 tbody += "<td>";
-                tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-                tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+                tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].Id + "\")'/></a>";
+                tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].Id + "\")' /></a>";
                 tbody += "</td>";
 
                 tbody += "<td>" + entityList[i].Name + "</td>";
@@ -119,7 +119,7 @@ function validateAndSave()
     classEntity["Description"] = description;
 
 
-    var jsonData = "{ encryptId:" + JSON.stringify(id) + ", classEntity: " + JSON.stringify(classEntity) + " }";
+    var jsonData = "{ id:" + JSON.stringify(id) + ", classEntity: " + JSON.stringify(classEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateClass', jsonData, successFunctionInsertOrUpdateClass, errorFunction);
 
     return false;
@@ -194,7 +194,7 @@ function updateCurrentRecord(id) {
 function successFunctionGetClassWithId(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
-        document.getElementById("hdnId").value = entity.EncryptId;
+        document.getElementById("hdnId").value = entity.Id;
         document.getElementById("txtClassName").value = entity.Name;
         document.getElementById("txtWarningOfStudentCount").value = entity.WarningOfStudentCount;
         document.getElementById("txtDescription").value = entity.Description;

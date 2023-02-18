@@ -11,9 +11,9 @@ namespace Business
 {
     public class DataProcess
     {
-        public static DataResultArgs<DataSet> ExecuteProcDataSet(SqlConnection connection, SqlCommand cmd, string storeProcedureName)
+        public static DataResultArgs<DataTable> ExecuteProcDataTable(SqlConnection connection, SqlCommand cmd, string storeProcedureName)
         {
-            DataResultArgs<DataSet> dtrslt = new DataResultArgs<DataSet>();
+            DataResultArgs<DataTable> dtrslt = new DataResultArgs<DataTable>();
             try
             {
                 DataSet ds = new DataSet();
@@ -22,7 +22,7 @@ namespace Business
                 cmd.CommandText = storeProcedureName;
                 SqlDataAdapter sadp = new SqlDataAdapter(cmd);
                 sadp.Fill(ds);
-                dtrslt.Result = ds;
+                dtrslt.Result = ds.Tables[0];
             }
             catch (System.Data.Common.DbException dbException)
             {
@@ -39,7 +39,7 @@ namespace Business
             if (isProcess)
             {
                 var type = CurrentContex.Contex.AuthorityTypeEnum;
-                if (type != AuthorityTypeEnum.Develeper && type != AuthorityTypeEnum.SuperAdmin)
+                if (type != AuthorityTypeEnum.Developer && type != AuthorityTypeEnum.SuperAdmin)
                 {
                     // yazılacak...
                     throw new Exception("Yetkiniz bulunmamaktadır!");

@@ -215,11 +215,11 @@ namespace KindergartenProject
 
 
             if (entity.DatabaseProcess == DatabaseProcess.Add)
-                entity.StudentDetailPackage.AddUnPaymentRecordAfterStundetInsert = true;
+                entity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
 
             if (hdnStudentState.Value == "1" && entity.IsStudent)
             {
-                entity.StudentDetailPackage.AddUnPaymentRecordAfterStundetInsert = true;
+                entity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
             }
 
             DataResultArgs<StudentEntity> resultSet = business.Set_Student(entity);
@@ -243,7 +243,7 @@ namespace KindergartenProject
 
                     if (entity.IsStudent)
                     {
-                        divInformation.SetAnotherText("<a href = \"/odeme-plani-detay/" + resultSet.Result.EncryptId + "\">" + paymentDetail + "</a>");
+                        divInformation.SetAnotherText("<a href = \"/odeme-plani-detay/" + resultSet.Result.Id + "\">" + paymentDetail + "</a>");
                     }
                     else
                     {

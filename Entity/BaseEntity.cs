@@ -7,18 +7,6 @@ namespace Entity
     {
         public DatabaseProcess DatabaseProcess { get; set; }
 
-        public string EncryptId
-        {
-            get
-            {
-                if ( Id > 0)
-                {
-                    return Cipher.Encrypt(Id.ToString());
-                }
-                return "";
-            }
-        }
-
         public int Id { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted{ get; set; }

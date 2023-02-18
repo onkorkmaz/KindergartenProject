@@ -110,15 +110,10 @@ function drawStudentAttendanceBook(entityList) {
     if (entityList != null) {
         for (var i in entityList) {
 
-            var attendanceList = entityList[i].StudentDetailPackage.StudentAttendanceBookList;
+            var attendanceList = entityList[i].StudentPackage.StudentAttendanceBookList;
 
             tbody += "<tr>";
-            //tbody += "<td>";
-            //tbody += "<a href = \"/ogrenci-yoklama-detay/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/detail.png\"/></a> &nbsp; ";
-            //tbody += "</td>";
-
-            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].EncryptId + "\") id='tdPlus' >+</td>";
-
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].Id + "\") id='tdPlus' >+</td>";
             tbody += "<td>" + entityList[i].FullName + "</td>";
 
             for (let j = begin; j <= endDayValue; j++) {
@@ -155,7 +150,7 @@ function drawStudentAttendanceBook(entityList) {
 
 function _getDetailRow(entity) {
     let tbody = "";
-    tbody += "<tr style='display: none;' id='tr" + entity.EncryptId + "' >";
+    tbody += "<tr style='display: none;' id='tr" + entity.Id + "' >";
     {
         tbody += "<td colspan='1'></td >";
         tbody += "<td colspan='4'>";

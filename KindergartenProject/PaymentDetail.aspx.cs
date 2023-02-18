@@ -73,11 +73,19 @@ namespace KindergartenProject
                 {
                     StudentEntity entity = new StudentBusiness(projectType).Get_Student(new SearchEntity() { Id = id }).Result[0];
 
-                    lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.EncryptId + "\">" +
+                    lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.Id + "\">" +
                         "<div id = 'btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";
-                    lblStudentInto.Text += "<a href= '/email-gonder/" + entity.EncryptId +
-                                           "'><div id = 'btnSendEmail' class='btn btn-warning'>Mail Gönder</div></a>";
 
+                    if (true.Equals(entity.IsActive))
+                    {
+                        lblStudentInto.Text += "<a href= '/email-gonder/" + entity.Id +
+                                           "'><div id = 'btnSendEmail' class='btn btn-warning'>Mail Gönder</div></a>";
+                    }
+
+                    if (false.Equals(entity.IsActive))
+                    {
+                        lblStudentInto.Text += "&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:red;'><b>Öğrenci Pasiftir...</b></span>";
+                    }
 
                 }
             }

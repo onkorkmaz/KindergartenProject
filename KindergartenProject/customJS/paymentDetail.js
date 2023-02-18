@@ -1,17 +1,17 @@
 ﻿window.onload = function () {
 
-    var encyrptId = document.getElementById("hdnId").value;
-    if (!IsNullOrEmpty(encyrptId)) {
-        document.getElementById("hdnId").value = encyrptId;
+    var id = document.getElementById("hdnId").value;
+    if (!IsNullOrEmpty(id)) {
+        document.getElementById("hdnId").value = id;
         loadData();
     }
 };
 
 function loadData() {
-    var encryptStudentId = document.getElementById("hdnId").value;
-    if (!IsNullOrEmpty(encryptStudentId)) {
+    var id = document.getElementById("hdnId").value;
+    if (!IsNullOrEmpty(id)) {
         var year = document.getElementById("drpYear").value;
-        var jsonData = "{decryptStudentId:" + JSON.stringify(encryptStudentId) + ", year:" + year + " }";
+        var jsonData = "{id:" + JSON.stringify(id) + ", year:" + year + " }";
 
         CallServiceWithAjax('/KinderGartenWebService.asmx/GetPaymentDetailSeason', jsonData, successFunctionCurrentPage, errorFunction);
     }

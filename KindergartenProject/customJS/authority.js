@@ -22,8 +22,8 @@ function successFunctionGetAuthorityList(obje) {
 
                 tbody += "<tr>";
                 tbody += "<td>";
-                tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-                tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+                tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].Id + "\")'/></a>";
+                tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].Id + "\")' /></a>";
                 tbody += "</td>";
 
                 tbody += "<td>" + entityList[i].Name + "</td>";
@@ -64,7 +64,7 @@ function validateAndSave()
     authorityEntity["Description"] = description;
 
 
-    var jsonData = "{ encryptId:" + JSON.stringify(id) + ", authorityEntity: " + JSON.stringify(authorityEntity) + " }";
+    var jsonData = "{ id:" + JSON.stringify(id) + ", authorityEntity: " + JSON.stringify(authorityEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateAuthority', jsonData, successFunctionInsertOrUpdateAuthority, errorFunction);
 
     return false;
@@ -133,7 +133,7 @@ function updateCurrentRecord(id) {
 function successFunctionGetAuthorityWithId(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
-        document.getElementById("hdnId").value = entity.EncryptId;
+        document.getElementById("hdnId").value = entity.Id;
         document.getElementById("txtAuthorityName").value = entity.Name;
         document.getElementById("txtDescription").value = entity.Description;
         document.getElementById("chcIsActive").checked = entity.IsActive;

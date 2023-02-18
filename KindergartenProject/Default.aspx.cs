@@ -122,7 +122,7 @@ namespace KindergartenProject
                     sb.AppendLine("<tr>");
                     sb.Append("<td>");
 
-                    sb.Append("<a href = \"/ogrenci-guncelle/" + student.EncryptId + "\">");
+                    sb.Append("<a href = \"/ogrenci-guncelle/" + student.Id + "\">");
                     sb.Append(student.FullName + " "); sb.AppendLine("</td>");
                     sb.AppendLine("<td>");
                     sb.Append(CommonFunctions.ToDateWithCulture(student.Birthday));

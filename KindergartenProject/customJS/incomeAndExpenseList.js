@@ -119,7 +119,7 @@ function updateCurrentRecord(id) {
 function successFunctionGetIncomeAndExpenseWithId(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
-        document.getElementById("hdnId").value = entity.EncryptId;
+        document.getElementById("hdnId").value = entity.Id;
 
         var type = document.getElementById("drpIncomeAndExpenseType");
         type.value = entity.IncomeAndExpenseTypeId;
@@ -155,8 +155,6 @@ function successFunctionGetIncomeAndExpenseList(obje) {
 
                 tbody += "<tr>";
                 tbody += "<td>";
-                //tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-                //tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
                 tbody += "</td>";
 
                 if (entityList[i].IncomeAndExpenseType == 1) {
@@ -310,7 +308,7 @@ function cancel() {
 
 
 var hasError = false;
-function addIncomeAndExpense(amount,workerId) {
+function addIncomeAndExpense(amount, workerId) {
     if (!hasError) {
         var id = document.getElementById("hdnId").value;
         var drpIncomeAndExpenseType = document.getElementById("drpIncomeAndExpenseType");
@@ -329,7 +327,7 @@ function addIncomeAndExpense(amount,workerId) {
                 worker = document.getElementById("drpWorker").value;
             }
         }
-                
+
         var incomeAndExpenseEntity = {};
         incomeAndExpenseEntity["IncomeAndExpenseTypeId"] = incomeAndExpenseTypeId;
         incomeAndExpenseEntity["Amount"] = amount;
@@ -339,9 +337,7 @@ function addIncomeAndExpense(amount,workerId) {
         incomeAndExpenseEntity["WorkerId"] = worker;
         incomeAndExpenseEntity["ProcessDate"] = processDate;
 
-
-
-        var jsonData = "{ encryptId:" + JSON.stringify(id) + ", incomeAndExpenseEntity: " + JSON.stringify(incomeAndExpenseEntity) + " }";
+        var jsonData = "{ id:" + JSON.stringify(id) + ", incomeAndExpenseEntity: " + JSON.stringify(incomeAndExpenseEntity) + " }";
         CallServiceWithAjax('/KinderGartenWebService.asmx/AddIncomeAndExpense', jsonData, successFunctionAddIncomeAndExpense, errorFunction);
     }
 }

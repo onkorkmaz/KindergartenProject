@@ -21,7 +21,7 @@ namespace KindergartenProject
             master.SetVisibleSearchText(false);
 
             string machineName = Environment.MachineName;
-            if (machineName == "DESKTOP-4ISBFD4")
+            if (machineName == "DESKTOP-4ISBFD4" && !Page.IsPostBack)
             {
                 txtUserName.Text = "yeliz";
                 txtPassword.Text = "1";

@@ -20,8 +20,7 @@ function successFunctionGetPaymentAllPaymentType(obje) {
 
             tbody += "<tr>";
             tbody += "<td>";
-            tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].EncryptId + "\")'/></a>";
-            //tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+            tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].Id + "\")'/></a>";
             tbody += "</td>";
 
             tbody += "<td>" + entityList[i].Name + "</td>";
@@ -56,7 +55,7 @@ function validateAndSave()
     paymentTypeEntity["Amount"] = amount;
     paymentTypeEntity["IsActive"] = isActive;
 
-    var jsonData = "{ encryptId:" + JSON.stringify(id)+", paymentTypeEntity: " + JSON.stringify(paymentTypeEntity) + " }";
+    var jsonData = "{ id:" + JSON.stringify(id)+", paymentTypeEntity: " + JSON.stringify(paymentTypeEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdatePaymentType', jsonData, successFunctionInsertOrUpdatePaymentType, errorFunction);
 
     return false;

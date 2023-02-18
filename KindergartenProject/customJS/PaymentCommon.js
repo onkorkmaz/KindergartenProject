@@ -1,13 +1,15 @@
-﻿function findPaymentEntity(source, month, paymentTypeId) {
+﻿var studentEntityWithId;
+
+function findPaymentEntity(source, year, month, paymentTypeId) {
     for (var i = 0; i < source.length; i++) {
-        if (source[i].Month === month && source[i].PaymentType === paymentTypeId) {
+        if (source[i].Year === year && source[i].Month === month && source[i].PaymentType === paymentTypeId) {
             return source[i];
         }
     }
     return null;
 }
 
-function doPaymentOrUnPayment(id,encryptStudentId,year, month, txtAmountName, isPayment, paymentType) {
+function doPaymentOrUnPayment(id, studentId, year, month, txtAmountName, isPayment, paymentType) {
 
     if (isPayment == 0) {
         if (!confirm('Ödeme silme işlemine devam etmek istediğinize emin misiniz?')) {
@@ -17,12 +19,12 @@ function doPaymentOrUnPayment(id,encryptStudentId,year, month, txtAmountName, is
 
     var amount = document.getElementById(txtAmountName).value;
 
-    if (IsNullOrEmpty(amount) && amount <=0) {
+    if (IsNullOrEmpty(amount) && amount <= 0) {
         alert("Tutar girmelisiniz");
         document.getElementById(txtAmountName).focus();
     }
     else {
-        var jsonData = "{id: " + JSON.stringify(id) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ", amount :" + JSON.stringify(amount) + " ,isPayment:" + JSON.stringify(isPayment) + ",paymentType:" + JSON.stringify(paymentType) + "}";
+        var jsonData = "{id: " + JSON.stringify(id) + ", studentId:" + JSON.stringify(studentId) + " , year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ", amount :" + JSON.stringify(amount) + " ,isPayment:" + JSON.stringify(isPayment) + ",paymentType:" + JSON.stringify(paymentType) + "}";
         CallServiceWithAjax('/KinderGartenWebService.asmx/DoPaymentOrUnPayment', jsonData, successFunctionDoPaymentOrUnPayment, errorFunction);
     }
 }
@@ -65,7 +67,7 @@ function successFunctionDoPaymentOrUnPayment(result) {
     }
 }
 
-function textAmount_Change(id, encryptStudentId, studentId, year, month, paymentType, amount,isListScreen) {
+function textAmount_Change(id, studentId, year, month, paymentType, amount) {
 
     var uniqueName = "_" + studentId + "_" + year + "_" + month + "_" + paymentType;
     var txtAmountName = "txt" + uniqueName;
@@ -73,7 +75,7 @@ function textAmount_Change(id, encryptStudentId, studentId, year, month, payment
     var currentAmount = document.getElementById(txtAmountName).value
     
     if (currentAmount != amount) {
-        var jsonData = "{id: " + JSON.stringify(id) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ", currentAmount :" + JSON.stringify(currentAmount) + " ,paymentType:" + JSON.stringify(paymentType) + "}";
+        var jsonData = "{id: " + JSON.stringify(id) + ", studentId:" + JSON.stringify(studentId) + " , year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ", currentAmount :" + JSON.stringify(currentAmount) + " ,paymentType:" + JSON.stringify(paymentType) + "}";
 
         CallServiceWithAjax('/KinderGartenWebService.asmx/SetPaymentAmount', jsonData, successFunctionSetPaymentAmount, errorFunction);
     }
@@ -95,8 +97,8 @@ function successFunctionSetAnotherPaymentAmount(obje) {
         if (IsNullOrEmpty(result.IsPayment) || result.IsPayment == 0) {
 
             var isListScreen = document.getElementById(txtAmountName).getAttribute("isListScreen");
-            document.getElementById(txtAmountName).setAttribute("onchange", "textAmount_Change(" + result.Id + ", '" + result.EncryptStudentId + "', " + result.StudentId + ", " + result.Year +
-                "," + result.Month + "," + result.PaymentType + "," + result.Amount + "," + isListScreen + ")");
+            document.getElementById(txtAmountName).setAttribute("onchange", "textAmount_Change(" + result.Id + ", " + result.StudentId + ", " + result.Year +
+                "," + result.Month + "," + result.PaymentType + "," + result.Amount + ")");
             document.getElementById(txtAmountName).value = result.Amount;
         }
     }
@@ -113,8 +115,8 @@ function successFunctionPaymentAmountCommon(obje, isSetAnotherAmount) {
         var isListScreen = document.getElementById(txtAmountName).getAttribute("islistscreen");
 
 
-        document.getElementById(txtAmountName).setAttribute("onchange", "textAmount_Change(" + result.Id + ", '" + result.EncryptStudentId + "', " + result.StudentId + ", " + result.Year +
-            "," + result.Month + "," + result.PaymentType + "," + result.Amount + "," + isListScreen + ")");
+        document.getElementById(txtAmountName).setAttribute("onchange", "textAmount_Change(" + result.Id + ", " + result.StudentId + ", " + result.Year +
+            "," + result.Month + "," + result.PaymentType + "," + result.Amount + ")");
 
 
         if (result.Amount == 0) {
@@ -128,7 +130,7 @@ function successFunctionPaymentAmountCommon(obje, isSetAnotherAmount) {
         }
 
 
-        if (result.Amount > 0) {
+        if (result.Amount > 0 && result.IsPayment != true) {
 
             var tdUnPaymentName = "tdUnPaymentName" + uniqueName;
             document.getElementById(tdUnPaymentName).style.pointerEvents = 'auto';
@@ -139,6 +141,13 @@ function successFunctionPaymentAmountCommon(obje, isSetAnotherAmount) {
         }
 
         if (isListScreen == 0 && isSetAnotherAmount == 0) {
+            studentEntityWithId = null;
+            GetStudentEntityWithId(result.StudentId);
+
+            if (studentEntityWithId != null && (!studentEntityWithId.IsActive || studentEntityWithId.IsDeleted)) {
+                return;
+            }
+
             if (!confirm('Diğer aylara ait ödenmemiş kayıtları da ' + result.Amount + ' TL olarak güncellemek ister misiniz?')) {
                 return;
             }
@@ -175,14 +184,35 @@ function successFunctionPaymentAmountCommon(obje, isSetAnotherAmount) {
                     var nextAmountName = "txt" + nextUniqueName;
 
                     var nextObje = document.getElementById(nextAmountName);
-                    var encryptStudentId = nextObje.getAttribute('encryptStudentId');
+                    var studentId = nextObje.getAttribute('studentId');
 
-                    var jsonData = "{id: " + JSON.stringify(0) + ", encryptStudentId:" + JSON.stringify(encryptStudentId) + " , year:" + JSON.stringify(paymentYear[i][2]) + ",month:" + JSON.stringify(paymentYear[i][1]) + ", currentAmount :" + JSON.stringify(result.Amount) + " ,paymentType:" + JSON.stringify(result.PaymentType) + "}";
+                    var jsonData = "{id: " + JSON.stringify(0) + ", studentId:" + JSON.stringify(studentId) + " , year:" + JSON.stringify(paymentYear[i][2]) + ",month:" + JSON.stringify(paymentYear[i][1]) + ", currentAmount :" + JSON.stringify(result.Amount) + " ,paymentType:" + JSON.stringify(result.PaymentType) + "}";
 
                     CallServiceWithAjax('/KinderGartenWebService.asmx/SetAnotherPaymentAmount', jsonData, successFunctionSetAnotherPaymentAmount, errorFunction);
                 }
             }
         }
+    }
+}
+
+
+function GetStudentEntityWithId(studentId) {
+    if (!IsNullOrEmpty(studentId)) {
+        var jsonData = "{ id: " + JSON.stringify(studentId) + " }";
+        CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentEntityWithId',
+            jsonData,
+            successFunctionGetStudentEntityWithId,
+            errorFunction);
+    }
+}
+
+function successFunctionGetStudentEntityWithId(resultSet) {
+    if (!resultSet.HasError) {
+        studentEntityWithId = resultSet.Result;
+    }
+    else {
+        alert(resultSet.ErrorDescription);
+        return null;
     }
 }
 
@@ -194,7 +224,7 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
 
         var displayAmount = paymentTypeList[i].Amount;
         var amount = paymentTypeList[i].Amount;
-        if (!studentEntity.IsActive &&) {
+        if (!studentEntity.IsActive) {
             amount = 0;
             displayAmount = 0;
         }
@@ -222,11 +252,16 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
         if (!studentEntity.IsActive) {
             passiveInputTextStyle = " disabled='disabled';";
         }
+
         var imgDisplay = "";
 
-        var paymentEntity = findPaymentEntity(studentEntity.StudentDetailPackage.PaymentList, month, paymentTypeList[i].Id);
+        var paymentEntity = findPaymentEntity(studentEntity.StudentPackage.PaymentList,year, month, paymentTypeList[i].Id);
         if (paymentEntity != null) {
             id = paymentEntity.Id;
+
+            if (paymentEntity.Amount > 0 && paymentEntity.IsActive) {
+                passiveInputTextStyle = "";
+            }
 
             amount = paymentEntity.Amount;
             displayAmount = paymentEntity.Amount;
@@ -245,6 +280,11 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
                 tdPaymentStyle = "style ='display:none;'";
                 tdUnPaymentStyle = "style ='display:none;'";
             }
+        }
+        else if (!studentEntity.IsActive)
+        {
+            displayAmount = 0;
+            amount = 0;
         }
         else {
             if (paymentTypeList[i].Id == PaymentType.Okul && studentEntity.SpokenPrice > 0) {
@@ -271,16 +311,16 @@ function drawPaymentDetail(paymentTypeList, year, month, studentEntity,isListScr
 
         tbody += "<td style='display:none;'><input type='hidden' value='" + isPayment + "' id = '" + hdnPaymentStatus + "'/></td>";
 
-        tbody += "<td><input encryptstudentid='" + studentEntity.EncryptId + "' islistscreen='" + isListScreen + "' " + paymentOkInputStyle + " " + passiveInputTextStyle + " size='3' CssClass='form - control' id='" +
-            txtAmountName + "' name='" + txtAmountName + "' type='text' value='" + displayAmount + "' onkeypress='return isNumber(event)' onchange =textAmount_Change(" + id + ",'" + studentEntity.EncryptId + "'," + studentEntity.Id + "," + year +
-            "," + month + "," + paymentTypeList[i].Id + "," + amount + "," + isListScreen + ") /></td>";
+        tbody += "<td><input studentId='" + studentEntity.Id + "' islistscreen='" + isListScreen + "' " + paymentOkInputStyle + " " + passiveInputTextStyle + " size='3' CssClass='form - control' id='" +
+            txtAmountName + "' name='" + txtAmountName + "' type='text' value='" + displayAmount + "' onkeypress='return isNumber(event)' onchange =textAmount_Change(" + id + "," + studentEntity.Id + "," + year +
+            "," + month + "," + paymentTypeList[i].Id + "," + amount + ") /></td>";
 
         tbody += "<td " + tdPaymentStyle+" id='" + tdPaymentName +
-            "' onclick =doPaymentOrUnPayment(" + id + ",'" + studentEntity.EncryptId + "'," + year +
+            "' onclick =doPaymentOrUnPayment(" + id + ",'" + studentEntity.Id + "'," + year +
             "," + month + ",'" + txtAmountName + "'," + false + "," + paymentTypeList[i].Id + ")>" + imgPayment + "</td>";
 
         tbody += "<td " + tdUnPaymentStyle+" id='" + tdUnPaymentName +
-            "' onclick =doPaymentOrUnPayment(" + id + ",'" + studentEntity.EncryptId + "'," + year +
+            "' onclick =doPaymentOrUnPayment(" + id + ",'" + studentEntity.Id + "'," + year +
             "," + month + ",'" + txtAmountName + "'," + true + "," + paymentTypeList[i].Id + ")>" + imgUnPayment + "</td>";
 
         tbody += "</tr></table></td>";

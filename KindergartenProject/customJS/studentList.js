@@ -126,14 +126,13 @@ function drawList(entityList) {
         for (var i in entityList) {
 
             tbody += "<tr>";
-            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].EncryptId + "\") id='tdPlus' >+</td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].Id + "\") id='tdPlus' >+</td>";
             tbody += "<td>";
-            tbody += "<a href = \"/ogrenci-guncelle/" + entityList[i].EncryptId + "\"><img title='Güncelle' src =\"/img/icons/update1.png\"/></a> &nbsp; ";
-            //tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" title ='Sil' onclick='deleteCurrentRecord(\"" + entityList[i].EncryptId + "\")' /></a>";
+            tbody += "<a href = \"/ogrenci-guncelle/" + entityList[i].Id + "\"><img title='Güncelle' src =\"/img/icons/update1.png\"/></a> &nbsp; ";
 
             if (entityList[i].IsStudent == true) {
-                tbody += "<a href = \"/odeme-plani-detay/" + entityList[i].EncryptId + "\"><img title = 'Ödeme detayı' src =\"/img/icons/paymentPlan.png\"/></a> &nbsp; ";
-                tbody += "<a href = \"/email-gonder/" + entityList[i].EncryptId + "\"><img title = 'Email gönder' src =\"/img/icons/email4.png\"/></a> &nbsp; ";
+                tbody += "<a href = \"/odeme-plani-detay/" + entityList[i].Id + "\"><img title = 'Ödeme detayı' src =\"/img/icons/paymentPlan.png\"/></a> &nbsp; ";
+                tbody += "<a href = \"/email-gonder/" + entityList[i].Id + "\"><img title = 'Email gönder' src =\"/img/icons/email4.png\"/></a> &nbsp; ";
             }
 
             var parentInfo = entityList[i].MotherName + " - ";
@@ -151,7 +150,7 @@ function drawList(entityList) {
                 if (entityList[i].IsStudent)
                     tbody += "<td>&nbsp;<img src='/img/icons/student3.png' width='20' height ='20' /></td>";
                 else
-                    tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='/img/icons/smile.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].EncryptId + "\")' /></a></td>";
+                    tbody += "<td>&nbsp;<a href = \"#\"><img title='Öğrenciye Çevir' src='/img/icons/smile.png' width='23' height ='23' onclick='convertStudent(\"" + entityList[i].Id + "\")' /></a></td>";
             }
             else {
                 tbody += "<td>&nbsp;<img src='/img/icons/passive.png' width='20' height ='20' /></td>";
@@ -192,7 +191,7 @@ function drawList(entityList) {
 
 function _getDetailRow(entity) {
     let tbody = "";
-    tbody += "<tr style='display: none;' id='tr" + entity.EncryptId + "' >";
+    tbody += "<tr style='display: none;' id='tr" + entity.Id + "' >";
     {
         tbody += "<td colspan='2'></td >";
         tbody += "<td colspan='8'>";
@@ -230,7 +229,7 @@ function _getDetailRow(entity) {
                 else
                     tbody += "<tr><td><b>Aktif</b></td><td>:</td><td><img src='img/icons/passive.png' width='20' height ='20' /></td></tr>";
 
-                tbody += "<tr><td><input type='submit' value='Sil' id='btnDelete' class='btn btn-danger' onclick='return deleteCurrentRecord(\"" + entity.EncryptId + "\")' /></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+                tbody += "<tr><td><input type='submit' value='Sil' id='btnDelete' class='btn btn-danger' onclick='return deleteCurrentRecord(\"" + entity.Id + "\")' /></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 
             }
             tbody += "</table>";
