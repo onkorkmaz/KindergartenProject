@@ -59,11 +59,14 @@ function IsUserNameExist(fullName) {
 }
 
 function successFunctionGetStudentFullNameEntity(result) {
-    if (result != null) {
+
+    if (result != null && result.HasError) {
+        alert("Hata var !!! Error : " + result.ErrorDescription);
+    }
+
+    else if (result != null && !result.HasError && result.Result != null) {
         alert("Girdiğiniz öğrenci sistemde mevcuttur");
-
-        setStudent(result);
-
+        setStudent(result.Result);
     }
     else {
         document.getElementById("btnSubmit").value = "Kaydet";

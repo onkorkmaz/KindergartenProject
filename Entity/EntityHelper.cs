@@ -17,6 +17,15 @@ namespace Entity
             return destination;
         }
 
+        public static DataResultArgs<T> CopyDataResultArgs<T>(DataResultArgs<string> source, DataResultArgs<T> destination)
+        {
+            destination.ErrorCode = source.ErrorCode;
+            destination.ErrorDescription = source.ErrorDescription;
+            destination.HasError = source.HasError;
+            destination.MyException = source.MyException;
+            return destination;
+        }
+
         public static DataResultArgs<T> CopyDataResultArgs<T>(DataResultArgs<List<T>> source, DataResultArgs<T> destination)
         {
             destination.ErrorCode = source.ErrorCode;

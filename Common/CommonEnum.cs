@@ -6,9 +6,9 @@ namespace Common
 {
     public enum ProjectType
     {
-        None =0,
-        BenimDuntamKinderGartenSezenSokak =1,
-        BenimDunyamEgitimMerkeziİstiklalCaddesi=2
+        None = 0,
+        BenimDuntamKinderGartenSezenSokak = 1,
+        BenimDunyamEgitimMerkeziİstiklalCaddesi = 2
     }
 
     public enum DatabaseProcess
@@ -31,7 +31,7 @@ namespace Common
         IncomeAndExpenseAdd = 8,
         IncomeAndExpenseList = 9,
         StudentAttendanceBookList = 10,
-        IncomeAndExpenseType =11,
+        IncomeAndExpenseType = 11,
         Authority = 12
     }
 
@@ -69,7 +69,7 @@ namespace Common
 
     public enum Authority
     {
-        none=0,
+        none = 0,
         ogrenci_islem = 1,
         ogrenci_izleme = 2,
         odeme_plani_izleme = 3,
@@ -100,7 +100,7 @@ namespace Common
 
     public enum SchoolClassEnum
     {
-        None=0,
+        None = 0,
         Kindergarten_2_Age = 1,
         Kindergarten_3_Age = 2,
         Kindergarten_4_Age = 3,
@@ -114,5 +114,14 @@ namespace Common
         Class_6 = 11,
         Class_7 = 12,
         Class_8 = 13,
+    }
+
+    public enum CacheType
+    {
+        None = 0,
+        StudentList = 1,
+        PaymentList = 2,
+        AttendanceBook = 3
+
     }
 }

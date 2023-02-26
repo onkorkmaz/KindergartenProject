@@ -1,7 +1,14 @@
 ﻿window.onload = function () {
     loadIncomeAndExpenseSummaryForCurrentMonth();
     loadIncomeAndExpenseSummaryForCurrentMonthDetail();
+    loadExpenseSummaryForCurrentMonth();
 };
+
+function loadExpenseSummaryForCurrentMonth() {
+    
+    var jsonData = "{  }";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_ExpenseSummaryWithMonthAndYear', jsonData, successFunctionGetExpenseSummaryForCurrentMonth, errorFunction);
+}
 
 function loadIncomeAndExpenseSummaryForCurrentMonth() {
     var jsonData = "{  }";
@@ -13,42 +20,128 @@ function loadIncomeAndExpenseSummaryForCurrentMonthDetail() {
     CallServiceWithAjax('/KinderGartenWebService.asmx/Get_IncomeAndExpenseSummaryForCurrentMonthDetail', jsonData, successFunctionGetIncomeAndExpenseSummaryForCurrentMonthDetail, errorFunction);
 }
 
-function onDetailRow() {
-    var row = document.getElementById("trPaymentDetail");
-    row.style.display = row.style.display === 'none' ? '' : 'none';
+function resetDetail() {
+    var rowIncoming = document.getElementById("trIncomingPaymentDetail");
+    var rowWaiting = document.getElementById("trWaitingPaymentDetail");
+    var rowExpense = document.getElementById("trExpensePaymentDetail");
 
-    if (row.style.display=='')
-        document.getElementById("tdPlus").innerHTML = "-";
-    else
-        document.getElementById("tdPlus").innerHTML = "+";
+    rowIncoming.style.display = 'none';
+    rowWaiting.style.display = 'none';
+    rowExpense.style.display = 'none';
+
+    document.getElementById("tdIncomingPlus").innerHTML = "+";
+    document.getElementById("tdWaitingPlus").innerHTML = "+";
+    document.getElementById("tdExpensePlus").innerHTML = "+";
 
 }
 
-function successFunctionGetIncomeAndExpenseSummaryForCurrentMonthDetail(obje) {
-    if (!obje.HasError && obje.Result) {
-        var list = obje.Result;
-        if (list.length > 0) {
-            let tbody = "";
+function onIncomingDetailRow() {
+    resetDetail();
+    var row = document.getElementById("trIncomingPaymentDetail");
+    row.style.display = row.style.display === 'none' ? '' : 'none';
+    if (row.style.display=='')
+        document.getElementById("tdIncomingPlus").innerHTML = "-";
+    else
+        document.getElementById("tdIncomingPlus").innerHTML = "+";
 
-            tbody += "<table class='table mb - 0'>";
-            tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Ödeme Durumu</th><th scope='col'>Tutar</th></thead>";
+}
 
-            for (var i in list) {
+function onWaitingDetailRow() {
+    resetDetail();
+    var row = document.getElementById("trWaitingPaymentDetail");
+    row.style.display = row.style.display === 'none' ? '' : 'none';
+    if (row.style.display == '')
+        document.getElementById("tdWaitingPlus").innerHTML = "-";
+    else
+        document.getElementById("tdWaitingPlus").innerHTML = "+";
+
+}
+
+function onExpenseDetailRow() {
+    resetDetail();
+    var row = document.getElementById("trExpensePaymentDetail");
+    row.style.display = row.style.display === 'none' ? '' : 'none';
+    if (row.style.display == '')
+        document.getElementById("tdExpensePlus").innerHTML = "-";
+    else
+        document.getElementById("tdExpensePlus").innerHTML = "+";
+
+}
+
+function setIncomeAndWaiting(isPayment, tblName,list) {
+    if (list.length > 0) {
+        let tbody = "";
+
+        tbody += "<table class='table mb - 0'>";
+        tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Ödeme Durumu</th><th scope='col'>Tutar</th></thead>";
+
+        for (var i in list) {
+
+            if (list[i].IsPayment == isPayment) {
+
                 tbody += "<tr>";
                 tbody += "<td>" + list[i].PaymentTypeName + "</td>";
                 var status = "<td style='color:green;'>Ödendi</td>";
                 if (!list[i].IsPayment)
                     status = "<td style='color:red;'>Ödenmedi   </td>";
-                tbody +=  status ;
-                tbody += "<td>" + list[i].AmountStr  + "</td>";
+                tbody += status;
+                tbody += "<td>" + list[i].AmountStr + "</td>";
                 tbody += "<tr>";
+            }
+
+        }
+
+        tbody += "</table>";
+
+        var tbl = document.getElementById(tblName);
+
+        tbl.innerHTML = tbody;
+    }
+}
+
+function successFunctionGetExpenseSummaryForCurrentMonth(obje) {
+    if (!obje.HasError && obje.Result) {
+        var list = obje.Result;
+
+        if (list.length > 0) {
+            let tbody = "";
+
+            tbody += "<table class='table mb - 0'>";
+            tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Durumu</th><th scope='col'>Tutar</th></thead>";
+
+            for (var i in list) {
+
+
+                tbody += "<tr>";
+                tbody += "<td>" + list[i].ExpenseTypeName + "</td>";
+                var status = "<td style='color:red;'>Gider   </td>";
+                tbody += status;
+                tbody += "<td>" + list[i].ExpenseAmountStr + "</td>";
+                tbody += "<tr>";
+
 
             }
 
             tbody += "</table>";
 
-            tblPaymentDetail.innerHTML = tbody;
+            var tbl = document.getElementById("tblExpensePaymentDetail");
+
+            tbl.innerHTML = tbody;
         }
+
+       
+    }
+    else {
+        alert("Hata var !!! Error : " + obje.ErrorDescription);
+    }
+}
+
+function successFunctionGetIncomeAndExpenseSummaryForCurrentMonthDetail(obje) {
+    if (!obje.HasError && obje.Result) {
+        var list = obje.Result;
+
+        setIncomeAndWaiting(true, "tblIncomingPaymentDetail", list);
+        setIncomeAndWaiting(false, "tblWaitingPaymentDetail", list);
     }
     else {
         alert("Hata var !!! Error : " + obje.ErrorDescription);

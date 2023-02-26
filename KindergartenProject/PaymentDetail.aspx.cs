@@ -71,7 +71,7 @@ namespace KindergartenProject
                 }
                 else
                 {
-                    StudentEntity entity = new StudentBusiness(projectType).Get_Student(new SearchEntity() { Id = id }).Result[0];
+                    StudentEntity entity = new StudentBusiness(projectType).Get_Student(id).Result;
 
                     lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.Id + "\">" +
                         "<div id = 'btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";

@@ -174,6 +174,37 @@ function GetFilterStudent(studentList, search) {
     return entityList;
 }
 
+function GetFilterSingleStudent(student, search) {
+
+    var toSearch = replaceTurkichChar(search.toLocaleLowerCase('tr-TR'));
+
+    if (student["CitizenshipNumber"] != null && replaceTurkichChar(student["CitizenshipNumber"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+        return true;
+    }
+
+    if (student["FullName"] != null && replaceTurkichChar(student["FullName"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+        return true;
+    }
+
+    if (student["FatherName"] != null && replaceTurkichChar(student["FatherName"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+        return true;
+    }
+
+    if (student["MotherName"] != null && replaceTurkichChar(student["MotherName"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+        return true;
+    }
+
+    if (student["FatherPhoneNumber"] != null && replaceTurkichChar(student["FatherPhoneNumber"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+        return true;
+    }
+
+    if (student["MotherPhoneNumber"] != null && replaceTurkichChar(student["MotherPhoneNumber"].toString().toLocaleLowerCase('tr-TR')).indexOf(toSearch) != -1) {
+        return true;
+    }
+
+    return false;
+}
+
 const PaymentType = {
 
     "Okul": 1,

@@ -16,7 +16,7 @@ namespace Entity
                 if (IncomeForStudentPayment != 0)
                     return IncomeForStudentPayment.ToString(CommonConst.TL);
                 else
-                    return "-";
+                    return "0";
             }
 
         }
@@ -30,7 +30,7 @@ namespace Entity
                 if (WaitingIncomeForStudentPayment != 0)
                     return WaitingIncomeForStudentPayment.ToString(CommonConst.TL);
                 else
-                    return "-";
+                    return "0";
             }
 
         }
@@ -45,7 +45,7 @@ namespace Entity
                 if (IncomeWithoutStudentPayment != 0)
                     return IncomeWithoutStudentPayment.ToString(CommonConst.TL);
                 else
-                    return "-";
+                    return "0";
             }
         }
 
@@ -59,7 +59,7 @@ namespace Entity
                 if (WorkerExpenses != 0)
                     return WorkerExpenses.ToString(CommonConst.TL);
                 else
-                    return "-";
+                    return "0";
             }
         }
 
@@ -72,7 +72,7 @@ namespace Entity
                 if (ExpenseWithoutWorker != 0)
                     return ExpenseWithoutWorker.ToString(CommonConst.TL);
                 else
-                    return "-";
+                    return "0";
             }
         }
 
@@ -86,7 +86,7 @@ namespace Entity
                 if (CurrentBalance != 0)
                     return CurrentBalance.ToString(CommonConst.TL);
                 else
-                    return "-";
+                    return "0";
             }
         }
 
@@ -99,7 +99,7 @@ namespace Entity
                 if (TotalBalance != 0)
                     return TotalBalance.ToString(CommonConst.TL);
                 else
-                    return "-";
+                    return "0";
             }
         }
 

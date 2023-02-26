@@ -1,31 +1,41 @@
 ﻿window.onload = function () {
 
+    loadData();
+
     var searchValue = document.getElementById("txtSearchStudent").value;
 
     if (!IsNullOrEmpty(searchValue)) {
         txtSearchStudent_Change(searchValue);
     }
-    else {
-        loadData();
-    }
+
 };
 
-function txtSearchStudent_Change(searchValue) {
+var studentAndListOfPaymentList = [];
 
-    loadData();
+function txtSearchStudent_Change(searchValue) {
     SetCacheData("searchValue", searchValue);
+
+    var toSearch = replaceTurkichChar(searchValue.toLocaleLowerCase('tr-TR'));
+    for (let i in studentAndListOfPaymentList) {
+        let studentEntity = studentAndListOfPaymentList[i].StudentEntity;
+        document.getElementById("tr_Student_" + studentEntity.Id).style.display = "";
+        if (studentEntity.SearchText.indexOf(toSearch) <= -1) {
+            document.getElementById("tr_Student_" + studentEntity.Id).style.display = "none";
+        }
+    }
+
 }
 
 function loadData() {
-
-    GetStudentListAndPaymentTypeInfoForCurrentMonth();
+    packageList = [];
+    GetStudentAndListOfPaymentListPackageForCurrentMonth();
 
 }
 
-function GetStudentListAndPaymentTypeInfoForCurrentMonth() {
+function GetStudentAndListOfPaymentListPackageForCurrentMonth() {
 
     var jsonData = "{}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentListAndPaymentTypeInfoForLastTwoMonths',
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentAndListOfPaymentListPackageForCurrentMonth',
         jsonData,
         successFunctionCurrentPage,
         errorFunction);
@@ -34,23 +44,11 @@ function GetStudentListAndPaymentTypeInfoForCurrentMonth() {
 
 function successFunctionCurrentPage(objects) {
 
-    var studentList = objects.StudentList;
-
-    var currentStudentList = [];
-
-    var searchValue = document.getElementById("txtSearchStudent").value;
-    if (!IsNullOrEmpty(searchValue)) {
-
-        currentStudentList = GetFilterStudent(studentList, searchValue);
-    }
-    else {
-        currentStudentList = studentList;
-    }
-
-    drawList(currentStudentList, objects.PaymentTypeList, objects.Year, objects.Month);
+    studentAndListOfPaymentList = objects.StudentAndListOfPaymentList;
+    drawList(studentAndListOfPaymentList, objects.PaymentTypeEntityList, objects.Year, objects.Month);
 }
 
-function drawList(studentList, paymentTypeList, year,month) {
+function drawList(package, paymentTypeList, year,month) {
 
 
     var tbody = "<table class='table mb - 0'><thead><tr><th>("+months[month-1][1]+" Ayı)</th><th scope='col'>İsim</th>";
@@ -63,21 +61,18 @@ function drawList(studentList, paymentTypeList, year,month) {
 
     tbody += "</tr></thead><tbody>";
 
-  
-
-
-    if (studentList != null) {
+    if (package != null) {
 
         var date = new Date();
-        for (var i in studentList) {
-
-            tbody += "<tr>";
+        for (var i in package) {
+            var studentEntity = package[i].StudentEntity;
+            tbody += "<tr id='tr_Student_" + studentEntity.Id + "' searchText = '" + studentEntity.SearchText + "'>";
             tbody += "<td>";
-            tbody += "<a href = \"/odeme-plani-detay/" + studentList[i].Id + "\" style='cursor: pointer;'><img src =\"/img/icons/paymentPlan.png\" title='Ödeme detayı...'/></a>";
-            tbody += " <a href = \"/email-gonder/" + studentList[i].Id + "\" style='cursor: pointer;'><img src =\"/img/icons/email.png\" title='Email Gönder'/></a>";
+            tbody += "<a href = \"/odeme-plani-detay/" + studentEntity.Id + "\" style='cursor: pointer;'><img src =\"/img/icons/paymentPlan.png\" title='Ödeme detayı...'/></a>";
+            tbody += " <a href = \"/email-gonder/" + studentEntity.Id + "\" style='cursor: pointer;'><img src =\"/img/icons/email.png\" title='Email Gönder'/></a>";
             tbody += "</td>";
-            tbody += "<td>" + studentList[i].FullName + "</td>";
-            tbody += drawPaymentDetail(paymentTypeList, year, month, studentList[i], 1);
+            tbody += "<td>" + studentEntity.FullName + "</td>";
+            tbody += drawPayment(paymentTypeList, year, month, 1, package[i]);
             tbody += "</tr>";
         }
 
@@ -87,12 +82,5 @@ function drawList(studentList, paymentTypeList, year,month) {
         document.getElementById("divMain").innerHTML = tbody;
     }
 }
-
-function successFunctionGetPaymentAllPaymentType(result) {
-
-    return result;
-
-}
-
 
 

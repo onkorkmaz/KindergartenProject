@@ -5,7 +5,7 @@
     if (window["studentList"] == null) {
 
         var jsonData = "{}";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllStudent', jsonData, successFunctionCurrentPage, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/Get_StudentFromCache', jsonData, successFunctionCurrentPage, errorFunction);
         studentList = window["studentList"];
     }
 
@@ -20,7 +20,7 @@ function GetActiveStudentList() {
     if (window["studentList"] == null) {
 
         var jsonData = "{}";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllStudent', jsonData, successFunctionCurrentPage, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/Get_StudentFromCache', jsonData, successFunctionCurrentPage, errorFunction);
         studentList = window["studentList"];
     }
 
@@ -35,25 +35,6 @@ function GetActiveStudentList() {
 
 }
 
-function GetActiveAllStudentAndAttendanceList() {
-
-    var studentList = window["studentAndAttendanceList"];
-
-    var jsonData = "{}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllStudentAndAttendanceList', jsonData, successFunctionForStudentAndAttendanceList, errorFunction);
-    studentList = window["studentAndAttendanceList"];
-
-    var newStudentList = []
-
-    for (var i = 0; i < studentList.length; i++) {
-        if (studentList[i].IsActive && studentList[i].IsStudent) {
-            newStudentList.push(studentList[i]);
-        }
-    }
-    return newStudentList;
-}
-
-
 function successFunctionCurrentPage(obje) {
 
     var studentList = obje;
@@ -62,15 +43,6 @@ function successFunctionCurrentPage(obje) {
     }
     return obje;
 }
-
-function successFunctionForStudentAndAttendanceList(obje) {
-
-    var studentList = obje;
-    if (studentList != null) {
-        window["studentAndAttendanceList"] = obje;
-    }
-}
-
 
 function txtSearchStudent_Change(searchValue) {
 

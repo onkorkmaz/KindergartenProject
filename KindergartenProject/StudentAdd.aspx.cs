@@ -146,14 +146,14 @@ namespace KindergartenProject
                     int id = CommonFunctions.GetData<int>(IdDecrypt);
                     if (id > 0)
                     {
-                        DataResultArgs<List<StudentEntity>> resultSet = new StudentBusiness(projectType).Get_Student(new SearchEntity() { Id = id });
+                        DataResultArgs<StudentEntity> resultSet = new StudentBusiness(projectType).Get_Student(id);
                         if (resultSet.HasError)
                         {
                             divInformation.ErrorText = resultSet.ErrorDescription;
                         }
-                        else if (resultSet.Result.Count > 0)
+                        else if (resultSet.Result!=null)
                         {
-                            CurrentRecord = resultSet.Result.First();
+                            CurrentRecord = resultSet.Result;
                             btnSubmit.Text = ButtonText.Update;
                             btnPaymentDetail.Visible = currentRecord.IsStudent;
                             btnDelete.Visible = true;
@@ -214,13 +214,13 @@ namespace KindergartenProject
             }
 
 
-            if (entity.DatabaseProcess == DatabaseProcess.Add)
-                entity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
+            //if (entity.DatabaseProcess == DatabaseProcess.Add)
+            //    entity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
 
-            if (hdnStudentState.Value == "1" && entity.IsStudent)
-            {
-                entity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
-            }
+            //if (hdnStudentState.Value == "1" && entity.IsStudent)
+            //{
+            //    entity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
+            //}
 
             DataResultArgs<StudentEntity> resultSet = business.Set_Student(entity);
             if (resultSet.HasError)

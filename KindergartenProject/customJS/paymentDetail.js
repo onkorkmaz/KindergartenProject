@@ -11,9 +11,9 @@ function loadData() {
     var id = document.getElementById("hdnId").value;
     if (!IsNullOrEmpty(id)) {
         var year = document.getElementById("drpYear").value;
-        var jsonData = "{id:" + JSON.stringify(id) + ", year:" + year + " }";
+        var jsonData = "{studentId:" + JSON.stringify(id) + ", year:" + year + " }";
 
-        CallServiceWithAjax('/KinderGartenWebService.asmx/GetPaymentDetailSeason', jsonData, successFunctionCurrentPage, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentAndListOfPaymentPackage', jsonData, successFunctionCurrentPage, errorFunction);
     }
 }
 
@@ -25,7 +25,7 @@ function successFunctionCurrentPage(obje) {
 
     if (obje != null) {
 
-        var paymentTypeList = obje[0].PaymentTypeList;
+        var paymentTypeList = obje.PaymentTypeEntityList;
 
         if (paymentTypeList != null) {
 
@@ -39,26 +39,23 @@ function successFunctionCurrentPage(obje) {
 
             tbody += "</tr></thead>";
 
+            var package = obje.StudentAndListOfPayment
+
+            var yearInt = obje.Year;
             for (var j in monthsSeasonFirst) {
+                tbody += "<tr>";
+                tbody += "<td>" + yearInt + " - " + monthsSeasonFirst[j][1] + "</td>";
+                tbody += drawPayment(paymentTypeList, yearInt, monthsSeasonFirst[j][0], 0, package);
+                tbody += "</tr>";
 
-                for (var k in obje[0].StudentList) {
-
-                    tbody += "<tr>";
-                    tbody += "<td>" + obje[0].Year + " - " + monthsSeasonFirst[j][1] + "</td>";
-                    tbody += drawPaymentDetail(paymentTypeList, obje[0].Year, monthsSeasonFirst[j][0], obje[0].StudentList[k], 0);
-                    tbody += "</tr>";
-                }
             }
-
+            yearInt = yearInt + 1;
             for (var j in monthsSeasonSecond) {
+                tbody += "<tr>";
+                tbody += "<td>" + yearInt + " - " + monthsSeasonSecond[j][1] + "</td>";
+                tbody += drawPayment(paymentTypeList, yearInt, monthsSeasonSecond[j][0], 0, package);
+                tbody += "</tr>";
 
-                for (var k in obje[1].StudentList) {
-
-                    tbody += "<tr>";
-                    tbody += "<td>" + obje[1].Year + " - " +  monthsSeasonSecond[j][1] + "</td>";
-                    tbody += drawPaymentDetail(paymentTypeList, obje[1].Year, monthsSeasonSecond[j][0], obje[1].StudentList[k], 0);
-                    tbody += "</tr>";
-                }
             }
 
             tbody += "</table>";

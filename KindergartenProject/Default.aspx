@@ -35,7 +35,6 @@
                                             <table class="table mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">#</th>
                                                         <th scope="col">Ay</th>                                                        
                                                         <th scope="col">Ödenen Aidatlar</th>
                                                         <th scope="col">Beklenen Aidatlar</th>
@@ -46,19 +45,59 @@
                                                         <th scope="col">Beklenen Toplam</th>
                                                     </tr>
                                                     <tr>
-                                                        <td style='cursor: pointer;' onclick=onDetailRow(); id="tdPlus">+</td>
                                                         <td><span style="color: darkred;" id="currentMonth"></span></td>                                                       
-                                                        <td>&nbsp;&nbsp;<b><span style="color: green;" id="incomeForStudentPayment"></span></b></td>
-                                                        <td>&nbsp;&nbsp;<b><span id="waitingIncomeForStudentPayment"></span></b></td>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td style='cursor: pointer;' onclick=onIncomingDetailRow(); id="tdIncomingPlus">+</td>
+                                                                    <td>&nbsp;&nbsp;<b><span style="color: green;" id="incomeForStudentPayment"></span></b></td>
+                                                                </tr>
+                                                            </table>
+                                                         </td>
+
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td style='cursor: pointer;' onclick="onWaitingDetailRow();" id="tdWaitingPlus">+</td>
+                                                                    <td>&nbsp;&nbsp;<b><span style="color: green;" id="waitingIncomeForStudentPayment"></span></b></td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
                                                         <td>&nbsp;&nbsp;<b><span style="color: green;" id="incomeWithoutStudentPayment"></span></b></td>
-                                                        <td>&nbsp;&nbsp;<b><span style="color: #d5265b;" id="workerExpenses"></span></b></td>
-                                                        <td>&nbsp;&nbsp;<b><span style="color: red;" id="expenseWithoutWorker"></span></b></td>
+                                                        <td>&nbsp;&nbsp;<b><span style="color: #d5265b;" id="workerExpenses"></span></b></td>                                                        
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td style='cursor: pointer;' onclick="onExpenseDetailRow();" id="tdExpensePlus">+</td>
+                                                                    <td>&nbsp;&nbsp;<b><span style="color: green;" id="expenseWithoutWorker"></span></b></td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
                                                         <td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="currentBalance"></span></b></td>
                                                         <td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalBalance"></span></b></td>
                                                     </tr>
-                                                    <tr id="trPaymentDetail" style="display:none;">
-                                                        <td colspan="9">
-                                                            <div class="table-responsive" id="tblPaymentDetail">
+                                                    <tr id="trIncomingPaymentDetail" style="display:none;">
+                                                        <td colspan="8">
+                                                            <h3>Ödenen Aidatlar</h3>
+                                                            <hr />
+                                                            <div class="table-responsive" id="tblIncomingPaymentDetail">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trWaitingPaymentDetail" style="display:none;">
+                                                        <td colspan="8">
+                                                            <h3>Beklenen Aidatlar</h3>
+                                                            <hr />
+                                                            <div class="table-responsive" id="tblWaitingPaymentDetail">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trExpensePaymentDetail" style="display:none;">
+                                                        <td colspan="8">
+                                                            <h3>Giderler</h3>
+                                                            <hr />
+                                                            <div class="table-responsive" id="tblExpensePaymentDetail">
                                                             </div>
                                                         </td>
                                                     </tr>

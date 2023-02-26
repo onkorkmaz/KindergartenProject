@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace Business
 {
-    public abstract class BaseBusiness
+    public abstract class BaseBusiness 
     {
         protected ProjectType ProjectType;
         public Int16 ProjectTypeInt16

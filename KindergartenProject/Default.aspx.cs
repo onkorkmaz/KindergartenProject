@@ -62,7 +62,7 @@ namespace KindergartenProject
         {
             DataResultArgs<List<StudentEntity>> resultSet = new DataResultArgs<List<StudentEntity>>();
 
-            resultSet = new StudentBusiness(projectType).Get_Student(new SearchEntity() { IsDeleted = false });
+            resultSet = new StudentBusiness(projectType).Get_Student();
             if (!resultSet.HasError)
             {
                 List<StudentEntity> entityList = resultSet.Result;

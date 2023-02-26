@@ -23,6 +23,22 @@ namespace KindergartenProject
     [ScriptService]
     public class KinderGartenWebService : WebService
     {
+        public static Dictionary<string, string> List = new Dictionary<string, string>();
+
+        [WebMethod(EnableSession = true)]
+        public ProjectType GetProjectType()
+        {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                return ProjectType.None;
+            }
+            else
+            {
+                return (ProjectType)Session[CommonConst.ProjectType];
+            }
+        }
+
+
         #region Authority
 
         [WebMethod(EnableSession = true)]
@@ -98,20 +114,6 @@ namespace KindergartenProject
 
         #endregion Authority
 
-        public static Dictionary<string, string> List = new Dictionary<string, string>();
-
-        [WebMethod(EnableSession = true)]
-        public ProjectType GetProjectType()
-        {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                return ProjectType.None;
-            }
-            else
-            {
-                return (ProjectType)Session[CommonConst.ProjectType];
-            }
-        }
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<StudentEntity> GetStudentEntity(string citizenshipNumber)
@@ -128,7 +130,7 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public List<StudentEntity> SearchStudent(string searchValue)
         {
-            List<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result;
+            List<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).Get_Student().Result;
 
             if (string.IsNullOrEmpty(searchValue))
             {
@@ -188,7 +190,7 @@ namespace KindergartenProject
                 ClassEntity classEntity = new ClassBusiness(GetProjectType()).Get_ClassWithId(cId).Result;
                 if (classEntity != null && classEntity.WarningOfStudentCount > 0)
                 {
-                    int recordedStudentNumber = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result.Where(o => o.ClassId.HasValue && o.ClassId.Value == cId && o.IsActive.Value).ToList().Count();
+                    int recordedStudentNumber = new StudentBusiness(GetProjectType()).Get_Student().Result.Where(o => o.ClassId.HasValue && o.ClassId.Value == cId && o.IsActive.Value).ToList().Count();
                     return "Max Öğrenci Adeti : " + classEntity.WarningOfStudentCount.ToString() + " <br/>Kayıtlı Öğrenci : " + recordedStudentNumber;
                 }
             }
@@ -397,7 +399,7 @@ namespace KindergartenProject
                     {
                         studentEntity.IsStudent = true;
                         studentEntity.DatabaseProcess = DatabaseProcess.Update;
-                        studentEntity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
+                        //studentEntity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
                         result = new StudentBusiness(GetProjectType()).Set_Student(studentEntity);
                     }
                 }
@@ -475,35 +477,28 @@ namespace KindergartenProject
             return result;
         }
 
-
         [WebMethod(EnableSession = true)]
-        public List<StudentEntity> GetAllStudent()
+        public List<StudentEntity> Get_StudentFromCache()
         {
-            List<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result;
+            List<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).Get_Student().Result;
             return resultSet;
         }
 
         [WebMethod(EnableSession = true)]
-        public List<StudentEntity> GetAllStudentAndAttendanceList()
+        public List<StudentAttandanceBookPackage> GetAllStudentAndAttendanceList()
         {
-            List<StudentEntity> studentList = new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result;
+            List<StudentAttandanceBookPackage> packageList = new List<StudentAttandanceBookPackage>();
+            List<StudentEntity> studentList = new StudentBusiness(GetProjectType()).Get_Student().Result.Where(o => o.IsActive == true && o.IsStudent == true).ToList();
 
-            List<StudentAttendanceBookEntity> attendanceList = new StudentAttendanceBookBusiness(GetProjectType()).Get_StudentAttendanceBookWithCache(new SearchEntity() { IsActive = true, IsDeleted = false });
-
-            studentList.ForEach(o => o.StudentPackage.StudentAttendanceBookList = new List<StudentAttendanceBookEntity>());
-
-            foreach (StudentAttendanceBookEntity entity in attendanceList)
+            foreach (StudentEntity entity in studentList)
             {
-                studentList.FirstOrDefault(o => o.Id == entity.StudentId).StudentPackage.StudentAttendanceBookList.Add(entity);
+                StudentAttandanceBookPackage package = new StudentAttandanceBookPackage();
+                package.StudentEntity = entity;
+                package.StudentAttendanceBookEntityList = new StudentAttendanceBookBusiness(GetProjectType()).Get_StudentAttendanceBookWithCache(entity.Id);
+                packageList.Add(package);
             }
 
-            return studentList;
-        }
-
-        [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<StudentAttendanceBookEntity>> GetAttenDanceList()
-        {
-            return new StudentAttendanceBookBusiness(GetProjectType()).Get_StudentAttendanceBook(new SearchEntity() { IsActive = true });
+            return packageList;
         }
 
         [WebMethod(EnableSession = true)]
@@ -524,77 +519,60 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public List<StudentListAndPaymentTypeInfo> GetPaymentDetailSeason(string id, string year)
+        public StudentAndListOfPaymentListPackage GetStudentAndListOfPaymentListPackageForCurrentMonth()
         {
-            StudentListAndPaymentTypeInfo currentYear = GetStudentListAndPaymentTypeInfoForPaymentDetail(id, year);
-            int yearInt = Convert.ToInt32(year);
-            StudentListAndPaymentTypeInfo nextYear = GetStudentListAndPaymentTypeInfoForPaymentDetail(id, (yearInt + 1).ToString());
+            StudentAndListOfPaymentListPackage package = new StudentAndListOfPaymentListPackage();
 
+            var studentEntityList = new StudentBusiness(GetProjectType()).Get_Student().Result.Where(o => o.IsStudent == true).ToList();
 
-            List<StudentListAndPaymentTypeInfo> returnList = new List<StudentListAndPaymentTypeInfo>();
-
-
-            List<PaymentEntity> list = currentYear.StudentList.First().StudentPackage.PaymentList;
-
-            List<PaymentEntity> newList = new List<PaymentEntity>();
-
-            for (int i = 9; i <= 12; i++)
+            foreach (StudentEntity entity in studentEntityList)
             {
-                if (list.Count > i)
-                {
-                    newList.Add(list[i]);
-                }
+                StudentAndListOfPayment pac = new StudentAndListOfPayment();
+                pac.PaymentEntityList = new PaymentBusiness(GetProjectType()).Get_Payment(entity.Id, DateTime.Today.Year, DateTime.Today.Month).Result;
+                pac.StudentEntity = entity;
+                package.StudentAndListOfPaymentList.Add(pac);
             }
 
-            currentYear.StudentList.First().StudentPackage.PaymentList = list;
-            returnList.Add(currentYear);
 
-            list = nextYear.StudentList.First().StudentPackage.PaymentList;
+            package.PaymentTypeEntityList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+            package.Year = DateTime.Today.Year;
+            package.Month = DateTime.Today.Month;
 
-            for (int i = 1; i <= 8; i++)
-            {
-                if (list.Count > i)
-                {
-                    newList.Add(list[i]);
-                }
-            }
-
-            nextYear.StudentList.First().StudentPackage.PaymentList = list;
-            returnList.Add(nextYear);
-
-            return returnList;
+            return package;
 
         }
 
         [WebMethod(EnableSession = true)]
-        public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForPaymentDetail(string id, string year)
+        public StudentAndListOfPaymentPackage GetStudentAndListOfPaymentPackage(string studentId, string year)
         {
-            StudentListAndPaymentTypeInfo info = new StudentListAndPaymentTypeInfo
-            {
-                PaymentTypeList = GetPaymentAllPaymentType()
-            };
+            StudentAndListOfPaymentPackage package = new StudentAndListOfPaymentPackage();
 
-            int idInt = CommonFunctions.GetData<int>(id);
+            int yearInt = Convert.ToInt32(year);
+            int studentIdInt = CommonFunctions.GetData<int>(studentId);
+            package.StudentAndListOfPayment.StudentEntity = new StudentBusiness(GetProjectType()).Get_Student(studentIdInt).Result;
 
-            if (idInt > 0)
+            List<PaymentEntity> paymentForCurrentYear = new PaymentBusiness(GetProjectType()).Get_Payment(studentIdInt, yearInt).Result;
+            List<PaymentEntity> paymentForNextYear = new PaymentBusiness(GetProjectType()).Get_Payment(studentIdInt, (yearInt + 1)).Result;
+
+            for (int i = 9; i <= 12; i++)
             {
-                StudentEntity studentEntity = new StudentBusiness(GetProjectType()).Get_Student().Result.FirstOrDefault(o => o.Id == idInt);
-                if (studentEntity != null)
+                if (paymentForCurrentYear.Any(o => o.Month == i && o.IsActive == true))
                 {
-                    DataResultArgs<List<PaymentEntity>> paymentListResult = new PaymentBusiness(GetProjectType()).Get_Payment(idInt, year);
-                    if (!paymentListResult.HasError)
-                    {
-                        if (paymentListResult.Result.Any())
-                        {
-                            studentEntity.StudentPackage.PaymentList = paymentListResult.Result;
-                        }
-                    }
-
-                    info.StudentList.Add(studentEntity);
+                    package.StudentAndListOfPayment.PaymentEntityList.Add(paymentForCurrentYear.First(o => o.Month == i && o.IsActive == true));
                 }
             }
-            info.Year = CommonFunctions.GetData<int>(year);
-            return info;
+
+            for (int i = 1; i <= 8; i++)
+            {
+                if (paymentForNextYear.Any(o => o.Month == i && o.IsActive == true))
+                {
+                    package.StudentAndListOfPayment.PaymentEntityList.Add(paymentForNextYear.First(o => o.Month == i && o.IsActive == true));
+                }
+            }
+
+            package.PaymentTypeEntityList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+            package.Year = yearInt;
+            return package;
         }
 
         [WebMethod(EnableSession = true)]
@@ -624,17 +602,8 @@ namespace KindergartenProject
             entity.IsArrival = isArrival;
             entity.IsActive = true;
             entity.ProjectType = GetProjectType();
-            DataResultArgs<bool> result = new StudentAttendanceBookBusiness(GetProjectType()).Set_StudentAttendanceBook(entity);
-
-            resultSet.Result = entity;
-            resultSet.HasError = result.HasError;
-            resultSet.ErrorCode = result.ErrorCode;
-            resultSet.ErrorDescription = result.ErrorDescription;
-            resultSet.MyException = result.MyException;
-
-            return resultSet;
-
-
+            DataResultArgs<StudentAttendanceBookEntity> result = new StudentAttendanceBookBusiness(GetProjectType()).Set_StudentAttendanceBook(entity);
+            return result;
         }
 
         [WebMethod(EnableSession = true)]
@@ -701,8 +670,7 @@ namespace KindergartenProject
                 Year = CommonFunctions.GetData<short>(year),
                 Month = CommonFunctions.GetData<short>(month),
                 Amount = CommonFunctions.GetData<decimal>(currentAmount),
-                Id = CommonFunctions.GetData<int>(id),
-                IsChangeAmountPaymentNotOK = true
+                Id = CommonFunctions.GetData<int>(id)
             };
             paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
             paymentEntity.IsActive = true;
@@ -717,88 +685,13 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForCurrentMonth()
-        {
-            StudentListAndPaymentTypeInfo paymentDetailEntity = new StudentListAndPaymentTypeInfo();
-
-            List<StudentEntity> studentList =
-                new StudentBusiness(GetProjectType()).Get_Student().Result.Where(o => o.IsStudent == true).ToList();
-
-            List<PaymentEntity> paymentEntityList = new PaymentBusiness(GetProjectType()).Get_PaymentForCurrentMonth().Result;
-
-            foreach (PaymentEntity paymentEntity in paymentEntityList)
-            {
-                if (paymentEntity.StudentId != null)
-                {
-                    int studentId = paymentEntity.StudentId.Value;
-
-                    StudentEntity first = studentList.FirstOrDefault(o => o.Id == studentId);
-                    if (first != null)
-                    {
-                        studentList.FirstOrDefault(o => o.Id == studentId).StudentPackage.PaymentList.Add(paymentEntity);
-                        break;
-                    }
-                }
-            }
-
-            paymentDetailEntity.StudentList = studentList.OrderBy(o => o.Name).ToList();
-            paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
-            paymentDetailEntity.Month = DateTime.Today.Month;
-            paymentDetailEntity.Year = DateTime.Today.Year;
-
-            return paymentDetailEntity;
-        }
-
-        [WebMethod(EnableSession = true)]
-        public StudentListAndPaymentTypeInfo GetStudentListAndPaymentTypeInfoForLastTwoMonths()
-        {
-            StudentListAndPaymentTypeInfo paymentDetailEntity = new StudentListAndPaymentTypeInfo();
-
-            List<StudentEntity> studentList =
-                new StudentBusiness(GetProjectType()).Get_AllStudentWithCache().Result.Where(o => o.IsStudent == true).ToList();
-
-            List<PaymentEntity> paymentEntityList = new PaymentBusiness(GetProjectType()).Get_LastTwoMonths().Result;
-
-            foreach (PaymentEntity paymentEntity in paymentEntityList)
-            {
-                if (paymentEntity.StudentId != null)
-                {
-                    int studentId = paymentEntity.StudentId.Value;
-
-                    StudentEntity first = studentList.FirstOrDefault(o => o.Id == studentId);
-                    if (first != null)
-                    {
-                        List<PaymentEntity> lst = studentList.First(o => o.Id == studentId).StudentPackage.PaymentList;
-                        if (lst.Any(o => o.Id == paymentEntity.Id))
-                        {
-                            int index = studentList.First(o => o.Id == studentId).StudentPackage.PaymentList.FindIndex(o => o.Id == paymentEntity.Id);
-                            studentList.First(o => o.Id == studentId).StudentPackage.PaymentList.RemoveAt(index);
-                            studentList.First(o => o.Id == studentId).StudentPackage.PaymentList.Insert(index, paymentEntity);
-                        }
-                        else
-                        {
-                            studentList.First(o => o.Id == studentId).StudentPackage.PaymentList.Add(paymentEntity);
-                        }
-                    }
-                }
-            }
-
-            paymentDetailEntity.StudentList = studentList.OrderBy(o => o.Name).ToList();
-            paymentDetailEntity.PaymentTypeList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
-            paymentDetailEntity.Month = DateTime.Today.Month;
-            paymentDetailEntity.Year = DateTime.Today.Year;
-
-            return paymentDetailEntity;
-        }
-
-        [WebMethod(EnableSession = true)]
         public DataResultArgs<ClassEntity> ControlClassName(string className)
         {
             return new ClassBusiness(GetProjectType()).ControlClassName(className);
         }
 
         [WebMethod(EnableSession = true)]
-        public StudentEntity GetStudentEntityWithFullName(string fullName)
+        public DataResultArgs<StudentEntity> GetStudentEntityWithFullName(string fullName)
         {
             return new StudentBusiness(GetProjectType()).Get_StudentWithFullName(fullName);
         }
@@ -924,6 +817,15 @@ namespace KindergartenProject
         {
             return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
         }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<ExpenseSummary>> Get_ExpenseSummaryWithMonthAndYear()
+        {
+            return new PaymentBusiness(GetProjectType()).Get_ExpenseSummaryWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
+        }
+
+
+        
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<List<PaymentSummaryDetail>> Get_IncomeAndExpenseSummaryForCurrentMonthDetail()

@@ -69,6 +69,9 @@ namespace Common
 
         public static string ReplaceTurkishChar(string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return "";
+
             text = text.Replace("İ", "I");
             text = text.Replace("ı", "i");
             text = text.Replace("Ğ", "G");
@@ -83,6 +86,27 @@ namespace Common
             text = text.Replace("ç", "c");
             text = text.Replace(" ", "_");
             return text;
+        }
+
+        public static string ReplaceTurkishCharTLower(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return "";
+
+            text = text.Replace("İ", "i");
+            text = text.Replace("ı", "i");
+            text = text.Replace("Ğ", "g");
+            text = text.Replace("ğ", "g");
+            text = text.Replace("Ö", "o");
+            text = text.Replace("ö", "o");
+            text = text.Replace("Ü", "u");
+            text = text.Replace("ü", "u");
+            text = text.Replace("Ş", "s");
+            text = text.Replace("ş", "s");
+            text = text.Replace("Ç", "c");
+            text = text.Replace("ç", "c");
+            text = text.Replace(" ", "_");
+            return text.ToLower();
         }
 
         public static string ToDateWithCulture(DateTime? date)

@@ -63,8 +63,15 @@ namespace KindergartenProject
                 {
                     int width = 15;
                     int height = 15;
-                    StudentEntity entity = new StudentBusiness(projectType).Get_StudentWithPaymentList(id);
+                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(projectType).Get_Student(id);
 
+                    if(studentResultSet.HasError)
+                    {
+                        divInformation.ErrorText = studentResultSet.ErrorDescription;
+                        return;
+                    }
+
+                    StudentEntity entity = studentResultSet.Result;
                     lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.Id + "\">" +
                         "<div id='btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";
                     lblStudentInto.Text += "<a href= '/odeme-plani-detay/" + entity.Id +
@@ -120,10 +127,11 @@ namespace KindergartenProject
                             sb.AppendLine("<td>" + obje.Year + "</td>");
                             sb.AppendLine("<td>" + obje.MonthName + "</td>");
 
+                            List<PaymentEntity> paymentList = new PaymentBusiness(projectType).Get_Payment(entity.Id).Result;
 
                             foreach (PaymentTypeEntity payment in paymentTypeList)
                             {
-                                PaymentEntity paymentEntity = entity.StudentPackage.PaymentList.FirstOrDefault(o =>
+                                PaymentEntity paymentEntity = paymentList.FirstOrDefault(o =>
                                     o.Month == obje.Month && o.Year == obje.Year && o.PaymentType == payment.Id);
 
                                 if (paymentEntity != null)
@@ -228,7 +236,14 @@ namespace KindergartenProject
                 }
                 else
                 {
-                    StudentEntity entity = new StudentBusiness(projectType).Get_StudentWithPaymentList(id);
+                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(projectType).Get_Student(id);
+                    if(studentResultSet.HasError)
+                    {
+                        divInformation.ErrorText = studentResultSet.ErrorDescription;
+                        btnSendEmail.Enabled = true;
+                        return;
+                    }
+                    StudentEntity entity = studentResultSet.Result;
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
                         new PaymentTypeBusiness(projectType).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
@@ -260,48 +275,6 @@ namespace KindergartenProject
             }
         }
 
-        //private string drawTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
-        //{
-        //    List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.PaymentList);
-
-        //    Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
-
-
-        //    StringBuilder sb = new StringBuilder();
-
-        //    sb.AppendLine("<table>");
-
-        //    foreach (int month in selectedMonthList.Keys)
-        //    {
-        //        sb.AppendLine("<tr>");
-        //        sb.AppendLine("<td>" + selectedMonthList[month] + "</td>");
-
-        //        foreach (EmailPaymentEntity emailPaymentEntity in emailPaymentList)
-        //        {
-        //            if (emailPaymentEntity.Month == month)
-        //            {
-        //                switch ((PaymentTypeEnum)emailPaymentEntity.PaymentTypeId)
-        //                {
-        //                    case PaymentTypeEnum.Okul:
-        //                    case PaymentTypeEnum.Servis:
-        //                    case PaymentTypeEnum.Kirtasiye:
-        //                    case PaymentTypeEnum.Mental:
-        //                    case PaymentTypeEnum.Diger:
-        //                        sb.AppendLine("<td>" + emailPaymentEntity.AmountDescription + "</td>");
-        //                        break;
-        //                    case PaymentTypeEnum.None:
-        //                        break;
-        //                    default:
-        //                        break;
-        //                }
-        //            }
-        //        }
-
-        //        sb.AppendLine("</tr>");
-        //    }
-
-        //}
-
         private void ThrowError()
         {
             divInformation.ErrorText = studentDoesNotFound;
@@ -312,7 +285,8 @@ namespace KindergartenProject
 
         private StringBuilder InitializeHtmlTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
         {
-            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, entity.StudentPackage.PaymentList);
+            List<PaymentEntity> paymentList = new PaymentBusiness(projectType).Get_Payment(entity.Id).Result;
+            List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, paymentList);
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
             StringBuilder sb = new StringBuilder();

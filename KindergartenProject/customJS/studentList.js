@@ -135,12 +135,9 @@ function drawList(entityList) {
                 tbody += "<a href = \"/email-gonder/" + entityList[i].Id + "\"><img title = 'Email gönder' src =\"/img/icons/email4.png\"/></a> &nbsp; ";
             }
 
-            var parentInfo = entityList[i].MotherName + " - ";
-            parentInfo += "<a href='tel:" + entityList[i].MotherPhoneNumber + "'>" + entityList[i].MotherPhoneNumber + "</a>";
-            if (IsNullOrEmpty(parentInfo))
-                parentInfo = "" + entityList[i].FatherName + " - " + "<a href='tel:" + entityList[i].FatherPhoneNumber + "'>" + entityList[i].FatherPhoneNumber + "</a>";
-
-
+            var parentInfo = entityList[i].ParentName + " - ";
+            parentInfo += "<a href='tel:" + entityList[i].ParentPhoneNumber + "'>" + entityList[i].ParentPhoneNumber + "</a>";
+            
             tbody += "</td>";
             tbody += "<td>" + entityList[i].FullName + "</td>";
             //tbody += "<td>" + entityList[i].BirthdayWithFormatddMMyyyy + "</td>";
@@ -276,10 +273,7 @@ function successFunctionDeleteStudent(obje) {
     if (!obje.HasError && obje.Result) {
         window["studentList"] = null;
         window["tbody"] = null;
-        if (document.getElementById("txtSearchStudent") != null && !IsNullOrEmpty(document.getElementById("txtSearchStudent").value))
-            successFunctionSearchStudent(document.getElementById("txtSearchStudent").value);
-        else
-            successFunctionSearchStudent(null);
+        GetActiveStudentList();
 
         callDeleteInformationMessage();
 

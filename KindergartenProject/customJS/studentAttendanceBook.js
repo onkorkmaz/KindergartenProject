@@ -2,19 +2,23 @@
     onChangeChcCurrentDay();
 };
 
-function loadData() {
-    var searchValue = document.getElementById("txtSearchStudent").value;
+var packageList = [];
 
-    if (!IsNullOrEmpty(searchValue)) {drpYearMonthDayChanged
+function loadData() {
+
+    packageList = [];
+    GetActiveAllStudentAndAttendanceList();
+
+    var searchValue = document.getElementById("txtSearchStudent").value;
+    
+    if (!IsNullOrEmpty(searchValue)) {
         successFunctionSearchStudent(searchValue);
     }
-    else {
-        successFunctionSearchStudent(null, true);
-    }
+    
 }
 
 function onChangeChcCurrentDay() {
-
+    tbody = "";
     let currentDay = document.getElementById("chcCurrentDay");
     let year = document.getElementById("drpYear");
     let month = document.getElementById("drpMonth");
@@ -36,49 +40,63 @@ function onChangeChcCurrentDay() {
         month.disabled = false;
         days.disabled = false;
     }
-
-
     loadData();
 }
 
 function successFunctionSearchStudent(search) {
-    var studentList = GetActiveAllStudentAndAttendanceList();
-    var entityList = [];
 
-    if (!IsNullOrEmpty(search)) {
-        entityList = GetFilterStudent(studentList, search);
-    }
-    else {
-        entityList = studentList;
-    }
-
-    drawStudentAttendanceBook(entityList);
+    var toSearch = replaceTurkichChar(search.toLocaleLowerCase('tr-TR'));
+    for (let i in packageList) {
+        let studentEntity = packageList[i].StudentEntity;
+        document.getElementById("tr_Student_" + studentEntity.Id).style.display = "";
+        document.getElementById("tr_Student_Detail_" + studentEntity.Id).style.display = "none";
+        if (studentEntity.SearchText.indexOf(toSearch) <= -1) {
+            document.getElementById("tr_Student_" + studentEntity.Id).style.display = "none";
+            document.getElementById("tr_Student_Detail_" + studentEntity.Id).style.display = "none";
+        }
+    }   
 }
 
 
-function drawStudentAttendanceBook(entityList) {
+function GetActiveAllStudentAndAttendanceList() {
+    var jsonData = "{}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllStudentAndAttendanceList', jsonData, successFunctionForStudentAndAttendanceList, errorFunction);
+}
 
-    var tbody = "";
+
+
+function successFunctionForStudentAndAttendanceList(obje) {
+
+    packageList = obje;
+    if (packageList != null) {
+
+        tbody = "";
+        if (packageList == null || packageList.length == 0) {
+            document.getElementById("studentAttendanceList").innerHTML = "";
+        }
+        else {
+
+            for (let i in packageList) {
+                drawStudentAttendanceBook(packageList[i]);
+            }
+        }
+    }
+}
+
+function drawStudentAttendanceBook(package) {
+
     var header = "";
-
-    var year = document.getElementById("drpYear").value;
-
+    let year = document.getElementById("drpYear").value;
     let month = document.getElementById("drpMonth").value;
 
     let currentDay = document.getElementById("chcCurrentDay");
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
 
 
     if (month < monthsSeasonFirst[0][0]) {
         year++;
     }
-
-    if (entityList == null || entityList.length <= 0) {
-        document.getElementById("tBodyStudentList").innerHTML = tbody;
-        return;
-    }
-
 
     header = "<tr><th scope='col' width='20'>#####</th><th scope='col'>İsim Soyisim</th>";
 
@@ -103,79 +121,77 @@ function drawStudentAttendanceBook(entityList) {
 
     }
 
-    header +="</tr >";
+    header += "</tr >";
 
     document.getElementById("studentAttendanceHeader").innerHTML = header;
 
-    if (entityList != null) {
-        for (var i in entityList) {
+    var attendanceList = package.StudentAttendanceBookEntityList;
+    var studentEntity = package.StudentEntity;
+    tbody += "<tr id='tr_Student_" + studentEntity.Id + "' searchText = '" + studentEntity.SearchText+"'>";
+    tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus' >+</td>";
+    tbody += "<td>" + studentEntity.FullName + "</td>";
 
-            var attendanceList = entityList[i].StudentPackage.StudentAttendanceBookList;
+    for (let j = begin; j <= endDayValue; j++) {
 
-            tbody += "<tr>";
-            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].Id + "\") id='tdPlus' >+</td>";
-            tbody += "<td>" + entityList[i].FullName + "</td>";
-
-            for (let j = begin; j <= endDayValue; j++) {
-
-                if (currentDay.checked && j != dd) {
-                    continue;
-                }
-
-                var uniqueName = "_" + year + "_" + month + "_" + j + "_" + entityList[i]["Id"];
-
-                var attendance = attendanceList.find(o => o.Year == year && o.Month == month && o.Day == j);
-
-                var isCheck = "";
-                if (!IsNullOrEmpty(attendance) && attendance.IsArrival) {
-                    isCheck = "checked='checked'";
-                }
-                
-
-                var chcAttandanceBookName = "chc" + j + "_" + uniqueName;
-                tbody += "<td><input type='checkbox' year=" + year + " month=" + month + " day=" + j + " studentId=" + entityList[i]["Id"] + " id='" + chcAttandanceBookName + "' name='" + chcAttandanceBookName + "' " + isCheck + " onchange='onChange(this)' ></td>";
-            }
-
-
-            tbody += "</tr> ";
-            tbody += _getDetailRow(entityList[i]);
-
+        if (currentDay.checked && j != dd) {
+            continue;
         }
-        document.getElementById("studentAttendanceList").innerHTML = tbody;
 
-        document.getElementById("lblInfo").innerHTML = year + " - " + months[month-1][1];
+        var uniqueName = "_" + year + "_" + month + "_" + j + "_" + studentEntity.Id;
 
+        var attendance = attendanceList.find(o => o.Year == year && o.Month == month && o.Day == j);
+
+        var isCheck = "";
+        if (!IsNullOrEmpty(attendance) && attendance.IsArrival) {
+            isCheck = "checked='checked'";
+        }
+
+        var chcAttandanceBookName = "chc" + j + "_" + uniqueName;
+        tbody += "<td><input type='checkbox' year=" + year + " month=" + month + " day=" + j + " studentId=" + studentEntity.Id + " id='" + chcAttandanceBookName + "' name='" + chcAttandanceBookName + "' " + isCheck + " onchange='onChange(this)' ></td>";
     }
+
+    tbody += "</tr> ";
+    tbody += _getDetailRow(package);
+
+
+    document.getElementById("studentAttendanceList").innerHTML = tbody;
+
+    document.getElementById("lblInfo").innerHTML = year + " - " + months[month - 1][1];
+
+
 }
 
-function _getDetailRow(entity) {
+function _getDetailRow(package) {
     let tbody = "";
-    tbody += "<tr style='display: none;' id='tr" + entity.Id + "' >";
+
+    var studentEntity = package.StudentEntity;
+
+    tbody += "<tr style='display: none;' id='tr_Student_Detail_" + studentEntity.Id + "' >";
     {
         tbody += "<td colspan='1'></td >";
         tbody += "<td colspan='4'>";
         {
             tbody += "<table border='1' width='100%' cellpadding='8'>";
             {
-                tbody += "<tr><td width='150'><b>TCKN</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.CitizenshipNumberStr + "</td></tr>";
+                tbody += "<tr><td width='150'><b>TCKN</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.CitizenshipNumberStr + "</td></tr>";
 
-                tbody += "<tr><td width='150'><b>Anne Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.MotherName + "</td></tr>";
-                tbody += "<tr><td width='150'><b>Anne Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entity.MotherPhoneNumber + "'>" + entity.MotherPhoneNumber + "</a></td></tr>";
+                tbody += "<tr><td width='150'><b>Anne Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.MotherName + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Anne Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + studentEntity.MotherPhoneNumber + "'>" + studentEntity.MotherPhoneNumber + "</a></td></tr>";
 
-                tbody += "<tr><td width='150'><b>Baba Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.FatherName + "</td></tr>";
-                tbody += "<tr><td width='150'><b>Baba Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + entity.FatherPhoneNumber + "'>" + entity.FatherPhoneNumber + "</a></td></tr>";
+                tbody += "<tr><td width='150'><b>Baba Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.FatherName + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Baba Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + studentEntity.FatherPhoneNumber + "'>" + studentEntity.FatherPhoneNumber + "</a></td></tr>";
 
-                tbody += "<tr><td width='150'><b>Konuşulan ücret</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.SpokenPriceStr + "</td></tr>";
-                tbody += "<tr><td width='150'><b>Sınıf</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.ClassName + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Konuşulan ücret</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.SpokenPriceStr + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Sınıf</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.ClassName + "</td></tr>";
 
-                tbody += "<tr><td width='150'><b>Ana Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.MainTeacher + "</td></tr>";
-                tbody += "<tr><td width='150'><b>Yardımcı Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + entity.HelperTeacher + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Ana Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.MainTeacher + "</td></tr>";
+                tbody += "<tr><td width='150'><b>Yardımcı Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.HelperTeacher + "</td></tr>";
 
-                tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + entity.DateOfMeetingWithFormat + "</td></tr>";
-                tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + entity.EmailStr + "</td></tr>";
-                tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + entity.NotesStr + "</td></tr>";
-                if (entity.SchoolClassDesc != undefined && entity.SchoolClassDesc != null && entity.SchoolClassDesc != '') {
-                    tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + entity.SchoolClassDesc + "</td></tr>";
+                tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + studentEntity.DateOfMeetingWithFormat + "</td></tr>";
+                tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + studentEntity.EmailStr + "</td></tr>";
+                tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + studentEntity.NotesStr + "</td></tr>";
+                if (studentEntity.SchoolClassDesc != undefined && studentEntity.SchoolClassDesc != null && studentEntity.SchoolClassDesc != '') {
+                    tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + studentEntity.SchoolClassDesc + "</td></tr>";
                 }
                 else {
                     tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'> - </td></tr>";
@@ -192,7 +208,7 @@ function _getDetailRow(entity) {
 }
 
 function _onDetailRow(id) {
-    var row = document.getElementById("tr" + id);
+    var row = document.getElementById("tr_Student_Detail_" + id);
     row.style.display = row.style.display === 'none' ? '' : 'none';
 
     if (row.style.display == '')
