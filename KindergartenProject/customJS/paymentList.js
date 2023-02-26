@@ -62,6 +62,26 @@ function drawList(package, paymentTypeList, year,month) {
 
         var date = new Date();
         for (var i in package) {
+
+
+            var isContinue = true;
+            var chc = document.getElementById("chcIsPaymentDetail");
+            if (chc.checked) {
+                isContinue = false;
+                for (var k in paymentTypeList) {
+                    var paymentList = package[i].PaymentEntityList;
+                    var _paymentEntity = findPaymentEntity(paymentList, year, month, paymentTypeList[k].Id);
+                    if (_paymentEntity != null && !_paymentEntity.IsPayment && _paymentEntity.Amount > 0) {
+                        isContinue = true;
+                        break;
+                    }
+                }
+
+            }
+
+            if (!isContinue)
+                continue;
+
             var studentEntity = package[i].StudentEntity;
             tbody += "<tr id='tr_Student_" + studentEntity.Id + "' searchText = '" + studentEntity.SearchText + "'>";
             tbody += "<td>";
@@ -78,6 +98,10 @@ function drawList(package, paymentTypeList, year,month) {
 
         document.getElementById("divMain").innerHTML = tbody;
     }
+}
+
+function onIsPaymentDetailChange() {
+    loadData();
 }
 
 

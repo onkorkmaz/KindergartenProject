@@ -372,6 +372,9 @@ function drawPayment(paymentTypeList, year, month, isListScreen, studentAndListO
         var imgDisplay = "";
         var paymentEntity = findPaymentEntity(paymentList, year, month, paymentTypeList[i].Id);
 
+
+
+
         if (paymentEntity != null) {
             id = paymentEntity.Id;
 
