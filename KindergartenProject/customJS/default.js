@@ -20,26 +20,30 @@ function loadIncomeAndExpenseSummaryForCurrentMonthDetail() {
     CallServiceWithAjax('/KinderGartenWebService.asmx/Get_IncomeAndExpenseSummaryForCurrentMonthDetail', jsonData, successFunctionGetIncomeAndExpenseSummaryForCurrentMonthDetail, errorFunction);
 }
 
-function resetDetail() {
-    var rowIncoming = document.getElementById("trIncomingPaymentDetail");
-    var rowWaiting = document.getElementById("trWaitingPaymentDetail");
-    var rowExpense = document.getElementById("trExpensePaymentDetail");
+function resetDetail(incomeAndExpenseType) {
 
-    rowIncoming.style.display = 'none';
-    rowWaiting.style.display = 'none';
-    rowExpense.style.display = 'none';
-
-    document.getElementById("tdIncomingPlus").innerHTML = "+";
-    document.getElementById("tdWaitingPlus").innerHTML = "+";
-    document.getElementById("tdExpensePlus").innerHTML = "+";
-
+    if (incomeAndExpenseType != IncomeAndExpenseType.rowIncoming) {
+        var rowIncoming = document.getElementById("trIncomingPaymentDetail");
+        rowIncoming.style.display = 'none';
+        document.getElementById("tdIncomingPlus").innerHTML = "+";
+    }
+    if (incomeAndExpenseType != IncomeAndExpenseType.rowWaiting) {
+        var rowWaiting = document.getElementById("trWaitingPaymentDetail");
+        rowWaiting.style.display = 'none';
+        document.getElementById("tdWaitingPlus").innerHTML = "+";
+    }
+    if (incomeAndExpenseType != IncomeAndExpenseType.rowExpense) {
+        var rowExpense = document.getElementById("trExpensePaymentDetail");
+        rowExpense.style.display = 'none';
+        document.getElementById("tdExpensePlus").innerHTML = "+";
+    }
 }
 
 function onIncomingDetailRow() {
-    resetDetail();
+    resetDetail(IncomeAndExpenseType.rowIncoming);
     var row = document.getElementById("trIncomingPaymentDetail");
     row.style.display = row.style.display === 'none' ? '' : 'none';
-    if (row.style.display=='')
+    if (row.style.display == '')
         document.getElementById("tdIncomingPlus").innerHTML = "-";
     else
         document.getElementById("tdIncomingPlus").innerHTML = "+";
@@ -47,7 +51,7 @@ function onIncomingDetailRow() {
 }
 
 function onWaitingDetailRow() {
-    resetDetail();
+    resetDetail(IncomeAndExpenseType.rowWaiting);
     var row = document.getElementById("trWaitingPaymentDetail");
     row.style.display = row.style.display === 'none' ? '' : 'none';
     if (row.style.display == '')
@@ -58,7 +62,7 @@ function onWaitingDetailRow() {
 }
 
 function onExpenseDetailRow() {
-    resetDetail();
+    resetDetail(IncomeAndExpenseType.rowExpense);
     var row = document.getElementById("trExpensePaymentDetail");
     row.style.display = row.style.display === 'none' ? '' : 'none';
     if (row.style.display == '')
@@ -187,4 +191,12 @@ function successFunctionGetIncomeAndExpenseSummaryForCurrentMonth(obje) {
     else {
         alert("Hata var !!! Error : " + obje.ErrorDescription);
     }
+}
+
+
+const IncomeAndExpenseType =
+{
+    "rowIncoming": 1,
+    "rowWaiting": 2,
+    "rowExpense": 3
 }

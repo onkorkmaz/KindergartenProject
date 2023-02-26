@@ -23,13 +23,11 @@ function txtSearchStudent_Change(searchValue) {
             document.getElementById("tr_Student_" + studentEntity.Id).style.display = "none";
         }
     }
-
 }
 
 function loadData() {
     packageList = [];
     GetStudentAndListOfPaymentListPackageForCurrentMonth();
-
 }
 
 function GetStudentAndListOfPaymentListPackageForCurrentMonth() {
@@ -39,7 +37,6 @@ function GetStudentAndListOfPaymentListPackageForCurrentMonth() {
         jsonData,
         successFunctionCurrentPage,
         errorFunction);
-
 }
 
 function successFunctionCurrentPage(objects) {

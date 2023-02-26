@@ -442,3 +442,4 @@ function drawPayment(paymentTypeList, year, month, isListScreen, studentAndListO
     }
     return tbody;
 }
+

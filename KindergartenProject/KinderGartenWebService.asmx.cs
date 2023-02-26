@@ -554,23 +554,27 @@ namespace KindergartenProject
             List<PaymentEntity> paymentForCurrentYear = new PaymentBusiness(GetProjectType()).Get_Payment(studentIdInt, yearInt).Result;
             List<PaymentEntity> paymentForNextYear = new PaymentBusiness(GetProjectType()).Get_Payment(studentIdInt, (yearInt + 1)).Result;
 
-            for (int i = 9; i <= 12; i++)
-            {
-                if (paymentForCurrentYear.Any(o => o.Month == i && o.IsActive == true))
-                {
-                    package.StudentAndListOfPayment.PaymentEntityList.Add(paymentForCurrentYear.First(o => o.Month == i && o.IsActive == true));
-                }
-            }
-
-            for (int i = 1; i <= 8; i++)
-            {
-                if (paymentForNextYear.Any(o => o.Month == i && o.IsActive == true))
-                {
-                    package.StudentAndListOfPayment.PaymentEntityList.Add(paymentForNextYear.First(o => o.Month == i && o.IsActive == true));
-                }
-            }
-
             package.PaymentTypeEntityList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+
+            foreach (PaymentTypeEntity type in package.PaymentTypeEntityList)
+            {
+                for (int i = 9; i <= 12; i++)
+                {
+                    if (paymentForCurrentYear.Any(o => o.Month == i && o.IsActive == true && o.PaymentType == type.Id))
+                    {
+                        package.StudentAndListOfPayment.PaymentEntityList.Add(paymentForCurrentYear.First(o => o.Month == i && o.IsActive == true && o.PaymentType == type.Id));
+                    }
+                }
+
+                for (int i = 1; i <= 8; i++)
+                {
+                    if (paymentForNextYear.Any(o => o.Month == i && o.IsActive == true && o.PaymentType == type.Id))
+                    {
+                        package.StudentAndListOfPayment.PaymentEntityList.Add(paymentForNextYear.First(o => o.Month == i && o.IsActive == true && o.PaymentType == type.Id));
+                    }
+                }
+            }
+            
             package.Year = yearInt;
             return package;
         }

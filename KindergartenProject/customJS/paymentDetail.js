@@ -59,7 +59,6 @@ function successFunctionCurrentPage(obje) {
             }
 
             tbody += "</table>";
-
             document.getElementById("divMain").innerHTML = tbody;
         }
     }
