@@ -263,41 +263,37 @@ function successFunctionProcessAttendanceBook(object) {
 
 function drpYearMonthDayChanged(changeType) {
 
-        var year = document.getElementById("drpYear").value;
+    var year = document.getElementById("drpYear").value;
 
-        const d = new Date();
-        let month = document.getElementById("drpMonth").value;
+    const d = new Date();
+    let month = document.getElementById("drpMonth").value;
 
-        if (changeType == "year") {
-            month = d.getMonth();
-            document.getElementById("drpMonth").value = month + 1;
+    if (changeType == "year") {
+        month = d.getMonth();
+        document.getElementById("drpMonth").value = month + 1;
 
+    }
+
+    if (changeType == "year" || changeType == "month") {
+        var select = document.getElementById("drpDays");
+        var length = select.options.length;
+        for (i = length - 1; i >= 0; i--) {
+            select.options[i] = null;
         }
 
+        var lastDayOfMonth = new Date(year, month, 0).getDate();
 
-        if (changeType == "year" || changeType == "month") {
-            var select = document.getElementById("drpDays");
-            var length = select.options.length;
-            for (i = length - 1; i >= 0; i--) {
-                select.options[i] = null;
-            }
+        var option = document.createElement('option');
+        option.text = "1-15";
+        option.value = "15";
+        select.add(option, 15)
 
-            var lastDayOfMonth = new Date(year, month, 0).getDate();
-
-            var option = document.createElement('option');
-            option.text = "1-15";
-            option.value = "15";
-            select.add(option, 15)
-
-            option = document.createElement('option');
-            option.text = "16-" + lastDayOfMonth;
-            option.value = lastDayOfMonth;
-            select.add(option, lastDayOfMonth)
-        }
-
-
-        loadData();
-
+        option = document.createElement('option');
+        option.text = "16-" + lastDayOfMonth;
+        option.value = lastDayOfMonth;
+        select.add(option, lastDayOfMonth)
+    }
+    loadData();
 }
 
 

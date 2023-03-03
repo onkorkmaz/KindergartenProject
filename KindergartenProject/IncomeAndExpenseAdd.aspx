@@ -6,6 +6,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="/customJS/incomeAndExpense.js"></script>
+    <script src="/customJS/paymentSummaryCommon.js"></script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
@@ -88,27 +90,7 @@
     <div class="col-12 col-xl-12">
         <div class="table-responsive">
             <table class="table mb-0" border="1">
-                <thead>
-                    <tr>
-                        <th scope="col">Ay</th>
-                        <th scope="col">Ödenen Aidatlar</th>
-                        <th scope="col">Beklenen Aidatlar</th>
-                        <th scope="col">Diğer Gelirler</th>
-                        <th scope="col">Öğr. Maaşları</th>
-                        <th scope="col">Diğer Giderler</th>
-                        <th scope="col">Anlık Toplam</th>
-                        <th scope="col">Beklenen Toplam</th>
-                    </tr>
-                    <tr>
-                        <td><span style="color:darkred;" id="currentMonth"></span></td>
-                        <td>&nbsp;&nbsp;<b><span style="color:green;" id="incomeForStudentPayment"></span></b></td>
-                        <td>&nbsp;&nbsp;<b><span id="waitingIncomeForStudentPayment"></span></b></td>
-                        <td>&nbsp;&nbsp;<b><span style="color:green;" id="incomeWithoutStudentPayment"></span></b></td>
-                        <td>&nbsp;&nbsp;<b><span style="color:#d5265b;" id="workerExpenses"></span></b></td>
-                        <td>&nbsp;&nbsp;<b><span style="color:red;" id="expenseWithoutWorker"></span></b></td>
-                        <td>&nbsp;&nbsp;<b><span style="font-size:16px;" id="currentBalance"></span></b></td>
-                        <td>&nbsp;&nbsp;<b><span style="font-size:16px;" id="totalBalance"></span></b></td>
-                    </tr>
+                <thead id="thBody">
                 </thead>
             </table>
         </div>

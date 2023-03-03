@@ -87,6 +87,7 @@
     <Content Include="customJS\incomeAndExpenseList.js" />
     <Content Include="customJS\incomeAndExpense.js" />
     <Content Include="customJS\outgoing.js" />
+    <Content Include="customJS\paymentSummaryCommon.js" />
     <Content Include="customJS\studentAttendanceBook.js" />
     <Content Include="customJS\studentCommon.js" />
     <Content Include="customJS\incomeAndExpenseType.js" />

@@ -35,9 +35,7 @@ namespace KindergartenProject
         {
             if (CurrentContex.Contex.AuthorityTypeEnum != AuthorityTypeEnum.Developer)
             {
-                Response.Write("<script>alert('Bu sayfa için yetkiniz bulunmamaktadır.');</script>");
-                var master = this.Master as kindergarten;
-                master.HasAuthority = false;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Bu sayfa için yetkiniz bulunmamaktadır.');window.location ='/benim-dunyam-montessori-okullari';", true);
             }
         }
     }

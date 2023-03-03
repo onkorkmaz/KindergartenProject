@@ -66,28 +66,21 @@
                                     <i class="align-middle" data-feather="umbrella"></i><span class="align-middle">Yoklama Defteri</span>
                                 </a>
                             </li>
-
                             <li id="menuIncomeAndExpenseAdd" runat="server">
                                 <a class="sidebar-link" href="/gelir-gider-ekle">
-
                                     <i class="align-middle" data-feather="save"></i><span class="align-middle">Gelir-Gider Ekle</span>
                                 </a>
-
                             </li>
-
                             <li id="menuIncomeAndExpenseList" runat="server">
                                 <a class="sidebar-link" href="/gelir-gider-listesi">
-
                                     <i class="align-middle" data-feather="paperclip"></i><span class="align-middle">Gelir-Gider Listesi</span>
                                 </a>
-
                             </li>
-
                             <li runat="server" id="menuSettings">
-                                <a data-target="#ui" data-toggle="collapse" class="sidebar-link collapsed">
+                                <a data-toggle="collapse" class="sidebar-link collapsed show">
                                     <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ayarlar</span>
                                 </a>
-                                <ul id="ui" data-parent="#sidebar" runat="server">
+                                <ul id="ui" data-parent="#sidebar" runat="server" class="sidebar-dropdown list-unstyled collapse show" style="display:block;">
                                     <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="/odeme-tipleri">Ödeme Tipleri</a></li>
                                     <li class="sidebar-item" id="menuClassList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
                                     <li class="sidebar-item" id="menuWorkerList" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>

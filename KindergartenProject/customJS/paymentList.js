@@ -18,22 +18,33 @@ function txtSearchStudent_Change(searchValue) {
     var toSearch = replaceTurkichChar(searchValue.toLocaleLowerCase('tr-TR'));
     for (let i in studentAndListOfPaymentList) {
         let studentEntity = studentAndListOfPaymentList[i].StudentEntity;
-        document.getElementById("tr_Student_" + studentEntity.Id).style.display = "";
-        if (studentEntity.SearchText.indexOf(toSearch) <= -1) {
-            document.getElementById("tr_Student_" + studentEntity.Id).style.display = "none";
+
+        var tr = document.getElementById("tr_Student_" + studentEntity.Id);
+
+        if (tr != null || tr != undefined) {
+            tr.style.display = "";
+            if (studentEntity.SearchText.indexOf(toSearch) <= -1) {
+                tr.style.display = "none";
+            }
         }
     }
 }
 
 function loadData() {
     packageList = [];
-    GetStudentAndListOfPaymentListPackageForCurrentMonth();
+    GetStudentAndListOfPaymentListPackageWithMonth();
 }
 
-function GetStudentAndListOfPaymentListPackageForCurrentMonth() {
+function GetStudentAndListOfPaymentListPackageWithMonth() {
 
-    var jsonData = "{}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentAndListOfPaymentListPackageForCurrentMonth',
+    let year = document.getElementById("drpYear").value;
+    let month = document.getElementById("drpMonth").value;
+    if (month < monthsSeasonFirst[0][0]) {
+        year++;
+    }
+
+    var jsonData = "{year:" + JSON.stringify(year) + ", month: " + JSON.stringify(month) + "  }";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentAndListOfPaymentListPackageWithMonth',
         jsonData,
         successFunctionCurrentPage,
         errorFunction);
@@ -63,7 +74,6 @@ function drawList(package, paymentTypeList, year,month) {
         var date = new Date();
         for (var i in package) {
 
-
             var isContinue = true;
             var chc = document.getElementById("chcIsPaymentDetail");
             if (chc.checked) {
@@ -76,7 +86,6 @@ function drawList(package, paymentTypeList, year,month) {
                         break;
                     }
                 }
-
             }
 
             if (!isContinue)
@@ -101,6 +110,23 @@ function drawList(package, paymentTypeList, year,month) {
 }
 
 function onIsPaymentDetailChange() {
+    loadData();
+
+    var search = document.getElementById("txtSearchStudent");
+    if (search != null && search != undefined && !IsNullOrEmpty(search)) {
+        txtSearchStudent_Change(search.value);
+    }
+}
+
+function drpYearMonthDayChanged(changeType) {
+
+    const d = new Date();
+    let month = document.getElementById("drpMonth").value;
+
+    if (changeType == "year") {
+        month = d.getMonth();
+        document.getElementById("drpMonth").value = month + 1;
+    }
     loadData();
 }
 

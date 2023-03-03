@@ -11,6 +11,14 @@ namespace Entity
         public bool? IsActive { get; set; }
         public bool? IsDeleted{ get; set; }
         public DateTime AddedOn { get; set; }
+
+        public string AddedOnStr
+        {
+            get
+            {
+                return AddedOn.ToString("yyyy-MM-ddTHH:mm:ss");
+            }
+        }
         public DateTime DeletedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
         public ProjectType ProjectType { get; set; }

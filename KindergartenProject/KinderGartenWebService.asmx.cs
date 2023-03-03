@@ -519,27 +519,25 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public StudentAndListOfPaymentListPackage GetStudentAndListOfPaymentListPackageForCurrentMonth()
+        public StudentAndListOfPaymentListPackage GetStudentAndListOfPaymentListPackageWithMonth(string year, string month)
         {
+            int monthINT = CommonFunctions.GetData<int>(month);
+            int yearINT = CommonFunctions.GetData<int>(year);
             StudentAndListOfPaymentListPackage package = new StudentAndListOfPaymentListPackage();
 
             var studentEntityList = new StudentBusiness(GetProjectType()).Get_Student().Result.Where(o => o.IsStudent == true).ToList();
-
             foreach (StudentEntity entity in studentEntityList)
             {
                 StudentAndListOfPayment pac = new StudentAndListOfPayment();
-                pac.PaymentEntityList = new PaymentBusiness(GetProjectType()).Get_Payment(entity.Id, DateTime.Today.Year, DateTime.Today.Month).Result;
+                pac.PaymentEntityList = new PaymentBusiness(GetProjectType()).Get_Payment(entity.Id, yearINT, monthINT).Result;
                 pac.StudentEntity = entity;
                 package.StudentAndListOfPaymentList.Add(pac);
             }
 
-
             package.PaymentTypeEntityList = new PaymentTypeBusiness(GetProjectType()).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
-            package.Year = DateTime.Today.Year;
-            package.Month = DateTime.Today.Month;
-
+            package.Year = yearINT;
+            package.Month = monthINT;
             return package;
-
         }
 
         [WebMethod(EnableSession = true)]
@@ -728,6 +726,33 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> DeleteClass(string id)
+        {
+            DataResultArgs<bool> result = new DataResultArgs<bool>();
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    ClassEntity entity = new ClassEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
+                    result = new ClassBusiness(GetProjectType()).Set_Class(entity);
+                }
+                else
+                {
+                    result.HasError = true;
+                    result.ErrorDescription = "Id INT çevrilemedi Id : " + id;
+                }
+            }
+            else
+            {
+                result.HasError = true;
+                result.ErrorDescription = "Id bulunamadı";
+            }
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdateClass(string id, ClassEntity classEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
@@ -817,30 +842,25 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryForCurrentMonth()
+        public DataResultArgs<List<ExpenseSummary>> Get_ExpenseSummaryDetailWithYearAndMonth(string year, string month, string index)
         {
-            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
+            int yearINT = CommonFunctions.GetData<int>(year);
+            int monthINT = CommonFunctions.GetData<int>(month);
+            return new PaymentBusiness(GetProjectType()).Get_ExpenseSummaryDetailWithYearAndMonth(yearINT, monthINT, index);
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<ExpenseSummary>> Get_ExpenseSummaryWithMonthAndYear()
+        public DataResultArgs<List<PaymentSummaryDetail>> Get_PaymentSummaryDetailWithYearAndMonth(string year, string month, string index)
         {
-            return new PaymentBusiness(GetProjectType()).Get_ExpenseSummaryWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
-        }
-
-
-        
-
-        [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummaryDetail>> Get_IncomeAndExpenseSummaryForCurrentMonthDetail()
-        {
-            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryDetailWithMonthAndYear(DateTime.Today.Year, DateTime.Today.Month);
+            int yearINT = CommonFunctions.GetData<int>(year);
+            int monthINT = CommonFunctions.GetData<int>(month);
+            return new PaymentBusiness(GetProjectType()).Get_PaymentSummaryDetailWithYearAndMonth(yearINT, monthINT, index);
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithYearAndMonth(int year, int month)
+        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithYearAndMonth(int year, int month,string index)
         {
-            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(year, month);
+            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithYearAndMonth(year, month, index);
         }
 
         [WebMethod(EnableSession = true)]

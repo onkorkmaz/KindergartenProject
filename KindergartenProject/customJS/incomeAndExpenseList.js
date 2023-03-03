@@ -1,5 +1,4 @@
 ﻿
-
 window.onload = function () {
 
     loadAllData();
@@ -8,61 +7,14 @@ window.onload = function () {
 
 function loadAllData() {
     loadData();
-    loadIncomeAndExpenseSummaryWithYearAndMonth();
+    drawSummaryWithIndex(1, "thBody");
+    loadSummaryWithYearAndMonth(getYear(), getMonth());
+
 }
 
-function loadIncomeAndExpenseSummaryWithYearAndMonth() {
-    let year = GetYear();
-    let month =GetMonth();
-
-    var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + "}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_IncomeAndExpenseSummaryWithYearAndMonth', jsonData, successFunctionGetIncomeAndExpenseSummaryForCurrentMonth, errorFunction);
-}
-
-function successFunctionGetIncomeAndExpenseSummaryForCurrentMonth(obje) {
-    if (!obje.HasError && obje.Result) {
-        var list = obje.Result;
-        if (list.length > 0) {
-
-            const d = new Date();
-            let month = d.getMonth();
-            document.getElementById("currentMonth").innerHTML = "<b>" + months[month][1] + "</b>";
-
-            var firstSummary = list[0];
-            document.getElementById("incomeForStudentPayment").innerHTML = firstSummary.IncomeForStudentPaymentStr;
-            document.getElementById("waitingIncomeForStudentPayment").innerHTML = firstSummary.WaitingIncomeForStudentPaymentStr;
-            document.getElementById("incomeWithoutStudentPayment").innerHTML = firstSummary.IncomeWithoutStudentPaymentStr;
-            document.getElementById("workerExpenses").innerHTML = firstSummary.WorkerExpensesStr;
-
-            document.getElementById("expenseWithoutWorker").innerHTML = firstSummary.ExpenseWithoutWorkerStr;
-
-            var currentBalance = document.getElementById("currentBalance");
-            currentBalance.innerHTML = firstSummary.CurrentBalanceStr;
-            if (firstSummary.CurrentBalance < 0) {
-                currentBalance.style.color = "red";
-            }
-            else {
-                currentBalance.style.color = "green";
-            }
-
-            var totalBalance = document.getElementById("totalBalance");
-            totalBalance.innerHTML = firstSummary.TotalBalanceStr;
-            if (firstSummary.TotalBalance < 0) {
-                totalBalance.style.color = "red";
-            }
-            else {
-                totalBalance.style.color = "green";
-            }
-        }
-    }
-    else {
-        alert("Hata var !!! Error : " + obje.ErrorDescription);
-    }
-}
-
-function GetYear() {
+function getYear() {
     let year = document.getElementById("drpYear").value;
-    let month = GetMonth();
+    let month = getMonth();
     if (month < monthsSeasonFirst[0][0]) {
         year++;
     }
@@ -70,7 +22,7 @@ function GetYear() {
     return year;
 }
 
-function GetMonth() {
+function getMonth() {
     
     let month = document.getElementById("drpMonth").value;
     return month;
@@ -78,8 +30,8 @@ function GetMonth() {
 
 function loadData() {
 
-    let year = GetYear();
-    let month = GetMonth();
+    let year = getYear();
+    let month = getMonth();
 
     var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + "}";
     CallServiceWithAjax('/KinderGartenWebService.asmx/GetIncomeAndExpenseListWithMonthAndYear', jsonData, successFunctionGetIncomeAndExpenseList, errorFunction);
@@ -382,11 +334,16 @@ const IncomeAndExpenseSubType =
     "WorkerExpense":3
 }
 
+function drpYearMonthChanged(changeType) {
 
-function drpYearMontChanged(changeType) {
-
+    const d = new Date();
     if (changeType == 'year') {
         document.getElementById("drpMonth").value = 1;
+    }
+
+    if (changeType == 'month') {
+        let mnth = document.getElementById("drpMonth").value;
+        document.getElementById("currentMonth0").innerHTML = "<b>" + months[mnth - 1][1] + "</b>";
     }
     loadAllData();
 }

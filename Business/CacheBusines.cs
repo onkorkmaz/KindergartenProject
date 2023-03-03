@@ -5,7 +5,6 @@ using Entity;
 using Common;
 using System.Linq;
 
-
 namespace Business
 {
     public class CacheBusines<T> where T : BaseEntity  
@@ -14,7 +13,6 @@ namespace Business
         private CacheType _cacheType = CacheType.None;
         private const int _cacheMinutes = 60;
         private static Dictionary<ProjectType, Dictionary<CacheType, CacheEntity<T>>> _dictProjectType = new Dictionary<ProjectType, Dictionary<CacheType, CacheEntity<T>>>();
-
         private Dictionary<CacheType, CacheEntity<T>> dictCacheType
         {
             get
@@ -22,7 +20,6 @@ namespace Business
                 return _dictProjectType[_projectType];
             }
         }
-
 
         public CacheBusines(ProjectType projectType,CacheType cacheType) 
         {
@@ -33,12 +30,10 @@ namespace Business
                 _dictProjectType.Add(_projectType, new Dictionary<CacheType, CacheEntity<T>>());                
             }
 
-
             if (!_dictProjectType[_projectType].ContainsKey(cacheType))
             {
                 _dictProjectType[_projectType].Add(cacheType, new CacheEntity<T>(cacheType));
             }
-
         }
 
         public List<T> CacheList
@@ -49,7 +44,6 @@ namespace Business
                 {
                     return _cacheList.List;
                 }
-
                 return new List<T>();
             }
         }
@@ -62,7 +56,6 @@ namespace Business
                 {
                     return dictCacheType[_cacheType];
                 }
-
                 return null;
             }
         }
@@ -88,34 +81,33 @@ namespace Business
                 return;
             }
 
-            CacheEntity<T> cache = _cacheList;            
-
+            CacheEntity<T> cache = _cacheList;
             if (cache != null)
             {
                 object list = cache.List;
                 List<T> cacheList = (List<T>)list;
-                if (IsCacheAvailable && modifyRecord.DatabaseProcess == DatabaseProcess.Add)
+                if (IsCacheAvailable)
                 {
-                    if (cacheList.Last().Id > modifyRecord.Id)
+                    int index = cacheList.FindIndex(o => o.Id == modifyRecord.Id);
+                    if (modifyRecord.DatabaseProcess == DatabaseProcess.Deleted)
                     {
-                        modifyRecord.DatabaseProcess = DatabaseProcess.Update;
+                        if (index > 0)
+                        {
+                            cacheList.RemoveAt(index);
+                        }
                     }
-                }
-
-                if (modifyRecord.DatabaseProcess == DatabaseProcess.Add)
-                {
-                    cacheList.Add(modifyRecord);
-                }
-                else if (modifyRecord.DatabaseProcess == DatabaseProcess.Update)
-                {
-                    int index = cacheList.FindIndex(o => o.Id == modifyRecord.Id);
-                    cacheList.RemoveAt(index);
-                    cacheList.Insert(index, modifyRecord);
-                }
-                else if (modifyRecord.DatabaseProcess == DatabaseProcess.Deleted)
-                {
-                    int index = cacheList.FindIndex(o => o.Id == modifyRecord.Id);
-                    cacheList.RemoveAt(index);
+                    else
+                    {
+                        if (index > 0)
+                        {
+                            cacheList.RemoveAt(index);
+                            cacheList.Insert(index, modifyRecord);
+                        }
+                        else
+                        {
+                            cacheList.Add(modifyRecord);
+                        }
+                    }
                 }
             }
         }
@@ -127,8 +119,7 @@ namespace Business
                 dictCacheType[cacheType] = new CacheEntity<T>(cacheType);
             }
         }
-
-        public void AddCache(CacheType cacheType,List<T> list)
+        public void AddCacheListInDictionary(CacheType cacheType,List<T> list)
         {
             dictCacheType[cacheType] = new CacheEntity<T>(cacheType);
             dictCacheType[cacheType].List = list;

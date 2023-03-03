@@ -372,9 +372,6 @@ function drawPayment(paymentTypeList, year, month, isListScreen, studentAndListO
         var imgDisplay = "";
         var paymentEntity = findPaymentEntity(paymentList, year, month, paymentTypeList[i].Id);
 
-
-
-
         if (paymentEntity != null) {
             id = paymentEntity.Id;
 
@@ -405,9 +402,23 @@ function drawPayment(paymentTypeList, year, month, isListScreen, studentAndListO
             amount = 0;
         }
         else {
-            if (paymentTypeList[i].Id == PaymentType.Okul && studentEntity.SpokenPrice > 0) {
-                displayAmount = studentEntity.SpokenPrice;
-                amount = studentEntity.SpokenPrice;
+            var studentAddedDate = studentEntity.AddedOnStr;
+            var lastDayOfMonth = new Date(year, month, 0).getDate();
+
+            var currentLastDate = new Date(year, month, lastDayOfMonth);
+            var studentAddedDateJs = new Date(studentAddedDate);
+
+            if (studentAddedDateJs > currentLastDate) {
+                displayAmount = 0;
+                amount = 0;
+                tdPaymentStyle = "style ='display:none;'";
+                tdUnPaymentStyle = "style ='display:none;'";
+            }
+            else {
+                if (paymentTypeList[i].Id == PaymentType.Okul && studentEntity.SpokenPrice > 0) {
+                    displayAmount = studentEntity.SpokenPrice;
+                    amount = studentEntity.SpokenPrice;
+                }
             }
         }
         var txtAmountName = "txt" + uniqueName;

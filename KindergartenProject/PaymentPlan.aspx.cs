@@ -24,6 +24,29 @@ namespace KindergartenProject
 
             divInformation.ListRecordPage = "/ogrenci-listesi";
             divInformation.NewRecordPage = "/ogrenci-ekle";
+
+            int year = 2021;
+
+            for (int i = -1; i < 10; i++)
+            {
+                string displatText = (year + i).ToString() + "-" + (year + i + 1).ToString();
+                drpYear.Items.Add(new ListItem(displatText, (year + i).ToString()));
+            }
+
+            int currentYear = DateTime.Today.Year;
+            int currentMonth = DateTime.Today.Month;
+            if (currentMonth < 8)
+                currentYear--;
+
+            drpYear.SelectedValue = currentYear.ToString();
+
+            var months = CommonUIFunction.GetSeasonList(currentYear);
+            foreach (SeasonEntity entity in months)
+            {
+                drpMonth.Items.Add(new ListItem(entity.MonthName, entity.Month.ToString()));
+            }
+
+            drpMonth.SelectedValue = currentMonth.ToString();
         }
     }
 }

@@ -139,7 +139,7 @@ function deleteCurrentRecord(id) {
 }
 
 function successFunctionDeletePaymentType(obje) {
-    if (!obje.HasError && obje.Result) {
+    if (!obje.HasError) {
         loadData();
         callDeleteInformationMessage();
 
