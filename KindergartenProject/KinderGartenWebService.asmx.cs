@@ -531,6 +531,14 @@ namespace KindergartenProject
                 StudentAndListOfPayment pac = new StudentAndListOfPayment();
                 pac.PaymentEntityList = new PaymentBusiness(GetProjectType()).Get_Payment(entity.Id, yearINT, monthINT).Result;
                 pac.StudentEntity = entity;
+
+                bool hasUnPaymentRecord = pac.PaymentEntityList.Any(o => o.IsActive.HasValue && o.IsActive.Value && o.Amount.HasValue && o.Amount.Value > 0 && o.IsPayment.HasValue && !o.IsPayment.Value);
+
+                if (!entity.IsActive.Value && !hasUnPaymentRecord)
+                {
+                    continue;
+                }
+                
                 package.StudentAndListOfPaymentList.Add(pac);
             }
 

@@ -26,5 +26,6 @@ namespace Entity
         public int Month { get; set; }
         public string Index { get; set; }
 
+
     }
 }

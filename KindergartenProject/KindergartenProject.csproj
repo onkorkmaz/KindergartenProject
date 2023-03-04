@@ -91,6 +91,8 @@
     <Content Include="customJS\studentAttendanceBook.js" />
     <Content Include="customJS\studentCommon.js" />
     <Content Include="customJS\incomeAndExpenseType.js" />
+    <Content Include="img\icons\detail1.png" />
+    <Content Include="img\icons\detailClose.png" />
     <Content Include="img\icons\hasAuthority.png" />
     <Content Include="img\icons\hasNotAuthority.png" />
     <Content Include="IncomeAndExpenseList.aspx" />

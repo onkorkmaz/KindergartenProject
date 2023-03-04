@@ -108,7 +108,5 @@ namespace Entity
 
         public string Index { get; set; }
 
-
-
     }
 }
