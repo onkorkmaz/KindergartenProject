@@ -135,7 +135,7 @@ function drawList(entityList) {
             }
 
             tbody += "</td>";
-            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].Id + "\") id='tdPlus_" + entityList[i].Id + "' >+</td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].Id + "\") id='tdPlus_" + entityList[i].Id + "' ><img title='Detay için tıklayınız'  width='12' height='12' src =\"/img/icons/detail.png\"/></td>";
 
             tbody += "<td>" + entityList[i].FullName + "</td>";
 

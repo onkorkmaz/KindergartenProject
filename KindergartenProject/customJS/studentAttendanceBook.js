@@ -48,11 +48,18 @@ function successFunctionSearchStudent(search) {
     var toSearch = replaceTurkichChar(search.toLocaleLowerCase('tr-TR'));
     for (let i in packageList) {
         let studentEntity = packageList[i].StudentEntity;
-        document.getElementById("tr_Student_" + studentEntity.Id).style.display = "";
-        document.getElementById("tr_Student_Detail_" + studentEntity.Id).style.display = "none";
-        if (studentEntity.SearchText.indexOf(toSearch) <= -1) {
-            document.getElementById("tr_Student_" + studentEntity.Id).style.display = "none";
-            document.getElementById("tr_Student_Detail_" + studentEntity.Id).style.display = "none";
+
+        var tr = document.getElementById("tr_Student_" + studentEntity.Id);
+        if (tr != null || tr != undefined) {
+            tr.style.display = "";
+            if (studentEntity.SearchText.indexOf(toSearch) <= -1) {
+                tr.style.display = "none";
+            }
+        }
+
+        var trDetail = document.getElementById("tr_StudentDetail_" + studentEntity.Id);
+        if (trDetail != null || trDetail != undefined) {
+            trDetail.style.display = "none";
         }
     }   
 }
@@ -98,7 +105,7 @@ function drawStudentAttendanceBook(package) {
         year++;
     }
 
-    header = "<tr><th scope='col' width='20'>#####</th><th scope='col'>İsim Soyisim</th>";
+    header = "<tr><th scope='col' width='20' align='center'>#####</th><th scope='col' width =300px;>İsim Soyisim</th>";
 
     var endDayValue = document.getElementById("drpDays").value;
     var begin = 1;
@@ -128,7 +135,7 @@ function drawStudentAttendanceBook(package) {
     var attendanceList = package.StudentAttendanceBookEntityList;
     var studentEntity = package.StudentEntity;
     tbody += "<tr id='tr_Student_" + studentEntity.Id + "' searchText = '" + studentEntity.SearchText+"'>";
-    tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' >+</td>";
+    tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' ><img title='Detay için tıklayınız' width='12' height='12' src =\"/img/icons/detail.png\"/></td>";
     tbody += "<td>" + studentEntity.FullName + "</td>";
 
     for (let j = begin; j <= endDayValue; j++) {
@@ -158,17 +165,6 @@ function drawStudentAttendanceBook(package) {
 
     document.getElementById("lblInfo").innerHTML = year + " - " + months[month - 1][1];
 
-
-}
-
-function _onDetailRow(id) {
-    var row = document.getElementById(" " + id);
-    row.style.display = row.style.display === 'none' ? '' : 'none';
-
-    if (row.style.display == '')
-        document.getElementById("tdPlus").innerHTML = "-";
-    else
-        document.getElementById("tdPlus").innerHTML = "+";
 
 }
 

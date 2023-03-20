@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entity
 {
-    public class PaymentSummary : BaseEntity    
+    public class PaymentSummary : BaseEntity
     {
         public decimal IncomeForStudentPayment { get; set; }
 
@@ -21,7 +21,23 @@ namespace Entity
 
         }
 
-        public decimal WaitingIncomeForStudentPayment { get; set; }
+        public string EndorsmentForStudentPaymentStr
+        {
+            get
+            {
+                return (IncomeForStudentPayment + IncomeWithoutStudentPayment).ToString(CommonConst.TL);
+            }
+        }
+
+        public string TotalExpenseStr
+        {
+            get
+            {
+                return (WorkerExpenses + ExpenseWithoutWorker).ToString(CommonConst.TL);
+            }
+        }
+
+    public decimal WaitingIncomeForStudentPayment { get; set; }
 
         public string WaitingIncomeForStudentPaymentStr
         {

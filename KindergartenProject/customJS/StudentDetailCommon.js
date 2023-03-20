@@ -1,6 +1,6 @@
 ﻿function _getDetailRow(entity, colSpanFirst, colSpanSecond, uniquId) {
     let tbody = "";
-    tbody += "<tr style='display: none;' id='tr_" + uniquId + "' >";
+    tbody += "<tr style='display: none;' id='tr_StudentDetail_" + uniquId + "' >";
     {
         tbody += "<td colspan='" + colSpanFirst + "'></td >";
         tbody += "<td colspan='" + colSpanSecond + "'>";
@@ -51,11 +51,11 @@
 }
 
 function _onDetailRow(uniquId) {
-    var row = document.getElementById("tr_" + uniquId);
+    var row = document.getElementById("tr_StudentDetail_" + uniquId);
     row.style.display = row.style.display === 'none' ? '' : 'none';
 
     if (row.style.display == '')
-        document.getElementById("tdPlus_" + uniquId).innerHTML = "-";
+        document.getElementById("tdPlus_" + uniquId).innerHTML = "<a href = \"#\"><img width='12' height='12' src =\"/img/icons/detailClose.png\"/></a>";
     else
-        document.getElementById("tdPlus_" + uniquId).innerHTML = "+";
+        document.getElementById("tdPlus_" + uniquId).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız' width='12' height='12' src =\"/img/icons/detail.png\"/></a>";
 }

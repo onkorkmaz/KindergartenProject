@@ -6,19 +6,19 @@ function resetDetail() {
         var rowIncoming = document.getElementById("trIncomingPaymentDetail" + i);
         if (rowIncoming != undefined) {
             rowIncoming.style.display = 'none';
-            document.getElementById("tdIncomingPlus" + i).innerHTML = "<a href = \"#\"><img width='12' height='12' src =\"/img/icons/detail.png\"/></a>";
+            document.getElementById("tdIncomingPlus" + i).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız'  width='12' height='12' src =\"/img/icons/detail.png\"/></a>";
         }
 
         var rowWaiting = document.getElementById("trWaitingPaymentDetail" + i);
         if (rowWaiting != undefined) {
             rowWaiting.style.display = 'none';
-            document.getElementById("tdWaitingPlus" + i).innerHTML = "<a href = \"#\"><img width='12' height='12'  src =\"/img/icons/detail.png\"/></a>";
+            document.getElementById("tdWaitingPlus" + i).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız'  width='12' height='12'  src =\"/img/icons/detail.png\"/></a>";
         }
 
         var rowExpense = document.getElementById("trExpensePaymentDetail" + i);
         if (rowExpense != undefined) {
             rowExpense.style.display = 'none';
-            document.getElementById("tdExpensePlus" + i).innerHTML = "<a href = \"#\"><img width='12' height='12'  src =\"/img/icons/detail.png\"/></a>";
+            document.getElementById("tdExpensePlus" + i).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız'  width='12' height='12'  src =\"/img/icons/detail.png\"/></a>";
         }
     }
 }
@@ -45,7 +45,7 @@ function onCommonDetailRow(index, trName, tdName) {
     if (row.style.display == '')
         document.getElementById(tdName + index).innerHTML = "<a href = \"#\"><img width='12' height='12' src =\"/img/icons/detailClose.png\"/></a>";
     else
-        document.getElementById(tdName + index).innerHTML = "<a href = \"#\"><img width='12' height='12' src =\"/img/icons/detail.png\"/></a>";
+        document.getElementById(tdName + index).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız'  width='12' height='12' src =\"/img/icons/detail.png\"/></a>";
 
 }
 
@@ -67,7 +67,7 @@ function successFunctionGetExpenseSummaryDetailWithYearAndMonth(obje) {
         if (list.length > 0) {
             let tbody = "";
 
-            tbody += "<table border='1' class='table mb - 0'>";
+            tbody += "<table border='3' style='border-style:solid; border-color: #343a40;' class='table mb - 0'>";
             tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Durumu</th><th scope='col'>Tutar</th></thead>";
             var index = "";
             for (var i in list) {
@@ -161,11 +161,9 @@ function successFunctionGetIncomeAndExpenseSummaryWithYearAndMonth(obje) {
             var expenseWithoutWorker = firstSummary.ExpenseWithoutWorker;
             //var waitingIncomeForStudentPayment = firstSummary.WaitingIncomeForStudentPaymentStr;
 
-            var x = incomeForStudentPayment + incomeWithoutStudentPayment;
-            var y = workerExpenses + expenseWithoutWorker;
 
-            document.getElementById("totalEndorsement" + index).innerHTML = x;
-            document.getElementById("totalExpense" + index).innerHTML = y;
+            document.getElementById("totalEndorsement" + index).innerHTML = firstSummary.EndorsmentForStudentPaymentStr;
+            document.getElementById("totalExpense" + index).innerHTML = firstSummary.TotalExpenseStr;
 
         }
     }
@@ -178,7 +176,7 @@ function setIncomeAndWaiting(isPayment, tblName, list) {
     if (list.length > 0) {
 
         let tbody = "";
-        tbody += "<table border='1' class='table mb - 0'>";
+        tbody += "<table border='3' style='border-style:solid; border-color: #343a40;' class='table mb - 0'>";
         tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Ödeme Durumu</th><th scope='col'>Tutar</th></thead>";
 
         var index = "";
@@ -219,10 +217,10 @@ function drawSummaryWithIndex(index, thBody) {
     tbody += '<th scope="col">Diğer Gelirler</th>';
     tbody += '<th scope="col">Öğr. Maaşları</th>';
     tbody += '<th scope="col">Diğer Giderler</th>';
-    tbody += '<th scope="col">Toplam Anlık</th>';
-    tbody += '<th scope="col">Toplam Ciro</th>';
-    tbody += '<th scope="col">Toplam Gider</th>';
-    tbody += '<th scope="col">Toplam Beklenen</th>';
+    tbody += '<th scope="col">Top. Ciro(Anlık)</th>';
+    tbody += '<th scope="col">Top. Gider(Anlık)</th>';
+    tbody += '<th scope="col">Top. Anlık</th>';
+    tbody += '<th scope="col">Ay Sonu Beklenen</th>';
     tbody += '</tr>';
 
     for (var i = 0; i < index; i++) {
@@ -231,7 +229,7 @@ function drawSummaryWithIndex(index, thBody) {
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onIncomingDetailRow(' + i + ');" id="tdIncomingPlus' + i + '"><a href = "#"><img width="12" height="12" src ="/img/icons/detail.png"></a></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onIncomingDetailRow(' + i + ');" id="tdIncomingPlus' + i + '"><a href = "#"><img title="Detay için tıklayınız" width="12" height="12" src ="/img/icons/detail.png"></a></td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="color: darkgreen;" id="incomeForStudentPayment' + i + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';
@@ -239,7 +237,7 @@ function drawSummaryWithIndex(index, thBody) {
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onWaitingDetailRow(' + i + ');" id="tdWaitingPlus' + i + '"><a href = "#"><img width="12" height="12"  src ="/img/icons/detail.png"></a></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onWaitingDetailRow(' + i + ');" id="tdWaitingPlus' + i + '"><a href = "#"><img title="Detay için tıklayınız" width="12" height="12"  src ="/img/icons/detail.png"></a></td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="color: lightseagreen;" id="waitingIncomeForStudentPayment' + i + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';
@@ -249,36 +247,36 @@ function drawSummaryWithIndex(index, thBody) {
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onExpenseDetailRow(' + i + ');" id="tdExpensePlus' + i + '"><a href = "#"><img width="12" height="12"  src ="/img/icons/detail.png"></a></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onExpenseDetailRow(' + i + ');" id="tdExpensePlus' + i + '"><a href = "#"><img title="Detay için tıklayınız" width="12" height="12"  src ="/img/icons/detail.png"></a></td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="color: red;" id="expenseWithoutWorker' + i + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';
-        tbody += '</td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="currentBalance' + i + '"></span></b></td>';
+        tbody += '</td>';        
         tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalEndorsement' + i + '"></span></b></td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalExpense' + i + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="currentBalance' + i + '"></span></b></td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalBalance' + i + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '<tr id="trIncomingPaymentDetail' + i + '" style="display: none;">';
         tbody += '<td colspan="8">';
-        tbody += '<h3>Ödenen Aidatlar</h3>';
-        tbody += '<hr />';
+        tbody += '<hr/>';
+        tbody += '<h4>Ödenen Aidatlar</h4>';
         tbody += '<div class="table-responsive" id="tblIncomingPaymentDetail' + i + '">';
         tbody += '</div>';
         tbody += '</td>';
         tbody += '</tr>';
         tbody += '<tr id="trWaitingPaymentDetail' + i + '" style="display: none;">';
         tbody += '<td colspan="8">';
-        tbody += '<h3>Beklenen Aidatlar</h3>';
-        tbody += '<hr />';
+        tbody += '<hr/>';
+        tbody += '<h4>Beklenen Aidatlar</h4>';
         tbody += '<div class="table-responsive" id="tblWaitingPaymentDetail' + i + '">';
         tbody += '</div>';
         tbody += '</td>';
         tbody += '</tr>';
         tbody += '<tr id="trExpensePaymentDetail' + i + '" style="display: none;">';
         tbody += '<td colspan="8">';
-        tbody += '<h3>Giderler</h3>';
-        tbody += '<hr />';
+        tbody += '<hr/>';
+        tbody += '<h4>Giderler</h4>';
         tbody += '<div class="table-responsive" id="tblExpensePaymentDetail' + i + '">';
         tbody += '</div>';
         tbody += '</td>';
