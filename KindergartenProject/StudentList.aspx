@@ -5,7 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="/customJS/studentList.js"></script>
     <script src="/customJS/studentCommon.js"></script>
-
+    <script src="/customJS/StudentDetailCommon.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">
@@ -69,8 +69,8 @@
                 <table class="table mb-0">
                     <thead>
                         <tr>
-                            <th scope="col">&nbsp;</th>
                             <th scope="col">#####</th>
+                            <th scope="col">&nbsp;</th>
                             <th scope="col">İsim Soyisim</th>
                             <th scope="col">Veli Bilg.</th>
                             <th scope="col">Kayıt D.</th>

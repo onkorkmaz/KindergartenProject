@@ -528,6 +528,9 @@ namespace KindergartenProject
             var studentEntityList = new StudentBusiness(GetProjectType()).Get_Student().Result.Where(o => o.IsStudent == true).ToList();
             foreach (StudentEntity entity in studentEntityList)
             {
+                if (entity.AddedOn > new DateTime(yearINT, monthINT, DateTime.DaysInMonth(yearINT, monthINT)))
+                    continue;
+
                 StudentAndListOfPayment pac = new StudentAndListOfPayment();
                 pac.PaymentEntityList = new PaymentBusiness(GetProjectType()).Get_Payment(entity.Id, yearINT, monthINT).Result;
                 pac.StudentEntity = entity;
@@ -538,7 +541,7 @@ namespace KindergartenProject
                 {
                     continue;
                 }
-                
+
                 package.StudentAndListOfPaymentList.Add(pac);
             }
 
@@ -683,10 +686,10 @@ namespace KindergartenProject
                 Id = CommonFunctions.GetData<int>(id)
             };
             paymentEntity.DatabaseProcess = (paymentEntity.Id > 0) ? DatabaseProcess.Update : DatabaseProcess.Add;
-            paymentEntity.IsActive = true;
-            paymentEntity.IsDeleted = false;
-            paymentEntity.PaymentDate = DateTime.Now;
-            paymentEntity.IsPayment = null;
+            //paymentEntity.IsActive = true;
+            //paymentEntity.IsDeleted = false;
+            //paymentEntity.PaymentDate = DateTime.Now;
+            //paymentEntity.IsPayment = null;
             paymentEntity.PaymentType = CommonFunctions.GetData<short>(paymentType);
 
             DataResultArgs<PaymentEntity> resultSet = new PaymentBusiness(GetProjectType()).Set_Payment(paymentEntity);

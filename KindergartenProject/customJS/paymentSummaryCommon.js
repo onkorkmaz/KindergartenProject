@@ -136,9 +136,7 @@ function successFunctionGetIncomeAndExpenseSummaryWithYearAndMonth(obje) {
             document.getElementById("waitingIncomeForStudentPayment" + index).innerHTML = firstSummary.WaitingIncomeForStudentPaymentStr;
             document.getElementById("incomeWithoutStudentPayment" + index).innerHTML = firstSummary.IncomeWithoutStudentPaymentStr;
             document.getElementById("workerExpenses" + index).innerHTML = firstSummary.WorkerExpensesStr;
-
             document.getElementById("expenseWithoutWorker" + index).innerHTML = firstSummary.ExpenseWithoutWorkerStr;
-
             var currentBalance = document.getElementById("currentBalance" + index);
             currentBalance.innerHTML = firstSummary.CurrentBalanceStr;
             if (firstSummary.CurrentBalance < 0) {
@@ -156,6 +154,19 @@ function successFunctionGetIncomeAndExpenseSummaryWithYearAndMonth(obje) {
             else {
                 totalBalance.style.color = "green";
             }
+
+            var incomeForStudentPayment = firstSummary.IncomeForStudentPayment;
+            var incomeWithoutStudentPayment = firstSummary.IncomeWithoutStudentPayment;
+            var workerExpenses = firstSummary.WorkerExpenses;
+            var expenseWithoutWorker = firstSummary.ExpenseWithoutWorker;
+            //var waitingIncomeForStudentPayment = firstSummary.WaitingIncomeForStudentPaymentStr;
+
+            var x = incomeForStudentPayment + incomeWithoutStudentPayment;
+            var y = workerExpenses + expenseWithoutWorker;
+
+            document.getElementById("totalEndorsement" + index).innerHTML = x;
+            document.getElementById("totalExpense" + index).innerHTML = y;
+
         }
     }
     else {
@@ -208,8 +219,10 @@ function drawSummaryWithIndex(index, thBody) {
     tbody += '<th scope="col">Diğer Gelirler</th>';
     tbody += '<th scope="col">Öğr. Maaşları</th>';
     tbody += '<th scope="col">Diğer Giderler</th>';
-    tbody += '<th scope="col">Anlık Toplam</th>';
-    tbody += '<th scope="col">Beklenen Toplam</th>';
+    tbody += '<th scope="col">Toplam Anlık</th>';
+    tbody += '<th scope="col">Toplam Ciro</th>';
+    tbody += '<th scope="col">Toplam Gider</th>';
+    tbody += '<th scope="col">Toplam Beklenen</th>';
     tbody += '</tr>';
 
     for (var i = 0; i < index; i++) {
@@ -242,6 +255,8 @@ function drawSummaryWithIndex(index, thBody) {
         tbody += '</table>';
         tbody += '</td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="currentBalance' + i + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalEndorsement' + i + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalExpense' + i + '"></span></b></td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalBalance' + i + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '<tr id="trIncomingPaymentDetail' + i + '" style="display: none;">';
@@ -301,6 +316,7 @@ function loadSummaryWithYearAndMonth(year, month) {
     loadExpenseSummaryDetailWithYearAndMonth(year, month, 0);
     loadPaymentSummaryDetailWithYearAndMonth(year, month, 0);
     loadIncomeAndExpenseSummaryWithYearAndMonth(year, month, 0);
-
 }
+
+
 

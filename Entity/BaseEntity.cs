@@ -16,7 +16,7 @@ namespace Entity
         {
             get
             {
-                return AddedOn.ToString("yyyy-MM-ddTHH:mm:ss");
+                return AddedOn.ToString("yyyy-MM-dd");
             }
         }
         public DateTime DeletedOn { get; set; }

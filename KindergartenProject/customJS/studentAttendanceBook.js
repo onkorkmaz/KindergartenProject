@@ -128,7 +128,7 @@ function drawStudentAttendanceBook(package) {
     var attendanceList = package.StudentAttendanceBookEntityList;
     var studentEntity = package.StudentEntity;
     tbody += "<tr id='tr_Student_" + studentEntity.Id + "' searchText = '" + studentEntity.SearchText+"'>";
-    tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus' >+</td>";
+    tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' >+</td>";
     tbody += "<td>" + studentEntity.FullName + "</td>";
 
     for (let j = begin; j <= endDayValue; j++) {
@@ -151,7 +151,7 @@ function drawStudentAttendanceBook(package) {
     }
 
     tbody += "</tr> ";
-    tbody += _getDetailRow(package);
+    tbody += _getDetailRow(package.StudentEntity, 1, 4, studentEntity.Id);
 
 
     document.getElementById("studentAttendanceList").innerHTML = tbody;
@@ -161,54 +161,8 @@ function drawStudentAttendanceBook(package) {
 
 }
 
-function _getDetailRow(package) {
-    let tbody = "";
-
-    var studentEntity = package.StudentEntity;
-
-    tbody += "<tr style='display: none;' id='tr_Student_Detail_" + studentEntity.Id + "' >";
-    {
-        tbody += "<td colspan='1'></td >";
-        tbody += "<td colspan='4'>";
-        {
-            tbody += "<table border='1' width='100%' cellpadding='8'>";
-            {
-                tbody += "<tr><td width='150'><b>TCKN</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.CitizenshipNumberStr + "</td></tr>";
-
-                tbody += "<tr><td width='150'><b>Anne Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.MotherName + "</td></tr>";
-                tbody += "<tr><td width='150'><b>Anne Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + studentEntity.MotherPhoneNumber + "'>" + studentEntity.MotherPhoneNumber + "</a></td></tr>";
-
-                tbody += "<tr><td width='150'><b>Baba Adı</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.FatherName + "</td></tr>";
-                tbody += "<tr><td width='150'><b>Baba Tel</b></td><td width='20'>:</td><td style='text-align: left'><a href='tel:" + studentEntity.FatherPhoneNumber + "'>" + studentEntity.FatherPhoneNumber + "</a></td></tr>";
-
-                tbody += "<tr><td width='150'><b>Konuşulan ücret</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.SpokenPriceStr + "</td></tr>";
-                tbody += "<tr><td width='150'><b>Sınıf</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.ClassName + "</td></tr>";
-
-                tbody += "<tr><td width='150'><b>Ana Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.MainTeacher + "</td></tr>";
-                tbody += "<tr><td width='150'><b>Yardımcı Öğretmen</b></td><td width='20'>:</td><td style='text-align: left'>" + studentEntity.HelperTeacher + "</td></tr>";
-
-                tbody += "<tr><td><b>Görüşülme tarihi</b></td><td>:</td><td style='text-align: left'>" + studentEntity.DateOfMeetingWithFormat + "</td></tr>";
-                tbody += "<tr><td><b>Email</b></td><td>:</td><td style='text-align: left'>" + studentEntity.EmailStr + "</td></tr>";
-                tbody += "<tr><td><b>Notlar</b></td><td>:</td><td style='text-align: left'>" + studentEntity.NotesStr + "</td></tr>";
-                if (studentEntity.SchoolClassDesc != undefined && studentEntity.SchoolClassDesc != null && studentEntity.SchoolClassDesc != '') {
-                    tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'>" + studentEntity.SchoolClassDesc + "</td></tr>";
-                }
-                else {
-                    tbody += "<tr><td><b>O. Sınıfı</b></td><td>:</td><td style='text-align: left'> - </td></tr>";
-
-                }
-            }
-            tbody += "</table>";
-        }
-        tbody += "</td > ";
-    }
-    tbody += "</tr>";
-
-    return tbody;
-}
-
 function _onDetailRow(id) {
-    var row = document.getElementById("tr_Student_Detail_" + id);
+    var row = document.getElementById(" " + id);
     row.style.display = row.style.display === 'none' ? '' : 'none';
 
     if (row.style.display == '')

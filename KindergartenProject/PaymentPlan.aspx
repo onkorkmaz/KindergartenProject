@@ -5,6 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="/customJS/paymentList.js"></script>
     <script src="/customJS/paymentCommon.js"></script>
+    <script src="/customJS/StudentDetailCommon.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">

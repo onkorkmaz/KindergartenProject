@@ -46,11 +46,11 @@ function GetStudentAndListOfPaymentListPackageWithMonth() {
     var jsonData = "{year:" + JSON.stringify(year) + ", month: " + JSON.stringify(month) + "  }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentAndListOfPaymentListPackageWithMonth',
         jsonData,
-        successFunctionCurrentPage,
+        successFunctionPaymentListPage,
         errorFunction);
 }
 
-function successFunctionCurrentPage(objects) {
+function successFunctionPaymentListPage(objects) {
 
     studentAndListOfPaymentList = objects.StudentAndListOfPaymentList;
     drawList(studentAndListOfPaymentList, objects.PaymentTypeEntityList, objects.Year, objects.Month);
@@ -59,7 +59,7 @@ function successFunctionCurrentPage(objects) {
 function drawList(package, paymentTypeList, year,month) {
 
 
-    var tbody = "<table class='table mb - 0'><thead><tr><th>("+months[month-1][1]+" Ayı)</th><th scope='col'>İsim</th>";
+    var tbody = "<table class='table mb - 0'><thead><tr><th>" + months[month - 1][1] +" Ayı</th><th>&nbsp;</th><th scope='col'>İsim</th>";
     var colspan = 2;
     for (var i in paymentTypeList) {
 
@@ -97,9 +97,12 @@ function drawList(package, paymentTypeList, year,month) {
             tbody += "<a href = \"/odeme-plani-detay/" + studentEntity.Id + "\" style='cursor: pointer;'><img src =\"/img/icons/paymentPlan.png\" title='Ödeme detayı...'/></a>";
             tbody += " <a href = \"/email-gonder/" + studentEntity.Id + "\" style='cursor: pointer;'><img src =\"/img/icons/email.png\" title='Email Gönder'/></a>";
             tbody += "</td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' >+</td>";
+
             tbody += "<td>" + studentEntity.FullName + "</td>";
             tbody += drawPayment(paymentTypeList, year, month, 1, package[i]);
             tbody += "</tr>";
+            tbody += _getDetailRow(studentEntity, 2, 4, studentEntity.Id);
         }
 
         tbody += "</tbody></table>";

@@ -49,3 +49,4 @@ function txtSearchStudent_Change(searchValue) {
     successFunctionSearchStudent(searchValue);
     SetCacheData("searchValue", searchValue);
 }
+
