@@ -41,11 +41,14 @@ function successFunctionGetWorksers(obje) {
             else
                 tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
 
+            tbody += "<td>" + entityList[i].AuthorityTypeName + "</td>";
+
             if (entityList[i].IsActive)
                 tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
             else
                 tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
 
+           
             tbody += "<td>" + convertToJavaScriptDate(entityList[i].UpdatedOn) + "</td>";
             tbody += "</tr> ";
         }
@@ -68,6 +71,7 @@ function validateAndSave()
     var isActive = document.getElementById("chcIsActive").checked;
     var isTeacher = document.getElementById("chcIsTeacher").checked;
     var phoneNumber = document.getElementById("txtPhoneNumber").value;
+    var authorityId = document.getElementById("drpAuthorityType").value;
 
     var workerEntity = {};
     workerEntity["Name"] = name;
@@ -81,6 +85,7 @@ function validateAndSave()
 
     workerEntity["IsActive"] = isActive;
     workerEntity["IsTeacher"] = isTeacher;
+    workerEntity["AuthorityTypeId"] = authorityId;
 
     var jsonData = "{ id:" + JSON.stringify(id) + ", workerEntity: " + JSON.stringify(workerEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateWorker', jsonData, successFunctionInsertOrUpdateWorker, errorFunction);
@@ -99,6 +104,10 @@ function validate() {
     obje = document.getElementById("txtSurname").value;
     if (IsNullOrEmpty(obje))
         errorMessage += "Soyisim boş bırakılamaz\n";
+
+    obje = document.getElementById("drpAuthorityType").value;
+    if (IsNullOrEmpty(obje))
+        errorMessage += "Yetki Türü boş bırakılamaz\n";
 
     //obje = document.getElementById("txtPrice").value;
     //if (IsNullOrEmpty(obje))
@@ -169,6 +178,8 @@ function successFunctionGetWorkerWithId(obje) {
         document.getElementById("chcIsActive").checked = entity.IsActive;
         document.getElementById("chcIsTeacher").checked = entity.IsTeacher;
         document.getElementById("txtPhoneNumber").value = entity.PhoneNumber;
+        document.getElementById("drpAuthorityType").value = entity.AuthorityTypeId;
+
 
         document.getElementById("btnSubmit").value = "Güncelle";
         document.getElementById("btnSubmit").disabled = "";

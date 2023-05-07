@@ -23,10 +23,10 @@ namespace KindergartenProject
             string machineName = Environment.MachineName;
             if (machineName == "DESKTOP-4ISBFD4" && !Page.IsPostBack)
             {
-                txtUserName.Text = "yeliz";
-                txtPassword.Text = "1";
-                //drpProjectType.SelectedValue = "2";
-                //btnLogin_Click(null, null);
+                txtUserName.Text = "onur";
+                txtPassword.Text = "ONkor";
+                drpProjectType.SelectedValue = "1";
+                btnLogin_Click(null, null);
             }
         }
 

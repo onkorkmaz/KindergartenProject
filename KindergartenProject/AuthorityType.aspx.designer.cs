@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class Authority
+    public partial class AuthorityType
     {
 
         /// <summary>
@@ -42,30 +42,57 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.HiddenField hdnId;
 
         /// <summary>
-        /// drpAuthorityType control.
+        /// txtAuthorityType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drpAuthorityType;
+        protected global::System.Web.UI.WebControls.TextBox txtAuthorityType;
 
         /// <summary>
-        /// tblAuthorityScreen control.
+        /// txtDescription control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tblAuthorityScreen;
+        protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
-        /// tbAuthorityList control.
+        /// chcIsActive control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbAuthorityList;
+        protected global::System.Web.UI.WebControls.CheckBox chcIsActive;
+
+        /// <summary>
+        /// btnSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
+
+        /// <summary>
+        /// btnCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancel;
+
+        /// <summary>
+        /// tbAuthorityTypeList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbAuthorityTypeList;
     }
 }

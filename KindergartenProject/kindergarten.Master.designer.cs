@@ -168,6 +168,42 @@ namespace KindergartenProject
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAuthority;
 
         /// <summary>
+        /// menuAuthorityScreen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAuthorityScreen;
+
+        /// <summary>
+        /// menuAuthorityType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAuthorityType;
+
+        /// <summary>
+        /// menuClearCache control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuClearCache;
+
+        /// <summary>
+        /// menuAuthorityGenerator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAuthorityGenerator;
+
+        /// <summary>
         /// liExit control.
         /// </summary>
         /// <remarks>

@@ -121,7 +121,7 @@ namespace KindergartenProject
                     List<ClassEntity> classList = resultSetClassList.Result;
                     List<ClassEntity> list = new List<ClassEntity>();
 
-                    list.Add(new ClassEntity() { Id = -1 });
+                    list.Add(new ClassEntity() { Id = -1, Name = "Seçiniz..." });
                     if (resultSetClassList.Result != null)
                     {
 

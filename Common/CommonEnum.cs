@@ -32,7 +32,12 @@ namespace Common
         IncomeAndExpenseList = 9,
         StudentAttendanceBookList = 10,
         IncomeAndExpenseType = 11,
-        Authority = 12
+        Authority = 12,
+        AuthorityScreen = 13,
+        ClearCache = 14,
+        AuthorityGenerator = 15,
+        AuthorityType = 16,
+
     }
 
     public enum PaymentTypeEnum
@@ -62,33 +67,10 @@ namespace Common
 		        ,'ğ','g')
 	        ,'ş','s'),
         'ı','i')
-        + ' = ' +convert(varchar(50), id)+',' from tbAuthority a
+        + ' = ' +convert(varchar(50), id)+',' from tbAuthorityScreen a
         where isDeleted=0
      */
     #endregion
-
-    public enum Authority
-    {
-        none = 0,
-        ogrenci_islem = 1,
-        ogrenci_izleme = 2,
-        odeme_plani_izleme = 3,
-        odeme_plani_ozet_izleme = 4,
-        yoklama_izleme = 5,
-        yoklama_islem = 6,
-        gelir_gider_izleme = 7,
-        gelir_gider_islem = 8,
-        odeme_tipleri_izleme = 9,
-        odeme_tipleri_islem = 10,
-        sinif_izleme = 11,
-        sinif_islem = 12,
-        çalisan_yonetimi_izleme = 13,
-        çalisan_yonetimi_islem = 14,
-        gelir_gider_tipi_islem = 15,
-        gelir_gider_tipi_izleme = 16,
-        sifre_degistir_islem = 17,
-        sifre_degistir_izleme = 18,
-    }
 
     public enum AuthorityTypeEnum
     {
@@ -121,7 +103,10 @@ namespace Common
         None = 0,
         StudentList = 1,
         PaymentList = 2,
-        AttendanceBook = 3
+        AttendanceBook = 3,
+        AuthorityScreen = 4,
+        Authority = 5,
+        AuthorityType = 6,
 
     }
 }

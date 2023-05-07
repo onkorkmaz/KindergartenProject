@@ -7,7 +7,7 @@ using System.Web.UI;
 
 namespace KindergartenProject
 {
-    public partial class CacheClear : System.Web.UI.Page
+    public partial class AuthorityType : System.Web.UI.Page
     {
 
         protected void Page_Load(object sender, EventArgs e)
@@ -23,7 +23,7 @@ namespace KindergartenProject
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
-                master.SetActiveMenuAttiributes(MenuList.ClearCache);
+                master.SetActiveMenuAttiributes(MenuList.AuthorityType);
                 master.SetVisibleSearchText(false);
             }
 

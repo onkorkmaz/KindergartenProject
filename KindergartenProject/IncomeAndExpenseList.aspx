@@ -17,14 +17,20 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-2 row">
-                        <label class="col-form-label col-sm-2 text-sm-left">Yıl :</label>
+                        <label class="col-form-label col-sm-1 text-sm-left">Yıl :</label>
                         <div class="col-sm-2">
                             <asp:DropDownList runat="server" ID="drpYear" CssClass="form-control" onchange="drpYearMonthChanged('year');">
                             </asp:DropDownList>
                         </div>
-                        <label class="col-form-label col-sm-2 text-sm-left">Ay :</label>
+                        <label class="col-form-label col-sm-1 text-sm-left">Ay :</label>
                         <div class="col-sm-2">
                             <asp:DropDownList runat="server" ID="drpMonth" CssClass="form-control" onchange="drpYearMonthChanged('month');">
+                            </asp:DropDownList>
+                        </div>
+
+                        <label class="col-form-label col-sm-2 text-sm-left">Gider Tipi:</label>
+                        <div class="col-sm-2">
+                            <asp:DropDownList runat="server" ID="drpIncomeAndExpenseType" CssClass="form-control" onchange="onIncomeAndExpenseTypeChanged();">
                             </asp:DropDownList>
                         </div>
 
@@ -47,7 +53,6 @@
             <table class="table mb-0">
                 <thead>
                     <tr>
-                        <th scope="col">#####</th>
                         <th scope="col">Gider / Gelir</th>
                         <th scope="col">Gider / Gelir Adı</th>
                         <th scope="col">Tutar</th>

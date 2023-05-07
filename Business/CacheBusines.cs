@@ -40,23 +40,25 @@ namespace Business
         {
             get
             {
-                if (IsCacheAvailable)
+                if (dictCacheType.ContainsKey(_cacheType))
                 {
-                    return _cacheList.List;
+                    var result = dictCacheType[_cacheType];
+                    List<T> cacheList = result.List;
+                    if (cacheList != null && result.EndDate > DateTime.Now)
+                    {
+                        return cacheList;
+                    }
+                    else
+                    {
+                        return dictCacheType[_cacheType].List = new List<T>();
+                    }
                 }
-                return new List<T>();
-            }
-        }
-
-        private CacheEntity<T> _cacheList
-        {
-            get
-            {
-                if(IsCacheAvailable)
+                else
                 {
-                    return dictCacheType[_cacheType];
+                    dictCacheType.Add(_cacheType, new CacheEntity<T>(_cacheType));
+                    dictCacheType[_cacheType].List = new List<T>();
+                    return dictCacheType[_cacheType].List;
                 }
-                return null;
             }
         }
 
@@ -81,7 +83,7 @@ namespace Business
                 return;
             }
 
-            CacheEntity<T> cache = _cacheList;
+            CacheEntity<T> cache = dictCacheType[_cacheType];
             if (cache != null)
             {
                 object list = cache.List;

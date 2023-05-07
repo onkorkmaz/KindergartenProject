@@ -8,6 +8,7 @@ using Common;
 using System.Web.Script.Services;
 using System.Web;
 using System.Data;
+using System.Text;
 
 namespace KindergartenProject
 {
@@ -39,19 +40,23 @@ namespace KindergartenProject
         }
 
 
-        #region Authority
-
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<AuthorityEntity>> GetAuthorityList()
+        public DataResultArgs<List<AuthorityTypeEntity>> GetAuthorityTypeList()
         {
-            return new AuthorityBusiness(GetProjectType()).Get_Authority(new SearchEntity() { IsDeleted = false });
+            return new AuthorityTypeBusiness(GetProjectType()).Get_AuthorityType(new SearchEntity() { IsDeleted = false });
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> InsertOrUpdateAuthority(string id, AuthorityEntity authorityEntity)
+        public DataResultArgs<List<AuthorityScreenEntity>> GetAuthorityScreenList()
+        {
+            return new AuthorityScreenBusiness(GetProjectType()).Get_AuthorityScreen(new SearchEntity() { IsDeleted = false });
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> InsertOrUpdateAuthorityScreen(string id, AuthorityScreenEntity authorityScreenEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
-            authorityEntity.Id = 0;
+            authorityScreenEntity.Id = 0;
             if (!string.IsNullOrEmpty(id))
             {
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
@@ -59,16 +64,36 @@ namespace KindergartenProject
                 {
                     currentProcess = DatabaseProcess.Update;
                 }
-                authorityEntity.Id = idInt;
+                authorityScreenEntity.Id = idInt;
             }
 
-            authorityEntity.DatabaseProcess = currentProcess;
+            authorityScreenEntity.DatabaseProcess = currentProcess;
 
-            return new AuthorityBusiness(GetProjectType()).Set_Authority(authorityEntity);
+            return new AuthorityScreenBusiness(GetProjectType()).Set_AuthorityScreen(authorityScreenEntity);
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> DeleteAuthority(string id)
+        public DataResultArgs<bool> InsertOrUpdateAuthorityType(string id, AuthorityTypeEntity authorityTypeEntity)
+        {
+            DatabaseProcess currentProcess = DatabaseProcess.Add;
+            authorityTypeEntity.Id = 0;
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    currentProcess = DatabaseProcess.Update;
+                }
+                authorityTypeEntity.Id = idInt;
+            }
+
+            authorityTypeEntity.DatabaseProcess = currentProcess;
+
+            return new AuthorityTypeBusiness(GetProjectType()).Set_AuthorityType(authorityTypeEntity);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> DeleteAuthorityScreen(string id)
         {
             DataResultArgs<bool> result = new DataResultArgs<bool>
             {
@@ -81,8 +106,8 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    AuthorityEntity entity = new AuthorityEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
-                    result = new AuthorityBusiness(GetProjectType()).Set_Authority(entity);
+                    AuthorityScreenEntity entity = new AuthorityScreenEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
+                    result = new AuthorityScreenBusiness(GetProjectType()).Set_AuthorityScreen(entity);
                 }
             }
 
@@ -90,9 +115,31 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<AuthorityEntity> GetAuthorityWithId(string id)
+        public DataResultArgs<bool> DeleteAuthorityType(string id)
         {
-            DataResultArgs<AuthorityEntity> result = new DataResultArgs<AuthorityEntity>
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true,
+                ErrorDescription = "Id bilgisine ulaşılamadı"
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    AuthorityTypeEntity entity = new AuthorityTypeEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
+                    result = new AuthorityTypeBusiness(GetProjectType()).Set_AuthorityType(entity);
+                }
+            }
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<AuthorityScreenEntity> GetAuthorityScreenWithId(string id)
+        {
+            DataResultArgs<AuthorityScreenEntity> result = new DataResultArgs<AuthorityScreenEntity>
             {
                 HasError = true,
                 ErrorDescription = "Entity ulaşılamadı..."
@@ -103,7 +150,7 @@ namespace KindergartenProject
                 int.TryParse(Cipher.Decrypt(id), out var idInt);
                 if (idInt > 0)
                 {
-                    result = new AuthorityBusiness(GetProjectType()).Get_AuthorityWithId(CommonFunctions.GetData<int>(id));
+                    result = new AuthorityScreenBusiness(GetProjectType()).Get_AuthorityScreenWithId(CommonFunctions.GetData<int>(id));
                     if (result.Result != null)
                         result.HasError = false;
                 }
@@ -112,7 +159,28 @@ namespace KindergartenProject
             return result;
         }
 
-        #endregion Authority
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<AuthorityTypeEntity> GetAuthorityTypeWithId(string id)
+        {
+            DataResultArgs<AuthorityTypeEntity> result = new DataResultArgs<AuthorityTypeEntity>
+            {
+                HasError = true,
+                ErrorDescription = "Entity ulaşılamadı..."
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    result = new AuthorityTypeBusiness(GetProjectType()).Get_AuthorityTypeWithId(CommonFunctions.GetData<int>(id));
+                    if (result.Result != null)
+                        result.HasError = false;
+                }
+            }
+
+            return result;
+        }
 
 
         [WebMethod(EnableSession = true)]
@@ -737,6 +805,12 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<IncomeAndExpenseEntity>> GetIncomeAndExpenseWithIncomeAndExpenseTypeId(int year, int incomeAndExpenseTypeId)
+        {
+            return new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpenseWithIncomeAndExpenseTypeId(new SearchEntity() { IsDeleted = false }, year, incomeAndExpenseTypeId);
+        }
+
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeleteClass(string id)
         {
             DataResultArgs<bool> result = new DataResultArgs<bool>();
@@ -897,6 +971,27 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public List<AuthorityEntity> GetActiveAuthority(string authorityTypeId)
+        {
+            return new AuthorityBusiness(GetProjectType()).Get_ActiveAuthority(CommonFunctions.GetData<int>(authorityTypeId));
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> AuthorityCheckBoxChange(int id, int authorityScreenId, int authorityTypeId,  bool hasAuthority)
+        {
+            AuthorityEntity entity = new AuthorityEntity();
+            entity.DatabaseProcess = (id <= 0) ? DatabaseProcess.Add : DatabaseProcess.Update;
+            entity.Id = id;
+            entity.IsActive = true;
+            entity.AuthorityScreenId = authorityScreenId;
+            entity.AuthorityTypeId = authorityTypeId;
+            entity.HasAuthority = hasAuthority;
+            entity.ProjectType = GetProjectType();
+            return new AuthorityBusiness(GetProjectType()).Set_Authority(entity);
+        }
+
+
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<IncomeAndExpenseEntity> GetIncomeAndExpenseWithId(string id)
         {
             DataResultArgs<IncomeAndExpenseEntity> result = new DataResultArgs<IncomeAndExpenseEntity>
@@ -917,6 +1012,35 @@ namespace KindergartenProject
             }
 
             return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+
+        public string GetAuthorityGenerateList()
+        {
+            List<AuthorityScreenEntity> lst = new AuthorityScreenBusiness(GetProjectType()).Get_AuthorityScreen(new SearchEntity() { IsActive = true, IsDeleted = false }).Result.OrderBy(o => o.Id).ToList();
+
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("public enum AuthorityEnum");
+            sb.AppendLine("{");
+            sb.AppendLine("");
+            sb.AppendLine("");
+
+            foreach (AuthorityScreenEntity entity in lst)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine("/// " + entity.Description);
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine(CommonFunctions.ReplaceTurkishChar(entity.Name) + " = " + entity.Id + ",");
+                sb.AppendLine("");
+            }
+
+            sb.AppendLine("");
+            sb.AppendLine("}");
+            sb.AppendLine("");
+
+            return sb.ToString();
         }
 
     }

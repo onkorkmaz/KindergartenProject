@@ -58,6 +58,14 @@
                     </div>
                 </div>
 
+                 <div class="mb-3 row">
+                    <label class="col-form-label col-sm-2 text-sm-left">Yetki Tipi</label>
+                    <div class="col-sm-10">
+                        <asp:DropDownList runat="server" ID="drpAuthorityType" CssClass="form-control">
+                                </asp:DropDownList>
+                    </div>
+                </div>
+
                 <div class="mb-3 row">
                     <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>
                     <div class="col-sm-10">
@@ -88,6 +96,7 @@
                             <th scope="col">Ücret</th>
                             <th scope="col">Tel</th>
                             <th scope="col">Öğretmen</th>
+                            <th scope="col">Yetki</th>
                             <th scope="col">Aktif</th>
                             <th scope="col">Güncellenme Tarihi</th>
                         </tr>

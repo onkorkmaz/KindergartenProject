@@ -1,15 +1,16 @@
-﻿using Business;
-using Common;
+﻿using Common;
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class CacheClear : System.Web.UI.Page
+    public partial class AuthorityCreator : System.Web.UI.Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
             AdminEntity adminEntity = null;
@@ -23,7 +24,7 @@ namespace KindergartenProject
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
-                master.SetActiveMenuAttiributes(MenuList.ClearCache);
+                master.SetActiveMenuAttiributes(MenuList.AuthorityGenerator);
                 master.SetVisibleSearchText(false);
             }
 

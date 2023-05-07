@@ -4,6 +4,7 @@ using Entity;
 using System;
 using System.Collections.Generic;
 using System.Web.UI;
+using System.Linq;
 
 namespace KindergartenProject
 {
@@ -29,6 +30,35 @@ namespace KindergartenProject
 
             controlAuthorization(adminEntity);
 
+            if (!Page.IsPostBack)
+            {
+                DataResultArgs<List<AuthorityTypeEntity>> resultSet = new AuthorityTypeBusiness(adminEntity.ProjectType).Get_AuthorityType(new SearchEntity() { IsDeleted = false, IsActive = true });
+
+
+                if (resultSet.HasError)
+                {
+                    divInformation.ErrorText = resultSet.ErrorDescription;
+                    return;
+                }
+                else
+                {
+                    List<AuthorityTypeEntity> listOrder = resultSet.Result.OrderBy(o => o.Name).ToList();
+                    List <AuthorityTypeEntity> list = new List<AuthorityTypeEntity>();
+                    list.Add(new AuthorityTypeEntity() { Id = -1, Name = "Seçiniz..." });
+                    if (resultSet.Result != null)
+                    {
+                        foreach (AuthorityTypeEntity entity in listOrder)
+                        {
+                            list.Add(entity);
+                        }
+                    }
+
+                    drpAuthorityType.DataSource = list;
+                    drpAuthorityType.DataValueField = "Id";
+                    drpAuthorityType.DataTextField = "Name";
+                    drpAuthorityType.DataBind();
+                }
+            }
         }
 
         private void controlAuthorization(AdminEntity adminEntity)

@@ -79,10 +79,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CacheClear.aspx" />
+    <Content Include="AuthorityCreator.aspx" />
     <Content Include="Authority.aspx" />
-    <Content Include="customJS\cacheClear.js" />
+    <Content Include="AuthorityType.aspx" />
+    <Content Include="CacheClear.aspx" />
+    <Content Include="AuthorityScreen.aspx" />
+    <Content Include="customJS\authorityCreator.js" />
     <Content Include="customJS\authority.js" />
+    <Content Include="customJS\authorityType.js" />
+    <Content Include="customJS\cacheClear.js" />
+    <Content Include="customJS\authorityScreen.js" />
     <Content Include="customJS\default.js" />
     <Content Include="customJS\incomeAndExpenseList.js" />
     <Content Include="customJS\incomeAndExpense.js" />
@@ -192,12 +198,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheClear.aspx.cs">
-      <DependentUpon>CacheClear.aspx</DependentUpon>
+    <Compile Include="AuthorityCreator.aspx.cs">
+      <DependentUpon>AuthorityCreator.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="CacheClear.aspx.designer.cs">
-      <DependentUpon>CacheClear.aspx</DependentUpon>
+    <Compile Include="AuthorityCreator.aspx.designer.cs">
+      <DependentUpon>AuthorityCreator.aspx</DependentUpon>
     </Compile>
     <Compile Include="Authority.aspx.cs">
       <DependentUpon>Authority.aspx</DependentUpon>
@@ -205,6 +211,27 @@
     </Compile>
     <Compile Include="Authority.aspx.designer.cs">
       <DependentUpon>Authority.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AuthorityType.aspx.cs">
+      <DependentUpon>AuthorityType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AuthorityType.aspx.designer.cs">
+      <DependentUpon>AuthorityType.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CacheClear.aspx.cs">
+      <DependentUpon>CacheClear.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CacheClear.aspx.designer.cs">
+      <DependentUpon>CacheClear.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AuthorityScreen.aspx.cs">
+      <DependentUpon>AuthorityScreen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AuthorityScreen.aspx.designer.cs">
+      <DependentUpon>AuthorityScreen.aspx</DependentUpon>
     </Compile>
     <Compile Include="common\CommonUIFunction.cs" />
     <Compile Include="IncomeAndExpenseList.aspx.cs">

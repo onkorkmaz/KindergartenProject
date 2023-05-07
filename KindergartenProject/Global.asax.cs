@@ -48,8 +48,16 @@ namespace KindergartenProject
             routes.MapPageRoute("gelir-gider-ekle", "gelir-gider-ekle", "~/IncomeAndExpenseAdd.aspx");
             routes.MapPageRoute("gelir-gider-listesi", "gelir-gider-listesi", "~/IncomeAndExpenseList.aspx");
             routes.MapPageRoute("gelir-gider-tipi", "gelir-gider-tipi", "~/IncomeAndExpenseType.aspx");
-            routes.MapPageRoute("yetki-tipi", "yetki-tipi", "~/Authority.aspx");
+            routes.MapPageRoute("yetki-tipi-tanimlama", "yetki-tipi-tanimlama", "~/AuthorityScreen.aspx");
+            routes.MapPageRoute("yetki-tipi", "yetki-tipi", "~/AuthorityType.aspx");
+
+            
+            routes.MapPageRoute("yetkilendirme", "yetkilendirme", "~/Authority.aspx");
+
             routes.MapPageRoute("cache-clear", "cache-clear", "~/CacheClear.aspx");
+            routes.MapPageRoute("authority-generator", "authority-generator", "~/AuthorityCreator.aspx");
+
+            
 
             routes.MapPageRoute("cikis", "cikis", "~/Exit.aspx");
 

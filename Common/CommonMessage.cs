@@ -12,7 +12,7 @@ namespace Common
 
         public const string Url = "https://benimdunyamogrencitakip.com";
 
-        public const string TL = "###,###,###.##";
+        public const string TL = "###,###,##0.##";
     }
 
     public static class RecordMessage

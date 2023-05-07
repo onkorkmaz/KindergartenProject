@@ -24,12 +24,23 @@ namespace KindergartenProject
             {
                 if (CurrentContex.Contex == null)
                     CurrentContex.Contex = Session[CommonConst.Admin] as AdminEntity;
+
+                if (CurrentContex.Contex != null && CurrentContex.Contex.AuthorityTypeEnum != AuthorityTypeEnum.Developer)
+                {
+                    menuClearCache.Visible = false;
+                    menuAuthorityGenerator.Visible = false;
+                    menuAuthority.Visible = false;
+                    menuAuthorityScreen.Visible = false;
+                    menuAuthorityType.Visible = false;
+
+                }
             }
 
             if (KinderGartenWebService.List.ContainsKey(ListKey.SearchValue))
                 txtSearchStudent.Text = KinderGartenWebService.List[ListKey.SearchValue];
 
             setNavbarVisible(SelectedMenuList != MenuList.Login);
+
         }
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
@@ -59,7 +70,12 @@ namespace KindergartenProject
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ClassList, menuClassList);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.WorkerList, menuWorkerList);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.IncomeAndExpenseType, menuIncomeAndExpenseType);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.AuthorityScreen, menuAuthorityScreen);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.AuthorityType, menuAuthorityType);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.Authority, menuAuthority);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ClearCache, menuClearCache);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.AuthorityGenerator, menuAuthorityGenerator);
+
         }
 
         private void clearSubMenuStyle()
