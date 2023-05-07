@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Common
@@ -32,6 +33,26 @@ namespace Common
             }
         }
 
+
+        public static string GetMonthName(int month)
+        {
+            List<string> lstMonth = new List<string>();
+            lstMonth.Add("Ocak");
+            lstMonth.Add("Şubat");
+            lstMonth.Add("Mart");
+            lstMonth.Add("Nisan");
+            lstMonth.Add("Mayıs");
+            lstMonth.Add("Haziran");
+            lstMonth.Add("Temmuz");
+            lstMonth.Add("Ağustos");
+            lstMonth.Add("Eylül");
+            lstMonth.Add("Ekim");
+            lstMonth.Add("Kasım");
+            lstMonth.Add("Aralık");
+
+            return lstMonth[month];
+            
+        }
         private static T ChangeType<T>(object value, Type t)
         {
             if (t.IsGenericType &&
