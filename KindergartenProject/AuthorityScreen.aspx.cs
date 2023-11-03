@@ -33,7 +33,7 @@ namespace KindergartenProject
 
         private void controlAuthorization(AdminEntity adminEntity)
         {
-            if (AdminContext.AdminEntity.AuthorityTypeEnum != OwnerStatusEnum.Developer)
+            if (AdminContext.AdminEntity.OwnerStatusEnum != OwnerStatusEnum.Developer)
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Bu sayfa için yetkiniz bulunmamaktadır.');window.location ='/benim-dunyam-montessori-okullari';", true);
             }

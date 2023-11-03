@@ -1,6 +1,5 @@
 ﻿window.onload = function () {
     loadData();
-    document.getElementById("btnSubmit").disabled = "disabled";
 };
 
 function loadData() {

@@ -38,7 +38,7 @@ namespace Business
         {
             if (isProcess)
             {
-                var type = AdminContext.AdminEntity.AuthorityTypeEnum;
+                var type = AdminContext.AdminEntity.OwnerStatusEnum;
                 if (type != OwnerStatusEnum.Developer && type != OwnerStatusEnum.SuperAdmin)
                 {
                     // yazılacak...

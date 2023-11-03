@@ -1,4 +1,5 @@
 ﻿using Common;
+using Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,16 @@ namespace KindergartenProject
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.PaymentType);
                 master.SetVisibleSearchText(false);
+
+                if (AdminContext.AdminEntity.IsDeveleporOrSuperAdmin)
+                {
+                    btnSubmit.Enabled = true;
+                }
+                else
+                {
+                    btnSubmit.Enabled = false;
+                }
+
             }
         }
     }

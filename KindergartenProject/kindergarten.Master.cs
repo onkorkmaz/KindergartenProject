@@ -32,7 +32,7 @@ namespace KindergartenProject
                 }
                 setVisibleMenuItems(false);
 
-                if (AdminContext.AdminEntity.AuthorityTypeEnum == OwnerStatusEnum.Developer || AdminContext.AdminEntity.AuthorityTypeEnum == OwnerStatusEnum.SuperAdmin)
+                if (AdminContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Developer || AdminContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin)
                 {
                     setVisibleMenuItems(true);
                 }
@@ -47,7 +47,7 @@ namespace KindergartenProject
 
         private void setVisibleMenuItems(bool isVisible)
         {
-            bool isDeveloper = AdminContext.AdminEntity.AuthorityTypeEnum == OwnerStatusEnum.Developer;
+            bool isDeveloper = AdminContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Developer;
             menuClearCache.Visible = isDeveloper;
             menuAuthorityGenerator.Visible = isDeveloper;
             menuAuthority.Visible = isDeveloper;
