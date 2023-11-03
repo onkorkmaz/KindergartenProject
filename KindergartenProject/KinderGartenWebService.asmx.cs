@@ -418,7 +418,6 @@ namespace KindergartenProject
                     };
 
                     result = new AdminBusiness(GetProjectType()).Set_Admin(entity);
-*
                 }
             }
 
