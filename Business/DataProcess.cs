@@ -38,8 +38,8 @@ namespace Business
         {
             if (isProcess)
             {
-                var type = CurrentContex.Contex.AuthorityTypeEnum;
-                if (type != AuthorityTypeEnum.Developer && type != AuthorityTypeEnum.SuperAdmin)
+                var type = AdminContext.AdminEntity.AuthorityTypeEnum;
+                if (type != OwnerStatusEnum.Developer && type != OwnerStatusEnum.SuperAdmin)
                 {
                     // yazılacak...
                     throw new Exception("Yetkiniz bulunmamaktadır!");

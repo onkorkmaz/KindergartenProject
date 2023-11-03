@@ -26,12 +26,18 @@ namespace Entity
             return destination;
         }
 
-        public static DataResultArgs<T> CopyDataResultArgs<T>(DataResultArgs<List<T>> source, DataResultArgs<T> destination)
+        public static DataResultArgs<T> CopyDataResultArgs<T>(DataResultArgs<List<T>> source)
         {
+            DataResultArgs<T> destination = new DataResultArgs<T>();
             destination.ErrorCode = source.ErrorCode;
             destination.ErrorDescription = source.ErrorDescription;
             destination.HasError = source.HasError;
             destination.MyException = source.MyException;
+            if (source.Result.Count > 0)
+            {
+                destination.Result = source.Result[0];
+            }
+
             return destination;
         }
 

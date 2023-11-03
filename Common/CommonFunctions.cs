@@ -50,7 +50,7 @@ namespace Common
             lstMonth.Add("Kasım");
             lstMonth.Add("Aralık");
 
-            return lstMonth[month];
+            return lstMonth[month-1];
             
         }
         private static T ChangeType<T>(object value, Type t)
@@ -147,9 +147,9 @@ namespace Common
             {
                 case ProjectType.None:
                     return "None";
-                case ProjectType.BenimDuntamKinderGartenSezenSokak:
+                case ProjectType.BenimDunyamAnaokuluSezenSokak:
                     return "Benim Dünyam Anaokulları";
-                case ProjectType.BenimDunyamEgitimMerkeziİstiklalCaddesi:
+                case ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi:
                     return "Benim Dünyam Eğitim Merkezi";
                 default:
                     return "Default";

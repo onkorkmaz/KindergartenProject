@@ -86,17 +86,21 @@
                                     <li class="sidebar-item" id="menuWorkerList" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
                                     <li class="sidebar-item" id="menuIncomeAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
 
+                                     <li runat="server" id="menuAdminList" class="sidebar-item"><a class="sidebar-link" href="/admin-listesi">Admin Listesi</a></li>
 
-                                    <li class="sidebar-item"  runat="server" id="menuAuthority"><a class="sidebar-link" href="/yetkilendirme">Yetkilendirme</a></li>
-
-                                    <li class="sidebar-item" id="menuAuthorityScreen" runat="server"><a class="sidebar-link" href="/yetki-tipi-tanimlama">Ekran için Yetki Tipi</a></li>
+                                    <li runat="server" id="menuChangePassword" class="sidebar-item"><a class="sidebar-link" href="/sifre-degistir">Şifre Değiştir</a></li>
+                                    <li runat="server" id="menuClearCache" class="sidebar-item"><a class="sidebar-link" href="/cache-clear">Cache Temizliği</a></li>
 
                                      <li class="sidebar-item" id="menuAuthorityType" runat="server"><a class="sidebar-link" href="/yetki-tipi">Yetki Türü</a></li>
+                                    <li class="sidebar-item"  runat="server" id="menuAuthority"><a class="sidebar-link" href="/yetkilendirme">Yetkilendirme</a></li>
 
+                                    <li class="sidebar-item" id="menuAuthorityScreen" runat="server"><a class="sidebar-link" href="/yetki-tipi-tanimlama">Ekran için Yetki Tipi Tan.</a></li>
 
-                                    <li class="sidebar-item"><a class="sidebar-link" href="#">Şifre Değiştir</a></li>
-                                    <li runat="server" id="menuClearCache" class="sidebar-item"><a class="sidebar-link" href="/cache-clear">Cache Temizliği</a></li>
+                                    
+
                                     <li runat="server" id="menuAuthorityGenerator" class="sidebar-item"><a class="sidebar-link" href="/authority-generator">Yetki Generator</a></li>
+
+                                    
 
                                 </ul>
                             </li>

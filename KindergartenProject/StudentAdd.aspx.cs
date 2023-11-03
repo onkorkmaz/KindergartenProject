@@ -101,7 +101,7 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
-                if(projectType!= ProjectType.BenimDunyamEgitimMerkeziİstiklalCaddesi)
+                if(projectType!= ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi)
                 {
                     divSchoolClass.Visible = false;
                 }

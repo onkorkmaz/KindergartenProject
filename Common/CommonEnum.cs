@@ -7,8 +7,8 @@ namespace Common
     public enum ProjectType
     {
         None = 0,
-        BenimDuntamKinderGartenSezenSokak = 1,
-        BenimDunyamEgitimMerkeziİstiklalCaddesi = 2
+        BenimDunyamAnaokuluSezenSokak = 1,
+        BenimDunyamEgitimMerkeziIstiklalCaddesi = 2
     }
 
     public enum DatabaseProcess
@@ -37,6 +37,8 @@ namespace Common
         ClearCache = 14,
         AuthorityGenerator = 15,
         AuthorityType = 16,
+        AdminList = 17,
+        ChangePassword = 18,
 
     }
 
@@ -72,7 +74,7 @@ namespace Common
      */
     #endregion
 
-    public enum AuthorityTypeEnum
+    public enum OwnerStatusEnum
     {
         None = 0,
         Developer = 1,

@@ -84,11 +84,13 @@
     <Content Include="AuthorityType.aspx" />
     <Content Include="CacheClear.aspx" />
     <Content Include="AuthorityScreen.aspx" />
+    <Content Include="ChangePassword.aspx" />
     <Content Include="customJS\authorityCreator.js" />
     <Content Include="customJS\authority.js" />
     <Content Include="customJS\authorityType.js" />
     <Content Include="customJS\cacheClear.js" />
     <Content Include="customJS\authorityScreen.js" />
+    <Content Include="customJS\changePassword.js" />
     <Content Include="customJS\default.js" />
     <Content Include="customJS\incomeAndExpenseList.js" />
     <Content Include="customJS\incomeAndExpense.js" />
@@ -98,6 +100,7 @@
     <Content Include="customJS\studentCommon.js" />
     <Content Include="customJS\incomeAndExpenseType.js" />
     <Content Include="customJS\StudentDetailCommon.js" />
+    <Content Include="customJS\admin.js" />
     <Content Include="img\icons\detail1.png" />
     <Content Include="img\icons\detailClose.png" />
     <Content Include="img\icons\hasAuthority.png" />
@@ -188,6 +191,7 @@
     <Content Include="IncomeAndExpenseAdd.aspx" />
     <Content Include="StudentAttendanceBookList.aspx" />
     <Content Include="IncomeAndExpenseType.aspx" />
+    <Content Include="AdminList.aspx" />
     <Content Include="WorkerList.aspx" />
     <Content Include="PaymentType.aspx" />
     <Content Include="customJS\paymentType.js" />
@@ -232,6 +236,13 @@
     </Compile>
     <Compile Include="AuthorityScreen.aspx.designer.cs">
       <DependentUpon>AuthorityScreen.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="common\CommonUIFunction.cs" />
     <Compile Include="IncomeAndExpenseList.aspx.cs">
@@ -324,6 +335,13 @@
     </Compile>
     <Compile Include="IncomeAndExpenseType.aspx.designer.cs">
       <DependentUpon>IncomeAndExpenseType.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminList.aspx.cs">
+      <DependentUpon>AdminList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminList.aspx.designer.cs">
+      <DependentUpon>AdminList.aspx</DependentUpon>
     </Compile>
     <Compile Include="WorkerList.aspx.cs">
       <DependentUpon>WorkerList.aspx</DependentUpon>
@@ -418,8 +436,6 @@
     <Content Include="js\app.js.map" />
     <Content Include="kindergarten.Master" />
     <None Include="packages.config" />
-    <Content Include="PaymentDocument\ALMINA_TURAN\ALMINA_TURAN_odemePlani_20210321121614.docx" />
-    <Content Include="PaymentDocument\ATILLA_YASIR_YIGIT\ATILLA_YASIR_YIGIT_odemePlani_20210321122114.docx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -441,10 +457,7 @@
       <Name>Entity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PaymentDocument\ALAS_KOCANOGLU\" />
-    <Folder Include="Template\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

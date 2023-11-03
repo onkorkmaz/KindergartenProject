@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class WorkerList
+    public partial class AdminList
     {
 
         /// <summary>
@@ -42,58 +42,40 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.HiddenField hdnId;
 
         /// <summary>
-        /// txtName control.
+        /// txtUserName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtName;
+        protected global::System.Web.UI.WebControls.TextBox txtUserName;
 
         /// <summary>
-        /// txtSurname control.
+        /// txtPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSurname;
+        protected global::System.Web.UI.WebControls.TextBox txtPassword;
 
         /// <summary>
-        /// chcIsManager control.
+        /// txtPasswordRepeat control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chcIsManager;
+        protected global::System.Web.UI.WebControls.TextBox txtPasswordRepeat;
 
         /// <summary>
-        /// txtPrice control.
+        /// drpAuthorityType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPrice;
-
-        /// <summary>
-        /// txtPhoneNumber control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPhoneNumber;
-
-        /// <summary>
-        /// chcIsTeacher control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chcIsTeacher;
+        protected global::System.Web.UI.WebControls.DropDownList drpAuthorityType;
 
         /// <summary>
         /// chcIsActive control.
@@ -132,12 +114,12 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.CheckBox chcOnlyActive;
 
         /// <summary>
-        /// tbWorker control.
+        /// tbAdminList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbWorker;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tbAdminList;
     }
 }

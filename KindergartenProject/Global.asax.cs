@@ -50,14 +50,11 @@ namespace KindergartenProject
             routes.MapPageRoute("gelir-gider-tipi", "gelir-gider-tipi", "~/IncomeAndExpenseType.aspx");
             routes.MapPageRoute("yetki-tipi-tanimlama", "yetki-tipi-tanimlama", "~/AuthorityScreen.aspx");
             routes.MapPageRoute("yetki-tipi", "yetki-tipi", "~/AuthorityType.aspx");
-
-            
+            routes.MapPageRoute("admin-listesi", "admin-listesi", "~/AdminList.aspx");
             routes.MapPageRoute("yetkilendirme", "yetkilendirme", "~/Authority.aspx");
-
             routes.MapPageRoute("cache-clear", "cache-clear", "~/CacheClear.aspx");
             routes.MapPageRoute("authority-generator", "authority-generator", "~/AuthorityCreator.aspx");
-
-            
+            routes.MapPageRoute("sifre-degistir", "sifre-degistir", "~/ChangePassword.aspx");
 
             routes.MapPageRoute("cikis", "cikis", "~/Exit.aspx");
 

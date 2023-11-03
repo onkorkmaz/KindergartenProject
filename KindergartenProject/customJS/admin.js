@@ -7,12 +7,11 @@ function loadData() {
 
     var isOnlyActiveStudent = document.getElementById("chcOnlyActive").checked;
     var jsonData = "{ isOnlyActive: " + JSON.stringify(isOnlyActiveStudent) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllWorker', jsonData, successFunctionGetWorkerList, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllAdmin', jsonData, successFunctionGetAdminList, errorFunction);
 
 }
 
-
-function successFunctionGetWorkerList(obje) {
+function successFunctionGetAdminList(obje) {
 
     var entityList = obje;
     if (entityList != null) {
@@ -26,41 +25,43 @@ function successFunctionGetWorkerList(obje) {
             tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].Id + "\")' /></a>";
             tbody += "</td>";
 
-            tbody += "<td>" + entityList[i].Name + "</td>";
-            tbody += "<td>" + entityList[i].Surname + "</td>";
-            if (entityList[i].IsManager) {
-                tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
+            tbody += "<td>" + entityList[i].UserName + "</td>";
+
+            var isUpperAdmin = entityList[i].EntranceAdminInfo != null && (entityList[i].EntranceAdminInfo.OwnerStatus == 1 || entityList[i].EntranceAdminInfo.OwnerStatus == 2);
+
+
+            if (isUpperAdmin) {
+                tbody += "<td>" + entityList[i].Password + "</td>";
             }
             else {
-                tbody += "<td>&nbsp;</td>";
-
+                tbody += "<td>******</td>";
             }
-            tbody += "<td>" + entityList[i].Price + "</td>";
-            tbody += "<td>" + entityList[i].PhoneNumber + "</td>";
 
-            if (entityList[i].IsTeacher)
-                tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
-            else
-                tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
-          
+            tbody += "<td>" + entityList[i].AuthorityDescription + "</td>";
+
+            if (isUpperAdmin) {
+                tbody += "<td>" + entityList[i].OwnerStatusDescription + "</td>";
+            }
+            else {
+                tbody += "<td>******</td>";
+            }
 
             if (entityList[i].IsActive)
                 tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
             else
                 tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
 
-           
+
             tbody += "<td>" + convertToJavaScriptDate(entityList[i].UpdatedOn) + "</td>";
             tbody += "</tr> ";
         }
 
-        document.getElementById("tbWorker").innerHTML = tbody;
+        document.getElementById("tbAdminList").innerHTML = tbody;
 
     }
 }
 
-function validateAndSave()
-{
+function validateAndSave() {
     if (!validate())
         return false;
 
@@ -119,7 +120,7 @@ function successFunctionInsertOrUpdateWorker(obje) {
         callInsertOrUpdateInformationMessage("hdnId");
 
         setDefaultValues();
-        
+
     }
     else {
         alert("Hata var !!! Error : " + obje.ErrorDescription);
@@ -131,7 +132,7 @@ function deleteCurrentRecord(id) {
     if (confirm('Silme işlemine devam etmek istediğinize emin misiniz?')) {
 
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteWorker', jsonData, successFunctionDeletePaymentType, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteAdmin', jsonData, successFunctionDeletePaymentType, errorFunction);
     }
 
 }

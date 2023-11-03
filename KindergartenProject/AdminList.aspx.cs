@@ -10,7 +10,7 @@ using Business;
 
 namespace KindergartenProject
 {
-    public partial class WorkerList : System.Web.UI.Page
+    public partial class AdminList : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,12 +22,16 @@ namespace KindergartenProject
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
-                master.SetActiveMenuAttiributes(MenuList.WorkerList);
+                master.SetActiveMenuAttiributes(MenuList.AdminList);
                 master.SetVisibleSearchText(false);
-
                 ProjectType projectType = (ProjectType)Session[CommonConst.ProjectType];
 
+                List<AuthorityTypeEntity> lst = new AuthorityTypeBusiness(projectType).Get_AuthorityType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
 
+                drpAuthorityType.DataSource = lst;
+                drpAuthorityType.DataTextField = "Name";
+                drpAuthorityType.DataValueField = "Id";
+                drpAuthorityType.DataBind();
             }
         }
     }

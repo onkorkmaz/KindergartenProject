@@ -272,9 +272,40 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public List<WorkerEntity> GetAllWorker()
+        public List<WorkerEntity> GetAllWorker(bool isOnlyActive)
         {
-            List<WorkerEntity> result = new WorkerBusiness(GetProjectType()).Get_Worker(new SearchEntity() { IsDeleted = false }, null).Result;
+            SearchEntity entity = new SearchEntity() { IsDeleted = false };
+            if (isOnlyActive)
+            {
+                entity.IsActive = true;
+            }
+            List<WorkerEntity> result = new WorkerBusiness(GetProjectType()).Get_Worker(entity, null).Result;
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public List<AdminEntity> GetAllAdmin(bool isOnlyActive)
+        {
+            SearchEntity entity = new SearchEntity() { IsDeleted = false };
+            if (isOnlyActive)
+            {
+                entity.IsActive = true;
+            }
+            List<AdminEntity> result = new AdminBusiness(GetProjectType()).Get_Admin(entity).Result;
+
+            foreach (AdminEntity ent in result)
+            {
+                ent.EntranceAdminInfo = AdminContext.AdminEntity;
+            }
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public List<WorkerEntity> GetActiveWorker()
+        {
+            List<WorkerEntity> result = new WorkerBusiness(GetProjectType()).Get_Worker(new SearchEntity() { IsDeleted = false,IsActive = true }, null).Result;
 
             return result;
         }
@@ -360,6 +391,34 @@ namespace KindergartenProject
                         result = new ClassBusiness(GetProjectType()).UpdateClassForDeletedWorkers(CommonFunctions.GetData<int>(id));
                     }
 
+                }
+            }
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> DeleteAdmin(string id)
+        {
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true,
+                ErrorDescription = "Id bilgisine ulaşılamadı."
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    AdminEntity entity = new AdminEntity
+                    {
+                        Id = idInt,
+                        DatabaseProcess = DatabaseProcess.Deleted
+                    };
+
+                    result = new AdminBusiness(GetProjectType()).Set_Admin(entity);
+*
                 }
             }
 
@@ -772,6 +831,12 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> ControlUserName(string id,string userName)
+        {
+            return new AdminBusiness(GetProjectType()).ControlUserName(id, userName);
+        }
+
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<StudentEntity> GetStudentEntityWithFullName(string fullName)
         {
             return new StudentBusiness(GetProjectType()).Get_StudentWithFullName(fullName);
@@ -855,6 +920,26 @@ namespace KindergartenProject
             classEntity.DatabaseProcess = currentProcess;
 
             return new ClassBusiness(GetProjectType()).Set_Class(classEntity);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> UpdateAdmin(string id, AdminEntity adminEntity)
+        {
+            DatabaseProcess currentProcess = DatabaseProcess.Add;
+            adminEntity.Id = 0;
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    currentProcess = DatabaseProcess.Update;
+                }
+                adminEntity.Id = idInt;
+            }
+
+            adminEntity.DatabaseProcess = currentProcess;
+
+            return new AdminBusiness(GetProjectType()).Set_Admin(adminEntity);
         }
 
         [WebMethod(EnableSession = true)]

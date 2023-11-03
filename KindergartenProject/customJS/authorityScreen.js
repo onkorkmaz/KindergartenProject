@@ -58,13 +58,13 @@ function validateAndSave()
     var isActive = document.getElementById("chcIsActive").checked;
 
 
-    var authorityEntity = {};
-    authorityEntity["Name"] = name;
-    authorityEntity["IsActive"] = isActive;
-    authorityEntity["Description"] = description;
+    var authorityScreenEntity = {};
+    authorityScreenEntity["Name"] = name;
+    authorityScreenEntity["IsActive"] = isActive;
+    authorityScreenEntity["Description"] = description;
 
 
-    var jsonData = "{ id:" + JSON.stringify(id) + ", authorityEntity: " + JSON.stringify(authorityEntity) + " }";
+    var jsonData = "{ id:" + JSON.stringify(id) + ", authorityScreenEntity: " + JSON.stringify(authorityScreenEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateAuthorityScreen', jsonData, successFunctionInsertOrUpdateAuthorityScreen, errorFunction);
 
     return false;

@@ -58,14 +58,6 @@
                     </div>
                 </div>
 
-                 <div class="mb-3 row">
-                    <label class="col-form-label col-sm-2 text-sm-left">Yetki Tipi</label>
-                    <div class="col-sm-10">
-                        <asp:DropDownList runat="server" ID="drpAuthorityType" CssClass="form-control">
-                                </asp:DropDownList>
-                    </div>
-                </div>
-
                 <div class="mb-3 row">
                     <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>
                     <div class="col-sm-10">
@@ -84,9 +76,20 @@
         </div>
     </div>
 
+
+
    <div class="col-12 col-xl-12">
-            <div class="table-responsive">
+       
+            <div class="table-responsive">  
+                
                 <table class="table mb-0">
+                    <tr>
+                        <td>Sadece Aktif Öğretmenler : &nbsp; <asp:CheckBox runat="server" Checked="true" ID="chcOnlyActive" onclick="onChangeChcOnlyActiveStudent();" CssClass="form-check-input" /></td>
+                    </tr>
+                     <tr>
+                        <td>
+
+                              <table class="table mb-0">
                     <thead>
                         <tr>
                             <th scope="col">#####</th>
@@ -96,7 +99,6 @@
                             <th scope="col">Ücret</th>
                             <th scope="col">Tel</th>
                             <th scope="col">Öğretmen</th>
-                            <th scope="col">Yetki</th>
                             <th scope="col">Aktif</th>
                             <th scope="col">Güncellenme Tarihi</th>
                         </tr>
@@ -104,6 +106,11 @@
                     <tbody runat="server" id="tbWorker">
                     </tbody>
                 </table>
+
+                        </td>
+                    </tr>
+                </table>
+
             </div>
         </div>
 

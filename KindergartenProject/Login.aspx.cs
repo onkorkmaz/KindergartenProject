@@ -24,9 +24,9 @@ namespace KindergartenProject
             if (machineName == "DESKTOP-4ISBFD4" && !Page.IsPostBack)
             {
                 txtUserName.Text = "onur";
-                txtPassword.Text = "ONkor";
-                drpProjectType.SelectedValue = "1";
-                btnLogin_Click(null, null);
+                txtPassword.Text = "1";
+                drpProjectType.SelectedValue = "2";
+                //btnLogin_Click(null, null);
             }
         }
 
@@ -38,7 +38,9 @@ namespace KindergartenProject
             Int16 projectTypeInt = 0;
             Int16.TryParse(projectType, out projectTypeInt);
 
-            DataResultArgs<AdminEntity> resultSet = new AdminBusiness((ProjectType)projectTypeInt).Get_Admin(userName, password);
+            ProjectType projectTypeEnum = (ProjectType)projectTypeInt;
+
+            DataResultArgs<AdminEntity> resultSet = new AdminBusiness(projectTypeEnum).Get_Admin(userName, password);
             if (resultSet.HasError)
                 divInformation.ErrorText = resultSet.ErrorDescription;
             else
@@ -50,11 +52,32 @@ namespace KindergartenProject
                 else
                 {
                     Session[CommonConst.Admin] = resultSet.Result;
-                    Session[CommonConst.ProjectType] = (ProjectType)projectTypeInt;
-                    CurrentContex.Contex = resultSet.Result;
-                    Response.Redirect("benim-dunyam-montessori-okullari");
+                    Session[CommonConst.ProjectType] = projectTypeEnum;
+                    AdminContext.AdminEntity= resultSet.Result;
+                    loadAuthority(projectTypeEnum);
+
+                    DataResultArgs<AdminProjectTypeRelationEntity> resultSetAdminOrgAuth = new AdminProjectTypeRelationBusiness().Get_AdminProjectTypeRelation(AdminContext.AdminEntity.Id, projectTypeEnum);
+
+                    if (resultSetAdminOrgAuth.Result == null)
+                    {
+                        divInformation.ErrorText = "Admin -Organizasyon tablosunda yetkileriniz bulunmamakadtır.";
+                    }
+                    else if (resultSetAdminOrgAuth.Result.HasAuthority.HasValue && resultSetAdminOrgAuth.Result.HasAuthority.Value)
+                    {
+
+                        Response.Redirect("benim-dunyam-montessori-okullari");
+                    }
+                    else
+                    {
+                        divInformation.ErrorText = resultSetAdminOrgAuth.Result.ProjectTypeName  +" giriş için yetkiniz bulunmamaktadır.";
+                    }
                 }
             }
+        }
+
+        private void loadAuthority(ProjectType projectTypeEnum)
+        {
+            AuthorityEntity authority = new AuthorityBusiness(projectTypeEnum).GetAuthorityWithTypeId(AdminContext.AdminEntity.AuthorityTypeId);
         }
     }
 }

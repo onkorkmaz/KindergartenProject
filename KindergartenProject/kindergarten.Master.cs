@@ -16,31 +16,44 @@ namespace KindergartenProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            sidebar.Visible = false;
             if (SelectedMenuList != MenuList.Login &&  (Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null) )
             {
                 Response.Redirect("/uye-giris");
             }
             else
             {
-                if (CurrentContex.Contex == null)
-                    CurrentContex.Contex = Session[CommonConst.Admin] as AdminEntity;
+                if (AdminContext.AdminEntity == null)
+                    AdminContext.AdminEntity = Session[CommonConst.Admin] as AdminEntity;
 
-                if (CurrentContex.Contex != null && CurrentContex.Contex.AuthorityTypeEnum != AuthorityTypeEnum.Developer)
+                if (AdminContext.AdminEntity == null)
                 {
-                    menuClearCache.Visible = false;
-                    menuAuthorityGenerator.Visible = false;
-                    menuAuthority.Visible = false;
-                    menuAuthorityScreen.Visible = false;
-                    menuAuthorityType.Visible = false;
+                    return;
+                }
+                setVisibleMenuItems(false);
 
+                if (AdminContext.AdminEntity.AuthorityTypeEnum == OwnerStatusEnum.Developer || AdminContext.AdminEntity.AuthorityTypeEnum == OwnerStatusEnum.SuperAdmin)
+                {
+                    setVisibleMenuItems(true);
                 }
             }
 
             if (KinderGartenWebService.List.ContainsKey(ListKey.SearchValue))
                 txtSearchStudent.Text = KinderGartenWebService.List[ListKey.SearchValue];
 
-            setNavbarVisible(SelectedMenuList != MenuList.Login);
+            sidebar.Visible = SelectedMenuList != MenuList.Login;
 
+        }
+
+        private void setVisibleMenuItems(bool isVisible)
+        {
+            bool isDeveloper = AdminContext.AdminEntity.AuthorityTypeEnum == OwnerStatusEnum.Developer;
+            menuClearCache.Visible = isDeveloper;
+            menuAuthorityGenerator.Visible = isDeveloper;
+            menuAuthority.Visible = isDeveloper;
+            menuAuthorityScreen.Visible = isDeveloper;
+            menuAuthorityType.Visible = isDeveloper;
+            menuAdminList.Visible = isVisible;
         }
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
@@ -75,6 +88,9 @@ namespace KindergartenProject
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.Authority, menuAuthority);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ClearCache, menuClearCache);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.AuthorityGenerator, menuAuthorityGenerator);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.AdminList, menuAdminList);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ChangePassword, menuChangePassword);
+
 
         }
 
@@ -112,11 +128,6 @@ namespace KindergartenProject
         public void SetVisibleSearchText(bool isVisible)
         {
             txtSearchStudent.Visible = isVisible;
-        }
-
-        public void setNavbarVisible(bool isVisible)
-        {
-            sidebar.Visible = isVisible;
         }
 
         private bool hasAuthority;
