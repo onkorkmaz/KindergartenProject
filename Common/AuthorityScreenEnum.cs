@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Common
 {
-    public enum AuthorityEnum
+    public enum AuthorityScreenEnum
     {
+
+
         /// <summary>
         /// Öğrenci İşlem
         /// </summary>
@@ -106,5 +108,23 @@ namespace Common
         /// </summary>
         Yetki_Generator = 21,
 
+        /// <summary>
+        /// Admin İzleme
+        /// </summary>
+        Admin_Izleme = 24,
+
+        /// <summary>
+        /// Admin İşlem
+        /// </summary>
+        Admin_Islem = 25,
+
+        /// <summary>
+        /// Ödeme Planı Ekleme - Silme
+        /// </summary>
+        Odeme_Plani_Ekleme_Silme = 26,
+
+
     }
+
+
 }

@@ -305,7 +305,7 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public List<WorkerEntity> GetActiveWorker()
         {
-            List<WorkerEntity> result = new WorkerBusiness(GetProjectType()).Get_Worker(new SearchEntity() { IsDeleted = false,IsActive = true }, null).Result;
+            List<WorkerEntity> result = new WorkerBusiness(GetProjectType()).Get_Worker(new SearchEntity() { IsDeleted = false, IsActive = true }, null).Result;
 
             return result;
         }
@@ -338,6 +338,75 @@ namespace KindergartenProject
             return new PaymentTypeBusiness(GetProjectType()).Set_PaymentType(paymentTypeEntity);
         }
 
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> InsertOrUpdateAdmin(string id, AdminEntity adminEntity)
+        {
+            DataResultArgs<bool> controlUserName = ControlUserName(id, adminEntity.UserName);
+            if (controlUserName.HasError)
+            {
+                return controlUserName;
+            }
+            else if (controlUserName.Result)
+            {
+                controlUserName.HasError = true;
+                controlUserName.ErrorDescription = "Kullanıcı adı sistemde mevcuttur.";
+                return controlUserName;
+            }
+
+            DatabaseProcess currentProcess = DatabaseProcess.Add;
+            adminEntity.Id = 0;
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    currentProcess = DatabaseProcess.Update;
+                }
+                adminEntity.Id = idInt;
+            }
+
+            adminEntity.DatabaseProcess = currentProcess;
+
+            DataResultArgs<bool> result = new AdminBusiness(GetProjectType()).Set_Admin(adminEntity, false);
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> DeleteAdmin(string id)
+        {
+            DataResultArgs<bool> result = new DataResultArgs<bool>
+            {
+                HasError = true,
+                ErrorDescription = "Id bilgisine ulaşılamadı."
+            };
+
+            if (!AdminContext.AdminEntity.IsDeveleporOrSuperAdmin)
+            {
+                result.ErrorDescription = "Admin Silme Yetkiniz bulunmamaktadı.";
+                return result;
+            }
+
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    AdminEntity entity = new AdminEntity
+                    {
+                        Id = idInt,
+                        DatabaseProcess = DatabaseProcess.Deleted
+                    };
+
+                    result = new AdminBusiness(GetProjectType()).Set_Admin(entity, false);
+                }
+            }
+
+            return result;
+        }
+
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdateWorker(string id, WorkerEntity workerEntity)
         {
@@ -356,7 +425,7 @@ namespace KindergartenProject
             workerEntity.DatabaseProcess = currentProcess;
 
             DataResultArgs<bool> result = new WorkerBusiness(GetProjectType()).Set_Worker(workerEntity);
-            if(!result.HasError && currentProcess == DatabaseProcess.Update && false.Equals(workerEntity.IsActive))
+            if (!result.HasError && currentProcess == DatabaseProcess.Update && false.Equals(workerEntity.IsActive))
             {
                 result = new ClassBusiness(GetProjectType()).UpdateClassForDeletedWorkers(CommonFunctions.GetData<int>(workerEntity.Id));
             }
@@ -386,38 +455,11 @@ namespace KindergartenProject
 
                     result = new WorkerBusiness(GetProjectType()).Set_Worker(entity);
 
-                    if(!result.HasError)
+                    if (!result.HasError)
                     {
                         result = new ClassBusiness(GetProjectType()).UpdateClassForDeletedWorkers(CommonFunctions.GetData<int>(id));
                     }
 
-                }
-            }
-
-            return result;
-        }
-
-        [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> DeleteAdmin(string id)
-        {
-            DataResultArgs<bool> result = new DataResultArgs<bool>
-            {
-                HasError = true,
-                ErrorDescription = "Id bilgisine ulaşılamadı."
-            };
-
-            if (!string.IsNullOrEmpty(id))
-            {
-                int.TryParse(Cipher.Decrypt(id), out var idInt);
-                if (idInt > 0)
-                {
-                    AdminEntity entity = new AdminEntity
-                    {
-                        Id = idInt,
-                        DatabaseProcess = DatabaseProcess.Deleted
-                    };
-
-                    result = new AdminBusiness(GetProjectType()).Set_Admin(entity);
                 }
             }
 
@@ -580,6 +622,27 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public DataResultArgs<AdminEntity> GetAdminWithId(string id)
+        {
+            DataResultArgs<AdminEntity> result = new DataResultArgs<AdminEntity>
+            {
+                HasError = true,
+                ErrorDescription = "Entity ulaşılamadı..."
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                if (idInt > 0)
+                {
+                    result = new AdminBusiness(GetProjectType()).GetAdminWithId(id);
+                }
+            }
+
+            return result;
+        }
+
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<IncomeAndExpenseTypeEntity> GetIncomeAndExpenseTypeWithId(string id)
         {
             DataResultArgs<IncomeAndExpenseTypeEntity> result = new DataResultArgs<IncomeAndExpenseTypeEntity>
@@ -709,7 +772,7 @@ namespace KindergartenProject
                     }
                 }
             }
-            
+
             package.Year = yearInt;
             return package;
         }
@@ -802,7 +865,7 @@ namespace KindergartenProject
         public DataResultArgs<PaymentEntity> SetAnotherPaymentAmount(string id, string studentId, string year, string month,
             string currentAmount, string paymentType)
         {
-            
+
             PaymentEntity paymentEntity = new PaymentEntity
             {
                 StudentId = CommonFunctions.GetData<int>(studentId),
@@ -830,7 +893,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> ControlUserName(string id,string userName)
+        public DataResultArgs<bool> ControlUserName(string id, string userName)
         {
             return new AdminBusiness(GetProjectType()).ControlUserName(id, userName);
         }
@@ -922,7 +985,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> UpdateAdmin(string id, AdminEntity adminEntity)
+        public DataResultArgs<bool> ChangePassword(string id, AdminEntity adminEntity)
         {
             DatabaseProcess currentProcess = DatabaseProcess.Add;
             adminEntity.Id = 0;
@@ -938,7 +1001,7 @@ namespace KindergartenProject
 
             adminEntity.DatabaseProcess = currentProcess;
 
-            return new AdminBusiness(GetProjectType()).Set_Admin(adminEntity);
+            return new AdminBusiness(GetProjectType()).Set_Admin(adminEntity, true);
         }
 
         [WebMethod(EnableSession = true)]
@@ -1027,7 +1090,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithYearAndMonth(int year, int month,string index)
+        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithYearAndMonth(int year, int month, string index)
         {
             return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithYearAndMonth(year, month, index);
         }
@@ -1061,7 +1124,7 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<bool> AuthorityCheckBoxChange(int id, int authorityScreenId, int authorityTypeId,  bool hasAuthority)
+        public DataResultArgs<bool> AuthorityCheckBoxChange(int id, int authorityScreenId, int authorityTypeId, bool hasAuthority)
         {
             AuthorityEntity entity = new AuthorityEntity();
             entity.DatabaseProcess = (id <= 0) ? DatabaseProcess.Add : DatabaseProcess.Update;
@@ -1106,7 +1169,15 @@ namespace KindergartenProject
 
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("public enum AuthorityEnum");
+
+            sb.AppendLine(@"using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Common
+{");
+
+            sb.AppendLine("public enum AuthorityScreenEnum");
             sb.AppendLine("{");
             sb.AppendLine("");
             sb.AppendLine("");
@@ -1116,13 +1187,15 @@ namespace KindergartenProject
                 sb.AppendLine("/// <summary>");
                 sb.AppendLine("/// " + entity.Description);
                 sb.AppendLine("/// </summary>");
-                sb.AppendLine(CommonFunctions.ReplaceTurkishChar(entity.Name) + " = " + entity.Id + ",");
+                string name = CommonFunctions.ReplaceTurkishChar(entity.Name);
+                sb.AppendLine(name + " = " + entity.Id + ",");
                 sb.AppendLine("");
             }
 
             sb.AppendLine("");
             sb.AppendLine("}");
             sb.AppendLine("");
+            sb.AppendLine("}");
 
             return sb.ToString();
         }

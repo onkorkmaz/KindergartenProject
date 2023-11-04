@@ -9,12 +9,12 @@ function txtUserName_Change(value) {
 
     if (!IsNullOrEmpty(userName)) {
         var jsonData = "{ id:" + JSON.stringify(id) + ", userName: " + JSON.stringify(userName) + "  }";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/ControlUserName', jsonData, successFunctionControlClassName, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/ControlUserName', jsonData, successFunctionControlAdminName, errorFunction);
     }
 
 }
 
-function successFunctionControlClassName(obje) {
+function successFunctionControlAdminName(obje) {
     if (!obje.HasError) {
 
         var hasUserName = obje.Result;
@@ -45,13 +45,13 @@ function validateAndSave()
     adminEntity["Password"] = password;
     
     var jsonData = "{ id:" + JSON.stringify(id) + ", adminEntity: " + JSON.stringify(adminEntity) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/UpdateAdmin', jsonData, successFunctionUpdateAdmin, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/ChangePassword', jsonData, successFunctionChangePassword, errorFunction);
 
     return false;
 
 }
 
-function successFunctionUpdateAdmin(obje) {
+function successFunctionChangePassword(obje) {
     if (!obje.HasError) {
         callInsertOrUpdateInformationMessage("hdnId");
     }

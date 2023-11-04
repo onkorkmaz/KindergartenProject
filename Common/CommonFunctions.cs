@@ -106,6 +106,9 @@ namespace Common
             text = text.Replace("Ç", "C");
             text = text.Replace("ç", "c");
             text = text.Replace(" ", "_");
+            text = text.Replace("-", "_");           
+            text = text.Replace("__", "_");           
+            text = text.Replace("__", "_");
             return text;
         }
 

@@ -61,49 +61,29 @@ function successFunctionGetAdminList(obje) {
     }
 }
 
-function validateAndSave() {
-    if (!validate())
-        return false;
-
-    var id = document.getElementById("hdnId").value;
-    var name = document.getElementById("txtName").value;
-    var surname = document.getElementById("txtSurname").value;
-    var isManager = document.getElementById("chcIsManager").checked;
-    var price = document.getElementById("txtPrice").value;
-    var isActive = document.getElementById("chcIsActive").checked;
-    var isTeacher = document.getElementById("chcIsTeacher").checked;
-    var phoneNumber = document.getElementById("txtPhoneNumber").value;
-
-    var workerEntity = {};
-    workerEntity["Name"] = name;
-    workerEntity["Surname"] = surname;
-    workerEntity["IsManager"] = isManager;
-    if (price == '') {
-        price = 0;
-    }
-    workerEntity["Price"] = price;
-    workerEntity["PhoneNumber"] = phoneNumber;
-
-    workerEntity["IsActive"] = isActive;
-    workerEntity["IsTeacher"] = isTeacher;
-
-    var jsonData = "{ id:" + JSON.stringify(id) + ", workerEntity: " + JSON.stringify(workerEntity) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateWorker', jsonData, successFunctionInsertOrUpdateWorker, errorFunction);
-
-    return false;
-
-}
-
 function validate() {
     var errorMessage = "";
 
-    obje = document.getElementById("txtName").value;
+    var obje = document.getElementById("txtUserName").value;
     if (IsNullOrEmpty(obje))
-        errorMessage += "İsim boş bırakılamaz\n";
+        errorMessage += "Kullanıcı boş bırakılamaz\n";
 
-    obje = document.getElementById("txtSurname").value;
+    var password = document.getElementById("txtPassword").value;
+    if (IsNullOrEmpty(password))
+        errorMessage += "Şifre boş bırakılamaz\n";
+
+    var passwordRepeat = document.getElementById("txtPasswordRepeat").value;
+    if (IsNullOrEmpty(passwordRepeat))
+        errorMessage += "Şifre tekrarı boş bırakılamaz\n";
+
+
+    if (!IsNullOrEmpty(password) && !IsNullOrEmpty(passwordRepeat) && password != passwordRepeat) {
+        errorMessage += "Şifre ve tekrarı birbirne eşit olmalıdır";
+    }
+
+    obje = document.getElementById("drpAuthorityType").value;
     if (IsNullOrEmpty(obje))
-        errorMessage += "Soyisim boş bırakılamaz\n";
+        errorMessage += "Yetki türü boş bırakılamaz\n";
 
     if (!IsNullOrEmpty(errorMessage)) {
         alert(errorMessage);
@@ -113,7 +93,32 @@ function validate() {
     return true;
 }
 
-function successFunctionInsertOrUpdateWorker(obje) {
+
+function validateAndSave() {
+    if (!validate())
+        return false;
+
+    var id = document.getElementById("hdnId").value;
+    var name = document.getElementById("txtUserName").value;
+    var password = document.getElementById("txtPassword").value;
+    var isActive = document.getElementById("chcIsActive").checked;
+    var authorityTypeId = document.getElementById("drpAuthorityType").value;
+
+    var adminEntity = {};
+    adminEntity["UserName"] = name;
+    adminEntity["Password"] = password;
+    adminEntity["IsActive"] = isActive;
+    adminEntity["AuthorityTypeId"] = authorityTypeId;
+
+  
+    var jsonData = "{ id:" + JSON.stringify(id) + ", adminEntity: " + JSON.stringify(adminEntity) + " }";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateAdmin', jsonData, successFunctionInsertOrUpdateAdmin, errorFunction);
+
+    return false;
+
+}
+
+function successFunctionInsertOrUpdateAdmin(obje) {
 
     if (!obje.HasError && obje.Result) {
         loadData();
@@ -132,12 +137,12 @@ function deleteCurrentRecord(id) {
     if (confirm('Silme işlemine devam etmek istediğinize emin misiniz?')) {
 
         var jsonData = "{ id: " + JSON.stringify(id) + " }";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteAdmin', jsonData, successFunctionDeletePaymentType, errorFunction);
+        CallServiceWithAjax('/KinderGartenWebService.asmx/DeleteAdmin', jsonData, successFunctionDeleteAdmin, errorFunction);
     }
 
 }
 
-function successFunctionDeletePaymentType(obje) {
+function successFunctionDeleteAdmin(obje) {
     if (!obje.HasError) {
         loadData();
         callDeleteInformationMessage();
@@ -154,20 +159,18 @@ function updateCurrentRecord(id) {
 
     document.getElementById("hdnId").value = id;
     var jsonData = "{ id: " + JSON.stringify(id) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetWorkerWithId', jsonData, successFunctionGetWorkerWithId, errorFunction);
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetAdminWithId', jsonData, successFunctionGetAdminWithId, errorFunction);
 
 }
 
-function successFunctionGetWorkerWithId(obje) {
+function successFunctionGetAdminWithId(obje) {
     if (!obje.HasError && obje.Result != null) {
         var entity = obje.Result;
-        document.getElementById("txtName").value = entity.Name;
-        document.getElementById("txtSurname").value = entity.Surname;
-        document.getElementById("chcIsManager").checked = entity.IsManager;
-        document.getElementById("txtPrice").value = entity.Price;
+        document.getElementById("txtUserName").value = entity.UserName;
+        document.getElementById("txtPassword").value = entity.Password;
+        document.getElementById("txtPasswordRepeat").value = entity.Password;
         document.getElementById("chcIsActive").checked = entity.IsActive;
-        document.getElementById("chcIsTeacher").checked = entity.IsTeacher;
-        document.getElementById("txtPhoneNumber").value = entity.PhoneNumber;
+        document.getElementById("drpAuthorityType").value = entity.AuthorityTypeId;
 
         document.getElementById("btnSubmit").value = "Güncelle";
         document.getElementById("btnSubmit").disabled = "";

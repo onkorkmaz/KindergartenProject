@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Entity;
+using Business;
 
 namespace KindergartenProject
 {
@@ -17,7 +18,7 @@ namespace KindergartenProject
         protected void Page_Load(object sender, EventArgs e)
         {
             sidebar.Visible = false;
-            if (SelectedMenuList != MenuList.Login &&  (Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null) )
+            if (SelectedMenuList != MenuList.Login && (Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
             {
                 Response.Redirect("/uye-giris");
             }
@@ -31,6 +32,7 @@ namespace KindergartenProject
                     return;
                 }
                 setVisibleMenuItems(false);
+                setScreenAuthorityAndVisible();
 
                 if (AdminContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Developer || AdminContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin)
                 {
@@ -43,6 +45,59 @@ namespace KindergartenProject
 
             sidebar.Visible = SelectedMenuList != MenuList.Login;
 
+        }
+
+        private void setScreenAuthorityAndVisible()
+        {
+            if (AdminContext.AdminEntity.IsDeveleporOrSuperAdmin)
+            {
+                return;
+            }
+
+            List<AuthorityScreenEnum> authortityList = new List<AuthorityScreenEnum>();
+
+            //Ogrenci İşlem
+            authortityList = new List<AuthorityScreenEnum>();
+            authortityList.Add(AuthorityScreenEnum.Ogrenci_Islem);
+            controlMenuVisibleForAuthority(menuStudentAdd, authortityList);
+
+            //Ogrenci İzleme
+            authortityList = new List<AuthorityScreenEnum>();
+            authortityList.Add(AuthorityScreenEnum.Ogrenci_Izleme);
+            controlMenuVisibleForAuthority(menuStudenList, authortityList);
+
+            //Ödeme Planı Izleme
+            authortityList = new List<AuthorityScreenEnum>();
+            authortityList.Add(AuthorityScreenEnum.Odeme_Plani_Izleme);
+            controlMenuVisibleForAuthority(menuPaymentPlan, authortityList);
+
+            //Yoklama Defteri
+            authortityList = new List<AuthorityScreenEnum>();
+            authortityList.Add(AuthorityScreenEnum.Yoklama_Islem);
+            authortityList.Add(AuthorityScreenEnum.Yoklama_Izleme);
+            controlMenuVisibleForAuthority(menuStudentAttendanceBookList, authortityList);
+
+        }
+
+        private void controlMenuVisibleForAuthority(HtmlGenericControl menuStudentAdd, List<AuthorityScreenEnum> authortityList)
+        {
+            ProjectType projectType = (ProjectType)Session[CommonConst.ProjectType];
+            bool authorityDoesNotExists = true;
+
+            foreach (AuthorityScreenEnum enm in authortityList)
+            {
+                AuthorityEntity entity = new AuthorityBusiness(projectType).GetAuthorityWithScreenAndTypeId(enm);
+                if (entity != null && entity.HasAuthority)
+                {
+                    authorityDoesNotExists = false;
+                    break;
+                }
+            }
+
+            if (authorityDoesNotExists)
+            {
+                menuStudentAdd.Visible = false;
+            }
         }
 
         private void setVisibleMenuItems(bool isVisible)
@@ -91,7 +146,6 @@ namespace KindergartenProject
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.AdminList, menuAdminList);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ChangePassword, menuChangePassword);
 
-
         }
 
         private void clearSubMenuStyle()
@@ -122,7 +176,7 @@ namespace KindergartenProject
             {
                 panel.Attributes.Remove("class");
                 panel.Attributes.Add("class", "sidebar-item active");
-            }       
+            }
         }
 
         public void SetVisibleSearchText(bool isVisible)
@@ -130,20 +184,5 @@ namespace KindergartenProject
             txtSearchStudent.Visible = isVisible;
         }
 
-        private bool hasAuthority;
-
-        public bool HasAuthority
-        {
-            get 
-            { 
-                return hasAuthority; 
-            }
-            set 
-            {
-                hasAuthority = value;
-                pnlMain.Visible = hasAuthority;
-            }
-        }
     }
-
 }
