@@ -15,6 +15,33 @@ namespace KindergartenProject
     {
 
         /// <summary>
+        /// rowPaymentSummaryPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rowPaymentSummaryPanel;
+
+        /// <summary>
+        /// thPaymentSummaryPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl thPaymentSummaryPanel;
+
+        /// <summary>
+        /// rowStudent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rowStudent;
+
+        /// <summary>
         /// lblStudent control.
         /// </summary>
         /// <remarks>
@@ -51,6 +78,15 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.Label lblBirthdayThisMonth;
 
         /// <summary>
+        /// rowInterview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rowInterview;
+
+        /// <summary>
         /// lblInterview control.
         /// </summary>
         /// <remarks>
@@ -67,6 +103,15 @@ namespace KindergartenProject
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMonthInterview;
+
+        /// <summary>
+        /// rowClassSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rowClassSummary;
 
         /// <summary>
         /// divTblClass control.

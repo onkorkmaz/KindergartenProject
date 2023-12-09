@@ -7,7 +7,7 @@ namespace Common
     public enum AuthorityScreenEnum
     {
         /// <summary>
-        /// None
+        /// 
         /// </summary>
         None =0,
 
@@ -135,6 +135,21 @@ namespace Common
         /// Ekran İçin Yetkilendirme
         /// </summary>
         Ekran_Icin_Yetkilendirme = 29,
+
+        /// <summary>
+        /// Analiz Paneli Ödeme Özeti
+        /// </summary>
+        Analiz_Paneli_Odeme_Ozeti = 30,
+
+        /// <summary>
+        /// Analiz Paneli Sınıf Dağılımı
+        /// </summary>
+        Analiz_Paneli_Sinif_Dagilimi = 31,
+
+        /// <summary>
+        /// Analiz Paneli Kayıt Sayısı
+        /// </summary>
+        Analiz_Paneli_Kayit_Sayisi = 32,
 
     }
 }

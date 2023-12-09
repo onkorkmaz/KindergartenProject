@@ -28,13 +28,13 @@
                 <div class="w-100">
 
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" id="rowPaymentSummaryPanel" runat="server">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="col-12 col-xl-12">
                                         <div class="table-responsive">
                                             <table class="table mb-0">
-                                                <thead id="thBody">
+                                                <thead id="thPaymentSummaryPanel" runat="server">
                                                 </thead>
                                             </table>
                                         </div>
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <div class="card">
+                            <div class="card"  id="rowStudent" runat="server">
                                 <div class="card-body">
                                     <h5 class="card-title mb-4"><b>Öğrenci Sayısı</b> :
                                         <asp:Label runat="server" ID="lblStudent"></asp:Label></h5>
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <div class="card">
+                            <div class="card" id="rowInterview" runat="server">
                                 <div class="card-body">
                                     <h5 class="card-title mb-4"><b>Öğrenci Görüşme</b> :
                                         <asp:Label runat="server" ID="lblInterview"></asp:Label></h5>
@@ -91,7 +91,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
+                            <div class="card" id="rowClassSummary" runat="server">
                                 <div class="card-body">
                                     <h5 class="card-title mb-4"><b>Sınıf Dağılımları</b></h5>
                                     <hr />

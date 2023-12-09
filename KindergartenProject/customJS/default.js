@@ -1,5 +1,5 @@
 ﻿window.onload = function () {
 
-    drawSummaryWithIndex(3, "thBody");
+    drawSummaryWithIndex(3, "thPaymentSummaryPanel");
     loadSummaryWithIndex(3);
 };

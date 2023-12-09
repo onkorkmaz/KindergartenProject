@@ -83,11 +83,15 @@ function successFunctionGetExpenseSummaryDetailWithYearAndMonth(obje) {
             tbody += "</table>";
             if (IsNullOrEmpty(index)) {
                 var tbl = document.getElementById("tblExpensePaymentDetail");
-                tbl.innerHTML = tbody;
+                if (tbl != null) {
+                    tbl.innerHTML = tbody;
+                }
             }
             else {
                 var tbl = document.getElementById("tblExpensePaymentDetail" + index);
-                tbl.innerHTML = tbody;
+                if (tbl != null) {
+                    tbl.innerHTML = tbody;
+                }
             }
         }
     }
@@ -197,11 +201,15 @@ function setIncomeAndWaiting(isPayment, tblName, list) {
         tbody += "</table>";
         if (IsNullOrEmpty(index)) {
             var tbl = document.getElementById(tblName);
-            tbl.innerHTML = tbody;
+            if (tbl != null) {
+                tbl.innerHTML = tbody;
+            }
         }
         else {
             var tbl = document.getElementById(tblName + index);
-            tbl.innerHTML = tbody;
+            if (tbl != null) {
+                tbl.innerHTML = tbody;
+            }
         }
     }
 }
@@ -283,7 +291,9 @@ function drawSummaryWithIndex(index, thBody) {
         tbody += '</tr>';
     }
 
-    document.getElementById(thBody).innerHTML = tbody;
+    if (document.getElementById(thBody) != null) {
+        document.getElementById(thBody).innerHTML = tbody;
+    }
 
 }
 

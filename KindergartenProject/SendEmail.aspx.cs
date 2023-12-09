@@ -32,8 +32,6 @@ namespace KindergartenProject
                 master.SetVisibleSearchText(false);
             }
 
-            ProjectType projectType = (ProjectType)Session[CommonConst.ProjectType];
-
             if (!Page.IsPostBack)
             {
                 btnSendEmailCopy.Attributes.Add("Style", "display:none;");
@@ -60,7 +58,7 @@ namespace KindergartenProject
                 {
                     int width = 15;
                     int height = 15;
-                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(projectType).Get_Student(id);
+                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student(id);
 
                     if(studentResultSet.HasError)
                     {
@@ -80,7 +78,7 @@ namespace KindergartenProject
                     txtEmail.Text = entity.Email;
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                        new PaymentTypeBusiness(projectType).Get_PaymentType(new SearchEntity()
+                        new PaymentTypeBusiness(CurrentContext.ProjectType).Get_PaymentType(new SearchEntity()
                         { IsActive = true, IsDeleted = false });
 
                     if (resultSet.HasError)
@@ -124,7 +122,7 @@ namespace KindergartenProject
                             sb.AppendLine("<td>" + obje.Year + "</td>");
                             sb.AppendLine("<td>" + obje.MonthName + "</td>");
 
-                            List<PaymentEntity> paymentList = new PaymentBusiness(projectType).Get_Payment(entity.Id).Result;
+                            List<PaymentEntity> paymentList = new PaymentBusiness(CurrentContext.ProjectType).Get_Payment(entity.Id).Result;
 
                             foreach (PaymentTypeEntity payment in paymentTypeList)
                             {

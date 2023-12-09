@@ -1182,6 +1182,13 @@ namespace Common
             sb.AppendLine("");
             sb.AppendLine("");
 
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine("/// None");
+            sb.AppendLine("/// </summary>");
+            string nameNone = "None";
+            sb.AppendLine(nameNone + " = 0,");
+            sb.AppendLine("");
+
             foreach (AuthorityScreenEntity entity in lst)
             {
                 sb.AppendLine("/// <summary>");

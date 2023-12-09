@@ -10,28 +10,36 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class Default : BasePage
+    public partial class Default : System.Web.UI.Page
     {
-        public Default() : base(AuthorityScreenEnum.None)
-        {
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
+            {
+                Response.Redirect("/uye-giris");
+            }
+
+            CurrentContext.AdminEntity = (AdminEntity)Session[CommonConst.Admin];
+            CurrentContext.ProjectType = (ProjectType)Session[CommonConst.ProjectType];
+            CurrentContext.ScreenAuthorityEnum = AuthorityScreenEnum.None;
+
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.Panel);
                 master.SetVisibleSearchText(false);
             }
-
+            
+            setScreenAuthority();
             setDefaultValues();
-            setDefaultScreenAuthority();
         }
 
-        private void setDefaultScreenAuthority()
+        private void setScreenAuthority()
         {
-
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Analiz_Paneli_Odeme_Ozeti, rowPaymentSummaryPanel);
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Analiz_Paneli_Kayit_Sayisi, rowStudent);
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Analiz_Paneli_Kayit_Sayisi, rowInterview);
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Analiz_Paneli_Sinif_Dagilimi, rowClassSummary);
         }
 
         private void setDefaultValues()
