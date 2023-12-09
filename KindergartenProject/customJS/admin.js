@@ -46,10 +46,27 @@ function successFunctionGetAdminList(obje) {
                 tbody += "<td>******</td>";
             }
 
+            tbody += "<td><table cellpadding='4' border='1'><tr><td><b>Anaokulu<b></td><td>|</td><td><b>Eğitim Merkezi</b></td></tr>";
+            var anaokulu = "<img src='img/icons/no.png' width='25' height ='25' />";
+            var egitimMerkezi = "<img src='img/icons/no.png' width='25' height ='25' />";
+            var relEntityList = entityList[i].AdminProjectTypeRelationEntityList;
+            for (var r in relEntityList) {
+                if (relEntityList[r].ProjectTypeId == 1 && relEntityList[r].HasAuthority) {
+                    anaokulu = "<img src='img/icons/active.png' width='25' height ='25' />";
+                }
+
+                if (relEntityList[r].ProjectTypeId == 2 && relEntityList[r].HasAuthority) {
+                    egitimMerkezi = "<img src='img/icons/active.png' width='25' height ='25' />";
+                }
+            }
+
+            tbody += "<tr><td style='text-align: center;'>" + anaokulu + "</td><td></td><td style='text-align: center;'>" + egitimMerkezi + "</td></tr>";
+
+            tbody += "</tr></table></td>";
             if (entityList[i].IsActive)
-                tbody += "<td><img src='img/icons/active.png' width='25' height ='25' /></td>";
+                tbody += "<td style='text-align: center;'><img src='img/icons/active.png' width='25' height ='25' /></td>";
             else
-                tbody += "<td><img src='img/icons/passive.png' width='20' height ='20' /></td>";
+                tbody += "<td style='text-align: center;'><img src='img/icons/passive.png' width='20' height ='20' /></td>";
 
 
             tbody += "<td>" + convertToJavaScriptDate(entityList[i].UpdatedOn) + "</td>";
@@ -85,6 +102,7 @@ function validate() {
     if (IsNullOrEmpty(obje))
         errorMessage += "Yetki türü boş bırakılamaz\n";
 
+
     if (!IsNullOrEmpty(errorMessage)) {
         alert(errorMessage);
         return false;
@@ -92,7 +110,6 @@ function validate() {
 
     return true;
 }
-
 
 function validateAndSave() {
     if (!validate())
@@ -104,13 +121,32 @@ function validateAndSave() {
     var isActive = document.getElementById("chcIsActive").checked;
     var authorityTypeId = document.getElementById("drpAuthorityType").value;
 
+    var objeBenimDunyamAnaokulChecked = document.getElementById("chcBenimDunyamAnaokulu").checked;
+    var objeBenimDunyamEgitimMerkeziChecked = document.getElementById("chcBenimDunyamEgitimMerkezi").checked;
+
     var adminEntity = {};
     adminEntity["UserName"] = name;
     adminEntity["Password"] = password;
     adminEntity["IsActive"] = isActive;
     adminEntity["AuthorityTypeId"] = authorityTypeId;
 
-  
+    var adminProjectTypeRelationEntityList = [];
+    var adminProjectTypeRelationEntity = {};
+    adminProjectTypeRelationEntity.AdminId = id;
+    adminProjectTypeRelationEntity.ProjectTypeId = 1;
+    adminProjectTypeRelationEntity.HasAuthority = objeBenimDunyamAnaokulChecked;
+    adminProjectTypeRelationEntity.IsActive = true;
+    adminProjectTypeRelationEntityList.push(adminProjectTypeRelationEntity);
+
+    adminProjectTypeRelationEntity = {};
+    adminProjectTypeRelationEntity.AdminId = id;
+    adminProjectTypeRelationEntity.ProjectTypeId = 2;
+    adminProjectTypeRelationEntity.HasAuthority = objeBenimDunyamEgitimMerkeziChecked;
+    adminProjectTypeRelationEntity.IsActive = true;
+    adminProjectTypeRelationEntityList.push(adminProjectTypeRelationEntity);
+
+    adminEntity["AdminProjectTypeRelationEntityList"] = adminProjectTypeRelationEntityList;
+
     var jsonData = "{ id:" + JSON.stringify(id) + ", adminEntity: " + JSON.stringify(adminEntity) + " }";
     CallServiceWithAjax('/KinderGartenWebService.asmx/InsertOrUpdateAdmin', jsonData, successFunctionInsertOrUpdateAdmin, errorFunction);
 
@@ -172,6 +208,18 @@ function successFunctionGetAdminWithId(obje) {
         document.getElementById("chcIsActive").checked = entity.IsActive;
         document.getElementById("drpAuthorityType").value = entity.AuthorityTypeId;
 
+        var relEntityList = entity.AdminProjectTypeRelationEntityList;
+
+        for (var r in relEntityList) {
+            if (relEntityList[r].ProjectTypeId == 1) {
+                document.getElementById("chcBenimDunyamAnaokulu").checked = relEntityList[r].HasAuthority;
+            }
+
+            if (relEntityList[r].ProjectTypeId == 2 ) {
+                document.getElementById("chcBenimDunyamEgitimMerkezi").checked = relEntityList[r].HasAuthority;
+            }
+        }
+
         document.getElementById("btnSubmit").value = "Güncelle";
         document.getElementById("btnSubmit").disabled = "";
 
@@ -183,14 +231,12 @@ function successFunctionGetAdminWithId(obje) {
 
 function setDefaultValues() {
     document.getElementById("hdnId").value = "";
-    document.getElementById("txtName").value = "";
-    document.getElementById("txtSurname").value = "";
-
-    document.getElementById("txtPrice").value = "";
-    document.getElementById("txtPhoneNumber").value = "";
-
+    document.getElementById("txtUserName").value = "";
+    document.getElementById("txtPassword").value = "";
+    document.getElementById("drpAuthorityType").value = "0";
+    document.getElementById("chcBenimDunyamAnaokulu").checked = false;
+    document.getElementById("chcBenimDunyamEgitimMerkezi").checked = false;
     document.getElementById("chcIsActive").checked = true;
-    document.getElementById("chcIsManager").checked = false;
     document.getElementById("btnSubmit").value = "Kaydet";
 
 }

@@ -44,6 +44,18 @@
                     </div>
                 </div>
 
+                <div class="mb-3 row">
+                    <label class="col-form-label col-sm-2 text-sm-left">Yetki-Proje Türü</label>
+                    <div class="col-sm-10">
+                        <table cellpadding="4" border="1">
+                            <tbody runat="server" id="adminBody">
+                                <tr><td>Anaokulu</td><td>:</td><td><asp:CheckBox runat="server" ID="chcBenimDunyamAnaokulu" /></td></tr>
+                                <tr><td>Eğitim Merkezi</td><td>:</td><td><asp:CheckBox runat="server" ID="chcBenimDunyamEgitimMerkezi" /></td></tr>
+                            </tbody>
+                        </table>
+                        <br />
+                    <//div>
+                </div>
 
                 <div class="mb-3 row">
                     <label class="col-form-label col-sm-2 text-sm-left">Aktif</label>
@@ -83,6 +95,7 @@
                                     <th scope="col">Şifre</th>
                                     <th scope="col">Yetki Türü</th>
                                     <th scope="col">Üst Yetki Türü</th>
+                                    <th scope="col">Proje Yetki</th>
                                     <th scope="col">Aktif</th>
                                     <th scope="col">Güncellenme Tarihi</th>
                                 </tr>

@@ -292,7 +292,7 @@ namespace KindergartenProject
             {
                 entity.IsActive = true;
             }
-            List<AdminEntity> result = new AdminBusiness(GetProjectType()).Get_Admin(entity).Result;
+            List<AdminEntity> result = new AdminBusiness(GetProjectType()).Get_AdminAndProjectRelation(entity).Result;
 
             foreach (AdminEntity ent in result)
             {
@@ -369,6 +369,24 @@ namespace KindergartenProject
             adminEntity.DatabaseProcess = currentProcess;
 
             DataResultArgs<bool> result = new AdminBusiness(GetProjectType()).Set_Admin(adminEntity, false);
+
+            if (!result.HasError)
+            {
+                List<AdminProjectTypeRelationEntity> relationList = adminEntity.AdminProjectTypeRelationEntityList;
+                foreach (AdminProjectTypeRelationEntity relEntity in relationList)
+                {
+                    DataResultArgs<bool> resultSetRel = new AdminProjectTypeRelationBusiness().Set_AdminProjectTypeRelation(relEntity);
+                    if (resultSetRel.HasError)
+                    {
+                        return resultSetRel;
+                    }
+                }
+
+                if (adminEntity.Id == CurrentContext.AdminEntity.Id)
+                {
+                    CurrentContext.AdminEntity = new AdminBusiness(GetProjectType()).Get_Admin(adminEntity.UserName, adminEntity.Password).Result;
+                }
+            }
 
             return result;
         }
