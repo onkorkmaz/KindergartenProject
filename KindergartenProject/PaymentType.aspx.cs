@@ -9,22 +9,20 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class PaymentType : System.Web.UI.Page
+    public partial class PaymentType : BasePage
     {
+        public PaymentType() : base(AuthorityScreenEnum.Odeme_Tipleri_Izleme)
+        {
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
-                if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-                {
-                    Response.Redirect("/uye-giris");
-                }
-
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.PaymentType);
                 master.SetVisibleSearchText(false);
 
-                if (AdminContext.AdminEntity.IsDeveleporOrSuperAdmin)
+                if (CurrentContext.AdminEntity.IsDeveleporOrSuperAdmin)
                 {
                     btnSubmit.Enabled = true;
                 }
@@ -32,7 +30,6 @@ namespace KindergartenProject
                 {
                     btnSubmit.Enabled = false;
                 }
-
             }
         }
     }

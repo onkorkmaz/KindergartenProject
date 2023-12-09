@@ -7,22 +7,21 @@ using System.Web.UI;
 
 namespace KindergartenProject
 {
-    public partial class ChangePassword : System.Web.UI.Page
+    public partial class ChangePassword : BasePage
     {
-        WorkerBusiness business = null;
-        ProjectType projectType = ProjectType.None;
+        public ChangePassword() : base(AuthorityScreenEnum.Sifre_Degistir_Islem)
+        {
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
             if (!Page.IsPostBack)
             {
-                hdnId.Value = AdminContext.AdminEntity.Id.ToString();
-                txtUserName.Text = AdminContext.AdminEntity.UserName;
+                hdnId.Value = CurrentContext.AdminEntity.Id.ToString();
+                txtUserName.Text = CurrentContext.AdminEntity.UserName;
+                var master = this.Master as kindergarten;
+                master.SetActiveMenuAttiributes(MenuList.ChangePassword);
+                master.SetVisibleSearchText(false);
             }
         }
     }

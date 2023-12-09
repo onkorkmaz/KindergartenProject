@@ -9,34 +9,18 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class AuthorityCreator : System.Web.UI.Page
+    public partial class AuthorityCreator : BasePage
     {
+        public AuthorityCreator() : base(AuthorityScreenEnum.None)
+        {
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
-            AdminEntity adminEntity = null;
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            adminEntity = (AdminEntity)Session[CommonConst.Admin];
-
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.AuthorityGenerator);
                 master.SetVisibleSearchText(false);
-            }
-
-            controlAuthorization(adminEntity);
-
-        }
-
-        private void controlAuthorization(AdminEntity adminEntity)
-        {
-            if (AdminContext.AdminEntity.OwnerStatusEnum != OwnerStatusEnum.Developer)
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Bu sayfa için yetkiniz bulunmamaktadır.');window.location ='/benim-dunyam-montessori-okullari';", true);
             }
         }
     }

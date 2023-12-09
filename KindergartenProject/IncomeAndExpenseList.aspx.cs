@@ -11,22 +11,15 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class IncomeAndExpenseList : System.Web.UI.Page
+    public partial class IncomeAndExpenseList : BasePage
     {
-        #region VARIABLES
-        ProjectType projectType = ProjectType.None;
-        #endregion VARIABLES
+        public IncomeAndExpenseList() : base(AuthorityScreenEnum.Gelir_Gider_Izleme)
+        {
+        }
 
         #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
-
             divInformation.ListRecordPage = "/gelir-gider-listesi";
             divInformation.NewRecordPage = "/gelir-gider-ekle";
 
@@ -67,7 +60,7 @@ namespace KindergartenProject
                 drpIncomeAndExpenseType.Items.Clear();
                 drpIncomeAndExpenseType.Items.Add(new ListItem("Seçiniz", "-1"));
 
-                List<IncomeAndExpenseTypeEntity> typeList = new IncomeAndExpenseTypeBusiness(projectType).Get_IncomeAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+                List<IncomeAndExpenseTypeEntity> typeList = new IncomeAndExpenseTypeBusiness(CurrentContext.ProjectType).Get_IncomeAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
                 foreach(IncomeAndExpenseTypeEntity type in typeList)
                 {
                     drpIncomeAndExpenseType.Items.Add(new ListItem(type.Name, type.Id.ToString()));

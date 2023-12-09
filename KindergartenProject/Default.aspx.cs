@@ -1,28 +1,23 @@
-﻿using Common;
-using System;
-using System.Web.UI;
+﻿using Business;
+using Common;
 using Entity;
-using Business;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Web.UI.WebControls;
 using System.Text;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class Default : System.Web.UI.Page
+    public partial class Default : BasePage
     {
-        ProjectType projectType = ProjectType.None;
+        public Default() : base(AuthorityScreenEnum.None)
+        {
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
-
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
@@ -30,7 +25,13 @@ namespace KindergartenProject
                 master.SetVisibleSearchText(false);
             }
 
-            setDefaultValues();      
+            setDefaultValues();
+            setDefaultScreenAuthority();
+        }
+
+        private void setDefaultScreenAuthority()
+        {
+
         }
 
         private void setDefaultValues()
@@ -41,7 +42,7 @@ namespace KindergartenProject
 
         private void fillClassList()
         {
-            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(projectType).Get_ClassForStudent();
+            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(CurrentContext.ProjectType).Get_ClassForStudent();
             if (!resultSet.HasError)
             {
                 List<ClassEntity> list = resultSet.Result;
@@ -62,7 +63,7 @@ namespace KindergartenProject
         {
             DataResultArgs<List<StudentEntity>> resultSet = new DataResultArgs<List<StudentEntity>>();
 
-            resultSet = new StudentBusiness(projectType).Get_Student();
+            resultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student();
             if (!resultSet.HasError)
             {
                 List<StudentEntity> entityList = resultSet.Result;

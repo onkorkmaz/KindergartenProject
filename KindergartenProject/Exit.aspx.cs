@@ -20,7 +20,7 @@ namespace KindergartenProject
 
             if (Session[CommonConst.Admin] != null)
             {
-                AdminContext.AdminEntity = null;
+                CurrentContext.AdminEntity = null;
                 Session[CommonConst.Admin] = null;
                 Session[CommonConst.ProjectType] = null;
                 Session.Abandon();

@@ -10,11 +10,14 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class StudentAdd : System.Web.UI.Page
+    public partial class StudentAdd : BasePage
     {
+        public StudentAdd() : base(AuthorityScreenEnum.Ogrenci_Islem)
+        {
+        }
+
         #region VARIABLES
         StudentBusiness business = null;
-        ProjectType projectType = ProjectType.None;
         List<StudentEntity> lst;
         #endregion VARIABLES
 
@@ -80,13 +83,7 @@ namespace KindergartenProject
         #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
-            business = new StudentBusiness(projectType);
+            business = new StudentBusiness(CurrentContext.ProjectType);
 
             divInformation.ListRecordPage = "ogrenci-listesi";
             divInformation.NewRecordPage = "ogrenci-ekle";
@@ -101,7 +98,7 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
-                if(projectType!= ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi)
+                if(CurrentContext.ProjectType != ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi)
                 {
                     divSchoolClass.Visible = false;
                 }
@@ -110,7 +107,7 @@ namespace KindergartenProject
                 //txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 txtInterviewDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
-                DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness(projectType).Get_Class(new SearchEntity() { IsActive = true, IsDeleted = false });
+                DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness(CurrentContext.ProjectType).Get_Class(new SearchEntity() { IsActive = true, IsDeleted = false });
                 if (resultSetClassList.HasError)
                 {
                     divInformation.ErrorText = resultSetClassList.ErrorDescription;
@@ -146,7 +143,7 @@ namespace KindergartenProject
                     int id = CommonFunctions.GetData<int>(IdDecrypt);
                     if (id > 0)
                     {
-                        DataResultArgs<StudentEntity> resultSet = new StudentBusiness(projectType).Get_Student(id);
+                        DataResultArgs<StudentEntity> resultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student(id);
                         if (resultSet.HasError)
                         {
                             divInformation.ErrorText = resultSet.ErrorDescription;

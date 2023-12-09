@@ -8,19 +8,14 @@ using System.Linq;
 
 namespace KindergartenProject
 {
-    public partial class Authority : System.Web.UI.Page
+    public partial class Authority : BasePage
     {
+        public Authority() : base(AuthorityScreenEnum.Yetkilendirme)
+        {
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            AdminEntity adminEntity = null;
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            adminEntity = (AdminEntity)Session[CommonConst.Admin];
-
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
@@ -28,11 +23,9 @@ namespace KindergartenProject
                 master.SetVisibleSearchText(false);
             }
 
-            controlAuthorization(adminEntity);
-
             if (!Page.IsPostBack)
             {
-                DataResultArgs<List<AuthorityTypeEntity>> resultSet = new AuthorityTypeBusiness(adminEntity.ProjectType).Get_AuthorityType(new SearchEntity() { IsDeleted = false, IsActive = true });
+                DataResultArgs<List<AuthorityTypeEntity>> resultSet = new AuthorityTypeBusiness(CurrentContext.ProjectType).Get_AuthorityType(new SearchEntity() { IsDeleted = false, IsActive = true });
 
 
                 if (resultSet.HasError)
@@ -63,7 +56,7 @@ namespace KindergartenProject
 
         private void controlAuthorization(AdminEntity adminEntity)
         {
-            if (AdminContext.AdminEntity.OwnerStatusEnum != OwnerStatusEnum.Developer)
+            if (CurrentContext.AdminEntity.OwnerStatusEnum != OwnerStatusEnum.SuperAdmin)
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Bu sayfa için yetkiniz bulunmamaktadır.');window.location ='/benim-dunyam-montessori-okullari';", true);
             }

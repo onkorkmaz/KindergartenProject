@@ -12,18 +12,14 @@ using System.Globalization;
 
 namespace KindergartenProject
 {
-    public partial class StudentList : System.Web.UI.Page
+    public partial class StudentList : BasePage
     {
-        ProjectType projectType = ProjectType.None;
+        public StudentList() : base(AuthorityScreenEnum.Ogrenci_Izleme)
+        {
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
-
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
@@ -49,7 +45,7 @@ namespace KindergartenProject
 
         private void loadClass()
         {
-            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(projectType).Get_ClassForStudent();
+            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(CurrentContext.ProjectType).Get_ClassForStudent();
 
             if (resultSet.HasError)
             {
@@ -85,7 +81,7 @@ namespace KindergartenProject
         {
             DataResultArgs<List<StudentEntity>> resultSet = new DataResultArgs<List<StudentEntity>>();
 
-            resultSet = new StudentBusiness(projectType).Get_Student();
+            resultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student();
             if (!resultSet.HasError)
             {
                 List<StudentEntity> entityList = resultSet.Result;

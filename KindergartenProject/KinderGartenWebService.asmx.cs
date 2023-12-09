@@ -296,7 +296,7 @@ namespace KindergartenProject
 
             foreach (AdminEntity ent in result)
             {
-                ent.EntranceAdminInfo = AdminContext.AdminEntity;
+                ent.EntranceAdminInfo = CurrentContext.AdminEntity;
             }
 
             return result;
@@ -382,7 +382,7 @@ namespace KindergartenProject
                 ErrorDescription = "Id bilgisine ulaşılamadı."
             };
 
-            if (!AdminContext.AdminEntity.IsDeveleporOrSuperAdmin)
+            if (!CurrentContext.AdminEntity.IsDeveleporOrSuperAdmin)
             {
                 result.ErrorDescription = "Admin Silme Yetkiniz bulunmamaktadı.";
                 return result;

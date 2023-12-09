@@ -7,10 +7,13 @@ using System.Web.UI;
 
 namespace KindergartenProject
 {
-    public partial class ClassList : System.Web.UI.Page
+    public partial class ClassList : BasePage
     {
-        WorkerBusiness business = null;
-        ProjectType projectType = ProjectType.None;
+        public ClassList() : base(AuthorityScreenEnum.Sinif_Izleme)
+        {
+        }
+
+        WorkerBusiness business = null;       
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -25,14 +28,10 @@ namespace KindergartenProject
                 master.SetActiveMenuAttiributes(MenuList.ClassList);
                 master.SetVisibleSearchText(false);
 
-                projectType = (ProjectType)Session[CommonConst.ProjectType];
-                business = new WorkerBusiness(projectType);
-
+                business = new WorkerBusiness(CurrentContext.ProjectType);
 
                 List<WorkerEntity> currentList = business.Get_Worker(new SearchEntity() { IsActive = true, IsDeleted = false }, true).Result;
-
                 List<WorkerEntity> list = new List<WorkerEntity>();
-
                 list.Add(new WorkerEntity() { Id = -1, Name = "", Surname = "" });
 
                 foreach(WorkerEntity worker in currentList)
@@ -45,13 +44,10 @@ namespace KindergartenProject
                 drpHelperTeacher.DataTextField = "Title";
                 drpHelperTeacher.DataBind();
 
-
                 drpMainTeacher.DataSource = list;
                 drpMainTeacher.DataValueField = "Id";
                 drpMainTeacher.DataTextField = "Title";
                 drpMainTeacher.DataBind();
-
-
             }
         }
     }

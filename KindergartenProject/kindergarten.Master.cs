@@ -13,6 +13,7 @@ namespace KindergartenProject
 {
     public partial class kindergarten : System.Web.UI.MasterPage
     {
+
         public MenuList SelectedMenuList { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -24,20 +25,16 @@ namespace KindergartenProject
             }
             else
             {
-                if (AdminContext.AdminEntity == null)
-                    AdminContext.AdminEntity = Session[CommonConst.Admin] as AdminEntity;
+                if (CurrentContext.AdminEntity == null)
+                    CurrentContext.AdminEntity = Session[CommonConst.Admin] as AdminEntity;
 
-                if (AdminContext.AdminEntity == null)
+                if (CurrentContext.AdminEntity == null)
                 {
                     return;
                 }
-                setVisibleMenuItems(false);
+                setVisibleMenuItems();
                 setScreenAuthorityAndVisible();
 
-                if (AdminContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Developer || AdminContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin)
-                {
-                    setVisibleMenuItems(true);
-                }
             }
 
             if (KinderGartenWebService.List.ContainsKey(ListKey.SearchValue))
@@ -49,66 +46,78 @@ namespace KindergartenProject
 
         private void setScreenAuthorityAndVisible()
         {
-            if (AdminContext.AdminEntity.IsDeveleporOrSuperAdmin)
-            {
+            if (CurrentContext.AdminEntity.IsDeveleporOrSuperAdmin){
                 return;
             }
 
-            List<AuthorityScreenEnum> authortityList = new List<AuthorityScreenEnum>();
-
-            //Ogrenci İşlem
-            authortityList = new List<AuthorityScreenEnum>();
-            authortityList.Add(AuthorityScreenEnum.Ogrenci_Islem);
-            controlMenuVisibleForAuthority(menuStudentAdd, authortityList);
-
             //Ogrenci İzleme
-            authortityList = new List<AuthorityScreenEnum>();
-            authortityList.Add(AuthorityScreenEnum.Ogrenci_Izleme);
-            controlMenuVisibleForAuthority(menuStudenList, authortityList);
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Ogrenci_Izleme, menuStudenList);
+            
+            //Ogrenci İşlem
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Ogrenci_Islem, menuStudentAdd);
 
             //Ödeme Planı Izleme
-            authortityList = new List<AuthorityScreenEnum>();
-            authortityList.Add(AuthorityScreenEnum.Odeme_Plani_Izleme);
-            controlMenuVisibleForAuthority(menuPaymentPlan, authortityList);
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Odeme_Plani_Izleme, menuPaymentPlan);
 
-            //Yoklama Defteri
-            authortityList = new List<AuthorityScreenEnum>();
-            authortityList.Add(AuthorityScreenEnum.Yoklama_Islem);
-            authortityList.Add(AuthorityScreenEnum.Yoklama_Izleme);
-            controlMenuVisibleForAuthority(menuStudentAttendanceBookList, authortityList);
+            //Yoklama Defteri Izleme
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Yoklama_Izleme, menuStudentAttendanceBookList);
+
+            //Gelir Gider Ekleme
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Gelir_Gider_Islem, menuIncomeAndExpenseAdd);
+
+            //Gelir Gider İzleme
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Gelir_Gider_Izleme, menuIncomeAndExpenseList);
+
+            //Ödeme Tipleri İzleme 
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Odeme_Tipleri_Islem, menuPaymentType);
+
+            //Sınıf İzleme 
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Sinif_Izleme, menuClassList);
+
+            //Çalışan Yönetimi İzleme
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Calisan_Yonetim_Izleme, menuWorkerList);
+
+            //Gelir-Gider Tipi İzleme
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Gelir_Gider_Tipi_Izleme, menuIncomeAndExpenseType);
+
+            //Admin Listesi İzleme
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Admin_Izleme, menuAdminList);
+
+            //Şifre Değiştirme
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Sifre_Degistir_Izleme, menuChangePassword);
+
+            //Cache Temizliği
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Cache_Islemleri, menuClearCache);
+
+            //Yetki Türü
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Yetki_Turu, menuAuthorityType);
+
+            //Yetkilendirme
+            new CommonUIFunction().SetVisibility(AuthorityScreenEnum.Ekran_Icin_Yetkilendirme, menuAuthorityScreen);
 
         }
 
-        private void controlMenuVisibleForAuthority(HtmlGenericControl menuStudentAdd, List<AuthorityScreenEnum> authortityList)
+        private void setVisibleMenuItems()
         {
-            ProjectType projectType = (ProjectType)Session[CommonConst.ProjectType];
-            bool authorityDoesNotExists = true;
-
-            foreach (AuthorityScreenEnum enm in authortityList)
-            {
-                AuthorityEntity entity = new AuthorityBusiness(projectType).GetAuthorityWithScreenAndTypeId(enm);
-                if (entity != null && entity.HasAuthority)
-                {
-                    authorityDoesNotExists = false;
-                    break;
-                }
-            }
-
-            if (authorityDoesNotExists)
-            {
-                menuStudentAdd.Visible = false;
-            }
-        }
-
-        private void setVisibleMenuItems(bool isVisible)
-        {
-            bool isDeveloper = AdminContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Developer;
-            menuClearCache.Visible = isDeveloper;
-            menuAuthorityGenerator.Visible = isDeveloper;
+            bool isDeveloper = CurrentContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin;
+            
             menuAuthority.Visible = isDeveloper;
+            menuAuthorityGenerator.Visible = isDeveloper;
             menuAuthorityScreen.Visible = isDeveloper;
             menuAuthorityType.Visible = isDeveloper;
-            menuAdminList.Visible = isVisible;
+            menuChangePassword.Visible = isDeveloper;
+            menuClassList.Visible = isDeveloper;
+            menuClearCache.Visible = isDeveloper;
+            menuIncomeAndExpenseAdd.Visible = isDeveloper;
+            menuIncomeAndExpenseList.Visible = isDeveloper;
+            menuIncomeAndExpenseType.Visible = isDeveloper;
+            menuPaymentPlan.Visible = isDeveloper;
+            menuPaymentType.Visible = isDeveloper;
+            menuStudenList.Visible = isDeveloper;
+            menuStudentAdd.Visible = isDeveloper;
+            menuStudentAttendanceBookList.Visible = isDeveloper;
+            menuWorkerList.Visible = isDeveloper;            
+            menuAdminList.Visible = CurrentContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin || CurrentContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Admin;
         }
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
@@ -120,11 +129,8 @@ namespace KindergartenProject
             clearMenuActiveStyle(menuStudentAttendanceBookList);
             clearMenuActiveStyle(menuIncomeAndExpenseList);
             clearMenuActiveStyle(menuIncomeAndExpenseAdd);
-
             clearMenuActiveStyle(menuSettings);
-
             clearSubMenuStyle();
-
 
             SetMenuAttiributes(menuPanel, selectedMenuList == MenuList.Panel);
             SetMenuAttiributes(menuStudenList, selectedMenuList == MenuList.StudentList);

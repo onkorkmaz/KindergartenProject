@@ -9,18 +9,14 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class StudentAttendanceBookList : System.Web.UI.Page
+    public partial class StudentAttendanceBookList : BasePage
     {
-        ProjectType projectType = ProjectType.None;
+        public StudentAttendanceBookList() : base(AuthorityScreenEnum.Yoklama_Izleme)
+        {
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
-
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.StudentAttendanceBookList);
 
@@ -56,7 +52,6 @@ namespace KindergartenProject
             {
                 drpDays.SelectedValue = lastDay.ToString();
             }
-
         }
     }
 }

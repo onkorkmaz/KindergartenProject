@@ -11,19 +11,16 @@ using Business;
 
 namespace KindergartenProject
 {
-    public partial class IncomeAndExpenseType : System.Web.UI.Page
+    public partial class IncomeAndExpenseType : BasePage
     {
-        ProjectType projectType = ProjectType.None;
+        public IncomeAndExpenseType() : base(AuthorityScreenEnum.Gelir_Gider_Tipi_Izleme)
+        {
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
             if (!Page.IsPostBack)
             {
-                projectType = (ProjectType)Session[CommonConst.ProjectType];
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.IncomeAndExpenseType);
                 master.SetVisibleSearchText(false);

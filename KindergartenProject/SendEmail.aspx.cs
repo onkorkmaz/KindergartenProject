@@ -10,19 +10,16 @@ using System.Text;
 
 namespace KindergartenProject
 {
-    public partial class SendEmail : System.Web.UI.Page
+    public partial class SendEmail : BasePage
     {
-        ProjectType projectType = ProjectType.None;
+        public SendEmail() : base(AuthorityScreenEnum.None)
+        {
+        }
 
         private const string studentDoesNotFound = "Ödeme detayı için öğrenci seçmelisiniz !!!";
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
             divInformation.InformationVisible = false;
             divInformation.ListRecordPage = "/odeme-plani";
             divInformation.SetVisibleLink(true, false);
@@ -236,7 +233,7 @@ namespace KindergartenProject
                 }
                 else
                 {
-                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(projectType).Get_Student(id);
+                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student(id);
                     if(studentResultSet.HasError)
                     {
                         divInformation.ErrorText = studentResultSet.ErrorDescription;
@@ -246,7 +243,7 @@ namespace KindergartenProject
                     StudentEntity entity = studentResultSet.Result;
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                        new PaymentTypeBusiness(projectType).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
+                        new PaymentTypeBusiness(CurrentContext.ProjectType).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
 
                     StringBuilder sb = InitializeHtmlTable(entity, resultSet.Result);
 
@@ -285,7 +282,7 @@ namespace KindergartenProject
 
         private StringBuilder InitializeHtmlTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
         {
-            List<PaymentEntity> paymentList = new PaymentBusiness(projectType).Get_Payment(entity.Id).Result;
+            List<PaymentEntity> paymentList = new PaymentBusiness(CurrentContext.ProjectType).Get_Payment(entity.Id).Result;
             List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, paymentList);
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 
@@ -479,7 +476,6 @@ namespace KindergartenProject
                 }
             }
         }
-
 
         private Dictionary<int, string> GetSelectedMonthList()
         {

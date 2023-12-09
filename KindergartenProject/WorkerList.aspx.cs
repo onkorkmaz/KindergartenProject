@@ -10,15 +10,14 @@ using Business;
 
 namespace KindergartenProject
 {
-    public partial class WorkerList : System.Web.UI.Page
+    public partial class WorkerList : BasePage
     {
+        public WorkerList() : base(AuthorityScreenEnum.Sinif_Izleme)
+        {
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
@@ -26,8 +25,6 @@ namespace KindergartenProject
                 master.SetVisibleSearchText(false);
 
                 ProjectType projectType = (ProjectType)Session[CommonConst.ProjectType];
-
-
             }
         }
     }

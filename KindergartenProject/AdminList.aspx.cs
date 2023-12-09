@@ -10,23 +10,21 @@ using Business;
 
 namespace KindergartenProject
 {
-    public partial class AdminList : System.Web.UI.Page
+    public partial class AdminList : BasePage
     {
+        public AdminList() : base(AuthorityScreenEnum.Admin_Izleme)
+        {
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.AdminList);
                 master.SetVisibleSearchText(false);
-                ProjectType projectType = (ProjectType)Session[CommonConst.ProjectType];
-
-                List<AuthorityTypeEntity> lst = new AuthorityTypeBusiness(projectType).Get_AuthorityType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+                
+                List<AuthorityTypeEntity> lst = new AuthorityTypeBusiness(CurrentContext.ProjectType).Get_AuthorityType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
 
                 drpAuthorityType.DataSource = lst;
                 drpAuthorityType.DataTextField = "Name";

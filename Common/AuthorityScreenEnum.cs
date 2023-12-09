@@ -6,7 +6,10 @@ namespace Common
 {
     public enum AuthorityScreenEnum
     {
-
+        /// <summary>
+        /// None
+        /// </summary>
+        None =0,
 
         /// <summary>
         /// Öğrenci İşlem
@@ -104,11 +107,6 @@ namespace Common
         Cache_Islemleri = 20,
 
         /// <summary>
-        /// Yetki Generator
-        /// </summary>
-        Yetki_Generator = 21,
-
-        /// <summary>
         /// Admin İzleme
         /// </summary>
         Admin_Izleme = 24,
@@ -123,8 +121,20 @@ namespace Common
         /// </summary>
         Odeme_Plani_Ekleme_Silme = 26,
 
+        /// <summary>
+        /// Yetki Türü Tanımlama
+        /// </summary>
+        Yetki_Turu = 27,
+
+        /// <summary>
+        /// Yetkilendirme Ekranı
+        /// </summary>
+        Yetkilendirme = 28,
+
+        /// <summary>
+        /// Ekran İçin Yetkilendirme
+        /// </summary>
+        Ekran_Icin_Yetkilendirme = 29,
 
     }
-
-
 }

@@ -223,6 +223,9 @@
     <Compile Include="AuthorityType.aspx.designer.cs">
       <DependentUpon>AuthorityType.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="CacheClear.aspx.cs">
       <DependentUpon>CacheClear.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -244,7 +247,9 @@
     <Compile Include="ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
-    <Compile Include="common\CommonUIFunction.cs" />
+    <Compile Include="common\CommonUIFunction.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="IncomeAndExpenseList.aspx.cs">
       <DependentUpon>IncomeAndExpenseList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

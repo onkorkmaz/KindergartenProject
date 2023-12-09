@@ -10,15 +10,14 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class PaymentPlan : System.Web.UI.Page
+    public partial class PaymentPlan : BasePage
     {
+        public PaymentPlan() : base(AuthorityScreenEnum.Odeme_Plani_Izleme)
+        {
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.PaymentPlan);
 

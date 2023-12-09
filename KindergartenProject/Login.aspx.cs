@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+﻿using Business;
 using Common;
-using  Entity;
-using Business;
+using Entity;
+using System;
+using System.Web.UI;
 
 namespace KindergartenProject
 {
@@ -53,10 +49,11 @@ namespace KindergartenProject
                 {
                     Session[CommonConst.Admin] = resultSet.Result;
                     Session[CommonConst.ProjectType] = projectTypeEnum;
-                    AdminContext.AdminEntity= resultSet.Result;
+
+                    CurrentContext.AdminEntity= resultSet.Result;
                     loadAuthority(projectTypeEnum);
 
-                    DataResultArgs<AdminProjectTypeRelationEntity> resultSetAdminOrgAuth = new AdminProjectTypeRelationBusiness().Get_AdminProjectTypeRelation(AdminContext.AdminEntity.Id, projectTypeEnum);
+                    DataResultArgs<AdminProjectTypeRelationEntity> resultSetAdminOrgAuth = new AdminProjectTypeRelationBusiness().Get_AdminProjectTypeRelation(CurrentContext.AdminEntity.Id, projectTypeEnum);
 
                     if (resultSetAdminOrgAuth.Result == null)
                     {
@@ -77,7 +74,7 @@ namespace KindergartenProject
 
         private void loadAuthority(ProjectType projectTypeEnum)
         {
-            AuthorityEntity authority = new AuthorityBusiness(projectTypeEnum).GetAuthorityWithTypeId(AdminContext.AdminEntity.AuthorityTypeId);
+            AuthorityEntity authority = new AuthorityBusiness(projectTypeEnum).GetAuthorityWithTypeId(CurrentContext.AdminEntity.AuthorityTypeId);
         }
     }
 }

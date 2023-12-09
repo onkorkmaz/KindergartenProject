@@ -1,12 +1,15 @@
-﻿using Entity;
+﻿using Business;
+using Common;
+using Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.HtmlControls;
 
 namespace KindergartenProject
 {
-    public class CommonUIFunction
+    public class CommonUIFunction : System.Web.UI.MasterPage
     {
         public static List<SeasonEntity> GetSeasonList(int year)
         {
@@ -27,5 +30,29 @@ namespace KindergartenProject
             return monthList;
         }
 
+        private void controlMenuVisibleForAuthority(HtmlGenericControl generiControl, List<AuthorityScreenEnum> authortityList)
+        {
+            ProjectType projectType = (ProjectType)Session[CommonConst.ProjectType];
+            bool authorityExists = false;
+
+            foreach (AuthorityScreenEnum enm in authortityList)
+            {
+                AuthorityEntity entity = new AuthorityBusiness(projectType).GetAuthorityWithScreenAndTypeId(enm);
+                if (entity != null)
+                {
+                    authorityExists = entity.HasAuthority;
+                    break;
+                }
+            }
+            generiControl.Visible = authorityExists;
+        }
+
+        internal void SetVisibility(AuthorityScreenEnum authorityScreen, HtmlGenericControl genericControl)
+        {
+            List<AuthorityScreenEnum> authortityList = new List<AuthorityScreenEnum>();
+            authortityList = new List<AuthorityScreenEnum>();
+            authortityList.Add(authorityScreen);
+            controlMenuVisibleForAuthority(genericControl, authortityList);
+        }
     }
 }

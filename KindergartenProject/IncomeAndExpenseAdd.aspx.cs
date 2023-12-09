@@ -11,11 +11,14 @@ using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
-    public partial class IncomeAndExpenseAdd : System.Web.UI.Page
+    public partial class IncomeAndExpenseAdd : BasePage
     {
+        public IncomeAndExpenseAdd() : base(AuthorityScreenEnum.Gelir_Gider_Islem)
+        {
+        }
+
         #region VARIABLES
         IncomeAndExpenseBusiness business = null;
-        ProjectType projectType = ProjectType.None;
         List<IncomeAndExpenseEntity> lst;
         #endregion VARIABLES
 
@@ -42,13 +45,7 @@ namespace KindergartenProject
         #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
-            business = new IncomeAndExpenseBusiness(projectType);
+            business = new IncomeAndExpenseBusiness(CurrentContext.ProjectType);
 
             divInformation.ListRecordPage = "/gelir-gider-listesi";
             divInformation.NewRecordPage = "/gelir-gider-ekle";
@@ -77,7 +74,7 @@ namespace KindergartenProject
                     if (id > 0)
                     {
                         DataResultArgs<List<IncomeAndExpenseEntity>> resultSet = 
-                            new IncomeAndExpenseBusiness(projectType).Get_IncomeAndExpense(new SearchEntity() { Id = id });
+                            new IncomeAndExpenseBusiness(CurrentContext.ProjectType).Get_IncomeAndExpense(new SearchEntity() { Id = id });
                         if (resultSet.HasError)
                         {
                             divInformation.ErrorText = resultSet.ErrorDescription;
@@ -95,7 +92,7 @@ namespace KindergartenProject
 
         private void loadWorker()
         {
-            List<WorkerEntity> lst = new WorkerBusiness(projectType).Get_Worker(new SearchEntity() { IsActive = true, IsDeleted = false }, null).Result;
+            List<WorkerEntity> lst = new WorkerBusiness(CurrentContext.ProjectType).Get_Worker(new SearchEntity() { IsActive = true, IsDeleted = false }, null).Result;
 
             int count = 0;
 
@@ -129,7 +126,7 @@ namespace KindergartenProject
 
         private void loadIncomeAndExpenseType()
         {
-            DataResultArgs<List<IncomeAndExpenseTypeEntity>> typeListResult = new IncomeAndExpenseTypeBusiness(projectType).Get_IncomeAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }); ;
+            DataResultArgs<List<IncomeAndExpenseTypeEntity>> typeListResult = new IncomeAndExpenseTypeBusiness(CurrentContext.ProjectType).Get_IncomeAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }); ;
 
             if (typeListResult.HasError)
             {

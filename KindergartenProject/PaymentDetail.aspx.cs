@@ -11,18 +11,15 @@ using System.Text;
 
 namespace KindergartenProject
 {
-    public partial class PaymentDetail : System.Web.UI.Page
+    public partial class PaymentDetail : BasePage
     {
-        ProjectType projectType = ProjectType.None;
+        public PaymentDetail() : base(AuthorityScreenEnum.Odeme_Plani_Ekleme_Silme)
+        {
+        }
+
         private const string studentDoesNotFound = "Ödeme detayı için öğrenci seçmelisiniz !!!";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {
-                Response.Redirect("/uye-giris");
-            }
-
-            projectType = (ProjectType)Session[CommonConst.ProjectType];
             int currentYear = DateTime.Today.Year;
             int currentMonth = DateTime.Today.Month;
             if (!Page.IsPostBack)
@@ -71,7 +68,7 @@ namespace KindergartenProject
                 }
                 else
                 {
-                    StudentEntity entity = new StudentBusiness(projectType).Get_Student(id).Result;
+                    StudentEntity entity = new StudentBusiness(CurrentContext.ProjectType).Get_Student(id).Result;
 
                     lblStudentInto.Text = "<a href = \"/ogrenci-guncelle/" + entity.Id + "\">" +
                         "<div id = 'btnUniqueNameSurnam' class='btn btn-primary' >" + entity.FullName.ToUpper() + "</div></a> &nbsp;&nbsp;&nbsp;";

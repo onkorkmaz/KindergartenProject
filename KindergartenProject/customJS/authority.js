@@ -21,7 +21,7 @@ function onAuthorityCheckBoxChange(element) {
 
     var checked = element.checked;
     var authorityScreenId = element.getAttribute("authorityScreenId");
-    var authorityTypeId = element.getAttribute("authorityTypeId");
+    var authorityTypeId = document.getElementById("drpAuthorityType").value;
     var id = element.getAttribute("id");
 
     var jsonData = "{id: " + JSON.stringify(id) + ", authorityScreenId:" + JSON.stringify(authorityScreenId) + " , authorityTypeId:" + JSON.stringify(authorityTypeId) + ", hasAuthority :" + JSON.stringify(checked) + "}";
@@ -55,7 +55,7 @@ function successFunctionGetActiveAuthorityScreen(obje) {
                 isCheck = "checked='checked'";
             }
 
-            tbody += "<td><input type='checkbox' authorityScreenId=" + entityList[i].AuthorityScreenId + " authorityTypeId=" + authorityTypeId + " id='" + entityList[i].Id + "' name='" + entityList[i].Id + "' " + isCheck + " onchange='onAuthorityCheckBoxChange(this)' ></td>";
+            tbody += "<td><input type='checkbox' authorityScreenId=" + entityList[i].AuthorityScreenId + "  id='" + entityList[i].Id + "' name='" + entityList[i].Id + "' " + isCheck + " onchange='onAuthorityCheckBoxChange(this)' ></td>";
 
             tbody += "</tr> ";
         }
