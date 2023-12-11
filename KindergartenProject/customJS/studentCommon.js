@@ -1,28 +1,15 @@
-﻿function GetStudentList() {
-
-    var studentList = window["studentList"];
-
-    if (window["studentList"] == null) {
-
-        var jsonData = "{}";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/Get_StudentFromCache', jsonData, successFunctionCurrentPage, errorFunction);
-        studentList = window["studentList"];
-    }
-
+﻿var studentList = [];
+function GetStudentList() {
+    studentList = [];
+    var jsonData = "{}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_StudentFromCache', jsonData, successFunctionCurrentPage, errorFunction);
     return studentList;
 
 }
 
 function GetActiveStudentList() {
 
-    var studentList = window["studentList"];
-
-    if (window["studentList"] == null) {
-
-        var jsonData = "{}";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/Get_StudentFromCache', jsonData, successFunctionCurrentPage, errorFunction);
-        studentList = window["studentList"];
-    }
+    var studentList = GetStudentList();
 
     var newStudentList = []
 
@@ -36,11 +23,7 @@ function GetActiveStudentList() {
 }
 
 function successFunctionCurrentPage(obje) {
-
-    var studentList = obje;
-    if (studentList != null) {
-        window["studentList"] = obje;
-    }
+    studentList = obje;
     return obje;
 }
 

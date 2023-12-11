@@ -9,30 +9,19 @@ namespace Business
 {
     public class CacheBusines<T> where T : BaseEntity  
     {
-        private ProjectType _projectType;
+        public ProjectType ProjectType;
         private CacheType _cacheType = CacheType.None;
-        private const int _cacheMinutes = 60;
-        private static Dictionary<ProjectType, Dictionary<CacheType, CacheEntity<T>>> _dictProjectType = new Dictionary<ProjectType, Dictionary<CacheType, CacheEntity<T>>>();
-        private Dictionary<CacheType, CacheEntity<T>> dictCacheType
-        {
-            get
-            {
-                return _dictProjectType[_projectType];
-            }
-        }
+        private static  Dictionary<string, CacheEntity<T>> dictCacheType = new Dictionary<string, CacheEntity<T>>();
 
         public CacheBusines(ProjectType projectType,CacheType cacheType) 
         {
             _cacheType = cacheType;
-            _projectType = projectType;
-            if (!_dictProjectType.ContainsKey(_projectType))
-            {
-                _dictProjectType.Add(_projectType, new Dictionary<CacheType, CacheEntity<T>>());                
-            }
+            ProjectType = projectType;
+            string key = getKey();
 
-            if (!_dictProjectType[_projectType].ContainsKey(cacheType))
+            if (!dictCacheType.ContainsKey(key))
             {
-                _dictProjectType[_projectType].Add(cacheType, new CacheEntity<T>(cacheType));
+                dictCacheType.Add(key, new CacheEntity<T>(cacheType));                
             }
         }
 
@@ -40,9 +29,10 @@ namespace Business
         {
             get
             {
-                if (dictCacheType.ContainsKey(_cacheType))
+                string key = getKey();
+                if (dictCacheType.ContainsKey(key))
                 {
-                    var result = dictCacheType[_cacheType];
+                    var result = dictCacheType[key];
                     List<T> cacheList = result.List;
                     if (cacheList != null && result.EndDate > DateTime.Now)
                     {
@@ -50,14 +40,14 @@ namespace Business
                     }
                     else
                     {
-                        return dictCacheType[_cacheType].List = new List<T>();
+                        return dictCacheType[key].List = new List<T>();
                     }
                 }
                 else
                 {
-                    dictCacheType.Add(_cacheType, new CacheEntity<T>(_cacheType));
-                    dictCacheType[_cacheType].List = new List<T>();
-                    return dictCacheType[_cacheType].List;
+                    dictCacheType.Add(key, new CacheEntity<T>(_cacheType));
+                    dictCacheType[key].List = new List<T>();
+                    return dictCacheType[key].List;
                 }
             }
         }
@@ -66,9 +56,10 @@ namespace Business
         {
             get
             {
-                if (dictCacheType.ContainsKey(_cacheType))
+                string key = getKey();
+                if (dictCacheType.ContainsKey(key))
                 {
-                    var result = dictCacheType[_cacheType];
+                    var result = dictCacheType[key];
                     List<T> cacheList = result.List;
                     return cacheList != null && cacheList.Count > 0 && result.EndDate > DateTime.Now;
                 }
@@ -83,7 +74,8 @@ namespace Business
                 return;
             }
 
-            CacheEntity<T> cache = dictCacheType[_cacheType];
+            string key = getKey();
+            CacheEntity<T> cache = dictCacheType[key];
             if (cache != null)
             {
                 object list = cache.List;
@@ -114,17 +106,24 @@ namespace Business
             }
         }
 
+        private string getKey()
+        {
+            return CurrentContext.AdminEntity.Id.ToString() + "_" + (int)ProjectType + "_" + (int)_cacheType;
+        }
+
         public void ClearCache(CacheType cacheType)
         {
-            if (dictCacheType.ContainsKey(cacheType))
+            string key = getKey();
+            if (dictCacheType.ContainsKey(key))
             {
-                dictCacheType[cacheType] = new CacheEntity<T>(cacheType);
+                dictCacheType[key] = new CacheEntity<T>(cacheType);
             }
         }
         public void AddCacheListInDictionary(CacheType cacheType,List<T> list)
         {
-            dictCacheType[cacheType] = new CacheEntity<T>(cacheType);
-            dictCacheType[cacheType].List = list;
+            string key = getKey();
+            dictCacheType[key] = new CacheEntity<T>(cacheType);
+            dictCacheType[key].List = list;
         }
     }
 }

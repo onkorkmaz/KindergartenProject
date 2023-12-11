@@ -18,8 +18,6 @@
         alert(errorMessage);
         return false;
     }
-
-    window["studentList"] = null;
     return true;
 }
 

@@ -207,7 +207,6 @@ function convertStudent(id) {
 
 function successFunctionDeleteStudent(obje) {
     if (!obje.HasError && obje.Result) {
-        window["studentList"] = null;
         window["tbody"] = null;
         GetActiveStudentList();
 
@@ -221,7 +220,6 @@ function successFunctionDeleteStudent(obje) {
 
 function successFunctionConvertStudent(obje) {
     if (!obje.HasError && obje.Result) {
-        window["studentList"] = null;
         window["tbody"] = null;
         if (document.getElementById("txtSearchStudent") != null && !IsNullOrEmpty(document.getElementById("txtSearchStudent").value))
             successFunctionSearchStudent(document.getElementById("txtSearchStudent").value);
