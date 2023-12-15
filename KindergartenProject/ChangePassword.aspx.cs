@@ -17,8 +17,8 @@ namespace KindergartenProject
         {
             if (!Page.IsPostBack)
             {
-                hdnId.Value = CurrentContext.AdminEntity.Id.ToString();
-                txtUserName.Text = CurrentContext.AdminEntity.UserName;
+                hdnId.Value = _AdminEntity.Id.ToString();
+                txtUserName.Text = _AdminEntity.UserName;
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.ChangePassword);
                 master.SetVisibleSearchText(false);

@@ -25,10 +25,10 @@ namespace KindergartenProject
             }
             else
             {
-                if (CurrentContext.AdminEntity == null)
-                    CurrentContext.AdminEntity = Session[CommonConst.Admin] as AdminEntity;
+                if (new BasePage()._AdminEntity == null)
+                    new BasePage()._AdminEntity = Session[CommonConst.Admin] as AdminEntity;
 
-                if (CurrentContext.AdminEntity == null)
+                if (new BasePage()._AdminEntity == null)
                 {
                     return;
                 }
@@ -46,7 +46,7 @@ namespace KindergartenProject
 
         private void setScreenAuthorityAndVisible()
         {
-            if (CurrentContext.AdminEntity.IsDeveleporOrSuperAdmin){
+            if (new BasePage()._AdminEntity.IsDeveleporOrSuperAdmin){
                 return;
             }
 
@@ -99,7 +99,7 @@ namespace KindergartenProject
 
         private void setVisibleMenuItems()
         {
-            bool isDeveloper = CurrentContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin;
+            bool isDeveloper = new BasePage()._AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin;
             
             menuAuthority.Visible = isDeveloper;
             menuAuthorityGenerator.Visible = isDeveloper;
@@ -117,7 +117,7 @@ namespace KindergartenProject
             menuStudentAdd.Visible = isDeveloper;
             menuStudentAttendanceBookList.Visible = isDeveloper;
             menuWorkerList.Visible = isDeveloper;            
-            menuAdminList.Visible = CurrentContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin || CurrentContext.AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Admin;
+            menuAdminList.Visible = new BasePage()._AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin || new BasePage()._AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Admin;
         }
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
@@ -189,6 +189,7 @@ namespace KindergartenProject
         {
             txtSearchStudent.Visible = isVisible;
         }
+
 
     }
 }

@@ -19,10 +19,6 @@ namespace KindergartenProject
                 Response.Redirect("/uye-giris");
             }
 
-            CurrentContext.AdminEntity = (AdminEntity)Session[CommonConst.Admin];
-            CurrentContext.ProjectType = (ProjectType)Session[CommonConst.ProjectType];
-            CurrentContext.ScreenAuthorityEnum = AuthorityScreenEnum.None;
-
             if (!Page.IsPostBack)
             {
                 var master = this.Master as kindergarten;
@@ -50,7 +46,7 @@ namespace KindergartenProject
 
         private void fillClassList()
         {
-            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(CurrentContext.ProjectType).Get_ClassForStudent();
+            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(new BasePage()._ProjectType).Get_ClassForStudent();
             if (!resultSet.HasError)
             {
                 List<ClassEntity> list = resultSet.Result;
@@ -71,7 +67,7 @@ namespace KindergartenProject
         {
             DataResultArgs<List<StudentEntity>> resultSet = new DataResultArgs<List<StudentEntity>>();
 
-            resultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student();
+            resultSet = new StudentBusiness(new BasePage()._ProjectType).Get_Student();
             if (!resultSet.HasError)
             {
                 List<StudentEntity> entityList = resultSet.Result;

@@ -23,7 +23,7 @@ namespace KindergartenProject
 
         public BasePage(AuthorityScreenEnum screenAuthorityEnum)
         {
-            Entity.CurrentContext.ScreenAuthorityEnum = screenAuthorityEnum;
+             _ScreenAuthorityEnum = screenAuthorityEnum;
             
         }
 
@@ -34,19 +34,16 @@ namespace KindergartenProject
                 Response.Redirect("/uye-giris");
             }
 
-            CurrentContext.AdminEntity = (AdminEntity)Session[CommonConst.Admin];
-            CurrentContext.ProjectType = (ProjectType)Session[CommonConst.ProjectType];
-            CurrentContext.ScreenAuthorityEnum = CurrentContext.ScreenAuthorityEnum;
 
-            if (!CurrentContext.AdminEntity.IsDeveleporOrSuperAdmin)
+            if (!_AdminEntity.IsDeveleporOrSuperAdmin)
             {
-                if (CurrentContext.ScreenAuthorityEnum == AuthorityScreenEnum.None)
+                if (_ScreenAuthorityEnum == AuthorityScreenEnum.None)
                 {
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Bu sayfa için yetkiniz bulunmamaktadır.');window.location ='/benim-dunyam-montessori-okullari';", true);
                 }
 
                 bool authorityDoesNotExists = true;
-                AuthorityEntity entity = new AuthorityBusiness(CurrentContext.ProjectType).GetAuthorityWithScreenAndTypeId(CurrentContext.ScreenAuthorityEnum);
+                AuthorityEntity entity = new AuthorityBusiness(_ProjectType,_AdminEntity.Id).GetAuthorityWithScreenAndTypeId(_ScreenAuthorityEnum, _AdminEntity.AuthorityTypeId);
                 if (entity != null && entity.HasAuthority)
                 {
                     authorityDoesNotExists = false;
@@ -58,5 +55,29 @@ namespace KindergartenProject
                 }
             }
         }
+
+        public AdminEntity _AdminEntity
+        {
+            get
+            {
+                return (AdminEntity)Session[CommonConst.Admin];
+
+            }
+            set
+            {
+                if(value!=null)
+                    _AdminEntity = value;
+            }
+        }
+
+        public ProjectType _ProjectType
+        {
+            get
+            {
+                return (ProjectType)Session[CommonConst.ProjectType];
+            }
+        }
+
+        public AuthorityScreenEnum _ScreenAuthorityEnum { get; set; }
     }
 }

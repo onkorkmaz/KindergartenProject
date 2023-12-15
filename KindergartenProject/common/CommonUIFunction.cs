@@ -30,13 +30,13 @@ namespace KindergartenProject
             return monthList;
         }
 
-        private void controlMenuVisibleForAuthority(HtmlGenericControl genericControl, List<AuthorityScreenEnum> authortityList)
+        private void controlMenuVisibleForAuthority(HtmlGenericControl genericControl, List<AuthorityScreenEnum> authorityList)
         {
             bool authorityExists = false;
 
-            foreach (AuthorityScreenEnum enm in authortityList)
+            foreach (AuthorityScreenEnum enm in authorityList)
             {
-                AuthorityEntity entity = new AuthorityBusiness(CurrentContext.ProjectType).GetAuthorityWithScreenAndTypeId(enm);
+                AuthorityEntity entity = new AuthorityBusiness(new BasePage()._ProjectType, new BasePage()._AdminEntity.Id).GetAuthorityWithScreenAndTypeId(enm, new BasePage()._AdminEntity.AuthorityTypeId);
                 if (entity != null)
                 {
                     authorityExists = entity.HasAuthority;
@@ -48,7 +48,7 @@ namespace KindergartenProject
 
         internal void SetVisibility(AuthorityScreenEnum authorityScreen, HtmlGenericControl genericControl)
         {
-            if (CurrentContext.AdminEntity.IsDeveleporOrSuperAdmin)
+            if (new BasePage()._AdminEntity.IsDeveleporOrSuperAdmin)
             {
                 genericControl.Visible = true;
                 return;
@@ -59,5 +59,6 @@ namespace KindergartenProject
             authortityList.Add(authorityScreen);
             controlMenuVisibleForAuthority(genericControl, authortityList);
         }
+
     }
 }

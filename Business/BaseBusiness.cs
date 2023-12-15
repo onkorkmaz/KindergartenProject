@@ -9,6 +9,8 @@ namespace Business
 {
     public abstract class BaseBusiness 
     {
+        public AdminEntity AdminEntity { get; set; }
+
         protected ProjectType ProjectType;
         public Int16 ProjectTypeInt16
         {

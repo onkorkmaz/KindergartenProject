@@ -60,7 +60,7 @@ namespace KindergartenProject
                 drpIncomeAndExpenseType.Items.Clear();
                 drpIncomeAndExpenseType.Items.Add(new ListItem("Seçiniz", "-1"));
 
-                List<IncomeAndExpenseTypeEntity> typeList = new IncomeAndExpenseTypeBusiness(CurrentContext.ProjectType).Get_IncomeAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+                List<IncomeAndExpenseTypeEntity> typeList = new IncomeAndExpenseTypeBusiness(_ProjectType).Get_IncomeAndExpenseType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
                 foreach(IncomeAndExpenseTypeEntity type in typeList)
                 {
                     drpIncomeAndExpenseType.Items.Add(new ListItem(type.Name, type.Id.ToString()));

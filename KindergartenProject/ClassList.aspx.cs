@@ -23,7 +23,7 @@ namespace KindergartenProject
                 master.SetActiveMenuAttiributes(MenuList.ClassList);
                 master.SetVisibleSearchText(false);
 
-                business = new WorkerBusiness(CurrentContext.ProjectType);
+                business = new WorkerBusiness(_ProjectType);
 
                 List<WorkerEntity> currentList = business.Get_Worker(new SearchEntity() { IsActive = true, IsDeleted = false }, true).Result;
                 List<WorkerEntity> list = new List<WorkerEntity>();

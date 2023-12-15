@@ -49,11 +49,9 @@ namespace KindergartenProject
                 {
                     Session[CommonConst.Admin] = resultSet.Result;
                     Session[CommonConst.ProjectType] = projectTypeEnum;
+                    loadAuthority(resultSet.Result.Id, projectTypeEnum, resultSet.Result.AuthorityTypeId);
 
-                    CurrentContext.AdminEntity= resultSet.Result;
-                    loadAuthority(projectTypeEnum);
-
-                    DataResultArgs<AdminProjectTypeRelationEntity> resultSetAdminOrgAuth = new AdminProjectTypeRelationBusiness().Get_AdminProjectTypeRelation(CurrentContext.AdminEntity.Id, projectTypeEnum);
+                    DataResultArgs<AdminProjectTypeRelationEntity> resultSetAdminOrgAuth = new AdminProjectTypeRelationBusiness().Get_AdminProjectTypeRelation(new BasePage()._AdminEntity.Id, projectTypeEnum);
 
                     if (resultSetAdminOrgAuth.Result == null)
                     {
@@ -72,9 +70,9 @@ namespace KindergartenProject
             }
         }
 
-        private void loadAuthority(ProjectType projectTypeEnum)
+        private void loadAuthority(int adminId, ProjectType projectTypeEnum, short authorityTypeId)
         {
-            AuthorityEntity authority = new AuthorityBusiness(projectTypeEnum).GetAuthorityWithTypeId(CurrentContext.AdminEntity.AuthorityTypeId);
+            AuthorityEntity authority = new AuthorityBusiness(projectTypeEnum, adminId).GetAuthorityWithTypeId(authorityTypeId);
         }
     }
 }

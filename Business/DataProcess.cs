@@ -36,15 +36,6 @@ namespace Business
 
         internal static void ControlAdminAuthorization(bool isProcess = false)
         {
-            if (isProcess)
-            {
-                var type = CurrentContext.AdminEntity.OwnerStatusEnum;
-                if (type != OwnerStatusEnum.SuperAdmin && type != OwnerStatusEnum.Admin)
-                {
-                    // yazılacak...
-                    throw new Exception("Yetkiniz bulunmamaktadır!");
-                }
-            }
         }
 
         public static DataResultArgs<Boolean> ExecuteProc(SqlConnection connection, SqlCommand cmd, string storeProcedureName)

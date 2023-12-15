@@ -45,7 +45,7 @@ namespace KindergartenProject
 
         private void loadClass()
         {
-            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(CurrentContext.ProjectType).Get_ClassForStudent();
+            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(_ProjectType).Get_ClassForStudent();
 
             if (resultSet.HasError)
             {
@@ -81,7 +81,7 @@ namespace KindergartenProject
         {
             DataResultArgs<List<StudentEntity>> resultSet = new DataResultArgs<List<StudentEntity>>();
 
-            resultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student();
+            resultSet = new StudentBusiness(_ProjectType).Get_Student();
             if (!resultSet.HasError)
             {
                 List<StudentEntity> entityList = resultSet.Result;

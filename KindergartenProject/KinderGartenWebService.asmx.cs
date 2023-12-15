@@ -296,7 +296,7 @@ namespace KindergartenProject
 
             foreach (AdminEntity ent in result)
             {
-                ent.EntranceAdminInfo = CurrentContext.AdminEntity;
+                ent.EntranceAdminInfo = new BasePage()._AdminEntity;
             }
 
             return result;
@@ -382,14 +382,15 @@ namespace KindergartenProject
                     }
                 }
 
-                if (adminEntity.Id == CurrentContext.AdminEntity.Id)
+                if (adminEntity.Id == new BasePage()._AdminEntity.Id)
                 {
-                    CurrentContext.AdminEntity = new AdminBusiness(GetProjectType()).Get_Admin(adminEntity.UserName, adminEntity.Password).Result;
+                    new BasePage()._AdminEntity = new AdminBusiness(GetProjectType()).Get_Admin(adminEntity.UserName, adminEntity.Password).Result;
                 }
             }
 
             return result;
         }
+
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeleteAdmin(string id)
@@ -400,7 +401,7 @@ namespace KindergartenProject
                 ErrorDescription = "Id bilgisine ulaşılamadı."
             };
 
-            if (!CurrentContext.AdminEntity.IsDeveleporOrSuperAdmin)
+            if (!new BasePage()._AdminEntity.IsDeveleporOrSuperAdmin)
             {
                 result.ErrorDescription = "Admin Silme Yetkiniz bulunmamaktadı.";
                 return result;
@@ -965,7 +966,7 @@ namespace KindergartenProject
                 if (idInt > 0)
                 {
                     ClassEntity entity = new ClassEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
-                    result = new ClassBusiness(GetProjectType()).Set_Class(entity);
+                    result = new ClassBusiness(GetProjectType()).Set_Class(entity) ;
                 }
                 else
                 {
@@ -1138,7 +1139,7 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public List<AuthorityEntity> GetActiveAuthority(string authorityTypeId)
         {
-            return new AuthorityBusiness(GetProjectType()).Get_ActiveAuthority(CommonFunctions.GetData<int>(authorityTypeId));
+            return new AuthorityBusiness(GetProjectType(),new BasePage()._AdminEntity.Id).Get_ActiveAuthority(CommonFunctions.GetData<short>(authorityTypeId));
         }
 
         [WebMethod(EnableSession = true)]
@@ -1152,7 +1153,7 @@ namespace KindergartenProject
             entity.AuthorityTypeId = authorityTypeId;
             entity.HasAuthority = hasAuthority;
             entity.ProjectType = GetProjectType();
-            return new AuthorityBusiness(GetProjectType()).Set_Authority(entity);
+            return new AuthorityBusiness(GetProjectType(),new BasePage()._AdminEntity.Id).Set_Authority(entity);
         }
 
 

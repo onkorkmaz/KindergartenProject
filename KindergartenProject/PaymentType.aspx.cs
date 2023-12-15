@@ -22,7 +22,7 @@ namespace KindergartenProject
                 master.SetActiveMenuAttiributes(MenuList.PaymentType);
                 master.SetVisibleSearchText(false);
 
-                if (CurrentContext.AdminEntity.IsDeveleporOrSuperAdmin)
+                if (_AdminEntity.IsDeveleporOrSuperAdmin)
                 {
                     btnSubmit.Enabled = true;
                 }

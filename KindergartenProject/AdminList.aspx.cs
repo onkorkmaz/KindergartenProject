@@ -24,7 +24,7 @@ namespace KindergartenProject
                 master.SetActiveMenuAttiributes(MenuList.AdminList);
                 master.SetVisibleSearchText(false);
                 
-                List<AuthorityTypeEntity> lst = new AuthorityTypeBusiness(CurrentContext.ProjectType).Get_AuthorityType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
+                List<AuthorityTypeEntity> lst = new AuthorityTypeBusiness(_ProjectType).Get_AuthorityType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
 
                 drpAuthorityType.DataSource = lst;
                 drpAuthorityType.DataTextField = "Name";

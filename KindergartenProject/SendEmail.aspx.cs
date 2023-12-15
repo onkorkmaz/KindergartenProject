@@ -58,7 +58,7 @@ namespace KindergartenProject
                 {
                     int width = 15;
                     int height = 15;
-                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student(id);
+                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(_ProjectType).Get_Student(id);
 
                     if(studentResultSet.HasError)
                     {
@@ -78,7 +78,7 @@ namespace KindergartenProject
                     txtEmail.Text = entity.Email;
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                        new PaymentTypeBusiness(CurrentContext.ProjectType).Get_PaymentType(new SearchEntity()
+                        new PaymentTypeBusiness(_ProjectType).Get_PaymentType(new SearchEntity()
                         { IsActive = true, IsDeleted = false });
 
                     if (resultSet.HasError)
@@ -122,7 +122,7 @@ namespace KindergartenProject
                             sb.AppendLine("<td>" + obje.Year + "</td>");
                             sb.AppendLine("<td>" + obje.MonthName + "</td>");
 
-                            List<PaymentEntity> paymentList = new PaymentBusiness(CurrentContext.ProjectType).Get_Payment(entity.Id).Result;
+                            List<PaymentEntity> paymentList = new PaymentBusiness(_ProjectType).Get_Payment(entity.Id).Result;
 
                             foreach (PaymentTypeEntity payment in paymentTypeList)
                             {
@@ -231,7 +231,7 @@ namespace KindergartenProject
                 }
                 else
                 {
-                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student(id);
+                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(_ProjectType).Get_Student(id);
                     if(studentResultSet.HasError)
                     {
                         divInformation.ErrorText = studentResultSet.ErrorDescription;
@@ -241,7 +241,7 @@ namespace KindergartenProject
                     StudentEntity entity = studentResultSet.Result;
 
                     DataResultArgs<List<PaymentTypeEntity>> resultSet =
-                        new PaymentTypeBusiness(CurrentContext.ProjectType).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
+                        new PaymentTypeBusiness(_ProjectType).Get_PaymentType(new SearchEntity() { IsActive = true, IsDeleted = false });
 
                     StringBuilder sb = InitializeHtmlTable(entity, resultSet.Result);
 
@@ -280,7 +280,7 @@ namespace KindergartenProject
 
         private StringBuilder InitializeHtmlTable(StudentEntity entity, List<PaymentTypeEntity> paymentTypeEntityList)
         {
-            List<PaymentEntity> paymentList = new PaymentBusiness(CurrentContext.ProjectType).Get_Payment(entity.Id).Result;
+            List<PaymentEntity> paymentList = new PaymentBusiness(_ProjectType).Get_Payment(entity.Id).Result;
             List<EmailPaymentEntity> emailPaymentList = GetEmailPaymentList(paymentTypeEntityList, paymentList);
             Dictionary<int, string> selectedMonthList = GetSelectedMonthList();
 

@@ -83,7 +83,7 @@ namespace KindergartenProject
         #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
-            business = new StudentBusiness(CurrentContext.ProjectType);
+            business = new StudentBusiness(_ProjectType);
 
             divInformation.ListRecordPage = "ogrenci-listesi";
             divInformation.NewRecordPage = "ogrenci-ekle";
@@ -98,7 +98,7 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
-                if(CurrentContext.ProjectType != ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi)
+                if(_ProjectType != ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi)
                 {
                     divSchoolClass.Visible = false;
                 }
@@ -107,7 +107,7 @@ namespace KindergartenProject
                 //txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 txtInterviewDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
-                DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness(CurrentContext.ProjectType).Get_Class(new SearchEntity() { IsActive = true, IsDeleted = false });
+                DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness(_ProjectType).Get_Class(new SearchEntity() { IsActive = true, IsDeleted = false });
                 if (resultSetClassList.HasError)
                 {
                     divInformation.ErrorText = resultSetClassList.ErrorDescription;
@@ -143,7 +143,7 @@ namespace KindergartenProject
                     int id = CommonFunctions.GetData<int>(IdDecrypt);
                     if (id > 0)
                     {
-                        DataResultArgs<StudentEntity> resultSet = new StudentBusiness(CurrentContext.ProjectType).Get_Student(id);
+                        DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_Student(id);
                         if (resultSet.HasError)
                         {
                             divInformation.ErrorText = resultSet.ErrorDescription;

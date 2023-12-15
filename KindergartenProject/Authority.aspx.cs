@@ -25,7 +25,7 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
-                DataResultArgs<List<AuthorityTypeEntity>> resultSet = new AuthorityTypeBusiness(CurrentContext.ProjectType).Get_AuthorityType(new SearchEntity() { IsDeleted = false, IsActive = true });
+                DataResultArgs<List<AuthorityTypeEntity>> resultSet = new AuthorityTypeBusiness(_ProjectType).Get_AuthorityType(new SearchEntity() { IsDeleted = false, IsActive = true });
 
 
                 if (resultSet.HasError)
@@ -56,7 +56,7 @@ namespace KindergartenProject
 
         private void controlAuthorization(AdminEntity adminEntity)
         {
-            if (CurrentContext.AdminEntity.OwnerStatusEnum != OwnerStatusEnum.SuperAdmin)
+            if (_AdminEntity.OwnerStatusEnum != OwnerStatusEnum.SuperAdmin)
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Bu sayfa için yetkiniz bulunmamaktadır.');window.location ='/benim-dunyam-montessori-okullari';", true);
             }
