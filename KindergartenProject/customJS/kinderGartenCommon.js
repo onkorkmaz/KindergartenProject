@@ -104,6 +104,7 @@ function checkDec(el) {
     }
 }
 
+
 function Encrypt(id) {
     var jsonData = "{ id: " + JSON.stringify(id) + "}";
      CallServiceWithAjax('/KinderGartenWebService.asmx/Encrypt', jsonData, successEncrypt, errorFunction);

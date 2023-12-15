@@ -29,7 +29,7 @@ function successFunctionCurrentPage(obje) {
 
 function txtSearchStudent_Change(searchValue) {
 
-    successFunctionSearchStudent(searchValue);
+    loadData();
     SetCacheData("searchValue", searchValue);
 }
 

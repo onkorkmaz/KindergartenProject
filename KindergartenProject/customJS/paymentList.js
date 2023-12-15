@@ -101,7 +101,7 @@ function drawList(package, paymentTypeList, year,month) {
             tbody += "<a href = \"/odeme-plani-detay/" + studentEntity.Id + "\" style='cursor: pointer;'><img src =\"/img/icons/paymentPlan.png\" title='Ödeme detayı...'/></a>";
             tbody += " <a href = \"/email-gonder/" + studentEntity.Id + "\" style='cursor: pointer;'><img src =\"/img/icons/email.png\" title='Email Gönder'/></a>";
             tbody += "</td>";
-            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' ><img  title='Detay için tıklayınız'  width='12' height='12' src =\"/img/icons/detail.png\"/></td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' >+</td>";
 
             tbody += "<td>" + studentEntity.FullName + "</td>";
             tbody += drawPayment(paymentTypeList, year, month, 1, package[i]);

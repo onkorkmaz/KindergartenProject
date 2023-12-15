@@ -55,7 +55,7 @@ function _onDetailRow(uniquId) {
     row.style.display = row.style.display === 'none' ? '' : 'none';
 
     if (row.style.display == '')
-        document.getElementById("tdPlus_" + uniquId).innerHTML = "<a href = \"#\"><img width='12' height='12' src =\"/img/icons/detailClose.png\"/></a>";
+        document.getElementById("tdPlus_" + uniquId).innerHTML = "<a href = \"#\">-</a>";
     else
-        document.getElementById("tdPlus_" + uniquId).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız' width='12' height='12' src =\"/img/icons/detail.png\"/></a>";
+        document.getElementById("tdPlus_" + uniquId).innerHTML = "<a href = \"#\">+</a>";
 }

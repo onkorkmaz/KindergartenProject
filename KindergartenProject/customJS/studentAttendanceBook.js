@@ -135,7 +135,7 @@ function drawStudentAttendanceBook(package) {
     var attendanceList = package.StudentAttendanceBookEntityList;
     var studentEntity = package.StudentEntity;
     tbody += "<tr id='tr_Student_" + studentEntity.Id + "' searchText = '" + studentEntity.SearchText+"'>";
-    tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' ><img title='Detay için tıklayınız' width='12' height='12' src =\"/img/icons/detail.png\"/></td>";
+    tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' >+</td>";
     tbody += "<td>" + studentEntity.FullName + "</td>";
 
     for (let j = begin; j <= endDayValue; j++) {

@@ -6,19 +6,19 @@ function resetDetail() {
         var rowIncoming = document.getElementById("trIncomingPaymentDetail" + i);
         if (rowIncoming != undefined) {
             rowIncoming.style.display = 'none';
-            document.getElementById("tdIncomingPlus" + i).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız'  width='12' height='12' src =\"/img/icons/detail.png\"/></a>";
+            document.getElementById("tdIncomingPlus" + i).innerHTML = "<a href = \"#\">+</a>";
         }
 
         var rowWaiting = document.getElementById("trWaitingPaymentDetail" + i);
         if (rowWaiting != undefined) {
             rowWaiting.style.display = 'none';
-            document.getElementById("tdWaitingPlus" + i).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız'  width='12' height='12'  src =\"/img/icons/detail.png\"/></a>";
+            document.getElementById("tdWaitingPlus" + i).innerHTML = "<a href = \"#\">+</a>";
         }
 
         var rowExpense = document.getElementById("trExpensePaymentDetail" + i);
         if (rowExpense != undefined) {
             rowExpense.style.display = 'none';
-            document.getElementById("tdExpensePlus" + i).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız'  width='12' height='12'  src =\"/img/icons/detail.png\"/></a>";
+            document.getElementById("tdExpensePlus" + i).innerHTML = "<a href = \"#\">+</a>";
         }
     }
 }
@@ -43,9 +43,9 @@ function onCommonDetailRow(index, trName, tdName) {
 
     row.style.display = style === 'none' ? '' : 'none';
     if (row.style.display == '')
-        document.getElementById(tdName + index).innerHTML = "<a href = \"#\"><img width='12' height='12' src =\"/img/icons/detailClose.png\"/></a>";
+        document.getElementById(tdName + index).innerHTML = "<a href = \"#\">-</a>";
     else
-        document.getElementById(tdName + index).innerHTML = "<a href = \"#\"><img title='Detay için tıklayınız'  width='12' height='12' src =\"/img/icons/detail.png\"/></a>";
+        document.getElementById(tdName + index).innerHTML = "<a href = \"#\">+</a>";
 
 }
 
@@ -237,7 +237,7 @@ function drawSummaryWithIndex(index, thBody) {
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onIncomingDetailRow(' + i + ');" id="tdIncomingPlus' + i + '"><a href = "#"><img title="Detay için tıklayınız" width="12" height="12" src ="/img/icons/detail.png"></a></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onIncomingDetailRow(' + i + ');" id="tdIncomingPlus' + i + '">+</a></td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="color: darkgreen;" id="incomeForStudentPayment' + i + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';
@@ -245,7 +245,7 @@ function drawSummaryWithIndex(index, thBody) {
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onWaitingDetailRow(' + i + ');" id="tdWaitingPlus' + i + '"><a href = "#"><img title="Detay için tıklayınız" width="12" height="12"  src ="/img/icons/detail.png"></a></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onWaitingDetailRow(' + i + ');" id="tdWaitingPlus' + i + '">+</td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="color: lightseagreen;" id="waitingIncomeForStudentPayment' + i + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';
@@ -255,7 +255,7 @@ function drawSummaryWithIndex(index, thBody) {
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onExpenseDetailRow(' + i + ');" id="tdExpensePlus' + i + '"><a href = "#"><img title="Detay için tıklayınız" width="12" height="12"  src ="/img/icons/detail.png"></a></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onExpenseDetailRow(' + i + ');" id="tdExpensePlus' + i + '">+</td>';
         tbody += '<td>&nbsp;&nbsp;<b><span style="color: red;" id="expenseWithoutWorker' + i + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';

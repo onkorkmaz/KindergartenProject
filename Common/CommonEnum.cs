@@ -53,7 +53,7 @@ namespace Common
     public enum OwnerStatusEnum
     {
         None = 0,
-        SuperAdmin = 1,
+        Developer = 1,
         Admin = 2,
         Authority = 3
     }

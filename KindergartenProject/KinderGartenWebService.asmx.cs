@@ -712,17 +712,26 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public void SetCacheData(string key, string value)
         {
-            if (!List.ContainsKey(key))
-                List.Add(key, "");
+            string keyWithId = getKey(key);
 
-            List[key] = value;
+            if (!List.ContainsKey(keyWithId))
+                List.Add(keyWithId, "");
+
+            List[keyWithId] = value;
+        }
+
+        private string getKey(string key)
+        {
+            return new BasePage()._AdminEntity.Id.ToString() + "_" + key;
         }
 
         [WebMethod(EnableSession = true)]
         public string GetCacheData(string key)
         {
-            if (List.ContainsKey(key))
-                return List[key];
+            string keyWithId = getKey(key);
+
+            if (List.ContainsKey(keyWithId))
+                return List[keyWithId];
             return "";
         }
 

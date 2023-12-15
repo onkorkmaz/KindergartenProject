@@ -53,13 +53,5 @@ namespace KindergartenProject
                 }
             }
         }
-
-        private void controlAuthorization(AdminEntity adminEntity)
-        {
-            if (_AdminEntity.OwnerStatusEnum != OwnerStatusEnum.SuperAdmin)
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Bu sayfa için yetkiniz bulunmamaktadır.');window.location ='/benim-dunyam-montessori-okullari';", true);
-            }
-        }
     }
 }

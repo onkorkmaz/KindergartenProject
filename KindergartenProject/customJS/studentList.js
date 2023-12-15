@@ -1,12 +1,11 @@
 ﻿window.onload = function () {
 
-    var searchValue = document.getElementById("txtSearchStudent").value;
-
-    if (!IsNullOrEmpty(searchValue)) {
-        successFunctionSearchStudent(searchValue);
+    var search = document.getElementById("txtSearchStudent").value;
+    if (!IsNullOrEmpty(search)) {
+        loadData();
     }
     else {
-        successFunctionSearchStudent(null, true);
+        loadData(true);
     }
 };
 
@@ -17,11 +16,11 @@ function onChangeChcOldInterview() {
 function onClassNameChanged() {
 
     if (document.getElementById("txtSearchStudent") != null && !IsNullOrEmpty(document.getElementById("txtSearchStudent").value)) {
-        successFunctionSearchStudent(document.getElementById("txtSearchStudent").value);
+        loadData();
     }
     else {
         if (document.getElementById("drpClassList").value > 0) {
-            successFunctionSearchStudent(null);
+            loadData();
         }
         else {
             activeStudent();
@@ -68,8 +67,9 @@ function setLabel(listCount, obje, text) {
     obje.innerHTML = "<div style='cursor: pointer;'>" + text + "&nbsp;Öğrenci Sayısı : " + listCount +"</div>";
 }
 
-function successFunctionSearchStudent(search,isLoadedFirst) {
+function loadData(isLoadedFirst) {
 
+    var search = document.getElementById("txtSearchStudent").value;
     var objects = GetStudentList();
     setDefaultValues(objects);
 
@@ -135,7 +135,7 @@ function drawList(entityList) {
             }
 
             tbody += "</td>";
-            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].Id + "\") id='tdPlus_" + entityList[i].Id + "' ><img title='Detay için tıklayınız'  width='12' height='12' src =\"/img/icons/detail.png\"/></td>";
+            tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + entityList[i].Id + "\") id='tdPlus_" + entityList[i].Id + "' >+</td>";
 
             tbody += "<td>" + entityList[i].FullName + "</td>";
 
@@ -222,9 +222,9 @@ function successFunctionConvertStudent(obje) {
     if (!obje.HasError && obje.Result) {
         window["tbody"] = null;
         if (document.getElementById("txtSearchStudent") != null && !IsNullOrEmpty(document.getElementById("txtSearchStudent").value))
-            successFunctionSearchStudent(document.getElementById("txtSearchStudent").value);
+            loadData();
         else
-            successFunctionSearchStudent(null);
+            loadData();
 
         alert("Görüşme başarılı bir şekilde öğrenciye çevrilmiştir.");
 

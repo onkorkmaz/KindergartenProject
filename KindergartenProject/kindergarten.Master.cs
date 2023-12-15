@@ -42,6 +42,7 @@ namespace KindergartenProject
 
             sidebar.Visible = SelectedMenuList != MenuList.Login;
 
+            lblProjectType.Text = (new BasePage()._AdminEntity.ProjectType == ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi) ? "Benim Dünyam Anaokulu" : "Benim Dünyam Eğitim Merkezi";
         }
 
         private void setScreenAuthorityAndVisible()
@@ -99,25 +100,27 @@ namespace KindergartenProject
 
         private void setVisibleMenuItems()
         {
-            bool isDeveloper = new BasePage()._AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin;
-            
-            menuAuthority.Visible = isDeveloper;
+            bool isDeveloperOrAdmin = new BasePage()._AdminEntity.IsDeveleporOrSuperAdmin;
+            bool isDeveloper = new BasePage()._AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Developer;
+
+
+            menuAuthority.Visible = isDeveloperOrAdmin;
             menuAuthorityGenerator.Visible = isDeveloper;
-            menuAuthorityScreen.Visible = isDeveloper;
-            menuAuthorityType.Visible = isDeveloper;
-            menuChangePassword.Visible = isDeveloper;
-            menuClassList.Visible = isDeveloper;
+            menuAuthorityScreen.Visible = isDeveloperOrAdmin;
+            menuAuthorityType.Visible = isDeveloperOrAdmin;
+            menuChangePassword.Visible = isDeveloperOrAdmin;
+            menuClassList.Visible = isDeveloperOrAdmin;
             menuClearCache.Visible = isDeveloper;
-            menuIncomeAndExpenseAdd.Visible = isDeveloper;
-            menuIncomeAndExpenseList.Visible = isDeveloper;
-            menuIncomeAndExpenseType.Visible = isDeveloper;
-            menuPaymentPlan.Visible = isDeveloper;
-            menuPaymentType.Visible = isDeveloper;
-            menuStudenList.Visible = isDeveloper;
-            menuStudentAdd.Visible = isDeveloper;
-            menuStudentAttendanceBookList.Visible = isDeveloper;
-            menuWorkerList.Visible = isDeveloper;            
-            menuAdminList.Visible = new BasePage()._AdminEntity.OwnerStatusEnum == OwnerStatusEnum.SuperAdmin || new BasePage()._AdminEntity.OwnerStatusEnum == OwnerStatusEnum.Admin;
+            menuIncomeAndExpenseAdd.Visible = isDeveloperOrAdmin;
+            menuIncomeAndExpenseList.Visible = isDeveloperOrAdmin;
+            menuIncomeAndExpenseType.Visible = isDeveloperOrAdmin;
+            menuPaymentPlan.Visible = isDeveloperOrAdmin;
+            menuPaymentType.Visible = isDeveloperOrAdmin;
+            menuStudenList.Visible = isDeveloperOrAdmin;
+            menuStudentAdd.Visible = isDeveloperOrAdmin;
+            menuStudentAttendanceBookList.Visible = isDeveloperOrAdmin;
+            menuWorkerList.Visible = isDeveloperOrAdmin;
+            menuAdminList.Visible = isDeveloperOrAdmin;
         }
 
         public void SetActiveMenuAttiributes(MenuList selectedMenuList)
