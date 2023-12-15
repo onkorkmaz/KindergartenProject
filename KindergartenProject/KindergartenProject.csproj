@@ -105,6 +105,8 @@
     <Content Include="img\icons\detailClose.png" />
     <Content Include="img\icons\hasAuthority.png" />
     <Content Include="img\icons\hasNotAuthority.png" />
+    <Content Include="img\icons\negative.png" />
+    <Content Include="img\icons\positive.png" />
     <Content Include="IncomeAndExpenseList.aspx" />
     <Content Include="StudentAdd.aspx" />
     <Content Include="ClassList.aspx" />

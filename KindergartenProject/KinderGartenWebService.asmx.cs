@@ -367,6 +367,10 @@ namespace KindergartenProject
             }
 
             adminEntity.DatabaseProcess = currentProcess;
+            if (adminEntity.OwnerStatusEnum == OwnerStatusEnum.None)
+            {
+                adminEntity.OwnerStatus = (int)OwnerStatusEnum.Authority;
+            }
 
             DataResultArgs<bool> result = new AdminBusiness(GetProjectType()).Set_Admin(adminEntity, false);
 

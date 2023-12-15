@@ -46,17 +46,17 @@ function successFunctionGetAdminList(obje) {
                 tbody += "<td>******</td>";
             }
 
-            tbody += "<td><table cellpadding='4' border='1'><tr><td><b>Anaokulu<b></td><td>|</td><td><b>Eğitim Merkezi</b></td></tr>";
-            var anaokulu = "<img src='img/icons/no.png' width='25' height ='25' />";
-            var egitimMerkezi = "<img src='img/icons/no.png' width='25' height ='25' />";
+            tbody += "<td><table cellpadding='4' border='1'><tr><td><b>Anaokulu<b></td><td>|</td><td><b>Eğitim Mer.</b></td></tr>";
+            var anaokulu = "<img src='img/icons/negative.png' width='20' height ='20' />";
+            var egitimMerkezi = "<img src='img/icons/negative.png' width='20' height ='20' />";
             var relEntityList = entityList[i].AdminProjectTypeRelationEntityList;
             for (var r in relEntityList) {
                 if (relEntityList[r].ProjectTypeId == 1 && relEntityList[r].HasAuthority) {
-                    anaokulu = "<img src='img/icons/active.png' width='25' height ='25' />";
+                    anaokulu = "<img src='img/icons/positive.png' width='20' height ='20' />";
                 }
 
                 if (relEntityList[r].ProjectTypeId == 2 && relEntityList[r].HasAuthority) {
-                    egitimMerkezi = "<img src='img/icons/active.png' width='25' height ='25' />";
+                    egitimMerkezi = "<img src='img/icons/positive.png' width='20' height ='20' />";
                 }
             }
 
