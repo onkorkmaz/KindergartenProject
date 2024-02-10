@@ -366,6 +366,7 @@ namespace KindergartenProject
                 if (idInt > 0)
                 {
                     currentProcess = DatabaseProcess.Update;
+                    adminEntity.Id = idInt;
                 }
                 dbAdmin = new AdminBusiness(GetProjectType()).GetAdminWithId(idInt.ToString()).Result;
             }

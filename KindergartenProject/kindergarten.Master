@@ -30,8 +30,7 @@
                 <nav id="sidebar" class="sidebar" runat="server">
                     <div class="sidebar-content js-simplebar">
                         <a class="sidebar-brand" href="/benim-dunyam-montessori-okullari">
-                            <span class="align-middle">Yeliz AY</span> &nbsp;&nbsp;&nbsp;
-					<img src="/img/avatars/yeliz_ay.jpeg" class="avatar img-fluid rounded mr-1" alt="Yeliz AY" />
+                            <span class="align-middle"><span runat="server" id="spanFullName"></span></span>
                         </a>
 
                         <ul class="sidebar-nav">

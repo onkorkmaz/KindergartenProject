@@ -28,6 +28,9 @@ namespace KindergartenProject
                 {
                     return;
                 }
+
+                spanFullName.InnerText = new BasePage()._AdminEntity.FullName;
+
                 setVisibleMenuItems();
                 setScreenAuthorityAndVisible();
 
@@ -38,7 +41,25 @@ namespace KindergartenProject
 
             sidebar.Visible = SelectedMenuList != MenuList.Login;
 
-            lblProjectType.Text = (new BasePage()._AdminEntity.ProjectType == ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi) ? "Benim Dünyam Anaokulu" : "Benim Dünyam Eğitim Merkezi";
+            ProjectType pType = (ProjectType)Session[CommonConst.ProjectType];
+
+            switch (pType)
+            {
+                case ProjectType.None:
+                    lblProjectType.Text = "Hiçbiri";
+                    break;
+                case ProjectType.BenimDunyamAnaokuluSezenSokak:
+                    lblProjectType.Text = "Benim Dünyam Anaokulu";
+                    break;
+                case ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi:
+                    lblProjectType.Text ="Benim Dünyam Eğitim Merkezi";
+                    break;
+                case ProjectType.OzelPembeKuleMontessori:
+                    lblProjectType.Text = "Pembe Kule Montessori";
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void setScreenAuthorityAndVisible()
