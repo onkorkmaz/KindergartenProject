@@ -42,6 +42,15 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.HiddenField hdnId;
 
         /// <summary>
+        /// txtFullName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFullName;
+
+        /// <summary>
         /// txtUserName control.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,15 @@ namespace KindergartenProject
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chcBenimDunyamEgitimMerkezi;
+
+        /// <summary>
+        /// chcPembeKule control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chcPembeKule;
 
         /// <summary>
         /// chcIsActive control.

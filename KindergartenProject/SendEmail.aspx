@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Mail Gönder" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="SendEmail.aspx.cs" Inherits="KindergartenProject.SendEmail" %>
+﻿<%@ Page Title="Mail Gönder" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="SendEmail.aspx.cs" Inherits="KindergartenProject.SendEmail" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 

@@ -316,6 +316,7 @@ function loadSummaryWithIndex(index) {
         loadExpenseSummaryDetailWithYearAndMonth(year, month, i);
         loadPaymentSummaryDetailWithYearAndMonth(year, month, i);
         loadIncomeAndExpenseSummaryWithYearAndMonth(year, month, i);
+        year = year + 1;
     }
 }
 

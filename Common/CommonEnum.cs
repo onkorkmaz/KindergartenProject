@@ -8,7 +8,8 @@ namespace Common
     {
         None = 0,
         BenimDunyamAnaokuluSezenSokak = 1,
-        BenimDunyamEgitimMerkeziIstiklalCaddesi = 2
+        BenimDunyamEgitimMerkeziIstiklalCaddesi = 2,
+        OzelPembeKuleMontessori =3,
     }
 
     public enum DatabaseProcess

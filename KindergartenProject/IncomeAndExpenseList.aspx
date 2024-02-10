@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Gelir - Gider Ekleme" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="IncomeAndExpenseList.aspx.cs" Inherits="KindergartenProject.IncomeAndExpenseList" %>
+﻿<%@ Page Title="Gelir - Gider Ekleme" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="IncomeAndExpenseList.aspx.cs" Inherits="KindergartenProject.IncomeAndExpenseList" %>
 
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>

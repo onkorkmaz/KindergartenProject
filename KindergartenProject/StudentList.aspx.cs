@@ -24,6 +24,8 @@ namespace KindergartenProject
             {
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.StudentList);
+                this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
+
                 //lblAllStudent.Attributes.Add("onclick", "allStudent();");
                 lblActiveStudent.Attributes.Add("onclick", "activeStudent();");
                 lblInterview.Attributes.Add("onclick", "interviewStudent();");

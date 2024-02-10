@@ -21,6 +21,7 @@ namespace KindergartenProject
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.PaymentType);
                 master.SetVisibleSearchText(false);
+                this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
 
                 if (_AdminEntity.IsDeveleporOrSuperAdmin)
                 {

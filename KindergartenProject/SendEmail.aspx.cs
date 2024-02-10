@@ -23,6 +23,7 @@ namespace KindergartenProject
             divInformation.InformationVisible = false;
             divInformation.ListRecordPage = "/odeme-plani";
             divInformation.SetVisibleLink(true, false);
+            
 
             lblSeason.Text = DateTime.Today.Year + " - " + (DateTime.Today.Year + 1);
 
@@ -30,6 +31,7 @@ namespace KindergartenProject
             {
                 master.SetActiveMenuAttiributes(MenuList.PaymentPlan);
                 master.SetVisibleSearchText(false);
+                this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
             }
 
             if (!Page.IsPostBack)

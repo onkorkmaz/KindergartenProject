@@ -13,7 +13,6 @@ namespace KindergartenProject
 {
     public partial class kindergarten : System.Web.UI.MasterPage
     {
-
         public MenuList SelectedMenuList { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -25,9 +24,6 @@ namespace KindergartenProject
             }
             else
             {
-                if (new BasePage()._AdminEntity == null)
-                    new BasePage()._AdminEntity = Session[CommonConst.Admin] as AdminEntity;
-
                 if (new BasePage()._AdminEntity == null)
                 {
                     return;
@@ -193,6 +189,9 @@ namespace KindergartenProject
             txtSearchStudent.Visible = isVisible;
         }
 
-
+        public string SetTitle(ProjectType projectType)
+        {
+            return CommonFunctions.GetProjectType(projectType);
+        }
     }
 }

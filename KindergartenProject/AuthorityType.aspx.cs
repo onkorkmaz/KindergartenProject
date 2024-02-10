@@ -19,6 +19,7 @@ namespace KindergartenProject
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.AuthorityType);
                 master.SetVisibleSearchText(false);
+                this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
             }
         }
     }

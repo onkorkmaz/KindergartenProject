@@ -1,7 +1,6 @@
-﻿<%@ Page Title="Benim Dünyam - Sınıf Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="ClassList.aspx.cs" Inherits="KindergartenProject.ClassList" %>
+﻿<%@ Page Title="Sınıf Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="ClassList.aspx.cs" Inherits="KindergartenProject.ClassList" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
-
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">

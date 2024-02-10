@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Yetki Tipi Tanımlama" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="AuthorityType.aspx.cs" Inherits="KindergartenProject.AuthorityType" %>
+﻿<%@ Page Title="Yetki Tipi Tanımlama" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="AuthorityType.aspx.cs" Inherits="KindergartenProject.AuthorityType" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 

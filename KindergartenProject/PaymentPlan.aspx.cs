@@ -20,6 +20,7 @@ namespace KindergartenProject
         {
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.PaymentPlan);
+            this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
 
             divInformation.ListRecordPage = "/ogrenci-listesi";
             divInformation.NewRecordPage = "/ogrenci-ekle";

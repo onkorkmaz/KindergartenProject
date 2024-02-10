@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Cache Temiizliği" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="CacheClear.aspx.cs" Inherits="KindergartenProject.CacheClear" %>
+﻿<%@ Page Title="Cache Temiizliği" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="CacheClear.aspx.cs" Inherits="KindergartenProject.CacheClear" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 

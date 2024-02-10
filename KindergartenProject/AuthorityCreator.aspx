@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam Yetki Generator" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="AuthorityCreator.aspx.cs" Inherits="KindergartenProject.AuthorityCreator" %>
+﻿<%@ Page Title="Yetki Generator" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="AuthorityCreator.aspx.cs" Inherits="KindergartenProject.AuthorityCreator" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="customJS/authorityCreator.js"></script>

@@ -22,21 +22,21 @@
                                                 <i class="far fa-fw fa-bell"></i>
                                             </div>
                                             <div class="alert-message">
-                                                <strong>Benim Dünyam Montessori Okulları Kullanıcı Giriş</strong>
+                                                <strong>Montessori Okulları Kullanıcı Giriş</strong>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
                                         <label class="col-form-label col-sm-4 text-sm-left">Kullanıcı Adı</label>
                                         <div class="col-sm-8">
-                                            <asp:TextBox runat="server" ID="txtUserName" CssClass="form-control" placeholder="Kullanıcı adı"></asp:TextBox>
+                                            <asp:TextBox runat="server" Width="200" ID="txtUserName" CssClass="form-control" placeholder="Kullanıcı adı"></asp:TextBox>
                                         </div>
                                     </div>
 
                                     <div class="mb-3 row">
                                         <label class="col-form-label col-sm-4 text-sm-left">Şifre</label>
                                         <div class="col-sm-8">
-                                            <asp:TextBox runat="server" TextMode="Password" ID="txtPassword" CssClass="form-control" placeholder="Şifre"></asp:TextBox>
+                                            <asp:TextBox runat="server" Width="200" TextMode="Password" ID="txtPassword" CssClass="form-control" placeholder="Şifre"></asp:TextBox>
                                         </div>
                                     </div>
 
@@ -44,10 +44,11 @@
 
                                         <label class="col-form-label col-sm-4 text-sm-left">Eğitim Kurumu</label>
                                         <div class="col-sm-8">
-                                            <asp:DropDownList runat="server" ID="drpProjectType" CssClass="form-control">
+                                            <asp:DropDownList Width="200" runat="server" ID="drpProjectType" CssClass="form-control">
                                                 <asp:ListItem Text="Hiçbiri" Selected="True" Value="0"></asp:ListItem>
                                                 <asp:ListItem Text="Benim Dünyam Anaokulu" Value="1"></asp:ListItem>
                                                 <asp:ListItem Text="Benim Dünyam Eğitim Merkezi" Value="2"></asp:ListItem>
+                                                 <asp:ListItem Text="Pembe Kule Montessori" Value="3"></asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
 

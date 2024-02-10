@@ -154,6 +154,8 @@ namespace Common
                     return "Benim Dünyam Anaokulları";
                 case ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi:
                     return "Benim Dünyam Eğitim Merkezi";
+                case ProjectType.OzelPembeKuleMontessori:
+                    return "Özel Pembe Kule Montessori Eğitim Merkezi";
                 default:
                     return "Default";
             }

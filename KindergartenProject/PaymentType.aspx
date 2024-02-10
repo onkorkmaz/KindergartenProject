@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Ödeme Tipleri" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="PaymentType.aspx.cs" Inherits="KindergartenProject.PaymentType" %>
+﻿<%@ Page Title="Ödeme Tipleri" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="PaymentType.aspx.cs" Inherits="KindergartenProject.PaymentType" %>
 
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>

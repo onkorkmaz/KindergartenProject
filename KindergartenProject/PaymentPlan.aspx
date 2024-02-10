@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Ödeme Planları" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="PaymentPlan.aspx.cs" Inherits="KindergartenProject.PaymentPlan" %>
+﻿<%@ Page Title="Ödeme Planları" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="PaymentPlan.aspx.cs" Inherits="KindergartenProject.PaymentPlan" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 

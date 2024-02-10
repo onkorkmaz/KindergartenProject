@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Ekran - Yetki" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="Authority.aspx.cs" Inherits="KindergartenProject.Authority" %>
+﻿<%@ Page Title="Ekran - Yetki" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="Authority.aspx.cs" Inherits="KindergartenProject.Authority" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 

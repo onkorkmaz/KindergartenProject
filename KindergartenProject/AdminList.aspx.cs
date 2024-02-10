@@ -23,7 +23,8 @@ namespace KindergartenProject
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.AdminList);
                 master.SetVisibleSearchText(false);
-                
+                this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
+
                 List<AuthorityTypeEntity> lst = new AuthorityTypeBusiness(_ProjectType).Get_AuthorityType(new SearchEntity() { IsActive = true, IsDeleted = false }).Result;
 
                 drpAuthorityType.DataSource = lst;

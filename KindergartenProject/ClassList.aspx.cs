@@ -22,6 +22,7 @@ namespace KindergartenProject
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.ClassList);
                 master.SetVisibleSearchText(false);
+                this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
 
                 business = new WorkerBusiness(_ProjectType);
 

@@ -24,6 +24,7 @@ namespace KindergartenProject
                 var master = this.Master as kindergarten;
                 master.SetActiveMenuAttiributes(MenuList.Panel);
                 master.SetVisibleSearchText(false);
+                this.Title = this.Title + " - " + master.SetTitle(new BasePage()._ProjectType);
             }
             
             setScreenAuthority();

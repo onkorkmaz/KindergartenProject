@@ -25,6 +25,7 @@ function successFunctionGetAdminList(obje) {
             tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].Id + "\")' /></a>";
             tbody += "</td>";
 
+            tbody += "<td>" + entityList[i].FullName + "</td>";
             tbody += "<td>" + entityList[i].UserName + "</td>";
 
             var isUpperAdmin = entityList[i].EntranceAdminInfo != null && (entityList[i].EntranceAdminInfo.OwnerStatus == 1 || entityList[i].EntranceAdminInfo.OwnerStatus == 2);
@@ -46,9 +47,11 @@ function successFunctionGetAdminList(obje) {
                 tbody += "<td>******</td>";
             }
 
-            tbody += "<td><table cellpadding='4' border='1'><tr><td><b>Anaokulu<b></td><td>|</td><td><b>Eğitim Mer.</b></td></tr>";
+            tbody += "<td><table cellpadding='4' border='1'><tr><td><b>BD Anaokulu<b></td><td>|</td><td><b>BD Eğitim Mer.</b></td><td><b>Pembe Kule</b></td></tr>";
             var anaokulu = "<img src='img/icons/negative.png' width='20' height ='20' />";
             var egitimMerkezi = "<img src='img/icons/negative.png' width='20' height ='20' />";
+            var pembeKule = "<img src='img/icons/negative.png' width='20' height ='20' />";
+
             var relEntityList = entityList[i].AdminProjectTypeRelationEntityList;
             for (var r in relEntityList) {
                 if (relEntityList[r].ProjectTypeId == 1 && relEntityList[r].HasAuthority) {
@@ -58,9 +61,12 @@ function successFunctionGetAdminList(obje) {
                 if (relEntityList[r].ProjectTypeId == 2 && relEntityList[r].HasAuthority) {
                     egitimMerkezi = "<img src='img/icons/positive.png' width='20' height ='20' />";
                 }
+                if (relEntityList[r].ProjectTypeId == 3 && relEntityList[r].HasAuthority) {
+                    pembeKule = "<img src='img/icons/positive.png' width='20' height ='20' />";
+                }
             }
 
-            tbody += "<tr><td style='text-align: center;'>" + anaokulu + "</td><td></td><td style='text-align: center;'>" + egitimMerkezi + "</td></tr>";
+            tbody += "<tr><td style='text-align: center;'>" + anaokulu + "</td><td></td><td style='text-align: center;'>" + egitimMerkezi + "</td><td style='text-align: center;'>" + pembeKule + "</td></tr>";
 
             tbody += "</tr></table></td>";
             if (entityList[i].IsActive)
@@ -81,7 +87,11 @@ function successFunctionGetAdminList(obje) {
 function validate() {
     var errorMessage = "";
 
-    var obje = document.getElementById("txtUserName").value;
+    var obje = document.getElementById("txtFullName").value;
+    if (IsNullOrEmpty(obje))
+        errorMessage += "İsim-Soyisim boş bırakılamaz\n";
+
+    obje = document.getElementById("txtUserName").value;
     if (IsNullOrEmpty(obje))
         errorMessage += "Kullanıcı boş bırakılamaz\n";
 
@@ -117,15 +127,19 @@ function validateAndSave() {
 
     var id = document.getElementById("hdnId").value;
     var name = document.getElementById("txtUserName").value;
+    var fullName = document.getElementById("txtFullName").value;
     var password = document.getElementById("txtPassword").value;
     var isActive = document.getElementById("chcIsActive").checked;
     var authorityTypeId = document.getElementById("drpAuthorityType").value;
 
     var objeBenimDunyamAnaokulChecked = document.getElementById("chcBenimDunyamAnaokulu").checked;
     var objeBenimDunyamEgitimMerkeziChecked = document.getElementById("chcBenimDunyamEgitimMerkezi").checked;
+    var objePembeKuleChecked = document.getElementById("chcPembeKule").checked;
+
 
     var adminEntity = {};
     adminEntity["UserName"] = name;
+    adminEntity["FullName"] = fullName;
     adminEntity["Password"] = password;
     adminEntity["IsActive"] = isActive;
     adminEntity["AuthorityTypeId"] = authorityTypeId;
@@ -142,6 +156,13 @@ function validateAndSave() {
     adminProjectTypeRelationEntity.AdminId = id;
     adminProjectTypeRelationEntity.ProjectTypeId = 2;
     adminProjectTypeRelationEntity.HasAuthority = objeBenimDunyamEgitimMerkeziChecked;
+    adminProjectTypeRelationEntity.IsActive = true;
+    adminProjectTypeRelationEntityList.push(adminProjectTypeRelationEntity);
+
+    adminProjectTypeRelationEntity = {};
+    adminProjectTypeRelationEntity.AdminId = id;
+    adminProjectTypeRelationEntity.ProjectTypeId = 3;
+    adminProjectTypeRelationEntity.HasAuthority = objePembeKuleChecked;
     adminProjectTypeRelationEntity.IsActive = true;
     adminProjectTypeRelationEntityList.push(adminProjectTypeRelationEntity);
 
@@ -207,6 +228,7 @@ function successFunctionGetAdminWithId(obje) {
         document.getElementById("txtPasswordRepeat").value = entity.Password;
         document.getElementById("chcIsActive").checked = entity.IsActive;
         document.getElementById("drpAuthorityType").value = entity.AuthorityTypeId;
+        document.getElementById("txtFullName").value = entity.FullName;
 
         var relEntityList = entity.AdminProjectTypeRelationEntityList;
 
@@ -217,6 +239,10 @@ function successFunctionGetAdminWithId(obje) {
 
             if (relEntityList[r].ProjectTypeId == 2 ) {
                 document.getElementById("chcBenimDunyamEgitimMerkezi").checked = relEntityList[r].HasAuthority;
+            }
+
+            if (relEntityList[r].ProjectTypeId == 3) {
+                document.getElementById("chcPembeKule").checked = relEntityList[r].HasAuthority;
             }
         }
 
@@ -236,7 +262,9 @@ function setDefaultValues() {
     document.getElementById("drpAuthorityType").value = "0";
     document.getElementById("chcBenimDunyamAnaokulu").checked = false;
     document.getElementById("chcBenimDunyamEgitimMerkezi").checked = false;
+    document.getElementById("chcPembeKule").checked = false;
     document.getElementById("chcIsActive").checked = true;
+    document.getElementById("txtFullName").value = "";
     document.getElementById("btnSubmit").value = "Kaydet";
 
 }

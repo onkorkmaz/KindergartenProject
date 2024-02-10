@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Ekran Yetki Tanımlama" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="AuthorityScreen.aspx.cs" Inherits="KindergartenProject.AuthorityScreen" %>
+﻿<%@ Page Title="Ekran Yetki Tanımlama" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="AuthorityScreen.aspx.cs" Inherits="KindergartenProject.AuthorityScreen" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 

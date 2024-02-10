@@ -44,6 +44,7 @@ namespace KindergartenProject
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.PaymentPlan);
             master.SetVisibleSearchText(false);
+            this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
 
 
             object Id = Page.RouteData.Values["student_id"];

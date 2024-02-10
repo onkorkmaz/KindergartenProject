@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Şifre Değiştir" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="ChangePassword.aspx.cs" Inherits="KindergartenProject.ChangePassword" %>
+﻿<%@ Page Title="Şifre Değiştir" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="ChangePassword.aspx.cs" Inherits="KindergartenProject.ChangePassword" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 

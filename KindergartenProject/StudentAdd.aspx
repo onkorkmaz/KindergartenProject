@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim dünyam - Öğrenci Kayıt" Language="C#" Debug="true" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="StudentAdd.aspx.cs" Inherits="KindergartenProject.StudentAdd" %>
+﻿<%@ Page Title="Öğrenci Kayıt" Language="C#" Debug="true" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="StudentAdd.aspx.cs" Inherits="KindergartenProject.StudentAdd" %>
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
 

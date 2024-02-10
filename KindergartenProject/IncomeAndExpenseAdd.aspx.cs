@@ -55,6 +55,8 @@ namespace KindergartenProject
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.IncomeAndExpenseAdd);
             master.SetVisibleSearchText(false);
+            this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
+
             btnDelete.Visible = false;
 
             if (!Page.IsPostBack)

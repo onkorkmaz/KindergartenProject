@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Benim Dünyam - Öğretmen Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="WorkerList.aspx.cs" Inherits="KindergartenProject.WorkerList" %>
+﻿<%@ Page Title="Öğretmen Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="WorkerList.aspx.cs" Inherits="KindergartenProject.WorkerList" %>
 
 
 <%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>

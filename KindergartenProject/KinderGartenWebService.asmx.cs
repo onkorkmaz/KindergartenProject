@@ -342,6 +342,8 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> InsertOrUpdateAdmin(string id, AdminEntity adminEntity)
         {
+            AdminEntity dbAdmin = new AdminEntity();
+            int idInt = 0;
             DataResultArgs<bool> controlUserName = ControlUserName(id, adminEntity.UserName);
             if (controlUserName.HasError)
             {
@@ -354,29 +356,37 @@ namespace KindergartenProject
                 return controlUserName;
             }
 
+            List<AdminProjectTypeRelationEntity> relationList = adminEntity.AdminProjectTypeRelationEntityList;
+
             DatabaseProcess currentProcess = DatabaseProcess.Add;
             adminEntity.Id = 0;
             if (!string.IsNullOrEmpty(id))
             {
-                int.TryParse(Cipher.Decrypt(id), out var idInt);
+                int.TryParse(Cipher.Decrypt(id), out idInt);
                 if (idInt > 0)
                 {
                     currentProcess = DatabaseProcess.Update;
                 }
-                adminEntity.Id = idInt;
+                dbAdmin = new AdminBusiness(GetProjectType()).GetAdminWithId(idInt.ToString()).Result;
             }
 
             adminEntity.DatabaseProcess = currentProcess;
             if (adminEntity.OwnerStatusEnum == OwnerStatusEnum.None)
             {
-                adminEntity.OwnerStatus = (int)OwnerStatusEnum.Authority;
+                if (dbAdmin.Id <= 0 || dbAdmin.OwnerStatusEnum == OwnerStatusEnum.None)
+                {
+                    adminEntity.OwnerStatus = (int)OwnerStatusEnum.Authority;
+                }
+                else
+                {
+                    adminEntity.OwnerStatus = dbAdmin.OwnerStatus;
+                }              
             }
 
             DataResultArgs<bool> result = new AdminBusiness(GetProjectType()).Set_Admin(adminEntity, false);
 
             if (!result.HasError)
             {
-                List<AdminProjectTypeRelationEntity> relationList = adminEntity.AdminProjectTypeRelationEntityList;
                 foreach (AdminProjectTypeRelationEntity relEntity in relationList)
                 {
                     DataResultArgs<bool> resultSetRel = new AdminProjectTypeRelationBusiness().Set_AdminProjectTypeRelation(relEntity);
@@ -388,7 +398,7 @@ namespace KindergartenProject
 
                 if (adminEntity.Id == new BasePage()._AdminEntity.Id)
                 {
-                    new BasePage()._AdminEntity = new AdminBusiness(GetProjectType()).Get_Admin(adminEntity.UserName, adminEntity.Password).Result;
+                    Session[CommonConst.Admin] = new AdminBusiness(GetProjectType()).Get_Admin(adminEntity.UserName, adminEntity.Password).Result;
                 }
             }
 

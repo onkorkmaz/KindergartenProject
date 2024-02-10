@@ -63,11 +63,6 @@ namespace KindergartenProject
                 return (AdminEntity)Session[CommonConst.Admin];
 
             }
-            set
-            {
-                if(value!=null)
-                    _AdminEntity = value;
-            }
         }
 
         public ProjectType _ProjectType
