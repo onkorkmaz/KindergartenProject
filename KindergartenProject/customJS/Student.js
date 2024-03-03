@@ -105,21 +105,6 @@ function successFunctionGetStudentEntity(result) {
             setStudent(entity);
 
         } else {
-
-            //document.getElementById("hdnId").value = "";
-            //document.getElementById("txtName").value = "";
-            //document.getElementById("txtSurname").value = "";
-            //document.getElementById("txtMiddleName").value = "";
-            //document.getElementById("txtMotherName").value = "";
-            //document.getElementById("txtFatherName").value = "";
-            //document.getElementById("txtFatherPhoneNumber").value = "";
-            //document.getElementById("txtMotherPhoneNumber").value = "";
-            //document.getElementById("chcIsActive").checked = true;
-            //document.getElementById("txtSpokenPrice").value = "";
-            //document.getElementById("txtNotes").value = "";
-            //document.getElementById("txtBirthday").value = "";
-            //document.getElementById("txtDateOfMeeting").value = "";
-            //document.getElementById("txtEmail").value = "";
             document.getElementById("btnSubmit").value = "Kaydet";
         }
     }
@@ -158,35 +143,6 @@ function validate() {
     if (IsNullOrEmpty(obje))
         errorMessage += "Soyisim boş bırakılamaz\n";
 
-    var fatherName = document.getElementById("txtFatherName").value;
-    var motherName = document.getElementById("txtMotherName").value;
-
-    if (IsNullOrEmpty(fatherName) && IsNullOrEmpty(motherName) ) {
-        errorMessage += "Anne veya baba adından bir tanesi dolu olmalıdır.\n";
-    }
-
-    var fatherPhoneNumber = document.getElementById("txtFatherPhoneNumber").value;
-    var motherPhoneNumber = document.getElementById("txtMotherPhoneNumber").value;
-
-    if (IsNullOrEmpty(fatherName) && !IsNullOrEmpty(fatherPhoneNumber)) {
-        errorMessage += "Baba telefon numarası dolu olduğu için baba adı girilmelidir.\n";
-    }
-
-    if (IsNullOrEmpty(motherName) && !IsNullOrEmpty(motherPhoneNumber)) {
-        errorMessage += "Anne telefon numarası dolu olduğu için anne adı girilmelidir.\n";
-    }
-
-    if (!IsNullOrEmpty(fatherName) && IsNullOrEmpty(fatherPhoneNumber)) {
-        if (IsNullOrEmpty(motherName) || IsNullOrEmpty(motherPhoneNumber)) {
-            errorMessage += "Baba telefon numarası ya da anne ad ve telefon numarası dolu olmalıdır.\n";
-        }
-    }
-
-    if (!IsNullOrEmpty(motherName) && IsNullOrEmpty(motherPhoneNumber)) {
-        if (IsNullOrEmpty(fatherName) || IsNullOrEmpty(fatherPhoneNumber)) {
-            errorMessage += "Anne telefon numarası ya da baba ad ve telefon numarası dolu olmalıdır.\n";
-        }
-    }
 
     var email = document.getElementById("txtEmail").value;
     if (!IsNullOrEmpty(email) && !checkEmail(email)) {

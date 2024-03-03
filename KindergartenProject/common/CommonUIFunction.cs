@@ -1,11 +1,13 @@
 ﻿using Business;
 using Common;
 using Entity;
+using KindergartenProject.userControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 
 namespace KindergartenProject
 {
@@ -58,6 +60,42 @@ namespace KindergartenProject
             authortityList = new List<AuthorityScreenEnum>();
             authortityList.Add(authorityScreen);
             controlMenuVisibleForAuthority(genericControl, authortityList);
+        }
+
+        public static void loadClass(ProjectType projectType , ref DropDownList drpClassList, ref divInformation _divInformation,bool isAddUnSignedItem)
+        {
+            DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(projectType).Get_ClassForStudent();
+
+            if (resultSet.HasError)
+            {
+                _divInformation.ErrorText = resultSet.ErrorDescription;
+                return;
+            }
+            else
+            {
+                List<ClassEntity> classList = resultSet.Result;
+                List<ClassEntity> list = new List<ClassEntity>();
+
+                list.Add(new ClassEntity() { Id = -1, Name = "-" });
+                if (resultSet.Result != null)
+                {
+
+                    foreach (ClassEntity entity in classList)
+                    {
+                        list.Add(entity);
+                    }
+                }
+
+                if (isAddUnSignedItem)
+                {
+                    list.Add(new ClassEntity() { Id = -2, Name = "Atanmayanlar" });
+                }
+
+                drpClassList.DataSource = list;
+                drpClassList.DataValueField = "Id";
+                drpClassList.DataTextField = "ClassAndMainTeacherName";
+                drpClassList.DataBind();
+            }
         }
 
     }

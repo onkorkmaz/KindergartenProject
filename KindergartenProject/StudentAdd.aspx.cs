@@ -83,6 +83,8 @@ namespace KindergartenProject
         #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
+            object idObject = Page.RouteData.Values["student_id"];
+            int idInt = CommonFunctions.GetData<int>(idObject);
             business = new StudentBusiness(_ProjectType);
 
             divInformation.ListRecordPage = "ogrenci-listesi";
@@ -101,13 +103,11 @@ namespace KindergartenProject
 
             if (!Page.IsPostBack)
             {
-                if(_ProjectType != ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi)
+                if (_ProjectType != ProjectType.BenimDunyamEgitimMerkeziIstiklalCaddesi)
                 {
                     divSchoolClass.Visible = false;
                 }
 
-                //txtBirthday.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                //txtDateOfMeeting.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 txtInterviewDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
                 DataResultArgs<List<ClassEntity>> resultSetClassList = new ClassBusiness(_ProjectType).Get_Class(new SearchEntity() { IsActive = true, IsDeleted = false });
@@ -137,33 +137,16 @@ namespace KindergartenProject
                     drpClassList.DataBind();
                 }
 
-                object Id = Page.RouteData.Values["student_id"];
-
-                if (Id != null)
+                if (idObject != null && idInt > 0)
                 {
-                    string IdDecrypt = Cipher.Decrypt(Id.ToString());
-
-                    int id = CommonFunctions.GetData<int>(IdDecrypt);
-                    if (id > 0)
+                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_Student(idInt);
+                    if (resultSet.HasError)
                     {
-                        DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_Student(id);
-                        if (resultSet.HasError)
-                        {
-                            divInformation.ErrorText = resultSet.ErrorDescription;
-                        }
-                        else if (resultSet.Result!=null)
-                        {
-                            CurrentRecord = resultSet.Result;
-                            btnSubmit.Text = ButtonText.Update;
-                            btnPaymentDetail.Visible = currentRecord.IsStudent;
-                            btnDelete.Visible = true;
-
-                            if(currentRecord.IsInterview)
-                            {
-                                interviewDate.Style.Remove("display");
-                            }
-
-                        }
+                        divInformation.ErrorText = resultSet.ErrorDescription;
+                    }
+                    else if (resultSet.Result != null)
+                    {
+                        CurrentRecord = resultSet.Result;
                     }
                 }
 
@@ -173,6 +156,35 @@ namespace KindergartenProject
                     lblMaxStudentCount.Text = new KinderGartenWebService().CalculateRecordedStudentCount(classId.ToString());
                 }
             }
+
+            StudentEntity _sEntity = currentRecord;
+            if (_sEntity == null && idObject != null && idInt > 0)
+            {
+                DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_Student(idInt);
+                if (resultSet.HasError)
+                {
+                    divInformation.ErrorText = resultSet.ErrorDescription;
+                }
+                else if (resultSet.Result != null)
+                {
+                    _sEntity = resultSet.Result;
+                }
+            }
+                
+                      
+
+            if (_sEntity!= null)
+            {
+                btnSubmit.Text = ButtonText.Update;
+                btnPaymentDetail.Visible = _sEntity.IsStudent;
+                btnDelete.Visible = true;
+
+                if (_sEntity.IsInterview)
+                {
+                    interviewDate.Style.Remove("display");
+                }
+            }
+
         }
 
 
@@ -213,14 +225,15 @@ namespace KindergartenProject
                 entity.SchoolClassEnum = (SchoolClassEnum)CommonFunctions.GetData<int>(drpSchoolClass.SelectedValue);
             }
 
-
-            //if (entity.DatabaseProcess == DatabaseProcess.Add)
-            //    entity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
-
-            //if (hdnStudentState.Value == "1" && entity.IsStudent)
-            //{
-            //    entity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
-            //}
+            if (!chcIsActive.Checked || databaseProcess == DatabaseProcess.Deleted)
+            {
+                bool isNotValid = hasUnPaymentRefund(entity.Id);
+                if (isNotValid)
+                {
+                    divInformation.ErrorText = "Öğrencinin ödenmemiş aidatları bulunmaktadır.";
+                    return;
+                }
+            }
 
             DataResultArgs<StudentEntity> resultSet = business.Set_Student(entity);
             if (resultSet.HasError)
@@ -251,6 +264,12 @@ namespace KindergartenProject
                     }
                 }
             }
+        }
+
+        private bool hasUnPaymentRefund(int id)
+        {
+            bool hasUnPaymentRefund = new PaymentBusiness(_ProjectType).HasUnPaymentRefund(id);
+            return hasUnPaymentRefund;
         }
         #endregion METHODS
 

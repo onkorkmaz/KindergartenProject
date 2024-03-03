@@ -17,6 +17,10 @@ function loadData() {
     
 }
 
+function onClassNameChanged() {
+    loadData();
+}
+
 function onChangeChcCurrentDay() {
     tbody = "";
     let currentDay = document.getElementById("chcCurrentDay");
@@ -78,20 +82,26 @@ function successFunctionForStudentAndAttendanceList(obje) {
     if (packageList != null) {
 
         tbody = "";
-        if (packageList == null || packageList.length == 0) {
+        {
             document.getElementById("studentAttendanceList").innerHTML = "";
-        }
-        else {
-
             for (let i in packageList) {
+
+                var studentEntity = packageList[i].StudentEntity;
+                if (document.getElementById("drpClassList").value > 0 && studentEntity["ClassId"] != document.getElementById("drpClassList").value) {
+                    continue;
+                }
+
                 drawStudentAttendanceBook(packageList[i]);
             }
+
         }
     }
 }
 
 function drawStudentAttendanceBook(package) {
 
+    var attendanceList = package.StudentAttendanceBookEntityList;
+    var studentEntity = package.StudentEntity;
     var header = "";
     let year = document.getElementById("drpYear").value;
     let month = document.getElementById("drpMonth").value;
@@ -132,8 +142,6 @@ function drawStudentAttendanceBook(package) {
 
     document.getElementById("studentAttendanceHeader").innerHTML = header;
 
-    var attendanceList = package.StudentAttendanceBookEntityList;
-    var studentEntity = package.StudentEntity;
     tbody += "<tr id='tr_Student_" + studentEntity.Id + "' searchText = '" + studentEntity.SearchText+"'>";
     tbody += "<td style='cursor: pointer;' onclick =_onDetailRow(\"" + studentEntity.Id + "\") id='tdPlus_" + studentEntity.Id + "' >+</td>";
     tbody += "<td>" + studentEntity.FullName + "</td>";

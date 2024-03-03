@@ -235,8 +235,8 @@ function drawPayment(paymentTypeList, year, month, isListScreen, studentAndListO
 
     for (var i in paymentTypeList) {
 
-        var displayAmount = paymentTypeList[i].Amount;
-        var amount = paymentTypeList[i].Amount;
+        var displayAmount = 0;
+        var amount = 0;
         if (!studentEntity.IsActive) {
             amount = 0;
             displayAmount = 0;

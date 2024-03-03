@@ -17,6 +17,11 @@ namespace KindergartenProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Page.IsPostBack)
+            {
+                CommonUIFunction.loadClass(_ProjectType, ref drpClassList, ref divInformation, false);
+            }
+
             var master = this.Master as kindergarten;
             master.SetActiveMenuAttiributes(MenuList.StudentAttendanceBookList);
 
