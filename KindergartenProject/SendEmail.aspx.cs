@@ -60,7 +60,7 @@ namespace KindergartenProject
                 {
                     int width = 15;
                     int height = 15;
-                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(_ProjectType).Get_Student(id);
+                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(_ProjectType).Get_StudentWithId(id);
 
                     if(studentResultSet.HasError)
                     {
@@ -233,7 +233,7 @@ namespace KindergartenProject
                 }
                 else
                 {
-                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(_ProjectType).Get_Student(id);
+                    DataResultArgs<StudentEntity> studentResultSet = new StudentBusiness(_ProjectType).Get_StudentWithId(id);
                     if(studentResultSet.HasError)
                     {
                         divInformation.ErrorText = studentResultSet.ErrorDescription;

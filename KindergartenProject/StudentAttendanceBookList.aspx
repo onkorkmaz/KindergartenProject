@@ -48,7 +48,7 @@
                                <asp:CheckBox runat="server" Checked="true" onclick="onChangeChcCurrentDay();" ID="chcCurrentDay" CssClass="form-check-input" />
                            </td>
                            <td width="150"> </td>
-                           <td width="100">Sınıf Adı : </td>
+                           <td width="100">Sınıf Adı &nbsp;</td>
                            <td width="200"> <asp:DropDownList runat="server" ID="drpClassList" onchange="onClassNameChanged();" CssClass="form-control"></asp:DropDownList></td>
                        </tr>
                     

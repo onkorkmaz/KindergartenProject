@@ -84,6 +84,7 @@ function successFunctionForStudentAndAttendanceList(obje) {
         tbody = "";
         {
             document.getElementById("studentAttendanceList").innerHTML = "";
+            document.getElementById("studentAttendanceHeader").innerHTML = "";
             for (let i in packageList) {
 
                 var studentEntity = packageList[i].StudentEntity;

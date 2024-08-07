@@ -141,6 +141,24 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.TextBox txtIncomeAndExpenseTypeName;
 
         /// <summary>
+        /// drpYearList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpYearList;
+
+        /// <summary>
+        /// drpMonthList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drpMonthList;
+
+        /// <summary>
         /// tbIncomeAndExpenseList control.
         /// </summary>
         /// <remarks>

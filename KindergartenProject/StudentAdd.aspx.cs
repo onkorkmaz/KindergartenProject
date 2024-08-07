@@ -139,7 +139,7 @@ namespace KindergartenProject
 
                 if (idObject != null && idInt > 0)
                 {
-                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_Student(idInt);
+                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_StudentWithId(idInt);
                     if (resultSet.HasError)
                     {
                         divInformation.ErrorText = resultSet.ErrorDescription;
@@ -160,7 +160,7 @@ namespace KindergartenProject
             StudentEntity _sEntity = currentRecord;
             if (_sEntity == null && idObject != null && idInt > 0)
             {
-                DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_Student(idInt);
+                DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_StudentWithId(idInt);
                 if (resultSet.HasError)
                 {
                     divInformation.ErrorText = resultSet.ErrorDescription;

@@ -63,6 +63,7 @@ namespace KindergartenProject
             {
                 loadIncomeAndExpenseType();
                 loadWorker();
+                loadListProperties();
 
                 txtProcessDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
@@ -90,6 +91,35 @@ namespace KindergartenProject
                     }
                 }
             }
+        }
+
+        private void loadListProperties()
+        {
+            int year = 2021;
+
+            for (int i = -1; i < 10; i++)
+            {
+                string displatText = (year + i).ToString() + "-" + (year + i + 1).ToString();
+                drpYearList.Items.Add(new ListItem(displatText, (year + i).ToString()));
+            }
+
+            int currentYear = DateTime.Today.Year;
+            int currentMonth = DateTime.Today.Month;
+            if (currentMonth < 8)
+                currentYear--;
+
+            drpYearList.SelectedValue = currentYear.ToString();
+
+            var months = CommonUIFunction.GetSeasonList(currentYear);
+
+            drpMonthList.Items.Clear();
+            drpMonthList.Items.Add(new ListItem("Seçiniz", "-1"));
+            foreach (SeasonEntity entity in months)
+            {
+                drpMonthList.Items.Add(new ListItem(entity.MonthName, entity.Month.ToString()));
+            }
+
+            drpMonthList.SelectedValue = currentMonth.ToString();
         }
 
         private void loadWorker()

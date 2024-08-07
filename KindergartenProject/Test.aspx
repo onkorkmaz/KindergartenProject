@@ -1,17 +1,47 @@
-﻿<%@ Page Title="Öğrenci Listesi" Language="C#" MasterPageFile="~/kindergarten.Master" AutoEventWireup="true" CodeBehind="StudentList.aspx.cs" Inherits="KindergartenProject.StudentList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Test.aspx.cs" Inherits="KindergartenProject.Test" %>
 
-<%@ Register Src="~/userControl/divInformation.ascx" TagPrefix="uc1" TagName="divInformation" %>
+<!DOCTYPE html>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="/customJS/studentList.js"></script>
-    <script src="/customJS/studentCommon.js"></script>
-    <script src="/customJS/StudentDetailCommon.js"></script>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="row">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Verileri Normal Getir" />
+            <br />
+            <br />
+            <asp:GridView ID="GridView1" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None">
+                <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                <EditRowStyle BackColor="#999999" />
+                <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+            </asp:GridView>
+            <br />
+            <br />
 
-        <uc1:divInformation runat="server" ID="divInformation" InformationVisible="false" />
-        <asp:Label runat="server" ID="lblTimer"></asp:Label>
+            <asp:TextBox ID="txtSearchStudent" runat="server"></asp:TextBox>
+
+            <asp:Button ID="Button2" OnClientClick="loadData(); return false;" runat="server" Text="JavaScript ile verileri getir" Width="281px" />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div class="row">
+
+       
+
         <div class="col-12 col-xl-12">
             <div class="mb-3 row">
 
@@ -23,24 +53,24 @@
                     </div>
                 </div>--%>
 
-                <div class="col-sm-3">  
+                <div class="col-sm-3">
                     <div class="alert alert-success alert-dismissible" role="alert">
                         <div class="alert-message">
-                            <asp:Label runat="server" ID="lblActiveStudent" onclick="activeStudent();"></asp:Label>
+                            <asp:Label runat="server" ID="lblActiveStudent" Style="cursor: pointer;"></asp:Label>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="alert alert-warning alert-dismissible" role="alert">
                         <div class="alert-message">
-                            <asp:Label runat="server" ID="lblInterview"></asp:Label>
+                            <asp:Label runat="server" ID="lblInterview" Style="cursor: pointer;"></asp:Label>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="alert alert-secondary alert-dismissible" role="alert">
                         <div class="alert-message">
-                            <asp:Label runat="server" ID="lblPassiveStudent"></asp:Label>
+                            <asp:Label runat="server" ID="lblPassiveStudent" Style="cursor: pointer;"></asp:Label>
                         </div>
                     </div>
                 </div>
@@ -50,23 +80,9 @@
         <asp:HiddenField runat="server" ID="hdnId" />
         <div class="mb-3 row">
             <label class="col-form-label col-sm-2 text-sm-left" id ="lblClassName">Sınıf Adı</label>
-            <div class="col-sm-5" id="divClassList">
+            <div class="col-sm-2" id="divClassList">
                 <asp:DropDownList runat="server" ID="drpClassList" onchange="onClassNameChanged();" CssClass="form-control"></asp:DropDownList>
             </div>
-
-             <div class="col-sm-5" id="divCreatePdf">
-                 <table>
-                     <tr>
-                         <td>Ücret Göster&nbsp;&nbsp;<asp:CheckBox runat="server" ID="chcShowPrice" CssClass="form-check-input" /></td>
-                         <td>&nbsp;</td>
-                         <td> <asp:Button runat="server" ID="btnCreatePdf" CssClass="btn btn-primary " Text="Döküman Oluştur" OnClientClick="return createPdf();" /></td>
-
-                     </tr>
-                 </table>
-                
-            </div>
-
-
             <div id="divOldInterview" style="display:none;" class="col-sm-4">
               
                      Eski Görüşmeler &nbsp;
@@ -88,7 +104,10 @@
                             <th scope="col">İsim Soyisim</th>
                             <th scope="col">Veli Bilg.</th>
                             <th scope="col">Kayıt D.</th>
+                            <th scope="col">O. Sınıfı</th>
+                            <th scope="col">Deneme D</th>
                             <th scope="col">Deneme Ders T.</th>
+
                         </tr>
                     </thead>
                     <tbody runat="server" id="tBodyStudentList">
@@ -97,4 +116,8 @@
             </div>
         </div>
     </div>
-</asp:Content>
+
+        </div>
+    </form>
+</body>
+</html>

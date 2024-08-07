@@ -21,7 +21,7 @@ namespace KindergartenProject
             {
                 txtUserName.Text = "onur";
                 txtPassword.Text = "1";
-                drpProjectType.SelectedValue = "2";
+                drpProjectType.SelectedValue = "1";
                 //btnLogin_Click(null, null);
             }
         }
@@ -60,7 +60,8 @@ namespace KindergartenProject
                     else if (resultSetAdminOrgAuth.Result.HasAuthority.HasValue && resultSetAdminOrgAuth.Result.HasAuthority.Value)
                     {
 
-                        Response.Redirect("benim-dunyam-montessori-okullari");
+                        //Response.Redirect("benim-dunyam-montessori-okullari");
+                        Response.Redirect("ogrenci-listesi");
                     }
                     else
                     {

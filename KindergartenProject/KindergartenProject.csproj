@@ -194,6 +194,7 @@
     <Content Include="StudentAttendanceBookList.aspx" />
     <Content Include="IncomeAndExpenseType.aspx" />
     <Content Include="AdminList.aspx" />
+    <Content Include="Test.aspx" />
     <Content Include="WorkerList.aspx" />
     <Content Include="PaymentType.aspx" />
     <Content Include="customJS\paymentType.js" />
@@ -349,6 +350,13 @@
     </Compile>
     <Compile Include="AdminList.aspx.designer.cs">
       <DependentUpon>AdminList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Test.aspx.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Test.aspx.designer.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
     </Compile>
     <Compile Include="WorkerList.aspx.cs">
       <DependentUpon>WorkerList.aspx</DependentUpon>

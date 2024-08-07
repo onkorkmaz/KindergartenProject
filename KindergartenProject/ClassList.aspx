@@ -86,7 +86,6 @@
                             <th scope="col">Öğretmen Giderleri</th>
                             <th scope="col">Beklenen Gelir</th>
                             <th scope="col">Anlık Gelir</th>
-
                         </tr>
                     </thead>
                     <tbody runat="server" id="tbClassList">

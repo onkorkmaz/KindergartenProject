@@ -27,7 +27,7 @@ namespace KindergartenProject
                 this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
 
                 //lblAllStudent.Attributes.Add("onclick", "allStudent();");
-                lblActiveStudent.Attributes.Add("onclick", "activeStudent();");
+                //lblActiveStudent.Attributes.Add("onclick", "activeStudent();");
                 lblInterview.Attributes.Add("onclick", "interviewStudent();");
                 lblPassiveStudent.Attributes.Add("onclick", "passiveStudent();");
 

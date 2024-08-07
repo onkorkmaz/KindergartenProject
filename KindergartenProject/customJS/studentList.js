@@ -154,19 +154,6 @@ function drawList(entityList) {
                 tbody += "<td>&nbsp;<img src='/img/icons/passive.png' width='20' height ='20' /></td>";
             }
 
-            if (entityList[i].SchoolClassDesc != undefined && entityList[i].SchoolClassDesc != null && entityList[i].SchoolClassDesc != '') {
-                tbody += "<td>" + entityList[i].SchoolClassDesc + "</td>";
-            }
-            else {
-                tbody += "<td> - </td>";
-
-            }
-
-            if (entityList[i].IsInterview)
-                tbody += "<td>&nbsp;<img src='/img/icons/paymentOk.png' width='20' height ='20' /></td>";
-            else
-                tbody += "<td> </td>";
-
             if (entityList[i].IsInterview) {
                 tbody += "<td>" + entityList[i].InterviewWithFormat + "</td>";
             }
@@ -336,12 +323,16 @@ function setVisibleItems(studentListType) {
     var divClassList = document.getElementById("divClassList");
     divClassList.style.display = "none";
 
+    var divCreatePdf = document.getElementById("divCreatePdf");
+    divCreatePdf.style.display = "none";
+
 
 
 
     if (studentListType == StudentListType.ActiveStudent) {
         lblClassName.style.display = "";
         divClassList.style.display = "";
+        divCreatePdf.style.display = "";
     }
     else if (studentListType == StudentListType.PassiveStudent) {
 
@@ -351,6 +342,29 @@ function setVisibleItems(studentListType) {
     }
 }
 
+function createPdf() {
+
+    if (confirm('Seçilen sınıf için Döküman oluşturmak istediğinze emin misiniz?')) {
+
+        var classId = document.getElementById("drpClassList").value;
+        var isShowPrice = document.getElementById("chcShowPrice").checked;
+
+        var jsonData = "{ classId: " + JSON.stringify(classId) + ", isShowPrice: " + JSON.stringify(isShowPrice) + " }";
+        CallServiceWithAjax('/KinderGartenWebService.asmx/CreatePDF', jsonData, successFunctionCreatePDF, errorFunction);
+    }
+
+    return false;
+}
+
+function successFunctionCreatePDF(obje) {
+    if (!obje.HasError && obje.Result) {
+        alert("Döküman Oluşturulmuştur.");
+
+    }
+    else {
+        alert("Hata var !!! Error : " + obje.ErrorDescription);
+    }
+}
 
 function passiveStudent() {
 

@@ -1,9 +1,14 @@
 ﻿var isFirstLoad = true;
+var _currentMonth = "";
+var _currentYear = "";
 
 window.onload = function () {
     if (isFirstLoad) {
         onIncomeAndExpenseTypeChanged();
         onWorkerChanged();
+        _currentMonth = getMonth();
+        _currentYear = getYear();
+
         isFirstLoad = false;
     }
     loadAllData();
@@ -14,13 +19,34 @@ function loadAllData() {
     loadData();
 
     drawSummaryWithIndex(1, "thBody");
-    loadSummaryWithIndex(1);
+    loadSummaryWithYearAndMonth(getYear(), getMonth());
 
 }
 
+function getYear() {
+    let year = document.getElementById("drpYearList").value;
+    let month = getMonth();
+    if (month < monthsSeasonFirst[0][0]) {
+        year++;
+    }
+
+    return year;
+}
+
+function getMonth() {
+
+    let month = document.getElementById("drpMonthList").value;
+    return month;
+}
+
 function loadData() {
-    var jsonData = "{  }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetIncomeAndExpenseListForCurrentDate', jsonData, successFunctionGetIncomeAndExpenseList, errorFunction);
+
+    let year = getYear();
+    let month = getMonth();
+
+    var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + "}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/GetIncomeAndExpenseListWithMonthAndYear', jsonData, successFunctionGetIncomeAndExpenseList, errorFunction);
+
 }
 
 function deleteCurrentRecord(id) {
@@ -92,8 +118,10 @@ function successFunctionGetIncomeAndExpenseList(obje) {
 
                 tbody += "<tr>";
                 tbody += "<td>";
-                tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].Id + "\")'/></a>";
-                tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].Id + "\")' /></a>";
+                //if (_currentMonth == getMonth() && _currentYear == getYear()) {
+                    tbody += "<a href = \"#\"><img src =\"/img/icons/update1.png\" onclick='updateCurrentRecord(\"" + entityList[i].Id + "\")'/></a>";
+                    tbody += "<a href = \"#\"><img src =\"/img/icons/trush1.png\" onclick='deleteCurrentRecord(\"" + entityList[i].Id + "\")' /></a>";
+                //}
                 tbody += "</td>";
 
                 if (entityList[i].IncomeAndExpenseType == 1) {
@@ -178,6 +206,24 @@ function onIncomeAndExpenseTypeChanged() {
 
 var workerList = [];
 
+
+function drpYearMonthChanged(changeType) {
+
+    const d = new Date();
+    if (changeType == 'year') {
+        document.getElementById("drpMonthList").value = 1;
+    }
+
+    if (changeType == 'month') {
+        let mnth = document.getElementById("drpMonthList").value;
+        document.getElementById("currentMonth0").innerHTML = "<b>" + months[mnth - 1][1] + "</b>";
+    }
+
+
+
+    loadAllData();
+}
+
 function validateAndSave() {
     if (!validate())
         return false;
@@ -191,7 +237,8 @@ function validateAndSave() {
     var worker = document.getElementById("drpWorker").value;
 
     if (incomeAndExpenseSubType == IncomeAndExpenseSubType.WorkerExpense &&(worker == -1 || worker == -2)) {
-        var jsonData = "{  }";
+        var isOnlyActive = true;
+        var jsonData = "{ isOnlyActive: " + JSON.stringify(isOnlyActive) + " }";
         CallServiceWithAjax('/KinderGartenWebService.asmx/GetAllWorker', jsonData, successFunctionGetWorker, errorFunction);
 
         if (workerList != null) {

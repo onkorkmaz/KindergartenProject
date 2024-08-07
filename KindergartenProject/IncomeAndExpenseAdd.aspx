@@ -87,6 +87,26 @@
         </div>
     </div>
 
+        <div class="table-responsive">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-2 row">
+                        <label class="col-form-label col-sm-1 text-sm-left">Yıl :</label>
+                        <div class="col-sm-2">
+                            <asp:DropDownList runat="server" ID="drpYearList" CssClass="form-control" onchange="drpYearMonthChanged('year');">
+                            </asp:DropDownList>
+                        </div>
+                        <label class="col-form-label col-sm-1 text-sm-left">Ay :</label>
+                        <div class="col-sm-2">
+                            <asp:DropDownList runat="server" ID="drpMonthList" CssClass="form-control" onchange="drpYearMonthChanged('month');">
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <hr />
+
     <div class="col-12 col-xl-12">
         <div class="table-responsive">
             <table class="table mb-0" border="1">
@@ -96,6 +116,7 @@
         </div>
     </div>
     <hr />
+
     <div class="col-12 col-xl-12">
         <div class="table-responsive">
             <table class="table mb-0">
