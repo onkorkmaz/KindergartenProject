@@ -83,12 +83,11 @@ namespace KindergartenProject
         #region CONTRUCTOR && PAGE_LOAD
         protected void Page_Load(object sender, EventArgs e)
         {
-            object idObject = Page.RouteData.Values["student_id"];
-            int idInt = CommonFunctions.GetData<int>(idObject);
+            DataResultArgs<StudentEntity> resultSet = new DataResultArgs<StudentEntity>();
             business = new StudentBusiness(_ProjectType);
 
-            divInformation.ListRecordPage = "ogrenci-listesi";
-            divInformation.NewRecordPage = "ogrenci-ekle";
+            divInformation.ListRecordPage = "/ogrenci-listesi";
+            divInformation.NewRecordPage = "/ogrenci-ekle";
 
             divInformation.InformationVisible = false;
 
@@ -97,9 +96,15 @@ namespace KindergartenProject
             master.SetVisibleSearchText(false);
             this.Title = this.Title + " - " + master.SetTitle(_ProjectType);
 
-
             btnPaymentDetail.Visible = false;
             btnDelete.Visible = false;
+
+            object idObject = Page.RouteData.Values["student_id"];
+            int idInt = CommonFunctions.GetData<int>(idObject);
+            if (idObject != null && idInt > 0)
+            {
+                resultSet = new StudentBusiness(_ProjectType).Get_StudentWithId(idInt);
+            }
 
             if (!Page.IsPostBack)
             {
@@ -137,17 +142,13 @@ namespace KindergartenProject
                     drpClassList.DataBind();
                 }
 
-                if (idObject != null && idInt > 0)
+                if (resultSet.HasError)
                 {
-                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_StudentWithId(idInt);
-                    if (resultSet.HasError)
-                    {
-                        divInformation.ErrorText = resultSet.ErrorDescription;
-                    }
-                    else if (resultSet.Result != null)
-                    {
-                        CurrentRecord = resultSet.Result;
-                    }
+                    divInformation.ErrorText = resultSet.ErrorDescription;
+                }
+                else if (resultSet.Result != null)
+                {
+                    CurrentRecord = resultSet.Result;
                 }
 
                 int classId = CommonFunctions.GetData<int>(drpClassList.SelectedValue);
@@ -157,24 +158,13 @@ namespace KindergartenProject
                 }
             }
 
-            StudentEntity _sEntity = currentRecord;
-            if (_sEntity == null && idObject != null && idInt > 0)
+            if (resultSet.HasError)
             {
-                DataResultArgs<StudentEntity> resultSet = new StudentBusiness(_ProjectType).Get_StudentWithId(idInt);
-                if (resultSet.HasError)
-                {
-                    divInformation.ErrorText = resultSet.ErrorDescription;
-                }
-                else if (resultSet.Result != null)
-                {
-                    _sEntity = resultSet.Result;
-                }
+                divInformation.ErrorText = resultSet.ErrorDescription;
             }
-                
-                      
-
-            if (_sEntity!= null)
+            else if (resultSet.Result != null)
             {
+                StudentEntity _sEntity = resultSet.Result;
                 btnSubmit.Text = ButtonText.Update;
                 btnPaymentDetail.Visible = _sEntity.IsStudent;
                 btnDelete.Visible = true;
@@ -184,7 +174,6 @@ namespace KindergartenProject
                     interviewDate.Style.Remove("display");
                 }
             }
-
         }
 
 
@@ -192,10 +181,9 @@ namespace KindergartenProject
 
         #region METHODS
 
-        private void processToDatabase(DatabaseProcess databaseProcess)
+        private StudentEntity getStudentEntity()
         {
             StudentEntity entity = new StudentEntity();
-            entity.DatabaseProcess = databaseProcess;
             entity.Id = CommonFunctions.GetData<Int32>(hdnId.Value);
             entity.CitizenshipNumber = txtTckn.Text;
             entity.Name = txtName.Text;
@@ -218,24 +206,78 @@ namespace KindergartenProject
             entity.Email = txtEmail.Text;
             entity.ClassId = CommonFunctions.GetData<int>(drpClassList.SelectedValue);
             entity.IsInterview = chcInterview.Checked;
-            entity.InterviewDate = CommonFunctions.GetData<DateTime>(txtInterviewDate.Text); 
+            entity.InterviewDate = CommonFunctions.GetData<DateTime>(txtInterviewDate.Text);
 
             if (drpSchoolClass.SelectedIndex > 0)
             {
                 entity.SchoolClassEnum = (SchoolClassEnum)CommonFunctions.GetData<int>(drpSchoolClass.SelectedValue);
             }
 
-            if (!chcIsActive.Checked || databaseProcess == DatabaseProcess.Deleted)
+            return entity;
+        }
+
+        private bool hasUnPaymentRefund(int id)
+        {
+            bool hasUnPaymentRefund = new PaymentBusiness(_ProjectType).HasUnPaymentRefund(id);
+            return hasUnPaymentRefund;
+        }
+        #endregion METHODS
+
+        #region EVENTS
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            Button btn = ((Button)sender);
+            bool insert = CommonFunctions.GetData<int>(hdnId.Value) <= 0;
+            DatabaseProcess databaseProcess = (insert) ? DatabaseProcess.Add : DatabaseProcess.Update;
+            StudentEntity entity = getStudentEntity();
+            entity.DatabaseProcess = databaseProcess;
+
+            if (databaseProcess == DatabaseProcess.Add)
             {
-                bool isNotValid = hasUnPaymentRefund(entity.Id);
-                if (isNotValid)
-                {
-                    divInformation.ErrorText = "Öğrencinin ödenmemiş aidatları bulunmaktadır.";
-                    return;
-                }
+                DataResultArgs<StudentEntity> resultSet = business.AddStudent(entity);
+                showInfoMessage(resultSet, DatabaseProcess.Add);
+            }
+            else if (databaseProcess == DatabaseProcess.Update)
+            {
+                DataResultArgs<StudentEntity> resultSet = business.UpdateStudent(entity);
+                showInfoMessage(resultSet, DatabaseProcess.Update);
             }
 
-            DataResultArgs<StudentEntity> resultSet = business.Set_Student(entity);
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("ogrenci-ekle");
+        }
+
+
+        #endregion EVENTS
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            int id = CommonFunctions.GetData<int>(hdnId.Value);
+
+            if (id > 0)
+            {
+                if (!chcIsActive.Checked)
+                {
+                    bool isNotValid = hasUnPaymentRefund(id);
+                    if (isNotValid)
+                    {
+                        divInformation.ErrorText = "Öğrencinin ödenmemiş aidatları bulunmaktadır.";
+                        return;
+                    }
+                }
+
+                StudentEntity entity = getStudentEntity();
+                DataResultArgs<StudentEntity> resultSet = business.DeleteStudent(entity);
+                showInfoMessage(resultSet, DatabaseProcess.Deleted);
+
+            }
+        }
+
+        private void showInfoMessage(DataResultArgs<StudentEntity> resultSet, DatabaseProcess databaseProcess)
+        {
             if (resultSet.HasError)
             {
                 divInformation.ErrorText = resultSet.ErrorDescription;
@@ -243,6 +285,7 @@ namespace KindergartenProject
             }
             else
             {
+                StudentEntity entity = resultSet.Result;
                 if (databaseProcess == DatabaseProcess.Deleted)
                 {
                     divInformation.SuccessfulText = RecordMessage.Delete;
@@ -263,39 +306,6 @@ namespace KindergartenProject
                         btnPaymentDetail.Visible = false;
                     }
                 }
-            }
-        }
-
-        private bool hasUnPaymentRefund(int id)
-        {
-            bool hasUnPaymentRefund = new PaymentBusiness(_ProjectType).HasUnPaymentRefund(id);
-            return hasUnPaymentRefund;
-        }
-        #endregion METHODS
-
-        #region EVENTS
-        protected void btnSubmit_Click(object sender, EventArgs e)
-        {
-            Button btn = ((Button)sender);
-            bool insert = CommonFunctions.GetData<int>(hdnId.Value) <= 0;
-            processToDatabase((insert) ? DatabaseProcess.Add : DatabaseProcess.Update);
-        }
-
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("ogrenci-ekle");
-        }
-
-
-        #endregion EVENTS
-
-        protected void btnDelete_Click(object sender, EventArgs e)
-        {
-            int id = CommonFunctions.GetData<int>(hdnId.Value);
-
-            if (id > 0)
-            {
-                processToDatabase(DatabaseProcess.Deleted);
             }
         }
 

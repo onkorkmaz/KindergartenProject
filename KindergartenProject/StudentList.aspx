@@ -53,7 +53,6 @@
             <div class="col-sm-5" id="divClassList">
                 <asp:DropDownList runat="server" ID="drpClassList" onchange="onClassNameChanged();" CssClass="form-control"></asp:DropDownList>
             </div>
-
              <div class="col-sm-5" id="divCreatePdf">
                  <table>
                      <tr>
@@ -84,7 +83,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#####</th>
-                            <th scope="col">&nbsp;</th>
+                             <th scope="col"></th>
                             <th scope="col">İsim Soyisim</th>
                             <th scope="col">Veli Bilg.</th>
                             <th scope="col">Kayıt D.</th>

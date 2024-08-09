@@ -1,35 +1,37 @@
-﻿var studentList = [];
-function GetStudentList() {
-    studentList = [];
-    var jsonData = "{}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_StudentFromCache', jsonData, successFunctionCurrentPage, errorFunction);
-    return studentList;
+﻿var studentListCache = [];
 
+function GetStudentList() {
+
+    if (studentListCache.length == 0) {
+        GetStudentListInDB();
+    }
+    return studentListCache;
 }
 
-function GetActiveStudentList() {
-
-    var studentList = GetStudentList();
-
-    var newStudentList = []
-
-    for (var i = 0; i < studentList.length; i++) {
-        if (studentList[i].IsActive && studentList[i].IsStudent) {
-            newStudentList.push(studentList[i]);
-        }
-    }
-    return newStudentList;
+function GetStudentListInDB() {
+    var jsonData = "{}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_StudentFromCache', jsonData, successFunctionCurrentPage, errorFunction);
 
 }
 
 function successFunctionCurrentPage(obje) {
-    studentList = obje;
+    studentListCache = obje;
     return obje;
+}
+
+function GetActiveStudentList() {
+
+    var newStudentList = []
+    for (var i = 0; i < studentListCache.length; i++) {
+        if (studentListCache[i].IsActive && studentListCache[i].IsStudent) {
+            newStudentList.push(studentListCache[i]);
+        }
+    }
+    return newStudentList;
 }
 
 function txtSearchStudent_Change(searchValue) {
 
     loadData();
-    SetCacheData("searchValue", searchValue);
 }
 

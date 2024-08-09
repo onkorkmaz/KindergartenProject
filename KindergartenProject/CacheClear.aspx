@@ -27,7 +27,7 @@
                 <div class="mb-3 row">
                     <label class="col-form-label col-sm-2 text-sm-left">Öğrenci Cache Temizliği</label>
                     <div class="col-sm-6">
-                       <asp:Button runat="server" ID="Button1" CssClass="btn btn-primary " Text="Ödeme Cache" OnClientClick="javascript: return clearPaymentCache()" />
+                       <asp:Button runat="server" ID="Button1" CssClass="btn btn-primary " Text="Ödeme Cache" OnClientClick="javascript: return clearStudentCache()" />
                     </div>
                 </div>
 

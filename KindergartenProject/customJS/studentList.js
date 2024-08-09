@@ -1,12 +1,6 @@
 ﻿window.onload = function () {
 
-    var search = document.getElementById("txtSearchStudent").value;
-    if (!IsNullOrEmpty(search)) {
-        loadData();
-    }
-    else {
-        loadData(true);
-    }
+    loadData();
 };
 
 function onChangeChcOldInterview() {
@@ -28,15 +22,12 @@ function onClassNameChanged() {
     }
 }
 
-
 function setDefaultValues(studentList) {
 
     //var allObje = document.getElementById("lblAllStudent");
     var activeObje = document.getElementById("lblActiveStudent");
     var interviewObje = document.getElementById("lblInterview");
     var passiveObje = document.getElementById("lblPassiveStudent");
-
-    //setLabel(studentList.length, allObje, "Toplam");
 
     var activeCount = 0;
     var passiveCount = 0;
@@ -48,8 +39,7 @@ function setDefaultValues(studentList) {
         if (studentList[i].IsActive && studentList[i].IsStudent) {
             activeCount++;
         }
-        else if (!studentList[i].IsStudent && studentList[i].IsActive)
-        {
+        else if (!studentList[i].IsStudent && studentList[i].IsActive) {
             interviewCount++;
         }
         else if (!studentList[i].IsActive) {
@@ -64,27 +54,23 @@ function setDefaultValues(studentList) {
 }
 
 function setLabel(listCount, obje, text) {
-    obje.innerHTML = "<div style='cursor: pointer;'>" + text + "&nbsp;Öğrenci Sayısı : " + listCount +"</div>";
+    obje.innerHTML = "<div style='cursor: pointer;'>" + text + "&nbsp;Öğrenci Sayısı : " + listCount + "</div>";
 }
 
-function loadData(isLoadedFirst) {
+function loadData() {
 
     var search = document.getElementById("txtSearchStudent").value;
     var objects = GetStudentList();
     setDefaultValues(objects);
 
-    if ((search != null && search.trim() == '')) {
-        activeStudent();
-        return;
+    if (!IsNullOrEmpty(search)) {
+        var list = GetStudentList();
+        entityList = GetFilterStudent(list, search);
     }
-    else if (isLoadedFirst)
-    {
-        activeStudent();
-        return;
 
-    }
-    else if (!IsNullOrEmpty(search)) {
-        entityList = GetFilterStudent(studentList, search);
+    else if ((search != null && search.trim() == '')) {
+        activeStudent();
+        return;
     }
     else {
         entityList = objects;
@@ -97,7 +83,7 @@ function loadData(isLoadedFirst) {
 
             for (var i = 0; i < entityList.length; i++) {
 
-                if (entityList[i]["ClassId"] == document.getElementById("drpClassList").value && entityList[i]["IsActive"] == true ) {
+                if (entityList[i]["ClassId"] == document.getElementById("drpClassList").value && entityList[i]["IsActive"] == true) {
                     newEntityList.push(entityList[i]);
                 }
             }
@@ -256,7 +242,7 @@ function activeStudent() {
                     entityList.push(objects[i]);
                 }
             }
-            else  {
+            else {
                 entityList.push(objects[i]);
             }
         }
@@ -413,7 +399,6 @@ function setMenuBold(menuId) {
     }
 
 }
-
 
 function removeBold(obje) {
     var html = obje.innerHTML;

@@ -13,26 +13,6 @@ function txtCitizenshipNumber_Change(citizenshipNumber) {
     GetStudentEntity(citizenshipNumber);
 }
 
-function fullName_Change() {
-    var name = document.getElementById("txtName").value;
-    var surname = document.getElementById("txtSurname").value;
-    var middleName = document.getElementById("txtMiddleName").value;
-
-    if (!IsNullOrEmpty(name) && !IsNullOrEmpty(surname)) {
-
-        var fullName = replaceTurkichChar(name.toLocaleLowerCase('tr-TR'));
-
-        if (!IsNullOrEmpty(middleName))
-            fullName += " " + replaceTurkichChar(middleName.toLocaleLowerCase('tr-TR'));
-
-        fullName += " " + replaceTurkichChar(surname.toLocaleLowerCase('tr-TR'));
-
-        IsUserNameExist(fullName);
-
-    }
-
-}
-
 function onChangeIsInterview() {
     var checked = document.getElementById("chcInterview").checked;
     var interviewDate = document.getElementById("interviewDate");
@@ -44,55 +24,6 @@ function onChangeIsInterview() {
     else {
         interviewDate.style.display = "none";
     }
-}
-
-function IsUserNameExist(fullName) {
-
-    if (!IsNullOrEmpty(fullName)) {
-        var jsonData = "{ fullName: " + JSON.stringify(fullName) + " }";
-        CallServiceWithAjax('/KinderGartenWebService.asmx/GetStudentEntityWithFullName',
-            jsonData,
-            successFunctionGetStudentFullNameEntity,
-            errorFunction);
-    }
-
-}
-
-function successFunctionGetStudentFullNameEntity(result) {
-
-    if (result != null && result.HasError) {
-        alert("Hata var !!! Error : " + result.ErrorDescription);
-    }
-
-    else if (result != null && !result.HasError && result.Result != null) {
-        alert("Girdiğiniz öğrenci sistemde mevcuttur");
-        setStudent(result.Result);
-    }
-    else {
-        document.getElementById("btnSubmit").value = "Kaydet";
-    }
-}
-
-function setStudent(entity) {
-    document.getElementById("hdnId").value = entity.Id;
-    document.getElementById("txtName").value = entity.Name;
-    document.getElementById("txtSurname").value = entity.Surname;
-    document.getElementById("txtMiddleName").value = entity.MiddleName;
-    document.getElementById("txtMotherName").value = entity.MotherName;
-    document.getElementById("txtFatherName").value = entity.FatherName;
-    document.getElementById("txtFatherPhoneNumber").value = entity.FatherPhoneNumber;
-    document.getElementById("txtMotherPhoneNumber").value = entity.MotherPhoneNumber;
-    document.getElementById("chcIsActive").checked = entity.IsActive;
-    document.getElementById("txtSpokenPrice").value = entity.SpokenPrice;
-    document.getElementById("txtNotes").value = entity.Notes;
-    document.getElementById("txtBirthday").value = entity.BirthdayWithFormatyyyyMMdd;
-    //document.getElementById("txtDateOfMeeting").value = entity.DateOfMeetingWithFormat2;
-    document.getElementById("txtInterviewDate").value = entity.InterviewWithFormat;
-    document.getElementById("chcInterview").checked = entity.IsInterview;
-
-
-    document.getElementById("txtEmail").value = entity.Email;
-    document.getElementById("btnSubmit").value = "Güncelle";
 }
 
 function successFunctionGetStudentEntity(result) {

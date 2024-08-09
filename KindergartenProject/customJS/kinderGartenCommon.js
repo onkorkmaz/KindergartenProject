@@ -80,23 +80,6 @@ function replaceTurkichChar(text) {
 
 }
 
-function SetCacheData(key, value) {
-    var jsonData = "{ key: " + JSON.stringify(key) + " , value: " + JSON.stringify(value) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/SetCacheData', jsonData, successSetCacheData, errorFunction);
-}
-
-function successSetCacheData() {
-}
-
-function GetCacheData(key, value) {
-    var jsonData = "{ key: " + JSON.stringify(key) + " }";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/GetCacheData', jsonData, successGetCacheData, errorFunction);
-}
-
-function successGetCacheData(obje) {
-    return obje;
-}
-
 function checkDec(el) {
     var ex = /^[0-9]+\.?[0-9]*$/;
     if (ex.test(el.value) == false) {

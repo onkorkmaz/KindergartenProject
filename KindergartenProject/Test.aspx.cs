@@ -24,7 +24,7 @@ namespace KindergartenProject
             log.InsertLog("methot başladı ___");
 
             StudentBusiness bus = new StudentBusiness(ProjectType.BenimDunyamAnaokuluSezenSokak);
-            List<StudentEntity> list = bus.Get_StudentList(null).Result;
+            List<StudentEntity> list = bus.Get_StudentList().Result;
 
             log.InsertLog("methot ikinci aşamada ___");
 

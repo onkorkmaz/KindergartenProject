@@ -13,7 +13,6 @@
 var studentAndListOfPaymentList = [];
 
 function txtSearchStudent_Change(searchValue) {
-    SetCacheData("searchValue", searchValue);
 
     var toSearch = replaceTurkichChar(searchValue.toLocaleLowerCase('tr-TR'));
     for (let i in studentAndListOfPaymentList) {

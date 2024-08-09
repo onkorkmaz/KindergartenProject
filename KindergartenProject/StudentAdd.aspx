@@ -25,16 +25,16 @@
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Adı</label>
                             <div class="col-sm-4">
-                                <asp:TextBox runat="server" ID="txtName" onchange="fullName_Change();" CssClass="form-control" placeholder="Adı"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtName"  CssClass="form-control" placeholder="Adı"></asp:TextBox>
                             </div>
                             <div class="col-sm-2">
-                                <asp:TextBox runat="server" ID="txtMiddleName" onchange="fullName_Change();" CssClass="form-control" placeholder="İkinci Adı"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtMiddleName" CssClass="form-control" placeholder="İkinci Adı"></asp:TextBox>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-form-label col-sm-2 text-sm-left">Soyadı</label>
                             <div class="col-sm-6">
-                                <asp:TextBox runat="server" ID="txtSurname" onchange="fullName_Change();" CssClass="form-control" placeholder="Soyadı"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtSurname" CssClass="form-control" placeholder="Soyadı"></asp:TextBox>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -150,7 +150,7 @@
 
                         <div class="mb-3 row">
 
-                           <label class="col-form-label col-sm-2 text-sm-left">Deneme Dersi alacak mı ? </label>
+                           <label class="col-form-label col-sm-2 text-sm-left">Deneme Dersi</label>
                             <div class="col-sm-2">
                                 <asp:CheckBox runat="server" onclick ="onChangeIsInterview();" ID="chcInterview" CssClass="form-check-input" />
                             </div>

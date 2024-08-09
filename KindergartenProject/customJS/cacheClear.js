@@ -10,4 +10,20 @@ function successFunctionClearPaymentCache(obje) {
     else {
         alert("Ödeme cache temizlenmiştir");
     }
+    return false;
+}
+
+function clearStudentCache() {
+    var jsonData = "{ }";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/ClearStudentCache', jsonData, successFunctionClearStudentCache, errorFunction);
+}
+
+function successFunctionClearStudentCache(obje) {
+    if (obje.HasError) {
+        alert(obje.ErrorDescription);
+    }
+    else {
+        alert("Ödeme cache temizlenmiştir");
+    }
+    return false;
 }

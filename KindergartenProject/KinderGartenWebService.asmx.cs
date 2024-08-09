@@ -55,18 +55,27 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> CreatePDF(string classId, bool isShowPrice)
         {
-            int classIdInt = CommonFunctions.GetData<int>(classId);
-
             DataResultArgs<bool> result = new DataResultArgs<bool>();
-            List<StudentEntity> studentList = new StudentBusiness(GetProjectType()).Get_StudentList().Result.Where(o=>o.IsActive.Value && o.IsStudent).ToList();
-
-            if (classIdInt > 0)
+            result.HasError = false;
+            result.Result = true;
+            try
             {
-                studentList = studentList.Where(o => o.ClassId == classIdInt).ToList();
+                int classIdInt = CommonFunctions.GetData<int>(classId);
+                List<StudentEntity> studentList = new StudentBusiness(GetProjectType()).Get_StudentList().Result.Where(o => o.IsActive.Value && o.IsStudent).ToList();
+
+                if (classIdInt > 0)
+                {
+                    studentList = studentList.Where(o => o.ClassId == classIdInt).ToList();
+                }
+
+                new CommonUIFunction().GenerateWordDocument(studentList, isShowPrice, GetProjectType());
+
             }
-
-            new CommonUIFunction().GenerateWordDocument(studentList, isShowPrice,GetProjectType());
-
+            catch (Exception ex)
+            {
+                result.HasError = true;
+                result.ErrorDescription = ex.Message.ToString();
+            }
             return result;
         }
 
@@ -587,8 +596,7 @@ namespace KindergartenProject
                 if (idInt > 0)
                 {
                     StudentEntity entity = new StudentEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
-
-                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).Set_Student(entity);
+                    DataResultArgs<StudentEntity> resultSet = new StudentBusiness(GetProjectType()).DeleteStudent(entity);
                     result.HasError = resultSet.HasError;
                     result.MyException = resultSet.MyException;
                     result.ErrorDescription = resultSet.ErrorDescription;
@@ -619,8 +627,7 @@ namespace KindergartenProject
                     {
                         studentEntity.IsStudent = true;
                         studentEntity.DatabaseProcess = DatabaseProcess.Update;
-                        //studentEntity.StudentPackage.AddUnPaymentRecordAfterStundetInsert = true;
-                        result = new StudentBusiness(GetProjectType()).Set_Student(studentEntity);
+                        result = new StudentBusiness(GetProjectType()).UpdateStudent(studentEntity);
                     }
                 }
             }
@@ -742,17 +749,6 @@ namespace KindergartenProject
             return packageList;
         }
 
-        [WebMethod(EnableSession = true)]
-        public void SetCacheData(string key, string value)
-        {
-            string keyWithId = getKey(key);
-
-            if (!List.ContainsKey(keyWithId))
-                List.Add(keyWithId, "");
-
-            List[keyWithId] = value;
-        }
-
         private string getKey(string key)
         {
             return new BasePage()._AdminEntity.Id.ToString() + "_" + key;
@@ -836,6 +832,23 @@ namespace KindergartenProject
 
             package.Year = yearInt;
             return package;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<bool> ClearStudentCache()
+        {
+            DataResultArgs<bool> result = new DataResultArgs<bool>();
+            try
+            {
+                StudentBusiness.ClearStudentCache(GetProjectType());
+            }
+            catch (Exception ex)
+            {
+                result.HasError = true;
+                result.ErrorDescription = ex.Message;
+            }
+
+            return result;
         }
 
         [WebMethod(EnableSession = true)]
