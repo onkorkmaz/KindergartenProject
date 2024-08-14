@@ -19,7 +19,7 @@ function loadAllData() {
     loadData();
 
     drawSummaryWithIndex(1, "thBody");
-    loadSummaryWithYearAndMonth(getYear(), getMonth());
+    loadSummaryWithMonthAndYear(getMonth(), getYear());
 
 }
 
@@ -44,7 +44,7 @@ function loadData() {
     let year = getYear();
     let month = getMonth();
 
-    var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + "}";
+    var jsonData = "{month:" + JSON.stringify(month) + ",year:" + JSON.stringify(year) + "}";
     CallServiceWithAjax('/KinderGartenWebService.asmx/GetIncomeAndExpenseListWithMonthAndYear', jsonData, successFunctionGetIncomeAndExpenseList, errorFunction);
 
 }

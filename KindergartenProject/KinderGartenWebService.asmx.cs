@@ -30,7 +30,7 @@ namespace KindergartenProject
         public ProjectType GetProjectType()
         {
             if ((Session[CommonConst.Admin] == null || Session[CommonConst.ProjectType] == null))
-            {                
+            {
                 return ProjectType.None;
             }
             else
@@ -408,7 +408,7 @@ namespace KindergartenProject
                 else
                 {
                     adminEntity.OwnerStatus = dbAdmin.OwnerStatus;
-                }              
+                }
             }
 
             DataResultArgs<bool> result = new AdminBusiness(GetProjectType()).Set_Admin(adminEntity, false);
@@ -771,12 +771,9 @@ namespace KindergartenProject
             int yearINT = CommonFunctions.GetData<int>(year);
             StudentAndListOfPaymentListPackage package = new StudentAndListOfPaymentListPackage();
 
-            var studentEntityList = new StudentBusiness(GetProjectType()).Get_StudentList().Result.Where(o => o.IsStudent == true).ToList();
+            var studentEntityList = new StudentBusiness(GetProjectType()).Get_StudentList().Result.Where(o => o.IsStudent == true && o.IsActive.HasValue && o.IsActive.Value).ToList();
             foreach (StudentEntity entity in studentEntityList)
             {
-                if (entity.AddedOn > new DateTime(yearINT, monthINT, DateTime.DaysInMonth(yearINT, monthINT)))
-                    continue;
-
                 StudentAndListOfPayment pac = new StudentAndListOfPayment();
                 pac.PaymentEntityList = new PaymentBusiness(GetProjectType()).Get_Payment(entity.Id, yearINT, monthINT).Result;
                 pac.StudentEntity = entity;
@@ -813,7 +810,7 @@ namespace KindergartenProject
 
             foreach (PaymentTypeEntity type in package.PaymentTypeEntityList)
             {
-                for (int i = 9; i <= 12; i++)
+                for (int i = 7; i <= 12; i++)
                 {
                     if (paymentForCurrentYear.Any(o => o.Month == i && o.IsActive == true && o.PaymentType == type.Id))
                     {
@@ -992,9 +989,9 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<IncomeAndExpenseEntity>> GetIncomeAndExpenseListWithMonthAndYear(int year, int month)
+        public DataResultArgs<List<IncomeAndExpenseEntity>> GetIncomeAndExpenseListWithMonthAndYear(string month, string year)
         {
-            return new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpenseWithYearAndMonth(new SearchEntity() { IsDeleted = false }, year, month);
+            return new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpenseWithMonthAndYear(new SearchEntity() { IsDeleted = false }, month, year);
 
         }
 
@@ -1014,7 +1011,7 @@ namespace KindergartenProject
                 if (idInt > 0)
                 {
                     ClassEntity entity = new ClassEntity { Id = idInt, DatabaseProcess = DatabaseProcess.Deleted };
-                    result = new ClassBusiness(GetProjectType()).Set_Class(entity) ;
+                    result = new ClassBusiness(GetProjectType()).Set_Class(entity);
                 }
                 else
                 {
@@ -1141,25 +1138,21 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<ExpenseSummary>> Get_ExpenseSummaryDetailWithYearAndMonth(string year, string month, string index)
+        public DataResultArgs<List<ExpenseSummary>> Get_ExpenseSummaryDetailWithMonthAndYear(string month, string year, string index)
         {
-            int yearINT = CommonFunctions.GetData<int>(year);
-            int monthINT = CommonFunctions.GetData<int>(month);
-            return new PaymentBusiness(GetProjectType()).Get_ExpenseSummaryDetailWithYearAndMonth(yearINT, monthINT, index);
+            return new PaymentBusiness(GetProjectType()).Get_ExpenseSummaryDetailWithMonthAndYear(month, year, index);
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummaryDetail>> Get_PaymentSummaryDetailWithYearAndMonth(string year, string month, string index)
+        public DataResultArgs<List<PaymentSummaryDetail>> Get_PaymentSummaryDetailWithMonthAndYear(string month, string year, string index)
         {
-            int yearINT = CommonFunctions.GetData<int>(year);
-            int monthINT = CommonFunctions.GetData<int>(month);
-            return new PaymentBusiness(GetProjectType()).Get_PaymentSummaryDetailWithYearAndMonth(yearINT, monthINT, index);
+            return new PaymentBusiness(GetProjectType()).Get_PaymentSummaryDetailWithMonthAndYear(month, year, index);
         }
 
         [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithYearAndMonth(int year, int month, string index)
+        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithMonthAndYear(string month, string year, string index)
         {
-            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithYearAndMonth(year, month, index);
+            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(month, year, index);
         }
 
         [WebMethod(EnableSession = true)]
@@ -1187,7 +1180,7 @@ namespace KindergartenProject
         [WebMethod(EnableSession = true)]
         public List<AuthorityEntity> GetActiveAuthority(string authorityTypeId)
         {
-            return new AuthorityBusiness(GetProjectType(),new BasePage()._AdminEntity.Id).Get_ActiveAuthority(CommonFunctions.GetData<short>(authorityTypeId));
+            return new AuthorityBusiness(GetProjectType(), new BasePage()._AdminEntity.Id).Get_ActiveAuthority(CommonFunctions.GetData<short>(authorityTypeId));
         }
 
         [WebMethod(EnableSession = true)]
@@ -1201,7 +1194,7 @@ namespace KindergartenProject
             entity.AuthorityTypeId = authorityTypeId;
             entity.HasAuthority = hasAuthority;
             entity.ProjectType = GetProjectType();
-            return new AuthorityBusiness(GetProjectType(),new BasePage()._AdminEntity.Id).Set_Authority(entity);
+            return new AuthorityBusiness(GetProjectType(), new BasePage()._AdminEntity.Id).Set_Authority(entity);
         }
 
 

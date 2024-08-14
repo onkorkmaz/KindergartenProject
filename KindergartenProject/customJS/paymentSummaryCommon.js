@@ -54,13 +54,13 @@ function onExpenseDetailRow(index) {
     onCommonDetailRow(index, "trExpensePaymentDetail", "tdExpensePlus");
 }
 
-function loadExpenseSummaryDetailWithYearAndMonth(year, month, index) {
+function loadExpenseSummaryDetailWithMonthAndYear(month, year,  index) {
 
-    var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ",index:" + JSON.stringify(index) + "}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_ExpenseSummaryDetailWithYearAndMonth', jsonData, successFunctionGetExpenseSummaryDetailWithYearAndMonth, errorFunction);
+    var jsonData = "{month:" + JSON.stringify(month) + ",year:" + JSON.stringify(year) + ",index:" + JSON.stringify(index) + "}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_ExpenseSummaryDetailWithMonthAndYear', jsonData, successFunctionGetExpenseSummaryDetailWithMonthAndYear, errorFunction);
 }
 
-function successFunctionGetExpenseSummaryDetailWithYearAndMonth(obje) {
+function successFunctionGetExpenseSummaryDetailWithMonthAndYear(obje) {
     if (!obje.HasError && obje.Result) {
         var list = obje.Result;
 
@@ -100,14 +100,14 @@ function successFunctionGetExpenseSummaryDetailWithYearAndMonth(obje) {
     }
 }
 
-function loadPaymentSummaryDetailWithYearAndMonth(year, month, index) {
+function loadPaymentSummaryDetailWithMonthAndYear(month,year, index) {
 
-    var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ",index:" + JSON.stringify(index) + "}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_PaymentSummaryDetailWithYearAndMonth', jsonData, successFunctionGetPaymentSummaryDetailWithYearAndMonth, errorFunction);
+    var jsonData = "{month:" + JSON.stringify(month) + ",year:" + JSON.stringify(year) + ",index:" + JSON.stringify(index) + "}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_PaymentSummaryDetailWithMonthAndYear', jsonData, successFunctionGetPaymentSummaryDetailWithMonthAndYear, errorFunction);
 
 }
 
-function successFunctionGetPaymentSummaryDetailWithYearAndMonth(obje) {
+function successFunctionGetPaymentSummaryDetailWithMonthAndYear(obje) {
     if (!obje.HasError && obje.Result) {
         var list = obje.Result;
 
@@ -119,14 +119,14 @@ function successFunctionGetPaymentSummaryDetailWithYearAndMonth(obje) {
     }
 }
 
-function loadIncomeAndExpenseSummaryWithYearAndMonth(year, month, index) {
+function loadIncomeAndExpenseSummaryWithMonthAndYear(month,year, index) {
 
-    var jsonData = "{year:" + JSON.stringify(year) + ",month:" + JSON.stringify(month) + ",index:" + JSON.stringify(index) + "}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_IncomeAndExpenseSummaryWithYearAndMonth', jsonData, successFunctionGetIncomeAndExpenseSummaryWithYearAndMonth, errorFunction);
+    var jsonData = "{month:" + JSON.stringify(month) + ",year:" + JSON.stringify(year) + ",index:" + JSON.stringify(index) + "}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_IncomeAndExpenseSummaryWithMonthAndYear', jsonData, successFunctionGetIncomeAndExpenseSummaryWithMonthAndYear, errorFunction);
 
 }
 
-function successFunctionGetIncomeAndExpenseSummaryWithYearAndMonth(obje) {
+function successFunctionGetIncomeAndExpenseSummaryWithMonthAndYear(obje) {
     if (!obje.HasError && obje.Result) {
         var list = obje.Result;
         if (list.length > 0) {
@@ -297,11 +297,11 @@ function drawSummaryWithIndex(index, thBody) {
 
 }
 
-function loadSummaryWithIndex(index) {
+const d = new Date();
+let year = d.getFullYear();
+let month = d.getMonth() + 1;
 
-    const d = new Date();
-    let year = d.getFullYear();
-    let month = d.getMonth() + 1;
+function loadSummaryWithIndex(index) {
 
     for (var i = (index-1); i >= 0; i--) {
         month = d.getMonth() + 1;
@@ -313,18 +313,17 @@ function loadSummaryWithIndex(index) {
             month = month - i;
         }
 
-        loadExpenseSummaryDetailWithYearAndMonth(year, month, i);
-        loadPaymentSummaryDetailWithYearAndMonth(year, month, i);
-        loadIncomeAndExpenseSummaryWithYearAndMonth(year, month, i);
-        year = year + 1;
+        loadExpenseSummaryDetailWithMonthAndYear(month, year, i);
+        loadPaymentSummaryDetailWithMonthAndYear(month, year, i);
+        loadIncomeAndExpenseSummaryWithMonthAndYear(month, year, i);
     }
 }
 
-function loadSummaryWithYearAndMonth(year, month) {
+function loadSummaryWithMonthAndYear(month,year) {
 
-    loadExpenseSummaryDetailWithYearAndMonth(year, month, 0);
-    loadPaymentSummaryDetailWithYearAndMonth(year, month, 0);
-    loadIncomeAndExpenseSummaryWithYearAndMonth(year, month, 0);
+    loadExpenseSummaryDetailWithMonthAndYear(month,year, 0);
+    loadPaymentSummaryDetailWithMonthAndYear(month, year, 0);
+    loadIncomeAndExpenseSummaryWithMonthAndYear(month, year, 0);
 }
 
 
