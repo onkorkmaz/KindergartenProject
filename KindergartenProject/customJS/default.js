@@ -1,5 +1,6 @@
 ﻿window.onload = function () {
 
-    drawSummaryWithIndex(3, "thPaymentSummaryPanel");
-    loadSummaryWithIndex(3);
+    var monthCount = 3;
+    drawSummaryWithMonthCount(monthCount, "thPaymentSummaryPanel");
+    loadSummary(monthCount);
 };

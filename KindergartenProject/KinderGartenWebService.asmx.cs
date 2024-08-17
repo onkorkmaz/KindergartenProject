@@ -982,6 +982,35 @@ namespace KindergartenProject
         }
 
         [WebMethod(EnableSession = true)]
+        public DataResultArgs<IncomeExpensePackage> Get_IncomeExpensePackage(int monthCount)
+        {
+            return new PaymentBusiness(GetProjectType()).Get_IncomeExpensePackage(monthCount);
+        }
+
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithMonthAndYear(int month, int year, int monthIndex)
+        {
+            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(month, year, monthIndex);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<ExpenseSummary>> Get_ExpenseSummaryDetail()
+        {
+            return new PaymentBusiness(GetProjectType()).Get_ExpenseSummaryDetail();
+        }
+
+
+        [WebMethod(EnableSession = true)]
+        public DataResultArgs<List<PaymentSummaryDetail>> Get_PaymentSummaryDetailWithMonthAndYear(int month, int year, int monthIndex)
+        {
+            return new PaymentBusiness(GetProjectType()).Get_PaymentSummaryDetailWithMonthAndYear(month, year, monthIndex);
+        }
+
+
+
+
+        [WebMethod(EnableSession = true)]
         public DataResultArgs<List<IncomeAndExpenseEntity>> GetIncomeAndExpenseList()
         {
             return new IncomeAndExpenseBusiness(GetProjectType()).Get_IncomeAndExpense(new SearchEntity() { IsDeleted = false });
@@ -1137,23 +1166,6 @@ namespace KindergartenProject
             return new IncomeAndExpenseBusiness(GetProjectType()).Set_IncomeAndExpense(incomeAndExpenseEntity);
         }
 
-        [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<ExpenseSummary>> Get_ExpenseSummaryDetailWithMonthAndYear(string month, string year, string index)
-        {
-            return new PaymentBusiness(GetProjectType()).Get_ExpenseSummaryDetailWithMonthAndYear(month, year, index);
-        }
-
-        [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummaryDetail>> Get_PaymentSummaryDetailWithMonthAndYear(string month, string year, string index)
-        {
-            return new PaymentBusiness(GetProjectType()).Get_PaymentSummaryDetailWithMonthAndYear(month, year, index);
-        }
-
-        [WebMethod(EnableSession = true)]
-        public DataResultArgs<List<PaymentSummary>> Get_IncomeAndExpenseSummaryWithMonthAndYear(string month, string year, string index)
-        {
-            return new PaymentBusiness(GetProjectType()).Get_IncomeAndExpenseSummaryWithMonthAndYear(month, year, index);
-        }
 
         [WebMethod(EnableSession = true)]
         public DataResultArgs<bool> DeleteIncomeAndExpenseWithId(string id)

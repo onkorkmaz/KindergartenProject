@@ -54,51 +54,115 @@ function onExpenseDetailRow(index) {
     onCommonDetailRow(index, "trExpensePaymentDetail", "tdExpensePlus");
 }
 
-function loadExpenseSummaryDetailWithMonthAndYear(month, year,  index) {
+function loadIncomeExpensePackage(monthCount) {
 
-    var jsonData = "{month:" + JSON.stringify(month) + ",year:" + JSON.stringify(year) + ",index:" + JSON.stringify(index) + "}";
-    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_ExpenseSummaryDetailWithMonthAndYear', jsonData, successFunctionGetExpenseSummaryDetailWithMonthAndYear, errorFunction);
+    var jsonData = "{monthCount:" + JSON.stringify(monthCount) + "}";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_IncomeExpensePackage', jsonData, successFunctionGetIncomeExpensePackage, errorFunction);
+
 }
 
-function successFunctionGetExpenseSummaryDetailWithMonthAndYear(obje) {
-    if (!obje.HasError && obje.Result) {
-        var list = obje.Result;
+function loadExpenseSummaryDetail() {
 
-        if (list.length > 0) {
+    var jsonData = "{ }";
+    CallServiceWithAjax('/KinderGartenWebService.asmx/Get_ExpenseSummaryDetail', jsonData, successFunctionGetExpenseSummaryDetailWithMonthAndYear, errorFunction);
+}
+
+function successFunctionGetIncomeExpensePackage(obje) {
+    if (!obje.HasError && obje.Result) {
+
+        loadExpenseSummary(obje.Result.ExpenseSummaryList);
+        loadPaymentSummaryDetail(obje.Result.PaymentSummaryDetailList);
+        loadPaymentSummary(obje.Result.PaymentSummaryList);
+        
+    }
+    else {
+        alert("Hata var !!! Error : " + obje.ErrorDescription);
+    }
+}
+
+function loadPaymentSummary(list) {
+
+    if (list.length > 0) {
+
+        for (var i in list) {
+
+            var summary = list[i];
+
+            var index = summary.MonthIndex;
+
+            document.getElementById("currentMonth" + index).innerHTML = "<b>" + months[summary.Month - 1][1] + "</b>";
+            document.getElementById("incomeForStudentPayment" + index).innerHTML = summary.IncomeForStudentPaymentStr;
+            document.getElementById("waitingIncomeForStudentPayment" + index).innerHTML = summary.WaitingIncomeForStudentPaymentStr;
+            document.getElementById("incomeWithoutStudentPayment" + index).innerHTML = summary.IncomeWithoutStudentPaymentStr;
+            document.getElementById("workerExpenses" + index).innerHTML = summary.WorkerExpensesStr;
+            document.getElementById("expenseWithoutWorker" + index).innerHTML = summary.ExpenseWithoutWorkerStr;
+            var currentBalance = document.getElementById("currentBalance" + index);
+            currentBalance.innerHTML = summary.CurrentBalanceStr;
+            if (summary.CurrentBalance < 0) {
+                currentBalance.style.color = "red";
+            }
+            else {
+                currentBalance.style.color = "green";
+            }
+
+            var totalBalance = document.getElementById("totalBalance" + index);
+            totalBalance.innerHTML = summary.TotalBalanceStr;
+            if (summary.TotalBalance < 0) {
+                totalBalance.style.color = "red";
+            }
+            else {
+                totalBalance.style.color = "green";
+            }
+                
+            document.getElementById("totalEndorsement" + index).innerHTML = summary.EndorsmentForStudentPaymentStr;
+            document.getElementById("totalExpense" + index).innerHTML = summary.TotalExpenseStr;
+        }
+   }
+}
+
+function loadPaymentSummaryDetail(list) {
+    setIncomeAndWaiting(true, "tblIncomingPaymentDetail", list);
+    setIncomeAndWaiting(false, "tblWaitingPaymentDetail", list);
+}
+
+function loadExpenseSummary(list) {
+
+    if (list.length > 0) {
+
+        for (var i in list) {
+
             let tbody = "";
+            var monthIndex = "";
 
             tbody += "<table border='3' style='border-style:solid; border-color: #343a40;' class='table mb - 0'>";
             tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Durumu</th><th scope='col'>Tutar</th></thead>";
-            var index = "";
-            for (var i in list) {
-                tbody += "<tr>";
-                tbody += "<td>" + list[i].ExpenseTypeName + "</td>";
-                var status = "<td style='color:red;'>Gider   </td>";
-                tbody += status;
-                tbody += "<td>" + list[i].ExpenseAmountStr + "</td>";
-                tbody += "<tr>";
-                index = list[i].Index;
-            }
 
+            tbody += "<tr>";
+            tbody += "<td>" + list[i].ExpenseTypeName + "</td>";
+            var status = "<td style='color:red;'>Gider   </td>";
+            tbody += status;
+            tbody += "<td>" + list[i].ExpenseAmountStr + "</td>";
+            tbody += "<tr>";
+            monthIndex = list[i].MonthIndex;
             tbody += "</table>";
-            if (IsNullOrEmpty(index)) {
+
+            if (monthIndex != 0 && IsNullOrEmpty(monthIndex)) {
                 var tbl = document.getElementById("tblExpensePaymentDetail");
                 if (tbl != null) {
                     tbl.innerHTML = tbody;
                 }
             }
             else {
-                var tbl = document.getElementById("tblExpensePaymentDetail" + index);
+                var tbl = document.getElementById("tblExpensePaymentDetail" + monthIndex);
                 if (tbl != null) {
                     tbl.innerHTML = tbody;
                 }
             }
         }
     }
-    else {
-        alert("Hata var !!! Error : " + obje.ErrorDescription);
-    }
+
 }
+
 
 function loadPaymentSummaryDetailWithMonthAndYear(month,year, index) {
 
@@ -110,9 +174,9 @@ function loadPaymentSummaryDetailWithMonthAndYear(month,year, index) {
 function successFunctionGetPaymentSummaryDetailWithMonthAndYear(obje) {
     if (!obje.HasError && obje.Result) {
         var list = obje.Result;
-
         setIncomeAndWaiting(true, "tblIncomingPaymentDetail", list);
         setIncomeAndWaiting(false, "tblWaitingPaymentDetail", list);
+       
     }
     else {
         alert("Hata var !!! Error : " + obje.ErrorDescription);
@@ -133,7 +197,7 @@ function successFunctionGetIncomeAndExpenseSummaryWithMonthAndYear(obje) {
 
             var firstSummary = list[0];
 
-            var index = firstSummary.Index;
+            var index = firstSummary.MonthIndex;
 
             document.getElementById("currentMonth" + index).innerHTML = "<b>" + months[firstSummary.Month - 1][1] + "</b>";
             document.getElementById("incomeForStudentPayment" + index).innerHTML = firstSummary.IncomeForStudentPaymentStr;
@@ -179,12 +243,15 @@ function successFunctionGetIncomeAndExpenseSummaryWithMonthAndYear(obje) {
 function setIncomeAndWaiting(isPayment, tblName, list) {
     if (list.length > 0) {
 
-        let tbody = "";
-        tbody += "<table border='3' style='border-style:solid; border-color: #343a40;' class='table mb - 0'>";
-        tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Ödeme Durumu</th><th scope='col'>Tutar</th></thead>";
-
-        var index = "";
+       
         for (var i in list) {
+
+            let tbody = "";
+            var index = "";
+
+            tbody += "<table border='3' style='border-style:solid; border-color: #343a40;' class='table mb - 0'>";
+            tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Ödeme Durumu</th><th scope='col'>Tutar</th></thead>";
+
             if (list[i].IsPayment == isPayment) {
                 tbody += "<tr>";
                 tbody += "<td>" + list[i].PaymentTypeName + "</td>";
@@ -195,26 +262,27 @@ function setIncomeAndWaiting(isPayment, tblName, list) {
                 tbody += "<td>" + list[i].AmountStr + "</td>";
                 tbody += "<tr>";
             }
-            index = list[i].Index;
-        }
+            index = list[i].MonthIndex;
 
-        tbody += "</table>";
-        if (IsNullOrEmpty(index)) {
-            var tbl = document.getElementById(tblName);
-            if (tbl != null) {
-                tbl.innerHTML = tbody;
+            tbody += "</table>";
+            if (IsNullOrEmpty(index)) {
+                var tbl = document.getElementById(tblName);
+                if (tbl != null) {
+                    tbl.innerHTML = tbody;
+                }
             }
-        }
-        else {
-            var tbl = document.getElementById(tblName + index);
-            if (tbl != null) {
-                tbl.innerHTML = tbody;
+            else {
+                var tbl = document.getElementById(tblName + index);
+                if (tbl != null) {
+                    tbl.innerHTML = tbody;
+                }
             }
+
         }
     }
 }
 
-function drawSummaryWithIndex(index, thBody) {
+function drawSummaryWithMonthCount(monthCount, thBody) {
 
 
     var tbody = '';
@@ -231,61 +299,61 @@ function drawSummaryWithIndex(index, thBody) {
     tbody += '<th scope="col">Ay Sonu Beklenen</th>';
     tbody += '</tr>';
 
-    for (var i = 0; i < index; i++) {
+    for (var index = 0; index < monthCount; index++) {
         tbody += '<tr>';
-        tbody += '<td><span style="color: darkred;" id="currentMonth' + i + '"></span></td>';
+        tbody += '<td><span style="color: darkred;" id="currentMonth' + index + '"></span></td>';
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onIncomingDetailRow(' + i + ');" id="tdIncomingPlus' + i + '">+</a></td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="color: darkgreen;" id="incomeForStudentPayment' + i + '"></span></b></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onIncomingDetailRow(' + index + ');" id="tdIncomingPlus' + index + '">+</a></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="color: darkgreen;" id="incomeForStudentPayment' + index + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';
         tbody += '</td>';
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onWaitingDetailRow(' + i + ');" id="tdWaitingPlus' + i + '">+</td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="color: lightseagreen;" id="waitingIncomeForStudentPayment' + i + '"></span></b></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onWaitingDetailRow(' + index + ');" id="tdWaitingPlus' + index + '">+</td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="color: lightseagreen;" id="waitingIncomeForStudentPayment' + index + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';
         tbody += '</td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="color: darkgreen;" id="incomeWithoutStudentPayment' + i + '"></span></b></td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="color: red;" id="workerExpenses' + i + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="color: darkgreen;" id="incomeWithoutStudentPayment' + index + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="color: red;" id="workerExpenses' + index + '"></span></b></td>';
         tbody += '<td>';
         tbody += '<table>';
         tbody += '<tr>';
-        tbody += '<td style="cursor: pointer;" onclick="onExpenseDetailRow(' + i + ');" id="tdExpensePlus' + i + '">+</td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="color: red;" id="expenseWithoutWorker' + i + '"></span></b></td>';
+        tbody += '<td style="cursor: pointer;" onclick="onExpenseDetailRow(' + index + ');" id="tdExpensePlus' + index + '">+</td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="color: red;" id="expenseWithoutWorker' + index + '"></span></b></td>';
         tbody += '</tr>';
         tbody += '</table>';
         tbody += '</td>';        
-        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalEndorsement' + i + '"></span></b></td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalExpense' + i + '"></span></b></td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="currentBalance' + i + '"></span></b></td>';
-        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalBalance' + i + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalEndorsement' + index + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalExpense' + index + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="currentBalance' + index + '"></span></b></td>';
+        tbody += '<td>&nbsp;&nbsp;<b><span style="font-size: 16px;" id="totalBalance' + index + '"></span></b></td>';
         tbody += '</tr>';
-        tbody += '<tr id="trIncomingPaymentDetail' + i + '" style="display: none;">';
+        tbody += '<tr id="trIncomingPaymentDetail' + index + '" style="display: none;">';
         tbody += '<td colspan="8">';
         tbody += '<hr/>';
         tbody += '<h4>Ödenen Aidatlar</h4>';
-        tbody += '<div class="table-responsive" id="tblIncomingPaymentDetail' + i + '">';
+        tbody += '<div class="table-responsive" id="tblIncomingPaymentDetail' + index + '">';
         tbody += '</div>';
         tbody += '</td>';
         tbody += '</tr>';
-        tbody += '<tr id="trWaitingPaymentDetail' + i + '" style="display: none;">';
+        tbody += '<tr id="trWaitingPaymentDetail' + index + '" style="display: none;">';
         tbody += '<td colspan="8">';
         tbody += '<hr/>';
         tbody += '<h4>Beklenen Aidatlar</h4>';
-        tbody += '<div class="table-responsive" id="tblWaitingPaymentDetail' + i + '">';
+        tbody += '<div class="table-responsive" id="tblWaitingPaymentDetail' + index + '">';
         tbody += '</div>';
         tbody += '</td>';
         tbody += '</tr>';
-        tbody += '<tr id="trExpensePaymentDetail' + i + '" style="display: none;">';
+        tbody += '<tr id="trExpensePaymentDetail' + index + '" style="display: none;">';
         tbody += '<td colspan="8">';
         tbody += '<hr/>';
         tbody += '<h4>Giderler</h4>';
-        tbody += '<div class="table-responsive" id="tblExpensePaymentDetail' + i + '">';
+        tbody += '<div class="table-responsive" id="tblExpensePaymentDetail' + index + '">';
         tbody += '</div>';
         tbody += '</td>';
         tbody += '</tr>';
@@ -301,22 +369,12 @@ const d = new Date();
 let year = d.getFullYear();
 let month = d.getMonth() + 1;
 
-function loadSummaryWithIndex(index) {
+function loadSummary(monthCount) {
 
-    for (var i = (index-1); i >= 0; i--) {
-        month = d.getMonth() + 1;
-        if (month - i <= 0) {
-            year = year - 1;
-            month = month - i + 12;
-        }
-        else {
-            month = month - i;
-        }
+    loadIncomeExpensePackage(monthCount);
 
-        loadExpenseSummaryDetailWithMonthAndYear(month, year, i);
-        loadPaymentSummaryDetailWithMonthAndYear(month, year, i);
-        loadIncomeAndExpenseSummaryWithMonthAndYear(month, year, i);
-    }
+    //loadPaymentSummaryDetailWithMonthAndYear(month, year, i);
+    //loadIncomeAndExpenseSummaryWithMonthAndYear(month, year, i);
 }
 
 function loadSummaryWithMonthAndYear(month,year) {

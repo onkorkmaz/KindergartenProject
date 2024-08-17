@@ -7,10 +7,11 @@ namespace Entity
 {
     public class ExpenseSummary : BaseEntity    
     {
+
         public int ExpenseTypeId { get; set; }
         public string ExpenseTypeName { get; set; }
 
-        public Decimal ExpenseAmount { get; set; }
+        public decimal ExpenseAmount { get; set; }
 
         public string ExpenseAmountStr
         {
@@ -25,7 +26,7 @@ namespace Entity
 
         public int Year { get; set; }
         public int Month { get; set; }
-        public string Index { get; set; }
+        public int MonthIndex { get; set; }
 
     }
 }
