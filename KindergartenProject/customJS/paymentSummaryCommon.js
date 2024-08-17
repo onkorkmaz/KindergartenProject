@@ -129,21 +129,41 @@ function loadExpenseSummary(list) {
 
     if (list.length > 0) {
 
-        for (var i in list) {
+        var indexArray = [];
 
+        for (let y in list) {
+            var monthIndex = list[y].MonthIndex;
+            if (indexArray.indexOf(monthIndex) < 0) {
+                indexArray.push(monthIndex);
+            }
+        }
+
+        for (let y in indexArray) {
             let tbody = "";
-            var monthIndex = "";
+            var monthIndex = indexArray[y];
 
             tbody += "<table border='3' style='border-style:solid; border-color: #343a40;' class='table mb - 0'>";
             tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Durumu</th><th scope='col'>Tutar</th></thead>";
 
-            tbody += "<tr>";
-            tbody += "<td>" + list[i].ExpenseTypeName + "</td>";
-            var status = "<td style='color:red;'>Gider   </td>";
-            tbody += status;
-            tbody += "<td>" + list[i].ExpenseAmountStr + "</td>";
-            tbody += "<tr>";
-            monthIndex = list[i].MonthIndex;
+            for (var i in list) {
+
+                var currentIndex = list[i].MonthIndex;;
+
+                if (currentIndex == undefined || currentIndex != monthIndex) {
+                    continue;
+                }
+
+                tbody += "<tr>";
+                tbody += "<td>" + list[i].ExpenseTypeName + "</td>";
+                var status = "<td style='color:red;'>Gider   </td>";
+                tbody += status;
+                tbody += "<td>" + list[i].ExpenseAmountStr + "</td>";
+                tbody += "<tr>";
+                monthIndex = currentIndex;
+               
+
+            }
+
             tbody += "</table>";
 
             if (monthIndex != 0 && IsNullOrEmpty(monthIndex)) {
@@ -152,6 +172,7 @@ function loadExpenseSummary(list) {
                     tbl.innerHTML = tbody;
                 }
             }
+
             else {
                 var tbl = document.getElementById("tblExpensePaymentDetail" + monthIndex);
                 if (tbl != null) {
@@ -160,7 +181,6 @@ function loadExpenseSummary(list) {
             }
         }
     }
-
 }
 
 
@@ -241,43 +261,62 @@ function successFunctionGetIncomeAndExpenseSummaryWithMonthAndYear(obje) {
 }
 
 function setIncomeAndWaiting(isPayment, tblName, list) {
+
     if (list.length > 0) {
 
-       
-        for (var i in list) {
+        var indexArray = [];
+
+        for (let y in list) {
+            var monthIndex = list[y].MonthIndex;
+            if (indexArray.indexOf(monthIndex) < 0) {
+                indexArray.push(monthIndex);
+            }
+        }
+
+        for (let y in indexArray) {
+
+            var monthIndex = indexArray[y];
 
             let tbody = "";
-            var index = "";
-
             tbody += "<table border='3' style='border-style:solid; border-color: #343a40;' class='table mb - 0'>";
             tbody += "<thead><tr><th scope='col'>Adı</th><th scope='col'>Ödeme Durumu</th><th scope='col'>Tutar</th></thead>";
 
-            if (list[i].IsPayment == isPayment) {
-                tbody += "<tr>";
-                tbody += "<td>" + list[i].PaymentTypeName + "</td>";
-                var status = "<td style='color:green;'>Ödendi</td>";
-                if (!list[i].IsPayment)
-                    status = "<td style='color:red;'>Ödenmedi   </td>";
-                tbody += status;
-                tbody += "<td>" + list[i].AmountStr + "</td>";
-                tbody += "<tr>";
+            for (var i in list) {
+
+                var currentIndex = list[i].MonthIndex;;
+
+                if (currentIndex == undefined || currentIndex != monthIndex) {
+                    continue;
+                }
+
+
+
+                if (list[i].IsPayment == isPayment) {
+                    tbody += "<tr>";
+                    tbody += "<td>" + list[i].PaymentTypeName + "</td>";
+                    var status = "<td style='color:green;'>Ödendi</td>";
+                    if (!list[i].IsPayment)
+                        status = "<td style='color:red;'>Ödenmedi   </td>";
+                    tbody += status;
+                    tbody += "<td>" + list[i].AmountStr + "</td>";
+                    tbody += "<tr>";
+                }
             }
-            index = list[i].MonthIndex;
 
             tbody += "</table>";
-            if (IsNullOrEmpty(index)) {
+
+            if (monthIndex !=0 && IsNullOrEmpty(monthIndex)) {
                 var tbl = document.getElementById(tblName);
                 if (tbl != null) {
                     tbl.innerHTML = tbody;
                 }
             }
             else {
-                var tbl = document.getElementById(tblName + index);
+                var tbl = document.getElementById(tblName + monthIndex);
                 if (tbl != null) {
                     tbl.innerHTML = tbody;
                 }
             }
-
         }
     }
 }
