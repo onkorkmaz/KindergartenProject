@@ -151,5 +151,10 @@ namespace Common
         /// </summary>
         Analiz_Paneli_Kayit_Sayisi = 32,
 
+        /// <summary>
+        /// Ogrenci_Sinif_Dokuman_Olusturma
+        /// </summary>
+        Ogrenci_Sinif_Dokuman_Olusturma = 33,
+
     }
 }

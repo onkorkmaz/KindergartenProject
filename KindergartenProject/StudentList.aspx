@@ -53,19 +53,6 @@
             <div class="col-sm-5" id="divClassList">
                 <asp:DropDownList runat="server" ID="drpClassList" onchange="onClassNameChanged();" CssClass="form-control"></asp:DropDownList>
             </div>
-             <div class="col-sm-5" id="divCreatePdf">
-                 <table>
-                     <tr>
-                         <td>Ücret Göster&nbsp;&nbsp;<asp:CheckBox runat="server" ID="chcShowPrice" CssClass="form-check-input" /></td>
-                         <td>&nbsp;</td>
-                         <td> <asp:Button runat="server" ID="btnCreatePdf" CssClass="btn btn-primary " Text="Döküman Oluştur" OnClientClick="return createPdf();" /></td>
-
-                     </tr>
-                 </table>
-                
-            </div>
-
-
             <div id="divOldInterview" style="display:none;" class="col-sm-4">
               
                      Eski Görüşmeler &nbsp;

@@ -68,7 +68,7 @@ namespace KindergartenProject
                     studentList = studentList.Where(o => o.ClassId == classIdInt).ToList();
                 }
 
-                new CommonUIFunction().GenerateWordDocument(studentList, isShowPrice, GetProjectType());
+                new CommonUIFunction().GenerateWordDocumentForStudentList(studentList, isShowPrice, GetProjectType());
 
             }
             catch (Exception ex)

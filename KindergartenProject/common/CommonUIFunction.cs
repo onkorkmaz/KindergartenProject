@@ -105,7 +105,7 @@ namespace KindergartenProject
         }
 
 
-        public void GenerateWordDocument(List<StudentEntity> studentList, bool isShowPrice, ProjectType projectType)
+        public void GenerateWordDocumentForStudentList(List<StudentEntity> studentList, bool isShowPrice, ProjectType projectType)
         {
             string desktopClassListPath = prepareFolder();
 
@@ -142,12 +142,14 @@ namespace KindergartenProject
                         // Set run properties (e.g., bold for heading)
                         RunProperties runProperties = new RunProperties(
                             new Bold(),
+                            new Color() { Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF" },
                             new FontSize { Val = "32" } // Font size for heading (e.g., 16 pt)
                         );
                         headingRun.PrependChild(runProperties);
 
                         // Add text to the run
                         headingRun.AppendChild(new Text(classNameDisplay));
+                        headingRun.AppendChild(new Break());
 
 
                         Paragraph para = body.AppendChild(new Paragraph());
@@ -173,14 +175,14 @@ namespace KindergartenProject
                         Paragraph paraCenter = getCenterBold("Ad Soyad");
 
                         TableRow tr = new TableRow();
-                        TableCell tc1 = new TableCell(paraCenter);
+                        TableCell tc1 = new TableCell(getCellProperties(),paraCenter);
 
                         Paragraph paraCenter2 = getCenterBold("Veli Adı");
 
-                        TableCell tc2 = new TableCell(paraCenter2);
+                        TableCell tc2 = new TableCell(getCellProperties(),paraCenter2);
 
                         Paragraph paraCenter3 = getCenterBold("Doğum Tarihi");
-                        TableCell tc3 = new TableCell(paraCenter3);
+                        TableCell tc3 = new TableCell(getCellProperties(),paraCenter3);
 
                         tr.Append(tc1);
                         tr.Append(tc2);
@@ -189,7 +191,7 @@ namespace KindergartenProject
                         if (isShowPrice)
                         {
                             Paragraph paraCenter4 = getCenterBold("Ücret");
-                            TableCell tc4 = new TableCell(paraCenter4);
+                            TableCell tc4 = new TableCell(getCellProperties(),paraCenter4);
                             tr.Append(tc4);
                         }
 
@@ -201,9 +203,9 @@ namespace KindergartenProject
                         foreach (StudentEntity entity in lst)
                         {
                             tr = new TableRow();
-                            tc1 = new TableCell(new Paragraph(new Run(new Text(entity.FullName))));
-                            tc2 = new TableCell(new Paragraph(new Run(new Text(entity.ParentName))));
-                            tc3 = new TableCell(new Paragraph(new Run(new Text(entity.BirthdayWithFormatddMMyyyy))));
+                            tc1 = new TableCell(getCellProperties(),new Paragraph(new Run(new Text(entity.FullName))));
+                            tc2 = new TableCell(getCellProperties(), new Paragraph(new Run(new Text(entity.ParentName))));
+                            tc3 = new TableCell(getCellProperties(), new Paragraph(new Run(new Text(entity.BirthdayWithFormatddMMyyyy))));
 
                             tr.Append(tc1);
                             tr.Append(tc2);
@@ -212,7 +214,7 @@ namespace KindergartenProject
                             if (isShowPrice)
                             {
                                 List<PaymentEntity> listPayment = new PaymentBusiness(projectType).Get_Payment(entity.Id).Result;
-                                TableCell tc4 = new TableCell(new Paragraph(new Run(new Text(listPayment.FirstOrDefault()?.AmountDesc))));
+                                TableCell tc4 = new TableCell(getCellProperties(), new Paragraph(new Run(new Text(listPayment.FirstOrDefault()?.AmountDesc))));
                                 tr.Append(tc4);
                             }
 
@@ -231,6 +233,20 @@ namespace KindergartenProject
                     File.WriteAllBytes(tempPath, wordBytes);
                 }
             }
+        }
+
+        private TableCellProperties getCellProperties()
+        {
+            TableCellMargin cellMargin = new TableCellMargin()
+            {
+                TopMargin = new  TopMargin() { Width = "10", Type = TableWidthUnitValues.Dxa },   // 100 dxa üst boşluk  
+                BottomMargin = new  BottomMargin() { Width = "10", Type = TableWidthUnitValues.Dxa }, // 100 dxa alt boşluk  
+                LeftMargin = new  LeftMargin() { Width = "100", Type = TableWidthUnitValues.Dxa },   // 100 dxa sol boşluk  
+                RightMargin = new  RightMargin() { Width = "100", Type = TableWidthUnitValues.Dxa }    // 100 dxa sağ boşluk  
+            };
+
+            TableCellProperties cellProperties = new TableCellProperties(cellMargin);
+            return cellProperties;
         }
 
         private static Paragraph getCenterBold(String text)

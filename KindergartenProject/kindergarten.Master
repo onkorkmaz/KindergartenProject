@@ -87,6 +87,7 @@
                                        
                                         <li><hr style="color:white;" /></li>
                                         <li class="sidebar-item" id="menuClassList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
+                                         <li class="sidebar-item" id="menuClassDocumentCreate" runat="server"><a class="sidebar-link" href="/sinif-liste-dokuman-olustur">Sınıf Liste Döküman Oluş.</a></li>
                                         <li class="sidebar-item" id="menuWorkerList" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
                                         <li><hr style="color:white;" /></li>
 

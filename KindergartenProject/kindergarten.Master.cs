@@ -171,6 +171,8 @@ namespace KindergartenProject
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.AuthorityGenerator, menuAuthorityGenerator);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.AdminList, menuAdminList);
             SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.ChangePassword, menuChangePassword);
+            SetMenuAttiributes(menuSettings, selectedMenuList == MenuList.StudentListDocumentCreate, menuClassDocumentCreate);
+            
 
         }
 

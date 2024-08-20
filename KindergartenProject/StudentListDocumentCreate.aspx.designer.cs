@@ -11,7 +11,7 @@ namespace KindergartenProject
 {
 
 
-    public partial class StudentList
+    public partial class StudentListDocumentCreate
     {
 
         /// <summary>
@@ -33,42 +33,6 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.Label lblTimer;
 
         /// <summary>
-        /// lblActiveStudent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblActiveStudent;
-
-        /// <summary>
-        /// lblInterview control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInterview;
-
-        /// <summary>
-        /// lblPassiveStudent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPassiveStudent;
-
-        /// <summary>
-        /// hdnId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnId;
-
-        /// <summary>
         /// drpClassList control.
         /// </summary>
         /// <remarks>
@@ -78,21 +42,21 @@ namespace KindergartenProject
         protected global::System.Web.UI.WebControls.DropDownList drpClassList;
 
         /// <summary>
-        /// chcInterview control.
+        /// chcShowPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chcInterview;
+        protected global::System.Web.UI.WebControls.CheckBox chcShowPrice;
 
         /// <summary>
-        /// tBodyStudentList control.
+        /// btnCreatePdf control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tBodyStudentList;
+        protected global::System.Web.UI.WebControls.Button btnCreatePdf;
     }
 }

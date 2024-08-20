@@ -29,7 +29,5 @@ function successFunctionClearStudentCache(obje) {
 }
 
 window.onload = function () {
-
-    toggleMenu();
 };
 

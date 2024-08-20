@@ -96,6 +96,7 @@
     <Content Include="customJS\incomeAndExpense.js" />
     <Content Include="customJS\outgoing.js" />
     <Content Include="customJS\paymentSummaryCommon.js" />
+    <Content Include="customJS\studenListDocumentCreate.js" />
     <Content Include="customJS\studentAttendanceBook.js" />
     <Content Include="customJS\studentCommon.js" />
     <Content Include="customJS\incomeAndExpenseType.js" />
@@ -194,6 +195,7 @@
     <Content Include="StudentAttendanceBookList.aspx" />
     <Content Include="IncomeAndExpenseType.aspx" />
     <Content Include="AdminList.aspx" />
+    <Content Include="StudentListDocumentCreate.aspx" />
     <Content Include="Test.aspx" />
     <Content Include="WorkerList.aspx" />
     <Content Include="PaymentType.aspx" />
@@ -350,6 +352,13 @@
     </Compile>
     <Compile Include="AdminList.aspx.designer.cs">
       <DependentUpon>AdminList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentListDocumentCreate.aspx.cs">
+      <DependentUpon>StudentListDocumentCreate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentListDocumentCreate.aspx.designer.cs">
+      <DependentUpon>StudentListDocumentCreate.aspx</DependentUpon>
     </Compile>
     <Compile Include="Test.aspx.cs">
       <DependentUpon>Test.aspx</DependentUpon>

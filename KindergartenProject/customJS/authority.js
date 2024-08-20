@@ -1,6 +1,4 @@
 ﻿window.onload = function () {
-
-    toggleMenu();
 };
 
 function loadData() {

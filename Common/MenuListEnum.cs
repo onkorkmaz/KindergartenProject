@@ -25,6 +25,7 @@ namespace Common
         AuthorityType = 16,
         AdminList = 17,
         ChangePassword = 18,
+        StudentListDocumentCreate = 19,
 
     }
 }

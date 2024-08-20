@@ -28,6 +28,8 @@ namespace KindergartenProject
             routes.MapPageRoute("benim-dunyam-montessori-okullari", "benim-dunyam-montessori-okullari", "~/Default.aspx");
             routes.MapPageRoute("ogrenci-listesi", "ogrenci-listesi", "~/StudentList.aspx");
             routes.MapPageRoute("ogrenci-sinif-listesi", "ogrenci-listesi/{class_id}", "~/StudentList.aspx");
+            routes.MapPageRoute("sinif-liste-dokuman-olustur", "sinif-liste-dokuman-olustur", "~/StudentListDocumentCreate.aspx");
+
 
             routes.MapPageRoute("sinif-ogreci-listesi", "sinif-ogreci-listesi", "~/ClassAndStudentList.aspx");
 

@@ -1,6 +1,5 @@
 ﻿window.onload = function () {
     loadData();
-    toggleMenu();
 };
 
 function loadData() {
