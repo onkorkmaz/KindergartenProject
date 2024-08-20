@@ -68,7 +68,7 @@ namespace KindergartenProject
             controlMenuVisibleForAuthority(genericControl, authortityList);
         }
 
-        public static void loadClass(ProjectType projectType, ref System.Web.UI.WebControls.DropDownList drpClassList, ref divInformation _divInformation, bool isAddUnSignedItem)
+        public static void loadClass(ProjectType projectType, ref System.Web.UI.WebControls.DropDownList drpClassList, ref divInformation _divInformation, bool isAddUnSignedItem,string firstElement="-")
         {
             DataResultArgs<List<ClassEntity>> resultSet = new ClassBusiness(projectType).Get_ClassForStudent();
 
@@ -82,7 +82,7 @@ namespace KindergartenProject
                 List<ClassEntity> classList = resultSet.Result;
                 List<ClassEntity> list = new List<ClassEntity>();
 
-                list.Add(new ClassEntity() { Id = -1, Name = "-" });
+                list.Add(new ClassEntity() { Id = -1, Name = firstElement });
                 if (resultSet.Result != null)
                 {
 

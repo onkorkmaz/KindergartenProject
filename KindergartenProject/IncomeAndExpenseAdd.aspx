@@ -90,6 +90,10 @@
         <div class="table-responsive">
             <div class="card">
                 <div class="card-body">
+                     <div class="mb-2 row">
+                         Gelir Gider Düzenleme Listesi
+                         <hr />
+                         </div>
                     <div class="mb-2 row">
                         <label class="col-form-label col-sm-1 text-sm-left">Yıl :</label>
                         <div class="col-sm-2">
@@ -103,39 +107,31 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    <hr />
+         
+       
+                <hr />
 
-    <div class="col-12 col-xl-12">
-        <div class="table-responsive">
-            <table class="table mb-0" border="1">
-                <thead id="thBody">
-                </thead>
-            </table>
-        </div>
-    </div>
-    <hr />
-
-    <div class="col-12 col-xl-12">
-        <div class="table-responsive">
-            <table class="table mb-0">
-                <thead>
-                    <tr>
-                        <th scope="col">#####</th>
-                        <th scope="col">Gider / Gelir</th>
-                        <th scope="col">Gider / Gelir Adı</th>
-                        <th scope="col">Tutar</th>
-                        <th scope="col">Tarih</th>
-                        <th scope="col">Açıklama</th>
-                        <th scope="col">Aktif</th>
-                    </tr>
-                </thead>
-                <tbody runat="server" id="tbIncomeAndExpenseList">
-                </tbody>
-            </table>
-        </div>
-    </div>
+                <div class="col-12 col-xl-12">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#####</th>
+                                    <th scope="col">Gider / Gelir</th>
+                                    <th scope="col">Gider / Gelir Adı</th>
+                                    <th scope="col">Tutar</th>
+                                    <th scope="col">Tarih</th>
+                                    <th scope="col">Açıklama</th>
+                                    <th scope="col">Aktif</th>
+                                </tr>
+                            </thead>
+                            <tbody runat="server" id="tbIncomeAndExpenseList">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+             </div>
+         </div>
 
 
 </asp:Content>

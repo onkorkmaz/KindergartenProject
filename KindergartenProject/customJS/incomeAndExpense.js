@@ -18,10 +18,6 @@ window.onload = function () {
 function loadAllData() {
 
     loadData();
-
-    drawSummaryWithIndex(1, "thBody");
-    loadSummaryWithMonthAndYear(getMonth(), getYear());
-
 }
 
 function getYear() {
@@ -217,7 +213,7 @@ function drpYearMonthChanged(changeType) {
 
     if (changeType == 'month') {
         let mnth = document.getElementById("drpMonthList").value;
-        document.getElementById("currentMonth0").innerHTML = "<b>" + months[mnth - 1][1] + "</b>";
+        //document.getElementById("currentMonth0").innerHTML = "<b>" + months[mnth - 1][1] + "</b>";
     }
 
 

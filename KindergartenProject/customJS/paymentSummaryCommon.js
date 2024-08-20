@@ -411,16 +411,6 @@ let month = d.getMonth() + 1;
 function loadSummary(monthCount) {
 
     loadIncomeExpensePackage(monthCount);
-
-    //loadPaymentSummaryDetailWithMonthAndYear(month, year, i);
-    //loadIncomeAndExpenseSummaryWithMonthAndYear(month, year, i);
-}
-
-function loadSummaryWithMonthAndYear(month,year) {
-
-    loadExpenseSummaryDetailWithMonthAndYear(month,year, 0);
-    loadPaymentSummaryDetailWithMonthAndYear(month, year, 0);
-    loadIncomeAndExpenseSummaryWithMonthAndYear(month, year, 0);
 }
 
 
