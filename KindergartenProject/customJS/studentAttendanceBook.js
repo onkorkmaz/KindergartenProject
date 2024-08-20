@@ -1,5 +1,6 @@
 ﻿window.onload = function () {
     onChangeChcCurrentDay();
+    toggleMenu();
 };
 
 var packageList = [];

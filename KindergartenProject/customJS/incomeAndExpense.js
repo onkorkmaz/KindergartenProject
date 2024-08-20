@@ -12,6 +12,7 @@ window.onload = function () {
         isFirstLoad = false;
     }
     loadAllData();
+    toggleMenu();
 };
 
 function loadAllData() {

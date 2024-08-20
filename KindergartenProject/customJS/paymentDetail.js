@@ -4,6 +4,7 @@
     if (!IsNullOrEmpty(id)) {
         document.getElementById("hdnId").value = id;
         loadData();
+        toggleMenu();
     }
 };
 

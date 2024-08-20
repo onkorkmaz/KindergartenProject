@@ -1,4 +1,9 @@
-﻿function GetStudentEntity(citizenshipNumber)
+﻿window.onload = function () {
+
+    toggleMenu();
+};
+
+function GetStudentEntity(citizenshipNumber)
 {
     if (!IsNullOrEmpty(citizenshipNumber)) {
         var jsonData = "{ citizenshipNumber: " + JSON.stringify(citizenshipNumber) + " }";

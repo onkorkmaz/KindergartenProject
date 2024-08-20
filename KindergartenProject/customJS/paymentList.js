@@ -7,6 +7,7 @@
     if (!IsNullOrEmpty(searchValue)) {
         txtSearchStudent_Change(searchValue);
     }
+    toggleMenu();
 
 };
 

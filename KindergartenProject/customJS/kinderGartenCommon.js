@@ -1,4 +1,5 @@
 ﻿
+
 function CallServiceWithAjax(url, jsonData, successFunction, errorFunction) {
     $.ajax({
         url: url, //
@@ -44,6 +45,16 @@ function errorFunction() { }
 
 function IsNullOrEmpty(value) {
     return (!value || value == undefined || value == "");
+}
+
+function toggleMenu() {
+    var menuBox = document.getElementById('ui');
+    if (menuBox.style.display == "block") { // if is menuBox displayed, hide it
+        menuBox.style.display = "none";
+    }
+    else { // if is menuBox hidden, display it
+        menuBox.style.display = "block";
+    }
 }
 
 function callInsertOrUpdateInformationMessage(id) {

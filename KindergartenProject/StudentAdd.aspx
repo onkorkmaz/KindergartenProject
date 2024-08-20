@@ -90,7 +90,7 @@
 
                         <div class="mb-3 row" id="divClassList">
 
-                            <label class="col-form-label col-sm-2 text-sm-left">Benim Dünyam Sınıfı</label>
+                            <label class="col-form-label col-sm-2 text-sm-left">Sınıfı</label>
                             <div class="col-sm-2">
                                 <asp:DropDownList runat="server" ID="drpClassList" onchange="OnClassListChanged(this.value);" CssClass="form-control">
                                 </asp:DropDownList>

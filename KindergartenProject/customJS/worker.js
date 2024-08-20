@@ -1,6 +1,6 @@
 ﻿window.onload = function () {
     loadData();
-    //document.getElementById("btnSubmit").disabled = "disabled";
+    toggleMenu();
 };
 
 function loadData() {

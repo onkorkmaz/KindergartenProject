@@ -27,3 +27,9 @@ function successFunctionClearStudentCache(obje) {
     }
     return false;
 }
+
+window.onload = function () {
+
+    toggleMenu();
+};
+

@@ -18,3 +18,9 @@
 
     return true;
 }
+
+
+window.onload = function () {
+
+    toggleMenu();
+};

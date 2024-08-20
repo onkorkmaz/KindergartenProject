@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Benim Dünyam Montessori Okulları - Pembe Kule öğrenci takip programı ">
     <meta name="author" content="OnurKORKMAZ">
-    <meta name="keywords" content="Benim-dünyam anaokulları - Benim dünyam montessori okulları - şerfi ali anaokulları - Benim Dünyam Anaokulu öğrenci takip programı">
+    <meta name="keywords" content="Benim-dünyam anaokulları - Benim dünyam montessori okulları - şerif ali anaokulları - Benim Dünyam Anaokulu öğrenci takip programı - Pembe Kule Montessori Anaokulu">
 
     <link rel="shortcut icon" href="/img/icons/benim_dunyam.jpeg" />
 
@@ -23,356 +23,359 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
-    <form id="form1" runat="server">
-        <div>
-            <div class="wrapper">
-                <nav id="sidebar" class="sidebar" runat="server">
-                    <div class="sidebar-content js-simplebar">
-                        <a class="sidebar-brand" href="/benim-dunyam-montessori-okullari">
-                            <span class="align-middle"><span runat="server" id="spanFullName"></span></span>
-                        </a>
-
-                        <ul class="sidebar-nav">
-                             <li class="sidebar-header"><asp:Label runat="server" ID="lblProjectType"></asp:Label>
-                            </li>
-                            <li class="sidebar-header">Sayfalar
-                            </li>
-
-                            <li runat="server" id="menuPanel">
-                                <a class="sidebar-link" href="/benim-dunyam-montessori-okullari">
-                                    <i class="align-middle" data-feather="sliders"></i><span class="align-middle">Panel</span>
-                                </a>
-                            </li>
-
-
-                            <li runat="server" id="menuStudenList">
-                                <a class="sidebar-link" href="/ogrenci-listesi">
-                                    <i class="align-middle" data-feather="user"></i><span class="align-middle">Öğrenci Listesi</span>
-                                </a>
-                            </li>
-
-                            <li runat="server" id="menuStudentAdd">
-                                <a class="sidebar-link" href="/ogrenci-ekle">
-                                    <i class="align-middle" data-feather="credit-card"></i><span class="align-middle">Öğrenci Kayıt</span>
-                                </a>
-                            </li>
-                            <li runat="server" id="menuPaymentPlan">
-                                <a class="sidebar-link" href="/odeme-plani">
-                                    <i class="align-middle" data-feather="briefcase"></i><span class="align-middle">Ödeme Planları</span>
-                                </a>
-                            </li>
-                            <li runat="server" id="menuStudentAttendanceBookList">
-                                <a class="sidebar-link" href="/yoklama-sayfasi">
-                                    <i class="align-middle" data-feather="umbrella"></i><span class="align-middle">Yoklama Defteri</span>
-                                </a>
-                            </li>
-                            <li id="menuIncomeAndExpenseAdd" runat="server">
-                                <a class="sidebar-link" href="/gelir-gider-ekle">
-                                    <i class="align-middle" data-feather="save"></i><span class="align-middle">Gelir-Gider Ekle</span>
-                                </a>
-                            </li>
-                            <li id="menuIncomeAndExpenseList" runat="server">
-                                <a class="sidebar-link" href="/gelir-gider-listesi">
-                                    <i class="align-middle" data-feather="paperclip"></i><span class="align-middle">Gelir-Gider Listesi</span>
-                                </a>
-                            </li>
-                            <li runat="server" id="menuSettings">
-                                <a data-toggle="collapse" class="sidebar-link collapsed show">
-                                    <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ayarlar</span>
-                                </a>
-                                <ul id="ui" data-parent="#sidebar" runat="server" class="sidebar-dropdown list-unstyled collapse show" style="display:block;">
-                                    <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="/odeme-tipleri">Ödeme Tipleri</a></li>
-                                    <li class="sidebar-item" id="menuClassList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
-                                    <li class="sidebar-item" id="menuWorkerList" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
-                                    <li class="sidebar-item" id="menuIncomeAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
-
-                                     <li runat="server" id="menuAdminList" class="sidebar-item"><a class="sidebar-link" href="/admin-listesi">Admin Listesi</a></li>
-
-                                    <li runat="server" id="menuChangePassword" class="sidebar-item"><a class="sidebar-link" href="/sifre-degistir">Şifre Değiştir</a></li>
-                                    <li runat="server" id="menuClearCache" class="sidebar-item"><a class="sidebar-link" href="/cache-clear">Cache Temizliği</a></li>
-
-                                     <li class="sidebar-item" id="menuAuthorityType" runat="server"><a class="sidebar-link" href="/yetki-tipi">Yetki Türü</a></li>
-                                    <li class="sidebar-item"  runat="server" id="menuAuthority"><a class="sidebar-link" href="/yetkilendirme">Yetkilendirme</a></li>
-
-                                    <li class="sidebar-item" id="menuAuthorityScreen" runat="server"><a class="sidebar-link" href="/yetki-tipi-tanimlama">Ekran için Yetki Tipi Tan.</a></li>
-
-                                    
-
-                                    <li runat="server" id="menuAuthorityGenerator" class="sidebar-item"><a class="sidebar-link" href="/authority-generator">Yetki Generator</a></li>
-
-                                    
-
-                                </ul>
-                            </li>
-                            <li runat="server" id="liExit">
-                                <a class="sidebar-link" href="/cikis">
-                                    <i class="align-middle" data-feather="user"></i><span class="align-middle">Çıkış</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                <asp:Panel runat="server" ID="pnlMain" CssClass="main">
-                    <div class="main">
-                        <nav class="navbar navbar-expand navbar-light navbar-bg">
-                            <a class="sidebar-toggle d-flex">
-                                <i class="hamburger align-self-center"></i>
+    <body>
+        <form id="form1" runat="server">
+            <div>
+                <div class="wrapper">
+                    <nav id="sidebar" class="sidebar" runat="server">
+                        <div class="sidebar-content js-simplebar">
+                            <a class="sidebar-brand" href="/benim-dunyam-montessori-okullari">
+                                Sn. <span class="align-middle"><span runat="server" id="spanFullName"></span></span>
+                                <br />
+                                <span style="color:lightslategray; font-size:16px;"><u><asp:Label runat="server" ID="lblProjectType"></asp:Label></u></span>
                             </a>
 
+                            <ul class="sidebar-nav">
+                                <li class="sidebar-header">Sayfalar
+                                </li>
 
-                            <div class="input-group input-group-navbar">
-                                <asp:TextBox runat="server" ID="txtSearchStudent" CssClass="form-control" placeholder="TCKN - Ad Soyad - Baba Adı - Anne Adı" onkeyup="txtSearchStudent_Change(this.value);"></asp:TextBox>
-                            </div>
-                        </nav>
+                                 <li><hr style="color:white;" /></li>
 
-                        <main class="content">
-                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                            </asp:ContentPlaceHolder>
-                        </main>
+                                <li runat="server" id="menuPanel">
+                                    <a class="sidebar-link" href="/benim-dunyam-montessori-okullari">
+                                        <i class="align-middle" data-feather="sliders"></i><span class="align-middle">Panel</span>
+                                    </a>
+                                </li>
 
-                        <footer class="footer">
-                            <div class="container-fluid">
-                                <div class="row text-muted">
-                                    <div class="col-6 text-left">
-                                        <p class="mb-0">
-                                            <a href="/benim-dunyam-montessori-okullari" class="text-muted"><strong>Benim Dünyam Montessori Okulları...</strong></a> &copy;
-                                        </p>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item">
-                                                <a class="text-muted" href="#">0216 520 29 93</a>
-                                            </li>
-                                        </ul>
+
+                                <li runat="server" id="menuStudenList">
+                                    <a class="sidebar-link" href="/ogrenci-listesi">
+                                        <i class="align-middle" data-feather="user"></i><span class="align-middle">Öğrenci Listesi</span>
+                                    </a>
+                                </li>
+
+                                <li runat="server" id="menuStudentAdd">
+                                    <a class="sidebar-link" href="/ogrenci-ekle">
+                                        <i class="align-middle" data-feather="credit-card"></i><span class="align-middle">Öğrenci Kayıt</span>
+                                    </a>
+                                </li>
+                                <li runat="server" id="menuPaymentPlan">
+                                    <a class="sidebar-link" href="/odeme-plani">
+                                        <i class="align-middle" data-feather="briefcase"></i><span class="align-middle">Ödeme Planları</span>
+                                    </a>
+                                </li>
+                                <li runat="server" id="menuStudentAttendanceBookList">
+                                    <a class="sidebar-link" href="/yoklama-sayfasi">
+                                        <i class="align-middle" data-feather="umbrella"></i><span class="align-middle">Yoklama Defteri</span>
+                                    </a>
+                                </li>
+                                <li id="menuIncomeAndExpenseAdd" runat="server">
+                                    <a class="sidebar-link" href="/gelir-gider-ekle">
+                                        <i class="align-middle" data-feather="save"></i><span class="align-middle">Gelir-Gider Ekle</span>
+                                    </a>
+                                </li>
+                                <li id="menuIncomeAndExpenseList" runat="server">
+                                    <a class="sidebar-link" href="/gelir-gider-listesi">
+                                        <i class="align-middle" data-feather="paperclip"></i><span class="align-middle">Gelir-Gider Listesi</span>
+                                    </a>
+                                </li>
+                                <li runat="server" id="menuSettings" onclick="toggleMenu()">
+                                    <a data-toggle="collapse" class="sidebar-link collapsed show">
+                                        <i class="align-middle" data-feather="settings"></i><span class="align-middle">Ayarlar</span>
+                                    </a>
+                                    <ul id="ui" runat="server" class="list-unstyled collapse show" style="display: block;">
+                                       
+                                        <li><hr style="color:white;" /></li>
+                                        <li class="sidebar-item" id="menuClassList" runat="server"><a class="sidebar-link" href="/sinif-listesi">Sınıflar</a></li>
+                                        <li class="sidebar-item" id="menuWorkerList" runat="server"><a class="sidebar-link" href="/calisan-listesi">Çalışan Yönetimi</a></li>
+                                        <li><hr style="color:white;" /></li>
+
+                                        <li class="sidebar-item" id="menuPaymentType" runat="server"><a class="sidebar-link" href="/odeme-tipleri">Ödeme Tipleri</a></li>
+                                        <li class="sidebar-item" id="menuIncomeAndExpenseType" runat="server"><a class="sidebar-link" href="/gelir-gider-tipi">Gelir-Gider Tipi</a></li>
+                                        
+                                        
+                                        
+                                        <li><hr style="color:white;" /></li>
+                                        <li class="sidebar-item" id="menuAuthorityType" runat="server"><a class="sidebar-link" href="/yetki-tipi">Yetki Türü</a></li>
+                                        <li class="sidebar-item" runat="server" id="menuAuthority"><a class="sidebar-link" href="/yetkilendirme">Yetkilendirme</a></li>
+                                        <li class="sidebar-item" id="menuAuthorityScreen" runat="server"><a class="sidebar-link" href="/yetki-tipi-tanimlama">Ekran için Yetki Tipi Tan.</a></li>
+                                        <li runat="server" id="menuAuthorityGenerator" class="sidebar-item"><a class="sidebar-link" href="/authority-generator">Yetki Generator</a></li>
+                                        <li><hr style="color:white;" /></li>
+                                     
+                                        <li runat="server" id="menuClearCache" class="sidebar-item"><a class="sidebar-link" href="/cache-clear">Cache Temizliği</a></li>
+                                        <li runat="server" id="menuAdminList" class="sidebar-item"><a class="sidebar-link" href="/admin-listesi">Admin Listesi</a></li>
+                                        <li runat="server" id="menuChangePassword" class="sidebar-item"><a class="sidebar-link" href="/sifre-degistir">Şifre Değiştir</a></li>
+                                    </ul>
+                                </li>
+                                <li runat="server" id="liExit">
+                                    <a class="sidebar-link" href="/cikis">
+                                        <i class="align-middle" data-feather="user"></i><span class="align-middle">Çıkış</span>
+                                    </a>
+                                </li>
+                                 <li><hr style="color:white;" /></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <asp:Panel runat="server" ID="pnlMain" CssClass="main">
+                        <div class="main">
+                            <nav class="navbar navbar-expand navbar-light navbar-bg">
+                                <a class="sidebar-toggle d-flex">
+                                    <i class="hamburger align-self-center"></i>
+                                </a>
+
+
+                                <div class="input-group input-group-navbar">
+                                    <asp:TextBox runat="server" ID="txtSearchStudent" CssClass="form-control" placeholder="TCKN - Ad Soyad - Baba Adı - Anne Adı" onkeyup="txtSearchStudent_Change(this.value);"></asp:TextBox>
+                                </div>
+                            </nav>
+
+                            <main class="content">
+                                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                </asp:ContentPlaceHolder>
+                            </main>
+
+                            <footer class="footer">
+                                <div class="container-fluid">
+                                    <div class="row text-muted">
+                                        <div class="col-6 text-left">
+                                            <p class="mb-0">
+                                                <a href="/benim-dunyam-montessori-okullari" class="text-muted"><strong>Anaokulu öğrenci takip Programı...</strong></a> &copy;
+                                            </p>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item">
+                                                    <a class="text-muted" href="#">0216 520 29 93</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </footer>
-                    </div>
-                </asp:Panel>
+                            </footer>
+                        </div>
+                    </asp:Panel>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <script src="/js/app.js"></script>
+        <script src="/js/app.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
-            var gradient = ctx.createLinearGradient(0, 0, 0, 225);
-            gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
-            gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
-            // Line chart
-            new Chart(document.getElementById("chartjs-dashboard-line"), {
-                type: "line",
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    datasets: [{
-                        label: "Sales ($)",
-                        fill: true,
-                        backgroundColor: gradient,
-                        borderColor: window.theme.primary,
-                        data: [
-                            2115,
-                            1562,
-                            1584,
-                            1892,
-                            1587,
-                            1923,
-                            2566,
-                            2448,
-                            2805,
-                            3438,
-                            2917,
-                            3327
-                        ]
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
+                var gradient = ctx.createLinearGradient(0, 0, 0, 225);
+                gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
+                gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
+                // Line chart
+                new Chart(document.getElementById("chartjs-dashboard-line"), {
+                    type: "line",
+                    data: {
+                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                        datasets: [{
+                            label: "Sales ($)",
+                            fill: true,
+                            backgroundColor: gradient,
+                            borderColor: window.theme.primary,
+                            data: [
+                                2115,
+                                1562,
+                                1584,
+                                1892,
+                                1587,
+                                1923,
+                                2566,
+                                2448,
+                                2805,
+                                3438,
+                                2917,
+                                3327
+                            ]
+                        }]
                     },
-                    tooltips: {
-                        intersect: false
-                    },
-                    hover: {
-                        intersect: true
-                    },
-                    plugins: {
-                        filler: {
-                            propagate: false
+                    options: {
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false
+                        },
+                        tooltips: {
+                            intersect: false
+                        },
+                        hover: {
+                            intersect: true
+                        },
+                        plugins: {
+                            filler: {
+                                propagate: false
+                            }
+                        },
+                        scales: {
+                            xAxes: [{
+                                reverse: true,
+                                gridLines: {
+                                    color: "rgba(0,0,0,0.0)"
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    stepSize: 1000
+                                },
+                                display: true,
+                                borderDash: [3, 3],
+                                gridLines: {
+                                    color: "rgba(0,0,0,0.0)"
+                                }
+                            }]
                         }
-                    },
-                    scales: {
-                        xAxes: [{
-                            reverse: true,
-                            gridLines: {
-                                color: "rgba(0,0,0,0.0)"
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                stepSize: 1000
-                            },
-                            display: true,
-                            borderDash: [3, 3],
-                            gridLines: {
-                                color: "rgba(0,0,0,0.0)"
-                            }
+                    }
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Pie chart
+                new Chart(document.getElementById("chartjs-dashboard-pie"), {
+                    type: "pie",
+                    data: {
+                        labels: ["Chrome", "Firefox", "IE"],
+                        datasets: [{
+                            data: [4306, 3801, 1689],
+                            backgroundColor: [
+                                window.theme.primary,
+                                window.theme.warning,
+                                window.theme.danger
+                            ],
+                            borderWidth: 5
                         }]
+                    },
+                    options: {
+                        responsive: !window.MSInputMethodContext,
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false
+                        },
+                        cutoutPercentage: 75
                     }
-                }
+                });
             });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Pie chart
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-                type: "pie",
-                data: {
-                    labels: ["Chrome", "Firefox", "IE"],
-                    datasets: [{
-                        data: [4306, 3801, 1689],
-                        backgroundColor: [
-                            window.theme.primary,
-                            window.theme.warning,
-                            window.theme.danger
-                        ],
-                        borderWidth: 5
-                    }]
-                },
-                options: {
-                    responsive: !window.MSInputMethodContext,
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    cutoutPercentage: 75
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Bar chart
-            new Chart(document.getElementById("chartjs-dashboard-bar"), {
-                type: "bar",
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    datasets: [{
-                        label: "This year",
-                        backgroundColor: window.theme.primary,
-                        borderColor: window.theme.primary,
-                        hoverBackgroundColor: window.theme.primary,
-                        hoverBorderColor: window.theme.primary,
-                        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
-                        barPercentage: .75,
-                        categoryPercentage: .5
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    scales: {
-                        yAxes: [{
-                            gridLines: {
-                                display: false
-                            },
-                            stacked: false,
-                            ticks: {
-                                stepSize: 20
-                            }
-                        }],
-                        xAxes: [{
-                            stacked: false,
-                            gridLines: {
-                                color: "transparent"
-                            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Bar chart
+                new Chart(document.getElementById("chartjs-dashboard-bar"), {
+                    type: "bar",
+                    data: {
+                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                        datasets: [{
+                            label: "This year",
+                            backgroundColor: window.theme.primary,
+                            borderColor: window.theme.primary,
+                            hoverBackgroundColor: window.theme.primary,
+                            hoverBorderColor: window.theme.primary,
+                            data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
+                            barPercentage: .75,
+                            categoryPercentage: .5
                         }]
-                    }
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var markers = [{
-                coords: [31.230391, 121.473701],
-                name: "Shanghai"
-            },
-            {
-                coords: [28.704060, 77.102493],
-                name: "Delhi"
-            },
-            {
-                coords: [6.524379, 3.379206],
-                name: "Lagos"
-            },
-            {
-                coords: [35.689487, 139.691711],
-                name: "Tokyo"
-            },
-            {
-                coords: [23.129110, 113.264381],
-                name: "Guangzhou"
-            },
-            {
-                coords: [40.7127837, -74.0059413],
-                name: "New York"
-            },
-            {
-                coords: [34.052235, -118.243683],
-                name: "Los Angeles"
-            },
-            {
-                coords: [41.878113, -87.629799],
-                name: "Chicago"
-            },
-            {
-                coords: [51.507351, -0.127758],
-                name: "London"
-            },
-            {
-                coords: [40.416775, -3.703790],
-                name: "Madrid "
-            }
-            ];
-            var map = new JsVectorMap({
-                map: "world",
-                selector: "#world_map",
-                zoomButtons: true,
-                markers: markers,
-                markerStyle: {
-                    initial: {
-                        r: 9,
-                        strokeWidth: 7,
-                        stokeOpacity: .4,
-                        fill: window.theme.primary
                     },
-                    hover: {
-                        fill: window.theme.primary,
-                        stroke: window.theme.primary
+                    options: {
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            yAxes: [{
+                                gridLines: {
+                                    display: false
+                                },
+                                stacked: false,
+                                ticks: {
+                                    stepSize: 20
+                                }
+                            }],
+                            xAxes: [{
+                                stacked: false,
+                                gridLines: {
+                                    color: "transparent"
+                                }
+                            }]
+                        }
                     }
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var markers = [{
+                    coords: [31.230391, 121.473701],
+                    name: "Shanghai"
+                },
+                {
+                    coords: [28.704060, 77.102493],
+                    name: "Delhi"
+                },
+                {
+                    coords: [6.524379, 3.379206],
+                    name: "Lagos"
+                },
+                {
+                    coords: [35.689487, 139.691711],
+                    name: "Tokyo"
+                },
+                {
+                    coords: [23.129110, 113.264381],
+                    name: "Guangzhou"
+                },
+                {
+                    coords: [40.7127837, -74.0059413],
+                    name: "New York"
+                },
+                {
+                    coords: [34.052235, -118.243683],
+                    name: "Los Angeles"
+                },
+                {
+                    coords: [41.878113, -87.629799],
+                    name: "Chicago"
+                },
+                {
+                    coords: [51.507351, -0.127758],
+                    name: "London"
+                },
+                {
+                    coords: [40.416775, -3.703790],
+                    name: "Madrid "
                 }
+                ];
+                var map = new JsVectorMap({
+                    map: "world",
+                    selector: "#world_map",
+                    zoomButtons: true,
+                    markers: markers,
+                    markerStyle: {
+                        initial: {
+                            r: 9,
+                            strokeWidth: 7,
+                            stokeOpacity: .4,
+                            fill: window.theme.primary
+                        },
+                        hover: {
+                            fill: window.theme.primary,
+                            stroke: window.theme.primary
+                        }
+                    }
+                });
+                window.addEventListener("resize", () => {
+                    map.updateSize();
+                });
             });
-            window.addEventListener("resize", () => {
-                map.updateSize();
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("datetimepicker-dashboard").flatpickr({
+                    inline: true,
+                    prevArrow: "<span class=\"fas fa-chevron-left\" title=\"Previous month\"></span>",
+                    nextArrow: "<span class=\"fas fa-chevron-right\" title=\"Next month\"></span>",
+                });
             });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("datetimepicker-dashboard").flatpickr({
-                inline: true,
-                prevArrow: "<span class=\"fas fa-chevron-left\" title=\"Previous month\"></span>",
-                nextArrow: "<span class=\"fas fa-chevron-right\" title=\"Next month\"></span>",
-            });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
